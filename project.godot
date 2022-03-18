@@ -1,0 +1,51 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node",
+"class": "equipment",
+"language": "GDScript",
+"path": "res://data/equipment.gd"
+}, {
+"base": "Node",
+"class": "monster",
+"language": "GDScript",
+"path": "res://data/monster.gd"
+}, {
+"base": "Node",
+"class": "player",
+"language": "GDScript",
+"path": "res://data/player.gd"
+} ]
+_global_script_class_icons={
+"equipment": "",
+"monster": "",
+"player": ""
+}
+
+[application]
+
+config/name="Runescape Equipment Tool"
+run/main_scene="res://main.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Config="*res://config.gd"
+Database="*res://database.tscn"
+CombatSim="*res://combat_sim.tscn"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

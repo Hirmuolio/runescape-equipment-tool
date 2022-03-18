@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://interface/monster_list.gd" type="Script" id=1]
+
+[node name="monster" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_top = 5.0
+margin_right = 46.0
+margin_bottom = 19.0
+text = "Search:"
+
+[node name="search" type="LineEdit" parent="HBoxContainer"]
+margin_left = 50.0
+margin_right = 1024.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Tree" type="Tree" parent="."]
+margin_top = 28.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="text_changed" from="HBoxContainer/search" to="." method="_on_search_text_changed"]
+[connection signal="cell_selected" from="Tree" to="." method="_on_Tree_cell_selected"]

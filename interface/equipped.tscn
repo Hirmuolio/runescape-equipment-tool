@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://interface/equipped.gd" type="Script" id=1]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 338.0
+margin_bottom = 20.0
+script = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = 3.0
+margin_right = 100.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 100, 0 )
+align = 2
+
+[node name="Button" type="Button" parent="."]
+margin_left = 104.0
+margin_right = 354.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

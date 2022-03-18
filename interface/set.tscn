@@ -1,0 +1,413 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://interface/equipped.tscn" type="PackedScene" id=1]
+[ext_resource path="res://data/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://interface/int_input.tscn" type="PackedScene" id=3]
+[ext_resource path="res://interface/number_display.tscn" type="PackedScene" id=4]
+[ext_resource path="res://interface/attack_style.gd" type="Script" id=5]
+[ext_resource path="res://interface/set.gd" type="Script" id=6]
+[ext_resource path="res://interface/results.gd" type="Script" id=7]
+[ext_resource path="res://interface/monster.gd" type="Script" id=8]
+
+[node name="setup" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+
+[node name="player" type="VBoxContainer" parent="."]
+margin_right = 354.0
+margin_bottom = 600.0
+
+[node name="weapon" parent="player" instance=ExtResource( 1 )]
+margin_right = 354.0
+slot = "Weapon:"
+
+[node name="head" parent="player" instance=ExtResource( 1 )]
+margin_top = 24.0
+margin_right = 354.0
+margin_bottom = 44.0
+slot = "Head:"
+
+[node name="body" parent="player" instance=ExtResource( 1 )]
+margin_top = 48.0
+margin_right = 354.0
+margin_bottom = 68.0
+slot = "Body:"
+
+[node name="legs" parent="player" instance=ExtResource( 1 )]
+margin_top = 72.0
+margin_right = 354.0
+margin_bottom = 92.0
+slot = "Legs:"
+
+[node name="feet" parent="player" instance=ExtResource( 1 )]
+margin_top = 96.0
+margin_right = 354.0
+margin_bottom = 116.0
+slot = "Feet:"
+
+[node name="shield" parent="player" instance=ExtResource( 1 )]
+margin_top = 120.0
+margin_right = 354.0
+margin_bottom = 140.0
+slot = "Shield:"
+
+[node name="hands" parent="player" instance=ExtResource( 1 )]
+margin_top = 144.0
+margin_right = 354.0
+margin_bottom = 164.0
+slot = "Hands:"
+
+[node name="cape" parent="player" instance=ExtResource( 1 )]
+margin_top = 168.0
+margin_right = 354.0
+margin_bottom = 188.0
+slot = "Cape:"
+
+[node name="ring" parent="player" instance=ExtResource( 1 )]
+margin_top = 192.0
+margin_right = 354.0
+margin_bottom = 212.0
+slot = "Ring:"
+
+[node name="neck" parent="player" instance=ExtResource( 1 )]
+margin_top = 216.0
+margin_right = 354.0
+margin_bottom = 236.0
+slot = "Neck:"
+
+[node name="ammo" parent="player" instance=ExtResource( 1 )]
+margin_top = 240.0
+margin_right = 354.0
+margin_bottom = 260.0
+slot = "Ammo:"
+
+[node name="HSeparator" type="HSeparator" parent="player"]
+margin_top = 264.0
+margin_right = 354.0
+margin_bottom = 268.0
+
+[node name="attack_style" type="OptionButton" parent="player"]
+margin_top = 272.0
+margin_right = 354.0
+margin_bottom = 292.0
+script = ExtResource( 5 )
+
+[node name="HSeparator3" type="HSeparator" parent="player"]
+margin_top = 296.0
+margin_right = 354.0
+margin_bottom = 300.0
+
+[node name="attack" parent="player" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 304.0
+margin_right = 354.0
+margin_bottom = 328.0
+value = 1
+label = "Attack lvl"
+
+[node name="strength" parent="player" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 332.0
+margin_right = 354.0
+margin_bottom = 356.0
+value = 1
+label = "Strength lvl"
+
+[node name="defence" parent="player" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 360.0
+margin_right = 354.0
+margin_bottom = 384.0
+value = 1
+label = "Defence lvl"
+
+[node name="magic" parent="player" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 388.0
+margin_right = 354.0
+margin_bottom = 412.0
+value = 1
+label = "Magic lvl"
+
+[node name="ranged" parent="player" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 416.0
+margin_right = 354.0
+margin_bottom = 440.0
+value = 1
+label = "Ranged lvl"
+
+[node name="combat_lvl" parent="player" instance=ExtResource( 4 )]
+margin_top = 444.0
+margin_right = 354.0
+margin_bottom = 458.0
+label = "Combat lvl:"
+
+[node name="VSeparator" type="VSeparator" parent="."]
+margin_left = 358.0
+margin_right = 362.0
+margin_bottom = 600.0
+
+[node name="results" type="VBoxContainer" parent="."]
+margin_left = 366.0
+margin_right = 689.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+script = ExtResource( 7 )
+
+[node name="Button" type="Button" parent="results"]
+margin_right = 323.0
+margin_bottom = 20.0
+text = "Simulate"
+
+[node name="Label" type="Label" parent="results"]
+margin_top = 24.0
+margin_right = 323.0
+margin_bottom = 38.0
+text = "Simulation results:"
+
+[node name="HSeparator" type="HSeparator" parent="results"]
+margin_top = 42.0
+margin_right = 323.0
+margin_bottom = 46.0
+
+[node name="Label2" type="Label" parent="results"]
+margin_top = 50.0
+margin_right = 323.0
+margin_bottom = 64.0
+text = "Player:"
+
+[node name="p_maxhit" parent="results" instance=ExtResource( 4 )]
+margin_top = 68.0
+margin_right = 323.0
+margin_bottom = 82.0
+label = "Max hit:"
+
+[node name="p_hitchance" parent="results" instance=ExtResource( 4 )]
+margin_top = 86.0
+margin_right = 323.0
+margin_bottom = 100.0
+label = "Hit chance %:"
+
+[node name="p_dps" parent="results" instance=ExtResource( 4 )]
+margin_top = 104.0
+margin_right = 323.0
+margin_bottom = 118.0
+label = "DPS:"
+
+[node name="p_dps2" parent="results" instance=ExtResource( 4 )]
+margin_top = 122.0
+margin_right = 323.0
+margin_bottom = 136.0
+label = "Simulated DPS:"
+
+[node name="spk" parent="results" instance=ExtResource( 4 )]
+margin_top = 140.0
+margin_right = 323.0
+margin_bottom = 154.0
+label = "Seconds per kill:"
+
+[node name="HSeparator2" type="HSeparator" parent="results"]
+margin_top = 158.0
+margin_right = 323.0
+margin_bottom = 162.0
+
+[node name="Label3" type="Label" parent="results"]
+margin_top = 166.0
+margin_right = 323.0
+margin_bottom = 180.0
+text = "Monster:"
+
+[node name="m_maxhit" parent="results" instance=ExtResource( 4 )]
+margin_top = 184.0
+margin_right = 323.0
+margin_bottom = 198.0
+label = "Max hit:"
+
+[node name="m_hitchance" parent="results" instance=ExtResource( 4 )]
+margin_top = 202.0
+margin_right = 323.0
+margin_bottom = 216.0
+label = "Hit chance %:"
+
+[node name="m_dps" parent="results" instance=ExtResource( 4 )]
+margin_top = 220.0
+margin_right = 323.0
+margin_bottom = 234.0
+label = "DPS:"
+
+[node name="VSeparator2" type="VSeparator" parent="."]
+margin_left = 693.0
+margin_right = 697.0
+margin_bottom = 600.0
+
+[node name="monster" type="VBoxContainer" parent="."]
+margin_left = 701.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+script = ExtResource( 8 )
+
+[node name="label" type="Label" parent="monster"]
+margin_right = 323.0
+margin_bottom = 14.0
+text = "Target"
+
+[node name="name" type="Label" parent="monster"]
+margin_top = 18.0
+margin_right = 323.0
+margin_bottom = 32.0
+
+[node name="HSeparator3" type="HSeparator" parent="monster"]
+margin_top = 36.0
+margin_right = 323.0
+margin_bottom = 40.0
+
+[node name="levels" type="Label" parent="monster"]
+margin_top = 44.0
+margin_right = 323.0
+margin_bottom = 58.0
+text = "Levels:"
+
+[node name="health" parent="monster" instance=ExtResource( 4 )]
+margin_top = 62.0
+margin_right = 323.0
+margin_bottom = 76.0
+label = "HP:"
+
+[node name="attack" parent="monster" instance=ExtResource( 4 )]
+margin_top = 80.0
+margin_right = 323.0
+margin_bottom = 94.0
+label = "Attack:"
+
+[node name="strength" parent="monster" instance=ExtResource( 4 )]
+margin_top = 98.0
+margin_right = 323.0
+margin_bottom = 112.0
+label = "Strength:"
+
+[node name="defence" parent="monster" instance=ExtResource( 4 )]
+margin_top = 116.0
+margin_right = 323.0
+margin_bottom = 130.0
+label = "Defence"
+
+[node name="magic" parent="monster" instance=ExtResource( 4 )]
+margin_top = 134.0
+margin_right = 323.0
+margin_bottom = 148.0
+label = "Magic:"
+
+[node name="ranged" parent="monster" instance=ExtResource( 4 )]
+margin_top = 152.0
+margin_right = 323.0
+margin_bottom = 166.0
+label = "Ranged:"
+
+[node name="HSeparator" type="HSeparator" parent="monster"]
+margin_top = 170.0
+margin_right = 323.0
+margin_bottom = 174.0
+
+[node name="atk_bonus" parent="monster" instance=ExtResource( 4 )]
+margin_top = 178.0
+margin_right = 323.0
+margin_bottom = 192.0
+label = "Atk bonus:"
+
+[node name="str_bonus" parent="monster" instance=ExtResource( 4 )]
+margin_top = 196.0
+margin_right = 323.0
+margin_bottom = 210.0
+label = "Str bonus:"
+
+[node name="mage_bonus" parent="monster" instance=ExtResource( 4 )]
+margin_top = 214.0
+margin_right = 323.0
+margin_bottom = 228.0
+label = "Magic bonus:"
+
+[node name="mage_str_bonus" parent="monster" instance=ExtResource( 4 )]
+visible = false
+margin_top = 196.0
+margin_right = 331.0
+margin_bottom = 210.0
+label = "mage dmg bonus:"
+
+[node name="rng_bonus" parent="monster" instance=ExtResource( 4 )]
+margin_top = 232.0
+margin_right = 323.0
+margin_bottom = 246.0
+label = "Rng bonus:"
+
+[node name="rng_str_bonus" parent="monster" instance=ExtResource( 4 )]
+visible = false
+margin_top = 214.0
+margin_right = 331.0
+margin_bottom = 228.0
+label = "Rng str bonus:"
+
+[node name="HSeparator2" type="HSeparator" parent="monster"]
+margin_top = 250.0
+margin_right = 323.0
+margin_bottom = 254.0
+
+[node name="def_stab" parent="monster" instance=ExtResource( 4 )]
+margin_top = 258.0
+margin_right = 323.0
+margin_bottom = 272.0
+label = "Def stab"
+
+[node name="def_slash" parent="monster" instance=ExtResource( 4 )]
+margin_top = 276.0
+margin_right = 323.0
+margin_bottom = 290.0
+label = "Def slash"
+
+[node name="def_crush" parent="monster" instance=ExtResource( 4 )]
+margin_top = 294.0
+margin_right = 323.0
+margin_bottom = 308.0
+label = "Def crush"
+
+[node name="def_mage" parent="monster" instance=ExtResource( 4 )]
+margin_top = 312.0
+margin_right = 323.0
+margin_bottom = 326.0
+label = "Def magic"
+
+[node name="def_range" parent="monster" instance=ExtResource( 4 )]
+margin_top = 330.0
+margin_right = 323.0
+margin_bottom = 344.0
+label = "Def ranged:"
+
+[node name="player_data" parent="." instance=ExtResource( 2 )]
+
+[connection signal="remove_gear" from="player/weapon" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/head" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/body" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/legs" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/feet" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/shield" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/hands" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/cape" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/ring" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/neck" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player/ammo" to="player_data" method="_on_remove_gear"]
+[connection signal="attack_style" from="player/attack_style" to="player_data" method="_on_attack_style_attack_style"]
+[connection signal="item_selected" from="player/attack_style" to="player/attack_style" method="_on_attack_style_item_selected"]
+[connection signal="value_changed" from="player/attack" to="player_data" method="_on_attack_value_changed"]
+[connection signal="value_changed" from="player/strength" to="player_data" method="_on_strength_value_changed"]
+[connection signal="value_changed" from="player/defence" to="player_data" method="_on_defence_value_changed"]
+[connection signal="value_changed" from="player/magic" to="player_data" method="_on_magic_value_changed"]
+[connection signal="value_changed" from="player/ranged" to="player_data" method="_on_ranged_value_changed"]
+[connection signal="pressed" from="results/Button" to="." method="_on_Button_pressed"]
+[connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]
