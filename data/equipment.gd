@@ -32,6 +32,9 @@ var prayer : int
 var attack_speed : int
 var stances : Array
 
+# Hardcoded attributes set during load
+var special_effects : Array
+
 # Current state in the list
 var is_hidden = false
 

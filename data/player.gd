@@ -12,6 +12,9 @@ var magic : int = 1
 var ranged : int = 1
 var defence : int = 1
 var prayer : int = 1
+var hp_lvl : int = 1
+
+var current_hp : int = 1
 
 # Equipment
 var weapon : equipment
@@ -54,8 +57,62 @@ var other_def_bonus : float = 1 #TODO
 
 var attack_speed : int setget ,_get_attack_speed
 
+var special_attributes : Array = []
+
+func set_specials():
+	# Determines what special attributes the equipment has
+	# Takes into account conflicts and set requirements
+	
+	special_attributes = []
+	
+	# All specials with duplicates
+	var all_specials : Dictionary = {}
+	
+	for item in all_equipped():
+		for special in HardcodedData.specials_of_item( item ):
+			if special in all_specials:
+				all_specials[special] = all_specials[special] + 1
+			else:
+				all_specials[special] = 1
+	
+	for special in all_specials.keys():
+		if "set" in HardcodedData.equipment_specials[special]:
+			if all_specials[special] < HardcodedData.equipment_specials[special]["set"]:
+				continue
+		if !special_attributes.has( special ):
+			special_attributes.append( special )
+
 func recalculate_stats():
+	get_parent().refresh_results()
 	pass
+
+func all_equipped() -> Array:
+	# returns list of requipment
+	var ret = []
+	if weapon:
+		ret.append(weapon)
+	if shield:
+		ret.append(shield)
+	if head:
+		ret.append(head)
+	if body:
+		ret.append(body)
+	if legs:
+		ret.append(legs)
+	if feet:
+		ret.append(feet)
+	if cape:
+		ret.append(cape)
+	if ammo:
+		ret.append(ammo)
+	if ring:
+		ret.append(ring)
+	if neck:
+		ret.append(neck)
+	if hands:
+		ret.append(hands)
+	
+	return ret
 
 func equip( new_item : equipment  ):
 	if new_item.equipment_slot == "2h":
@@ -66,6 +123,7 @@ func equip( new_item : equipment  ):
 	else:
 		set( new_item.equipment_slot, new_item)
 		emit_signal("gear_change", new_item.equipment_slot, new_item)
+	set_specials()
 	recalculate_stats()
 
 
@@ -75,6 +133,7 @@ func _on_remove_gear(slot : String):
 		weapon = null
 	else:
 		set( slot, null)
+	set_specials()
 	recalculate_stats()
 	
 

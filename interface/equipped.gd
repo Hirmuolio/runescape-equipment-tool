@@ -14,7 +14,7 @@ func _ready():
 
 func _set_slot( new_slot ):
 	slot = new_slot
-	$Label.text = slot
+	$Label.text = slot.capitalize() + ":"
 
 func add_gear( new_gear : equipment):
 	if new_gear:
