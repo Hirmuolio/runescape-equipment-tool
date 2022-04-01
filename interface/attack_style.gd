@@ -14,7 +14,10 @@ func set_slection( item : equipment):
 	options = []
 	if item.stances.size() != 0:
 		for stance in item.stances:
-			options.append( [ stance["attack_style"], stance["attack_type"] ] )
+			if stance["attack_style"]:
+				options.append( [ stance["attack_style"], stance["attack_type"] ] )
+			elif stance["combat_style"]:
+				options.append( [ stance["combat_style"], "ranged" ] )
 	else:
 		options = [ 
 			["accurate", "stab"],

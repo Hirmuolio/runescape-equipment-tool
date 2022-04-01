@@ -22,6 +22,7 @@ func refresh_results():
 	print("REFRES")
 	$combat_sim.do_fast_simulations( $player_data, $monster.current_monster )
 	$results.print_specials( $player_data )
+	$player.refresh_eq_stats()
 
 func _on_player_data_gear_change(slot : String, new_gear : equipment):
 	# Sets the gear visible on the buttons

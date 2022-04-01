@@ -14,13 +14,13 @@ func refresh_results():
 	
 	$p_maxhit.value = combat_sim.p_max_hit
 	$p_hitchance.value = stepify( combat_sim.p_hit_chance * 100, 0.1 )
-	$p_dps.value = combat_sim.p_dps
-	$p_dps2.value = combat_sim.p_dps2
-	$spk.value = combat_sim.time_to_kill2
+	$p_dps.value = stepify( combat_sim.p_dps, 0.1 )
+	$p_dps2.value = stepify( combat_sim.p_dps2, 0.1 )
+	$spk.value = stepify( combat_sim.time_to_kill2, 0.1 )
 	
 	$m_maxhit.value = combat_sim.m_max_hit
 	$m_hitchance.value = stepify( combat_sim.m_hit_chance  * 100, 0.1 )
-	$m_dps.value = combat_sim.m_dps
+	$m_dps.value = stepify( combat_sim.m_dps, 0.1 )
 	
 	pass
 

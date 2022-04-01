@@ -149,6 +149,8 @@ func simulate_combat( player : player, target_mon : monster ):
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	
+	var ten_minutes : int = 1000 # ticks
+	
 	var simulated_kills = 100000
 	for _kills in range(1, simulated_kills): #1000 rounds
 		var target_hp = target_mon.hitpoints
@@ -158,6 +160,9 @@ func simulate_combat( player : player, target_mon : monster ):
 				if rng.randf() < p_hit_chance:
 					target_hp -= rng.randi_range( 0, p_max_hit)
 			tick += 1
+		if _kills == 1 && tick >= 1000:
+			print( "Too slow kills to simulate" )
+			return
 	
 	p_dps2 = ( simulated_kills * target_mon.hitpoints ) / ( tick * 0.6 )
 	time_to_kill2 =  ( tick * 0.6 ) / simulated_kills
