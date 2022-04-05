@@ -22,6 +22,9 @@ func set_monster( monster_node : monster ):
 	$magic.value = current_monster.magic_level
 	$ranged.value = current_monster.ranged_level
 	
+	$style.value = str(current_monster.attack_type).trim_prefix ( "[" ).trim_suffix("]")
+	$speed.value = current_monster.attack_speed
+	$max_hit.value = current_monster.max_hit
 	$atk_bonus.value = current_monster.attack_bonus
 	$str_bonus.value = current_monster.strength_bonus
 	$mage_bonus.value = current_monster.attack_magic
@@ -34,5 +37,8 @@ func set_monster( monster_node : monster ):
 	$def_crush.value = current_monster.defence_crush
 	$def_mage.value = current_monster.defence_magic
 	$def_range.value = current_monster.defence_ranged
+	
+	$attributes.value = str(current_monster.attributes).trim_prefix ( "[" ).trim_suffix("]")
+	$size.value = current_monster.size
 	
 	pass

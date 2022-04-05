@@ -2,6 +2,7 @@ extends Node
 
 
 var p_max_hit : int
+var base_max_hit : int
 var p_hit_chance : float
 var p_dps : float
 var p_dps2 : float
@@ -22,18 +23,6 @@ func clear_results():
 	p_dps2 = 0
 	time_to_kill2 = 0
 	pass
-
-func calc_special_melee_damage_bonus( player : player, target_mon : monster ) -> float:
-	
-	var multiplier : float = 1
-	
-	for effect_name in player.special_attributes:
-		if "melee_dmg_mult" in HardcodedData.equipment_specials[effect_name]:
-			multiplier *= HardcodedData.equipment_specials[effect_name]["melee_dmg_mult"]
-		if effect_name == "dharok":
-			multiplier *= 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001
-	
-	return multiplier
 
 func calc_special_melee_acc_bonus( player : player, target_mon : monster ) -> float:
 	
@@ -100,11 +89,47 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 	# Melee
 	var eff_str = floor( (floor( player.strength * player.prayer_str ) + player.style_str_bonus + 8) )
 	
-	var base_damage = 0.5 + eff_str * ( player.str_bonus + 64 ) / 640
+	var max_hit = floor( 0.5 + eff_str * ( player.str_bonus + 64 ) / 640 )
+	base_max_hit = max_hit
+	# Special bonuses need to be applied in specific order
+	#Order:
+	# Obsidian armor before salve (e)
+	# Obsidian armor before berserker necklace
+	# Black mask before berserker necklace
+	# Black mask before special attack
+	# Keris ?
+	# silver/dark/ardc ?
+	# Void ?
+	# viggora ?
+	# Dharok ?
 	
-	var special_bonus : float = calc_special_melee_damage_bonus( player, target_mon )
+	if "obsidian_armor" in player.special_attributes:
+		max_hit = floor( max_hit * 1.1 )
+	if "black_mask" in player.special_attributes:
+		max_hit = floor( max_hit * 7/6 )
+	else:
+		if "salve_e" in player.special_attributes:
+			max_hit = floor( max_hit * 1.2 )
+		if "salve" in player.special_attributes:
+			max_hit = floor( max_hit * 7/6 )
+	if "berserk" in player.special_attributes:
+		max_hit = floor( max_hit * 1.2 )
 	
-	p_max_hit = floor( base_damage * special_bonus )
+	if "ivandis_flail" in player.special_attributes:
+		max_hit = floor( max_hit * 1.2 )
+	if "blisterwood_flail" in player.special_attributes:
+		max_hit = floor( max_hit * 1.25 )
+	if "viggora" in player.special_attributes:
+		max_hit = floor( max_hit * 1.5 )
+	if "void_melee" in player.special_attributes:
+		max_hit = floor( max_hit * 1.1 )
+	if "keris" in player.special_attributes:
+		max_hit = floor( max_hit * 4/3 )
+	if "dharok" in player.special_attributes:
+		max_hit = floor( max_hit * 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 )
+		
+	p_max_hit = max_hit
+	
 
 
 
@@ -150,6 +175,7 @@ func simulate_combat( player : player, target_mon : monster ):
 	rng.randomize()
 	
 	var ten_minutes : int = 1000 # ticks
+	var keris : bool = "keris" in player.special_attributes
 	
 	var simulated_kills = 100000
 	for _kills in range(1, simulated_kills): #1000 rounds
@@ -158,7 +184,10 @@ func simulate_combat( player : player, target_mon : monster ):
 			if( tick % player.attack_speed  == 0):
 				# Player attacks
 				if rng.randf() < p_hit_chance:
-					target_hp -= rng.randi_range( 0, p_max_hit)
+					if keris and rng.randi_range( 1, 51) == 1:
+						target_hp -= rng.randi_range( 0, floor( p_max_hit * 3 / 1.33 ) )
+					else:
+						target_hp -= rng.randi_range( 0, p_max_hit)
 			tick += 1
 		if _kills == 1 && tick >= 1000:
 			print( "Too slow kills to simulate" )

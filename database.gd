@@ -184,7 +184,7 @@ func load_monsters_json():
 	var class_monster = load( "res://data/monster.tscn" )
 	
 	for monster in data.values():
-		if !monster["hitpoints"] or !monster["attack_speed"] or !monster["max_hit"] or !monster["defence_level"]:
+		if !monster["hitpoints"] or !monster["attack_speed"] or !monster["max_hit"]:
 			# Some invalid monster.
 			continue
 		
@@ -254,7 +254,7 @@ func save_monsters():
 	
 	for _monster in $monsters.get_children():
 		var monster : monster = _monster # Hack to get typing
-		var monster_path : String = monsters_path + monster.monster_name + ".monster"
+		var monster_path : String = monsters_path + monster.monster_name + "_" + str(monster.monster_id) + ".monster"
 		var file = File.new()
 		file.open(monster_path, File.WRITE)
 		

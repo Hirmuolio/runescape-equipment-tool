@@ -17,7 +17,7 @@ anchor_bottom = 1.0
 
 [node name="TabContainer" type="TabContainer" parent="HBoxContainer"]
 margin_right = 300.0
-margin_bottom = 600.0
+margin_bottom = 780.0
 rect_min_size = Vector2( 300, 0 )
 tab_align = 0
 
@@ -32,12 +32,12 @@ visible = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 304.0
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_right = 1333.0
+margin_bottom = 780.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_right = 720.0
+margin_right = 1029.0
 margin_bottom = 20.0
 
 [node name="new_setup" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
@@ -47,8 +47,8 @@ text = "New set"
 
 [node name="setups" type="TabContainer" parent="HBoxContainer/VBoxContainer"]
 margin_top = 24.0
-margin_right = 720.0
-margin_bottom = 600.0
+margin_right = 1029.0
+margin_bottom = 780.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tab_align = 0
