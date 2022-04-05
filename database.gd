@@ -5,11 +5,11 @@ var monsters_path : String = "user://monsters/"
 
 func _ready():
 	print( get_children() )
-	load_items_json()
-	#load_items()
+	#load_items_json()
+	load_items_res()
 	
 	#load_monsters_json()
-	load_monsters()
+	load_monsters_res()
 
 func get_items():
 	return $items.get_children()
@@ -90,11 +90,11 @@ func load_items_json():
 		i += 1
 	
 	print( "EQUIPMENT LOADED")
-	save_items()
+	save_items_user()
 	return
 
 
-func save_items():
+func save_items_user():
 	# Saves the item date so they don't need to be processed again.
 	var dir = Directory.new()
 	if !dir.dir_exists( "user://items/" ):
@@ -133,43 +133,54 @@ func save_items():
 		
 		file.close()
 
-func load_items():
+func load_items_user():
 	var class_item = load( "res://data/equipment.tscn" )
 	
 	for file_path in list_files( items_path ):
-		var file = File.new()
-		file.open( file_path , File.READ )
-		
-		var new_item : equipment = class_item.instance()
-		$items.add_child( new_item )
-		
-		new_item.item_name = file.get_pascal_string()
-		new_item.equipment_slot = file.get_pascal_string()
-		new_item.item_id = file.get_32()
-		
-		new_item.set_name( String( new_item.item_id ) )
-		
-		new_item.attack_stab = file.get_64()
-		new_item.attack_slash = file.get_64()
-		new_item.attack_crush = file.get_64()
-		new_item.attack_magic = file.get_64()
-		new_item.attack_ranged = file.get_64()
-		
-		new_item.defence_stab = file.get_64()
-		new_item.defence_slash = file.get_64()
-		new_item.defence_crush = file.get_64()
-		new_item.defence_magic = file.get_64()
-		new_item.defence_ranged = file.get_64()
-		
-		new_item.melee_strength = file.get_64()
-		new_item.ranged_strength = file.get_64()
-		new_item.magic_damage = file.get_64()
-		new_item.prayer = file.get_64()
-		
-		new_item.attack_speed = file.get_64()
-		new_item.stances = str2var( file.get_pascal_string() )
-		
-		file.close()
+		load_items( file_path ) 
+
+func load_items_res():
+	var class_item = load( "res://data/equipment.tscn" )
+	
+	for file_path in list_files( "res://database/items/" ):
+		load_items( file_path ) 
+
+func load_items( file_path : String ):
+	var class_item = load( "res://data/equipment.tscn" )
+	
+	var file = File.new()
+	file.open( file_path , File.READ )
+	
+	var new_item : equipment = class_item.instance()
+	$items.add_child( new_item )
+	
+	new_item.item_name = file.get_pascal_string()
+	new_item.equipment_slot = file.get_pascal_string()
+	new_item.item_id = file.get_32()
+	
+	new_item.set_name( String( new_item.item_id ) )
+	
+	new_item.attack_stab = file.get_64()
+	new_item.attack_slash = file.get_64()
+	new_item.attack_crush = file.get_64()
+	new_item.attack_magic = file.get_64()
+	new_item.attack_ranged = file.get_64()
+	
+	new_item.defence_stab = file.get_64()
+	new_item.defence_slash = file.get_64()
+	new_item.defence_crush = file.get_64()
+	new_item.defence_magic = file.get_64()
+	new_item.defence_ranged = file.get_64()
+	
+	new_item.melee_strength = file.get_64()
+	new_item.ranged_strength = file.get_64()
+	new_item.magic_damage = file.get_64()
+	new_item.prayer = file.get_64()
+	
+	new_item.attack_speed = file.get_64()
+	new_item.stances = str2var( file.get_pascal_string() )
+	
+	file.close()
 
 func load_monsters_json():
 	# Loads all the monsters from monsters-complete.json
@@ -243,9 +254,9 @@ func load_monsters_json():
 			
 		i += 1
 	
-	save_monsters()
+	save_monsters_user()
 
-func save_monsters():
+func save_monsters_user():
 	# Saves the monster data so they don't need to be processed again.
 	var dir = Directory.new()
 	if !dir.dir_exists( "user://monsters/" ):
@@ -293,53 +304,63 @@ func save_monsters():
 		
 		file.close()
 
-func load_monsters():
+func load_monsters_user():
 	var class_monster = load( "res://data/monster.tscn" )
 	
 	for file_path in list_files( monsters_path ):
-		var file = File.new()
-		file.open( file_path , File.READ )
-		
-		var new_monster : monster = class_monster.instance()
-		$monsters.add_child( new_monster )
-		
-		new_monster.monster_name = file.get_pascal_string()
-		new_monster.monster_id = file.get_32()
-		
-		new_monster.set_name( String( new_monster.monster_id ) )
-		
-		new_monster.attack_level = file.get_64()
-		new_monster.strength_level = file.get_64()
-		new_monster.magic_level = file.get_64()
-		new_monster.ranged_level = file.get_64()
-		new_monster.defence_level = file.get_64()
-		new_monster.hitpoints = file.get_64()
-		
-		new_monster.combat_level = file.get_64()
-		
-		new_monster.attack_bonus = file.get_64()
-		new_monster.strength_bonus = file.get_64()
-		new_monster.attack_magic = file.get_64()
-		new_monster.str_magic = file.get_64()
-		new_monster.attack_ranged = file.get_64()
-		new_monster.str_ranged = file.get_64()
-		
-		new_monster.max_hit = file.get_64()
-		
-		new_monster.defence_stab = file.get_64()
-		new_monster.defence_slash = file.get_64()
-		new_monster.defence_crush = file.get_64()
-		new_monster.defence_magic = file.get_64()
-		new_monster.defence_ranged = file.get_64()
-		
-		new_monster.attack_speed = file.get_64()
-		new_monster.size = file.get_64()
-		
-		new_monster.attack_type = str2var( file.get_pascal_string() )
-		new_monster.attributes = str2var( file.get_pascal_string() )
-		
-		file.close()
+		load_monsters( file_path )
 
+func load_monsters_res():
+	var class_monster = load( "res://data/monster.tscn" )
+	
+	for file_path in list_files( "res://database/monsters/" ):
+		load_monsters( file_path )
+
+func load_monsters( file_path : String ):
+	var class_monster = load( "res://data/monster.tscn" )
+	
+	var file = File.new()
+	file.open( file_path , File.READ )
+	
+	var new_monster : monster = class_monster.instance()
+	$monsters.add_child( new_monster )
+	
+	new_monster.monster_name = file.get_pascal_string()
+	new_monster.monster_id = file.get_32()
+	
+	new_monster.set_name( String( new_monster.monster_id ) )
+	
+	new_monster.attack_level = file.get_64()
+	new_monster.strength_level = file.get_64()
+	new_monster.magic_level = file.get_64()
+	new_monster.ranged_level = file.get_64()
+	new_monster.defence_level = file.get_64()
+	new_monster.hitpoints = file.get_64()
+	
+	new_monster.combat_level = file.get_64()
+	
+	new_monster.attack_bonus = file.get_64()
+	new_monster.strength_bonus = file.get_64()
+	new_monster.attack_magic = file.get_64()
+	new_monster.str_magic = file.get_64()
+	new_monster.attack_ranged = file.get_64()
+	new_monster.str_ranged = file.get_64()
+	
+	new_monster.max_hit = file.get_64()
+	
+	new_monster.defence_stab = file.get_64()
+	new_monster.defence_slash = file.get_64()
+	new_monster.defence_crush = file.get_64()
+	new_monster.defence_magic = file.get_64()
+	new_monster.defence_ranged = file.get_64()
+	
+	new_monster.attack_speed = file.get_64()
+	new_monster.size = file.get_64()
+	
+	new_monster.attack_type = str2var( file.get_pascal_string() )
+	new_monster.attributes = str2var( file.get_pascal_string() )
+	
+	file.close()
 
 func list_files( path ) -> Array:
 	# Finds all file paths in a directory
