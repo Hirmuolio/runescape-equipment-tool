@@ -79,7 +79,9 @@ func is_identical( oth_item : equipment ) -> bool:
 	
 	if attack_speed != oth_item.attack_speed:
 		return false
-	if stances != oth_item.stances:
-		return false
+	
+	# Comparing the stances causes false positives.
+	#if stances != oth_item.stances:
+	#	return false
 	
 	return true

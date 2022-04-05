@@ -403,6 +403,7 @@ margin_left = 284.0
 margin_right = 351.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
+text = "Speed"
 align = 1
 
 [node name="str" type="Label" parent="player/eq_other"]
@@ -436,11 +437,12 @@ margin_bottom = 32.0
 text = "0"
 align = 1
 
-[node name="empty" type="Label" parent="player/eq_other"]
+[node name="speed" type="Label" parent="player/eq_other"]
 margin_left = 284.0
 margin_top = 18.0
 margin_right = 351.0
 margin_bottom = 32.0
+text = "0"
 align = 1
 
 [node name="HSeparator5" type="HSeparator" parent="player"]

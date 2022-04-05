@@ -5,8 +5,8 @@ var monsters_path : String = "user://monsters/"
 
 func _ready():
 	print( get_children() )
-	#load_items_json()
-	load_items()
+	load_items_json()
+	#load_items()
 	
 	#load_monsters_json()
 	load_monsters()
@@ -71,7 +71,7 @@ func load_items_json():
 	
 	# Filter out duplicates.
 	# get_child( int idx ) 
-	##var children : Array = get_children()
+	# var children : Array = get_children()
 	var item_count : int = $items.get_child_count()
 	var i : int = 0
 	while i < item_count-1:
@@ -103,7 +103,7 @@ func save_items():
 	
 	for _item in $items.get_children():
 		var item : equipment = _item # Hack to get typing
-		var item_path : String = items_path + item.item_name + ".item"
+		var item_path : String = items_path + item.item_name + "_" + str( item.item_id ) + ".item"
 		var file = File.new()
 		file.open(item_path, File.WRITE)
 		
