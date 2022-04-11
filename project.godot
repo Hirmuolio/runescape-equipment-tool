@@ -45,7 +45,7 @@ HardcodedData="*res://data/hardcoded_data.tscn"
 [display]
 
 window/size/width=1333
-window/size/height=780
+window/size/height=810
 
 [physics]
 

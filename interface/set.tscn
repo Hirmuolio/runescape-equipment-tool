@@ -216,7 +216,7 @@ align = 1
 margin_top = 18.0
 margin_right = 67.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="slash" type="Label" parent="player/eq_attack"]
@@ -224,7 +224,7 @@ margin_left = 71.0
 margin_top = 18.0
 margin_right = 138.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="crush" type="Label" parent="player/eq_attack"]
@@ -232,7 +232,7 @@ margin_left = 142.0
 margin_top = 18.0
 margin_right = 209.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="magic" type="Label" parent="player/eq_attack"]
@@ -240,7 +240,7 @@ margin_left = 213.0
 margin_top = 18.0
 margin_right = 280.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="ranged" type="Label" parent="player/eq_attack"]
@@ -248,7 +248,7 @@ margin_left = 284.0
 margin_top = 18.0
 margin_right = 351.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="HSeparator6" type="HSeparator" parent="player"]
@@ -313,7 +313,7 @@ align = 1
 margin_top = 18.0
 margin_right = 67.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="slash" type="Label" parent="player/eq_def"]
@@ -321,7 +321,7 @@ margin_left = 71.0
 margin_top = 18.0
 margin_right = 138.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="crush" type="Label" parent="player/eq_def"]
@@ -329,7 +329,7 @@ margin_left = 142.0
 margin_top = 18.0
 margin_right = 209.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="magic" type="Label" parent="player/eq_def"]
@@ -337,7 +337,7 @@ margin_left = 213.0
 margin_top = 18.0
 margin_right = 280.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="ranged" type="Label" parent="player/eq_def"]
@@ -345,7 +345,7 @@ margin_left = 284.0
 margin_top = 18.0
 margin_right = 351.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="HSeparator7" type="HSeparator" parent="player"]
@@ -410,7 +410,7 @@ align = 1
 margin_top = 18.0
 margin_right = 67.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="rng_str" type="Label" parent="player/eq_other"]
@@ -418,7 +418,7 @@ margin_left = 71.0
 margin_top = 18.0
 margin_right = 138.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="mg_dmg" type="Label" parent="player/eq_other"]
@@ -426,7 +426,7 @@ margin_left = 142.0
 margin_top = 18.0
 margin_right = 209.0
 margin_bottom = 32.0
-text = "0"
+text = "+0%"
 align = 1
 
 [node name="pray" type="Label" parent="player/eq_other"]
@@ -434,7 +434,7 @@ margin_left = 213.0
 margin_top = 18.0
 margin_right = 280.0
 margin_bottom = 32.0
-text = "0"
+text = "+0"
 align = 1
 
 [node name="speed" type="Label" parent="player/eq_other"]
@@ -449,6 +449,17 @@ align = 1
 margin_top = 630.0
 margin_right = 354.0
 margin_bottom = 634.0
+
+[node name="Label" type="Label" parent="player"]
+margin_top = 638.0
+margin_right = 354.0
+margin_bottom = 652.0
+text = "Prayers:"
+
+[node name="prayers" type="VBoxContainer" parent="player"]
+margin_top = 656.0
+margin_right = 354.0
+margin_bottom = 656.0
 
 [node name="VSeparator" type="VSeparator" parent="."]
 margin_left = 358.0
@@ -730,7 +741,7 @@ margin_right = 478.0
 margin_bottom = 406.0
 label = "Attributes:"
 
-[node name="size" parent="monster" instance=ExtResource( 4 )]
+[node name="size" parent="monster" instance=ExtResource( 11 )]
 margin_top = 410.0
 margin_right = 478.0
 margin_bottom = 424.0

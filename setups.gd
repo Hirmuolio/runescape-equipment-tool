@@ -23,3 +23,5 @@ func _on_equipment_list_item_selected(item_node):
 func _on_monster_item_selected(monster_node):
 	get_current_tab_control().set_monster( monster_node )
 
+func _on_prayer_list_prayer_selected(prayer_id):
+	get_current_tab_control().prayer_add( prayer_id )

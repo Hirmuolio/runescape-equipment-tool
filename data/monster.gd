@@ -5,6 +5,7 @@ class_name monster
 
 var monster_name : String
 var monster_id : int
+var examine : String
 
 # Levels
 var attack_level : int = 1

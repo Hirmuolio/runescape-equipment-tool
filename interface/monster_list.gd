@@ -73,6 +73,7 @@ func _on_Tree_cell_selected():
 	var selected : TreeItem = $Tree.get_selected()
 	selected.deselect(0)
 	if typeof( selected.get_metadata(0) ) == TYPE_STRING:
+		# Group collapse/expand
 		selected.collapsed = !selected.collapsed
 		group_collapsed[selected.get_metadata(0) ] = selected.collapsed
 	else:

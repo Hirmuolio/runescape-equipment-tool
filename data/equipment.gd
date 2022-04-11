@@ -4,6 +4,7 @@ class_name equipment
 #func get_class(): return "equipment"
 
 var item_name : String
+var examine : String
 var item_id : int
 # weapon, 2h, ammo, cape, legs, body, shield, neck, head, feet, hands, ring, shield
 var equipment_slot : String
@@ -85,3 +86,7 @@ func is_identical( oth_item : equipment ) -> bool:
 	#	return false
 	
 	return true
+
+func info()->String:
+	
+	return examine

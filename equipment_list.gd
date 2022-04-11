@@ -40,9 +40,10 @@ func create_tree():
 		else:
 			tree_group = tree_groups[item.equipment_slot]
 		
-		var tree_item = $Tree.create_item( tree_group )
+		var tree_item : TreeItem = $Tree.create_item( tree_group )
 		tree_item.set_text(0, item.item_name )
 		tree_item.set_metadata(0, item)
+		tree_item.set_tooltip( 0, item.info() )
 
 
 
@@ -90,8 +91,8 @@ func _on_Tree_cell_selected():
 	var selected : TreeItem = $Tree.get_selected()
 	selected.deselect(0)
 	if typeof( selected.get_metadata(0) ) == TYPE_STRING:
+		# Group collapse/expand
 		selected.collapsed = !selected.collapsed
 		group_collapsed[selected.get_metadata(0) ] = selected.collapsed
 	else:
 		emit_signal("item_selected", selected.get_metadata(0) )
-

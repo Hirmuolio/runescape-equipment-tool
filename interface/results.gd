@@ -25,7 +25,6 @@ func refresh_results():
 	pass
 
 func print_specials( player_data : player ):
-	print("SPECIALS")
 	var specials_str = ""
 	for special in player_data.special_attributes:
 		specials_str += "* " + HardcodedData.equipment_specials[ special ][ "description" ]

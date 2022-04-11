@@ -111,6 +111,150 @@ var equipment_specials : Dictionary = {
 var items_with_specials : Dictionary
 
 
+var prayers : Dictionary = {
+	"def_5": {
+		"name": "Thick Skin",
+		"description": "+5% Defence",
+		"modifiers": {
+			"defence": 5
+		}
+	},
+	"def_10": {
+		"name": "Rock Skin",
+		"description": "+10% Defence",
+		"modifiers": {
+			"defence": 10
+		}
+	},
+	"def_15": {
+		"name": "Steek Skin",
+		"description": "+15% Defence",
+		"modifiers": {
+			"defence": 15
+		}
+	},
+	"str_5": {
+		"name": "Burst of Strength",
+		"description": "+5% Strength",
+		"modifiers": {
+			"strength": 5
+		}
+	},
+	"str_10": {
+		"name": "Superhuman Strength",
+		"description": "+10% Strength",
+		"modifiers": {
+			"strength": 10
+		}
+	},
+	"str_15": {
+		"name": "Ultimate Strength",
+		"description": "+15% Strength",
+		"modifiers": {
+			"strength": 15
+		}
+	},
+	"att_5": {
+		"name": "Clarity of Thought",
+		"description": "+5% Attack",
+		"modifiers": {
+			"attack": 5
+		}
+	},
+	"att_10": {
+		"name": "Improved Reflexes",
+		"description": "+10% Attack",
+		"modifiers": {
+			"attack": 10
+		}
+	},
+	"att_15": {
+		"name": "Incredible Reflexes",
+		"description": "+15% Attack",
+		"modifiers": {
+			"attack": 15
+		}
+	},
+	"rng_5": {
+		"name": "Sharp Eye",
+		"description": "+5% Ranged",
+		"modifiers": {
+			"ranged": 5
+		}
+	},
+	"rng_10": {
+		"name": "Hawk Eye",
+		"description": "+10% Ranged",
+		"modifiers": {
+			"ranged": 10
+		}
+	},
+	"rng_15": {
+		"name": "Eagle Eye",
+		"description": "+15% Ranged",
+		"modifiers": {
+			"ranged": 15
+		}
+	},
+	"rng_20": {
+		"name": "Rigour",
+		"description": "+20% Ranged attack, +23% Ranged strength, +25% Defence",
+		"modifiers": {
+			"ranged_attack": 20,
+			"ranged_str": 23,
+			"defence": 25
+		}
+	},
+	"mage_5": {
+		"name": "Mystic Will",
+		"description": "+5% Magical attack and defence",
+		"modifiers": {
+			"magic": 5
+		}
+	},
+	"mage_10": {
+		"name": "Mystic Lore",
+		"description": "+10% Magical attack and defence",
+		"modifiers": {
+			"magic": 10
+		}
+	},
+	"mage_15": {
+		"name": "Mystic Might",
+		"description": "+15% Magical attack and defence",
+		"modifiers": {
+			"magic": 15
+		}
+	},
+	"mage_25": {
+		"name": "Augury",
+		"description": "+25% Magical attack and defence, +25% Defence",
+		"modifiers": {
+			"magic_attack": 25,
+			"magic_defence": 25,
+			"defence": 25
+		}
+	},
+	"chivalry": {
+		"name": "Chivalry",
+		"description": "+15% Attack, +18% Strength, +20% Defence",
+		"modifiers": {
+			"attack": 15,
+			"strength": 18,
+			"defence": 20
+		}
+	},
+	"piety": {
+		"name": "Piety",
+		"description": "+20% Attack, +23% Strength, +25% Defence",
+		"modifiers": {
+			"attack": 20,
+			"strength": 23,
+			"defence": 25
+		}
+	}
+}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

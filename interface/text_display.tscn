@@ -12,6 +12,7 @@ script = ExtResource( 1 )
 margin_right = 130.0
 margin_bottom = 14.0
 rect_min_size = Vector2( 130, 0 )
+mouse_filter = 1
 text = "Label"
 align = 2
 
@@ -19,3 +20,7 @@ align = 2
 margin_left = 134.0
 margin_right = 134.0
 margin_bottom = 14.0
+mouse_filter = 1
+
+[connection signal="mouse_entered" from="Label" to="." method="_on_mouse_entered"]
+[connection signal="mouse_entered" from="display" to="." method="_on_mouse_entered"]

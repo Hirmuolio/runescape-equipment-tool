@@ -43,9 +43,9 @@ var attack_stance : String
 var str_bonus : int setget ,_get_str_bonus
 var atk_bonus : int setget ,_get_atk_bonus
 
-var prayer_str : float = 1 #TODO
-var prayer_atk : float = 1 #TODO
-var prayer_def : float = 1 #TODO
+var prayer_str : float setget ,_get_pray_str
+var prayer_atk : float setget ,_get_pray_att
+var prayer_def : float setget ,_get_pray_def
 
 var style_str_bonus : int setget ,_get_style_str
 var style_atk_bonus : int setget ,_get_style_atk
@@ -57,6 +57,7 @@ var other_def_bonus : float = 1 #TODO
 
 var attack_speed : int setget ,_get_attack_speed
 
+var prayers : Array = []
 var special_attributes : Array = []
 
 func set_specials():
@@ -126,7 +127,27 @@ func equip( new_item : equipment  ):
 	set_specials()
 	recalculate_stats()
 
+func prayer_add( prayer_id : String ) -> bool:
+	# Returns true if prayer was added
+	if prayer_id in prayers:
+		return false
+	
+	# Can't have multiple prayers modify same stat
+	# Not good check. TODO make better
+	var already_modified : Array = []
+	for pra in prayers:
+		already_modified.append_array( HardcodedData.prayers[pra]["modifiers"].keys() )
+	for mod in HardcodedData.prayers[prayer_id]["modifiers"].keys():
+		if mod in already_modified:
+			return false
+	
+	prayers.append( prayer_id )
+	recalculate_stats()
+	return true
 
+func prayer_remove( prayer_id : String ):
+	prayers.erase( prayer_id )
+	recalculate_stats()
 
 func _on_remove_gear(slot : String):
 	if slot == "2h":
@@ -248,3 +269,21 @@ func _get_attack_speed() -> int:
 	if weapon:
 		return weapon.attack_speed
 	return 5
+
+func _get_pray_str() -> float:
+	for pray_id in prayers:
+		if "strength" in HardcodedData.prayers[pray_id]["modifiers"]:
+			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["strength"] ) / 100
+	return 1.0
+
+func _get_pray_att() -> float:
+	for pray_id in prayers:
+		if "attack" in HardcodedData.prayers[pray_id]["modifiers"]:
+			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["attack"] ) / 100
+	return 1.0
+
+func _get_pray_def() -> float:
+	for pray_id in prayers:
+		if "defence" in HardcodedData.prayers[pray_id]["modifiers"]:
+			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["defence"] ) / 100
+	return 1.0

@@ -39,6 +39,9 @@ func load_items_json():
 		$items.add_child( new_item )
 		
 		new_item.item_name = item["name"]
+		if item["examine"]:
+			# Some items don't have examine info
+			new_item.examine = item["examine"]
 		new_item.item_id = item["id"]
 		new_item.set_name( String( new_item.item_id ) )
 		
@@ -112,6 +115,7 @@ func save_items_user():
 		file.store_pascal_string( item.item_name )
 		file.store_pascal_string( item.equipment_slot )
 		file.store_32( item.item_id )
+		file.store_pascal_string( item.examine )
 		
 		file.store_64( item.attack_stab )
 		file.store_64( item.attack_slash )
@@ -159,6 +163,7 @@ func load_items( file_path : String ):
 	new_item.item_name = file.get_pascal_string()
 	new_item.equipment_slot = file.get_pascal_string()
 	new_item.item_id = file.get_32()
+	new_item.examine = file.get_pascal_string()
 	
 	new_item.set_name( String( new_item.item_id ) )
 	
@@ -206,6 +211,7 @@ func load_monsters_json():
 		
 		new_monster.monster_name = monster["name"]
 		new_monster.monster_id = monster["id"]
+		new_monster.examine = monster["examine"]
 		
 		new_monster.set_name( String( new_monster.monster_id ) )
 		
@@ -273,6 +279,7 @@ func save_monsters_user():
 		
 		file.store_pascal_string( monster.monster_name )
 		file.store_32( monster.monster_id )
+		file.store_pascal_string( monster.examine )
 		
 		file.store_64( monster.attack_level )
 		file.store_64( monster.strength_level )
@@ -299,7 +306,7 @@ func save_monsters_user():
 		file.store_64( monster.defence_ranged )
 		
 		file.store_64( monster.attack_speed )
-		file.store_64( monster.size )
+		file.store_pascal_string( monster.size )
 		
 		file.store_pascal_string( var2str(monster.attack_type) )
 		file.store_pascal_string( var2str(monster.attributes) )
@@ -329,6 +336,7 @@ func load_monsters( file_path : String ):
 	
 	new_monster.monster_name = file.get_pascal_string()
 	new_monster.monster_id = file.get_32()
+	new_monster.examine = file.get_pascal_string()
 	
 	new_monster.set_name( String( new_monster.monster_id ) )
 	
@@ -357,7 +365,7 @@ func load_monsters( file_path : String ):
 	new_monster.defence_ranged = file.get_64()
 	
 	new_monster.attack_speed = file.get_64()
-	new_monster.size = file.get_64()
+	new_monster.size = file.get_pascal_string()
 	
 	new_monster.attack_type = str2var( file.get_pascal_string() )
 	new_monster.attributes = str2var( file.get_pascal_string() )
