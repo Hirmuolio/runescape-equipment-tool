@@ -13,6 +13,9 @@ func _ready():
 func get_items():
 	return $items.get_children()
 
+func  get_item( item_id : int ) -> Node:
+	return $items.get_node( str(item_id) )
+
 func get_monsters():
 	return $monsters.get_children()
 

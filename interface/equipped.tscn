@@ -12,6 +12,7 @@ margin_top = 3.0
 margin_right = 100.0
 margin_bottom = 17.0
 rect_min_size = Vector2( 100, 0 )
+text = ":"
 align = 2
 
 [node name="Button" type="Button" parent="."]

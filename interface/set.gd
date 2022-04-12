@@ -45,3 +45,20 @@ func prayer_add( prayer_id : String ):
 		var _err2 = button.connect( "button_down", button, "remove_button" )
 		$player/prayers.add_child( button )
 
+
+func _on_name_text_changed(new_text):
+	if new_text != "":
+		name = new_text
+		$player_data.setup_name = new_text
+
+func save_data() -> String:
+	return $player_data.save_string()
+
+func load_data( new_data : String ):
+	$player_data.load_string( new_data )
+	$player/attack.value = $player_data.attack
+	$player/strength.value = $player_data.strength
+	$player/defence.value = $player_data.defence
+	$player/magic.value = $player_data.magic
+	$player/ranged.value = $player_data.ranged
+	#$player/prayer.value = $player_data.prayer

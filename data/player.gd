@@ -5,6 +5,8 @@ class_name player
 
 signal gear_change( slot, new_gear )
 
+var setup_name : String = "untitled"
+
 # Levels
 var attack : int = 1
 var strength : int = 1
@@ -61,6 +63,46 @@ var attack_speed : int setget ,_get_attack_speed
 
 var prayers : Array = []
 var special_attributes : Array = []
+
+func save_string() -> String:
+	var ret = ""
+	ret += setup_name + "\n"
+	
+	# attack, str, def, mage, range, hp, pray
+	ret += str(attack) + "," + str(strength) + "," + str(defence) + "," + str(ranged) + "," + str(hp_lvl) + "," + str( prayer ) + "\n"
+	
+	for item in all_equipped():
+		if item:
+			ret += str(item.item_id) + ","
+		else:
+			ret += "-1,"
+	
+	# Remove the unnecessary last ,
+	ret.erase( ret.length()-1, 1 )
+	
+	return ret
+
+func load_string( setup : String ):
+	# Should probably add some validation here...
+	var data : PoolStringArray = setup.split("\n")
+	setup_name = data[0]
+	data.remove(0)
+	
+	var levels : PoolStringArray = data[0].split( ",")
+	attack = int(levels[0])
+	strength = int(levels[1])
+	defence = int(levels[2])
+	ranged = int(levels[3])
+	hp_lvl = int(levels[4])
+	prayer = int(levels[5])
+	data.remove(0)
+	
+	var gear_ids : PoolStringArray = data[0].split( ",")
+	for gid in gear_ids:
+		if int(gid) == -1:
+			continue
+		equip( Database.get_item( int(gid) ) )
+	recalculate_stats()
 
 func set_specials():
 	# Determines what special attributes the equipment has

@@ -81,5 +81,5 @@ margin_bottom = -4.0
 [connection signal="item_selected" from="HBoxContainer/TabContainer/monster" to="HBoxContainer/VBoxContainer/setups" method="_on_monster_item_selected"]
 [connection signal="prayer_selected" from="HBoxContainer/TabContainer/prayers" to="HBoxContainer/VBoxContainer/setups" method="_on_prayer_list_prayer_selected"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/new_setup" to="HBoxContainer/VBoxContainer/setups" method="_on_new_setup_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/save_set" to="HBoxContainer/VBoxContainer/setups" method="_on_new_setup_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/load_set" to="HBoxContainer/VBoxContainer/setups" method="_on_new_setup_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/save_set" to="HBoxContainer/VBoxContainer/setups" method="_on_save_set_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/load_set" to="HBoxContainer/VBoxContainer/setups" method="_on_load_set_pressed"]

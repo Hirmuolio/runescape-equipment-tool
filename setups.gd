@@ -3,6 +3,7 @@ extends TabContainer
 
 onready var setup_scene = preload( "res://interface/set.tscn" )
 
+var test : String = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,3 +26,14 @@ func _on_monster_item_selected(monster_node):
 
 func _on_prayer_list_prayer_selected(prayer_id):
 	get_current_tab_control().prayer_add( prayer_id )
+
+
+func _on_save_set_pressed():
+	test = get_current_tab_control().save_data()
+	print( test )
+	pass # Replace with function body.
+
+
+func _on_load_set_pressed():
+	get_current_tab_control().load_data( test )
+	pass # Replace with function body.
