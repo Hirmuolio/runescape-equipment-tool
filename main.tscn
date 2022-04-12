@@ -51,15 +51,15 @@ text = "New set"
 
 [node name="save_set" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 68.0
-margin_right = 133.0
+margin_right = 213.0
 margin_bottom = 20.0
-text = "Save set"
+text = "Save set to clipboard"
 
 [node name="load_set" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 137.0
-margin_right = 203.0
+margin_left = 217.0
+margin_right = 380.0
 margin_bottom = 20.0
-text = "Load set"
+text = "Load set from clipboard"
 
 [node name="setups" type="TabContainer" parent="HBoxContainer/VBoxContainer"]
 margin_top = 24.0

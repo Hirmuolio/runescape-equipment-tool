@@ -29,11 +29,11 @@ func _on_prayer_list_prayer_selected(prayer_id):
 
 
 func _on_save_set_pressed():
-	test = get_current_tab_control().save_data()
-	print( test )
+	OS.set_clipboard( get_current_tab_control().save_data() )
+	#print( test )
 	pass # Replace with function body.
 
 
 func _on_load_set_pressed():
-	get_current_tab_control().load_data( test )
+	get_current_tab_control().load_data( OS.get_clipboard() )
 	pass # Replace with function body.
