@@ -46,6 +46,8 @@ var atk_bonus : int setget ,_get_atk_bonus
 var prayer_str : float setget ,_get_pray_str
 var prayer_atk : float setget ,_get_pray_att
 var prayer_def : float setget ,_get_pray_def
+var prayer_magic : float setget ,_get_pray_magic
+var prayer_magic_def : float setget ,_get_pray_magic_def
 
 var style_str_bonus : int setget ,_get_style_str
 var style_atk_bonus : int setget ,_get_style_atk
@@ -262,16 +264,20 @@ func _get_atk_bonus() -> int:
 	push_warning ( "Invalid weapon melee attack style " + '"' + attack_style + '"' )
 	return get_equipment_bonus( "attack_stab" )
 
-func style_def( attack_styles : Array ) -> int:
+func style_def( ag_attack_style : String ) -> int:
 	
-	if attack_styles[0] == "stab":
+	if ag_attack_style == "stab":
 		return get_equipment_bonus( "defence_stab" )
-	elif attack_styles[0] == "slash":
+	elif ag_attack_style == "slash":
 		return get_equipment_bonus( "defence_slash" )
-	elif attack_styles[0] == "crush":
+	elif ag_attack_style == "crush":
 		return get_equipment_bonus( "defence_crush" )
+	elif ag_attack_style == "magic":
+		return get_equipment_bonus( "defence_magic" )
+	elif ag_attack_style == "ranged":
+		return get_equipment_bonus( "defence_ranged" )
 	
-	push_warning ( "Invalid monster melee attack style " + '"' + attack_styles[0] + '"' )
+	push_warning ( "Invalid monster melee attack style " + '"' + ag_attack_style + '"' )
 	return 0
 
 
@@ -297,4 +303,16 @@ func _get_pray_def() -> float:
 	for pray_id in prayers:
 		if "defence" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["defence"] ) / 100
+	return 1.0
+
+func _get_pray_magic() -> float:
+	for pray_id in prayers:
+		if "magic" in HardcodedData.prayers[pray_id]["modifiers"]:
+			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic"] ) / 100
+	return 1.0
+
+func _get_pray_magic_def()-> float:
+	for pray_id in prayers:
+		if "magic_defence" in HardcodedData.prayers[pray_id]["modifiers"]:
+			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic_defence"] ) / 100
 	return 1.0

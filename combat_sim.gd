@@ -198,14 +198,37 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 
 func calc_m_hit_chance( player : player, target_mon : monster ):
 	
-	# Melee
-	var eff_atk = target_mon.attack_level + 8
-	var atk_roll = floor( eff_atk * ( target_mon.attack_bonus  + 64 ) )
+	var atk_roll : int
+	var def_roll : int
 	
-	var eff_def = floor( ( floor( player.defence * player.prayer_def ) + player.style_def_bonus + 8) * player.other_def_bonus )
-	var def_roll = eff_def * ( player.style_def( target_mon.attack_type ) + 64 )
-	
-	
+	if target_mon.attack_type[0] == "magic":
+		var eff_atk : int = target_mon.attack_level + 9
+		atk_roll = eff_atk * ( target_mon.attack_magic  + 64 )
+		
+		# This may be wrong but nobody knows better
+		var eff_def : int = Utl.ifloor( ( Utl.ifloor( player.defence * player.prayer_def ) + player.style_def_bonus ) * 0.3 )
+		eff_def += Utl.ifloor( player.magic * player.prayer_magic * 0.7 ) + 8
+		# Uhh... maybe
+		eff_def = Utl.ifloor( eff_def * player.prayer_magic_def )
+		
+		def_roll = eff_def * ( player.style_def( "magic" ) + 64 )
+
+	elif target_mon.attack_type[0] == "ranged":
+		var eff_atk : int = target_mon.ranged_level + 8
+		atk_roll = eff_atk * ( target_mon.ranged_bonus  + 64 )
+		
+		var eff_def : int = Utl.ifloor( player.defence * player.prayer_def ) + player.style_def_bonus + 8
+		def_roll = eff_def * ( player.style_def( "ranged" ) + 64 )
+		
+	else:
+		# Melee
+		var eff_atk : int = target_mon.attack_level + 8
+		atk_roll = eff_atk * ( target_mon.attack_bonus  + 64 )
+		
+		var eff_def : int = Utl.ifloor( player.defence * player.prayer_def ) + player.style_def_bonus + 8
+		def_roll = eff_def * ( player.style_def( target_mon.attack_type[0] ) + 64 )
+		
+		
 	if atk_roll > def_roll:
 		m_hit_chance = 1 - 0.5 * ( def_roll + 2 ) / ( atk_roll + 1 )
 	else:

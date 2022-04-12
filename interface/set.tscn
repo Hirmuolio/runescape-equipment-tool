@@ -130,7 +130,6 @@ value = 1
 label = "Defence lvl"
 
 [node name="magic" parent="player" instance=ExtResource( 3 )]
-visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 388.0
@@ -140,12 +139,11 @@ value = 1
 label = "Magic lvl"
 
 [node name="ranged" parent="player" instance=ExtResource( 3 )]
-visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 388.0
+margin_top = 416.0
 margin_right = 354.0
-margin_bottom = 412.0
+margin_bottom = 440.0
 value = 1
 label = "Ranged lvl"
 
@@ -157,22 +155,22 @@ margin_bottom = 458.0
 label = "Combat lvl:"
 
 [node name="HSeparator4" type="HSeparator" parent="player"]
-margin_top = 388.0
+margin_top = 444.0
 margin_right = 354.0
-margin_bottom = 392.0
+margin_bottom = 448.0
 
 [node name="label6" type="Label" parent="player"]
-margin_top = 396.0
+margin_top = 452.0
 margin_right = 354.0
-margin_bottom = 410.0
+margin_bottom = 466.0
 size_flags_horizontal = 3
 text = "Attack bonuses"
 align = 1
 
 [node name="eq_attack" type="GridContainer" parent="player"]
-margin_top = 414.0
+margin_top = 470.0
 margin_right = 354.0
-margin_bottom = 446.0
+margin_bottom = 502.0
 columns = 5
 
 [node name="label" type="Label" parent="player/eq_attack"]
@@ -254,22 +252,22 @@ text = "+0"
 align = 1
 
 [node name="HSeparator6" type="HSeparator" parent="player"]
-margin_top = 450.0
+margin_top = 506.0
 margin_right = 354.0
-margin_bottom = 454.0
+margin_bottom = 510.0
 
 [node name="label7" type="Label" parent="player"]
-margin_top = 458.0
+margin_top = 514.0
 margin_right = 354.0
-margin_bottom = 472.0
+margin_bottom = 528.0
 size_flags_horizontal = 3
 text = "Defence bonuses"
 align = 1
 
 [node name="eq_def" type="GridContainer" parent="player"]
-margin_top = 476.0
+margin_top = 532.0
 margin_right = 354.0
-margin_bottom = 508.0
+margin_bottom = 564.0
 columns = 5
 
 [node name="label" type="Label" parent="player/eq_def"]
@@ -351,22 +349,22 @@ text = "+0"
 align = 1
 
 [node name="HSeparator7" type="HSeparator" parent="player"]
-margin_top = 512.0
+margin_top = 568.0
 margin_right = 354.0
-margin_bottom = 516.0
+margin_bottom = 572.0
 
 [node name="label8" type="Label" parent="player"]
-margin_top = 520.0
+margin_top = 576.0
 margin_right = 354.0
-margin_bottom = 534.0
+margin_bottom = 590.0
 size_flags_horizontal = 3
 text = "Other bonuses"
 align = 1
 
 [node name="eq_other" type="GridContainer" parent="player"]
-margin_top = 538.0
+margin_top = 594.0
 margin_right = 354.0
-margin_bottom = 570.0
+margin_bottom = 626.0
 columns = 5
 
 [node name="label" type="Label" parent="player/eq_other"]
@@ -448,20 +446,20 @@ text = "0"
 align = 1
 
 [node name="HSeparator5" type="HSeparator" parent="player"]
-margin_top = 574.0
+margin_top = 630.0
 margin_right = 354.0
-margin_bottom = 578.0
+margin_bottom = 634.0
 
 [node name="Label" type="Label" parent="player"]
-margin_top = 582.0
+margin_top = 638.0
 margin_right = 354.0
-margin_bottom = 596.0
+margin_bottom = 652.0
 text = "Prayers:"
 
 [node name="prayers" type="VBoxContainer" parent="player"]
-margin_top = 600.0
+margin_top = 656.0
 margin_right = 354.0
-margin_bottom = 600.0
+margin_bottom = 656.0
 
 [node name="VSeparator" type="VSeparator" parent="."]
 margin_left = 358.0
