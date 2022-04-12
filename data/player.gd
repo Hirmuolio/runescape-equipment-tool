@@ -66,7 +66,8 @@ func set_specials():
 	
 	special_attributes = []
 	
-	# All specials with duplicates
+	# All specials and number of occurences
+	# { "special_id": 2 }
 	var all_specials : Dictionary = {}
 	
 	for item in all_equipped():
@@ -76,12 +77,21 @@ func set_specials():
 			else:
 				all_specials[special] = 1
 	
+	# Apply full armor sets
 	for special in all_specials.keys():
 		if "set" in HardcodedData.equipment_specials[special]:
 			if all_specials[special] < HardcodedData.equipment_specials[special]["set"]:
 				continue
 		if !special_attributes.has( special ):
 			special_attributes.append( special )
+	
+	# Filter out exclusive specials
+	var to_remove : Array = []
+	for special in special_attributes:
+		if "removes" in HardcodedData.equipment_specials[special]:
+			to_remove.append_array( HardcodedData.equipment_specials[special]["removes"] )
+	for rem in to_remove:
+		special_attributes.erase( rem )
 
 func recalculate_stats():
 	get_parent().refresh_results()

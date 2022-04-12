@@ -19,7 +19,7 @@ script = ExtResource( 6 )
 
 [node name="player" type="VBoxContainer" parent="."]
 margin_right = 354.0
-margin_bottom = 780.0
+margin_bottom = 810.0
 script = ExtResource( 10 )
 
 [node name="weapon" parent="player" instance=ExtResource( 1 )]
@@ -464,12 +464,12 @@ margin_bottom = 656.0
 [node name="VSeparator" type="VSeparator" parent="."]
 margin_left = 358.0
 margin_right = 362.0
-margin_bottom = 780.0
+margin_bottom = 810.0
 
 [node name="results" type="VBoxContainer" parent="."]
 margin_left = 366.0
 margin_right = 843.0
-margin_bottom = 780.0
+margin_bottom = 810.0
 size_flags_horizontal = 3
 script = ExtResource( 7 )
 
@@ -568,18 +568,18 @@ text = "Special effects:"
 [node name="special_desc" type="RichTextLabel" parent="results"]
 margin_top = 264.0
 margin_right = 477.0
-margin_bottom = 780.0
+margin_bottom = 810.0
 size_flags_vertical = 3
 
 [node name="VSeparator2" type="VSeparator" parent="."]
 margin_left = 847.0
 margin_right = 851.0
-margin_bottom = 780.0
+margin_bottom = 810.0
 
 [node name="monster" type="VBoxContainer" parent="."]
 margin_left = 855.0
 margin_right = 1333.0
-margin_bottom = 780.0
+margin_bottom = 810.0
 size_flags_horizontal = 3
 script = ExtResource( 8 )
 
@@ -587,92 +587,98 @@ script = ExtResource( 8 )
 margin_right = 478.0
 margin_bottom = 14.0
 
-[node name="HSeparator3" type="HSeparator" parent="monster"]
+[node name="description" type="RichTextLabel" parent="monster"]
 margin_top = 18.0
 margin_right = 478.0
-margin_bottom = 22.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 0, 30 )
+
+[node name="HSeparator3" type="HSeparator" parent="monster"]
+margin_top = 52.0
+margin_right = 478.0
+margin_bottom = 56.0
 
 [node name="levels" type="Label" parent="monster"]
-margin_top = 26.0
+margin_top = 60.0
 margin_right = 478.0
-margin_bottom = 40.0
+margin_bottom = 74.0
 text = "Levels:"
 
 [node name="health" parent="monster" instance=ExtResource( 4 )]
-margin_top = 44.0
+margin_top = 78.0
 margin_right = 478.0
-margin_bottom = 58.0
+margin_bottom = 92.0
 label = "HP:"
 
 [node name="attack" parent="monster" instance=ExtResource( 4 )]
-margin_top = 62.0
+margin_top = 96.0
 margin_right = 478.0
-margin_bottom = 76.0
+margin_bottom = 110.0
 label = "Attack:"
 
 [node name="strength" parent="monster" instance=ExtResource( 4 )]
-margin_top = 80.0
+margin_top = 114.0
 margin_right = 478.0
-margin_bottom = 94.0
+margin_bottom = 128.0
 label = "Strength:"
 
 [node name="defence" parent="monster" instance=ExtResource( 4 )]
-margin_top = 98.0
+margin_top = 132.0
 margin_right = 478.0
-margin_bottom = 112.0
+margin_bottom = 146.0
 label = "Defence"
 
 [node name="magic" parent="monster" instance=ExtResource( 4 )]
-margin_top = 116.0
+margin_top = 150.0
 margin_right = 478.0
-margin_bottom = 130.0
+margin_bottom = 164.0
 label = "Magic:"
 
 [node name="ranged" parent="monster" instance=ExtResource( 4 )]
-margin_top = 134.0
+margin_top = 168.0
 margin_right = 478.0
-margin_bottom = 148.0
+margin_bottom = 182.0
 label = "Ranged:"
 
 [node name="HSeparator" type="HSeparator" parent="monster"]
-margin_top = 152.0
+margin_top = 186.0
 margin_right = 478.0
-margin_bottom = 156.0
+margin_bottom = 190.0
 
 [node name="style" parent="monster" instance=ExtResource( 11 )]
-margin_top = 160.0
+margin_top = 194.0
 margin_right = 478.0
-margin_bottom = 174.0
+margin_bottom = 208.0
 label = "Attack style:"
 
 [node name="speed" parent="monster" instance=ExtResource( 4 )]
-margin_top = 178.0
+margin_top = 212.0
 margin_right = 478.0
-margin_bottom = 192.0
+margin_bottom = 226.0
 label = "Attack speed:"
 
 [node name="max_hit" parent="monster" instance=ExtResource( 4 )]
-margin_top = 196.0
+margin_top = 230.0
 margin_right = 478.0
-margin_bottom = 210.0
+margin_bottom = 244.0
 label = "Max hit:"
 
 [node name="atk_bonus" parent="monster" instance=ExtResource( 4 )]
-margin_top = 214.0
+margin_top = 248.0
 margin_right = 478.0
-margin_bottom = 228.0
+margin_bottom = 262.0
 label = "Atk bonus:"
 
 [node name="str_bonus" parent="monster" instance=ExtResource( 4 )]
-margin_top = 232.0
+margin_top = 266.0
 margin_right = 478.0
-margin_bottom = 246.0
+margin_bottom = 280.0
 label = "Str bonus:"
 
 [node name="mage_bonus" parent="monster" instance=ExtResource( 4 )]
-margin_top = 250.0
+margin_top = 284.0
 margin_right = 478.0
-margin_bottom = 264.0
+margin_bottom = 298.0
 label = "Magic bonus:"
 
 [node name="mage_str_bonus" parent="monster" instance=ExtResource( 4 )]
@@ -683,9 +689,9 @@ margin_bottom = 210.0
 label = "mage dmg bonus:"
 
 [node name="rng_bonus" parent="monster" instance=ExtResource( 4 )]
-margin_top = 268.0
+margin_top = 302.0
 margin_right = 478.0
-margin_bottom = 282.0
+margin_bottom = 316.0
 label = "Rng bonus:"
 
 [node name="rng_str_bonus" parent="monster" instance=ExtResource( 4 )]
@@ -696,55 +702,55 @@ margin_bottom = 228.0
 label = "Rng str bonus:"
 
 [node name="HSeparator2" type="HSeparator" parent="monster"]
-margin_top = 286.0
+margin_top = 320.0
 margin_right = 478.0
-margin_bottom = 290.0
+margin_bottom = 324.0
 
 [node name="def_stab" parent="monster" instance=ExtResource( 4 )]
-margin_top = 294.0
+margin_top = 328.0
 margin_right = 478.0
-margin_bottom = 308.0
+margin_bottom = 342.0
 label = "Def stab"
 
 [node name="def_slash" parent="monster" instance=ExtResource( 4 )]
-margin_top = 312.0
+margin_top = 346.0
 margin_right = 478.0
-margin_bottom = 326.0
+margin_bottom = 360.0
 label = "Def slash"
 
 [node name="def_crush" parent="monster" instance=ExtResource( 4 )]
-margin_top = 330.0
+margin_top = 364.0
 margin_right = 478.0
-margin_bottom = 344.0
+margin_bottom = 378.0
 label = "Def crush"
 
 [node name="def_mage" parent="monster" instance=ExtResource( 4 )]
-margin_top = 348.0
+margin_top = 382.0
 margin_right = 478.0
-margin_bottom = 362.0
+margin_bottom = 396.0
 label = "Def magic"
 
 [node name="def_range" parent="monster" instance=ExtResource( 4 )]
-margin_top = 366.0
+margin_top = 400.0
 margin_right = 478.0
-margin_bottom = 380.0
+margin_bottom = 414.0
 label = "Def ranged:"
 
 [node name="HSeparator4" type="HSeparator" parent="monster"]
-margin_top = 384.0
+margin_top = 418.0
 margin_right = 478.0
-margin_bottom = 388.0
+margin_bottom = 422.0
 
 [node name="attributes" parent="monster" instance=ExtResource( 11 )]
-margin_top = 392.0
+margin_top = 426.0
 margin_right = 478.0
-margin_bottom = 406.0
+margin_bottom = 440.0
 label = "Attributes:"
 
 [node name="size" parent="monster" instance=ExtResource( 11 )]
-margin_top = 410.0
+margin_top = 444.0
 margin_right = 478.0
-margin_bottom = 424.0
+margin_bottom = 458.0
 label = "Size:"
 
 [node name="player_data" parent="." instance=ExtResource( 2 )]

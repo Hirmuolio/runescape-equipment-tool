@@ -19,9 +19,9 @@ func _set_pray_id( new_pray_id ):
 func _on_pray_button_mouse_entered():
 	return
 	# This does not work right
-	var hoover_node = load( "res://interface/hoover_info.tscn" ).instance()
-	get_tree().get_root().add_child( hoover_node )
-	hoover_node.initialize( self, hoover_info )
+	#var hoover_node = load( "res://interface/hoover_info.tscn" ).instance()
+	#get_tree().get_root().add_child( hoover_node )
+	#hoover_node.initialize( self, hoover_info )
 
 func remove_button():
 	queue_free()

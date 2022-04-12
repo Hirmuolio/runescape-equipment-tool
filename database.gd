@@ -140,14 +140,10 @@ func save_items_user():
 		file.close()
 
 func load_items_user():
-	var class_item = load( "res://data/equipment.tscn" )
-	
 	for file_path in list_files( items_path ):
 		load_items( file_path ) 
 
 func load_items_res():
-	var class_item = load( "res://data/equipment.tscn" )
-	
 	for file_path in list_files( "res://database/items/" ):
 		load_items( file_path ) 
 
@@ -314,14 +310,10 @@ func save_monsters_user():
 		file.close()
 
 func load_monsters_user():
-	var class_monster = load( "res://data/monster.tscn" )
-	
 	for file_path in list_files( monsters_path ):
 		load_monsters( file_path )
 
 func load_monsters_res():
-	var class_monster = load( "res://data/monster.tscn" )
-	
 	for file_path in list_files( "res://database/monsters/" ):
 		load_monsters( file_path )
 

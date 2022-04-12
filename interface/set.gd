@@ -8,8 +8,7 @@ extends HBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$combat_sim.connect("simulation_done", $results, "refresh_results")
-	pass # Replace with function body.
+	var _err = $combat_sim.connect("simulation_done", $results, "refresh_results")
 
 
 func player_equip( item : equipment):
@@ -21,7 +20,7 @@ func player_equip( item : equipment):
 func refresh_results():
 	print("REFRES")
 	$combat_sim.do_fast_simulations( $player_data, $monster.current_monster )
-	$results.print_specials( $player_data )
+	$results.print_specials()
 	$player.refresh_eq_stats()
 
 func _on_player_data_gear_change(slot : String, new_gear : equipment):
@@ -31,6 +30,7 @@ func _on_player_data_gear_change(slot : String, new_gear : equipment):
 
 func set_monster( monster_node : monster ):
 	$monster.set_monster( monster_node )
+	refresh_results()
 
 
 func _on_Button_pressed():
@@ -41,7 +41,7 @@ func prayer_add( prayer_id : String ):
 		var prayer_button_scene := preload( "res://interface/pray_button.tscn")
 		var button := prayer_button_scene.instance()
 		button.pray_id = prayer_id
-		button.connect( "button_down", $player_data, "prayer_remove", [prayer_id] )
-		button.connect( "button_down", button, "remove_button" )
+		var _err1 = button.connect( "button_down", $player_data, "prayer_remove", [prayer_id] )
+		var _err2 = button.connect( "button_down", button, "remove_button" )
 		$player/prayers.add_child( button )
 

@@ -14,6 +14,7 @@ func set_monster( monster_node : monster ):
 		return
 	current_monster = monster_node
 	$name.text = current_monster.monster_name + " (lvl " + str(current_monster.combat_level) + ")"
+	$description.text = current_monster.examine
 	
 	$health.value = current_monster.hitpoints
 	$attack.value = current_monster.attack_level

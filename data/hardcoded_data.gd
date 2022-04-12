@@ -15,6 +15,18 @@ var equipment_specials : Dictionary = {
 		"name": "Black mask (i)",
 		"description": "16.67% bonus to melee accuracy and damage against slayer target.\n15% bonus to ranged accuracy, ranged damage, magic accuracy and magic damage."
 	},
+	"slayer_helm" : {
+		"items": ["Slayer helmet"],
+		"targets": ["slayer"],
+		"name": "Slayer helmet",
+		"description": "16.67% bonus to melee accuracy and damage against slayer target."
+	},
+	"slayer_helm_i" : {
+		"items": ["Slayer helmet (i)"],
+		"targets": ["slayer"],
+		"name": "Slayer helmet (i)",
+		"description": "16.67% bonus to melee accuracy and damage against slayer target.\n15% bonus to ranged accuracy, ranged damage, magic accuracy and magic damage."
+	},
 	"ivandis_flail": {
 		"items": ["Ivandis flail"],
 		"targets": ["vampyre"],
@@ -71,14 +83,40 @@ var equipment_specials : Dictionary = {
 	},
 	"viggora": {
 		"items": ["Viggora's chainmace"],
-		"name": "Viggora's chainmace)",
+		"name": "Viggora's chainmace",
 		"description": "50% bonus to melee damage amd accuracy in wilderness (only in PvE)",
 	},
+	"inquisitor_1": {
+		"items": ["Inquisitor's hauberk", "Inquisitor's plateskirt", "Inquisitor's great helm"],
+		"set": 1,
+		"name": "Inquisitor's armour - 1 piece",
+		"description": "0.5% bonus to crush damage and accuracy",
+	},
+	"inquisitor_2": {
+		"items": ["Inquisitor's hauberk", "Inquisitor's plateskirt", "Inquisitor's great helm"],
+		"set": 2,
+		"removes": ["inquisitor_1"],
+		"name": "Inquisitor's armour - 2 pieces",
+		"description": "1% bonus to crush damage and accuracy",
+	},
+	"inquisitor_3": {
+		"items": ["Inquisitor's hauberk", "Inquisitor's plateskirt", "Inquisitor's great helm"],
+		"set": 3,
+		"removes": ["inquisitor_1", "inquisitor_2"],
+		"name": "Inquisitor's armour - 3 pieces",
+		"description": "2.5% bonus to crush damage and accuracy",
+	},
 	"keris": {
-		"items": ["Keris"],
+		"items": ["Keris", "Keris (p)", "Keris (p+)", "Keris (p++)"],
 		"targets": ["kalphite"],
 		"name": "Keris",
 		"description": "33% bonus damage against kalphites. 1/51 chance for 3x damage.",
+	},
+	"gadderhammer": {
+		"items": ["Gadderhammer"],
+		"targets": ["shade"],
+		"name": "Gadderhammer",
+		"description": "25% bonus damage against shades. 1/20 chance for 2x damage.",
 	},
 	"void_melee": {
 		"items": ["Void melee helm", "Void knight top", "Void knight robe","Void knight gloves"],
@@ -96,13 +134,18 @@ var equipment_specials : Dictionary = {
 		"items": ["Darklight"],
 		"targets": ["demon"],
 		"name": "Darklight",
-		"description": "60% bonus to melee damage against demons (unknown!)"
+		"description": "60% bonus to melee damage against demons (unkown)"
 	},
 	"arclight": {
 		"items": ["Arclight"],
 		"targets": ["demon"],
 		"name": "Arclight",
 		"description": "70% bonus to melee damage and accuracy against demons"
+	},
+	"snelm": {
+		"items": ["Blood'n'tar snelm", "Broken bark snelm", "Bruise blue snelm", "Myre snelm", "Ochre snelm"],
+		"name": "Snelm",
+		"description": "Reduces damage taken from snails (unknown)"
 	}
 }
 

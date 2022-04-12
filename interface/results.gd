@@ -24,12 +24,22 @@ func refresh_results():
 	
 	pass
 
-func print_specials( player_data : player ):
+func print_specials():
+	
+	$special_desc.clear()
+	
+	for special in player_data.special_attributes:
+		$special_desc.add_text ( HardcodedData.equipment_specials[ special ][ "name" ] )
+		$special_desc.push_indent( 1 )
+		$special_desc.append_bbcode ( HardcodedData.equipment_specials[ special ][ "description" ] )
+		$special_desc.newline()
+		$special_desc.newline()
+		$special_desc.pop()
+	
+	return
+	
 	var specials_str = ""
 	for special in player_data.special_attributes:
 		specials_str += "* " + HardcodedData.equipment_specials[ special ][ "description" ]
-		if "implemented" in HardcodedData.equipment_specials[ special ] and HardcodedData.equipment_specials[ special ][ "implemented" ] == false:
-			specials_str += " (not implemented)"
 		specials_str += "\n"
 	$special_desc.parse_bbcode( specials_str )
-	pass

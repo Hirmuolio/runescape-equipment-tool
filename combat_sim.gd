@@ -24,17 +24,6 @@ func clear_results():
 	time_to_kill2 = 0
 	pass
 
-func calc_special_melee_acc_bonus( player : player, target_mon : monster ) -> float:
-	
-	var multiplier : float = 1
-	
-	for effect_name in player.special_attributes:
-		if "melee_acc_mult" in HardcodedData.equipment_specials[effect_name]:
-			multiplier *= HardcodedData.equipment_specials[effect_name]["melee_acc_mult"]
-	
-	return multiplier
-
-
 func do_fast_simulations( player : player, target_mon : monster ):
 	clear_results()
 	if !player:
@@ -87,9 +76,9 @@ func do_simulations( player : player, target_mon : monster ):
 func calc_p_max_hit( player : player, target_mon : monster ):
 	
 	# Melee
-	var eff_str = floor( (floor( player.strength * player.prayer_str ) + player.style_str_bonus + 8) )
+	var eff_str : int = Utl.ifloor( player.strength * player.prayer_str ) + player.style_str_bonus + 8
 	
-	var max_hit = floor( 0.5 + eff_str * ( player.str_bonus + 64 ) / 640 )
+	var max_hit : int = Utl.ifloor( 0.5 + eff_str * ( player.str_bonus + 64 ) / 640.0 )
 	base_max_hit = max_hit
 	# Special bonuses need to be applied in specific order
 	#Order:
@@ -104,29 +93,45 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 	# Dharok ?
 	
 	if "obsidian_armor" in player.special_attributes:
-		max_hit = floor( max_hit * 1.1 )
-	if "black_mask" in player.special_attributes:
-		max_hit = floor( max_hit * 7/6 )
+		max_hit = Utl.ifloor( max_hit * 1.1 )
+	if "black_mask" or "black_mask_i" or "slayer_helm" or "slayer_helm_i" in player.special_attributes:
+		max_hit = Utl.ifloor( max_hit * 7.0/6 )
 	else:
-		if "salve_e" in player.special_attributes:
-			max_hit = floor( max_hit * 1.2 )
-		if "salve" in player.special_attributes:
-			max_hit = floor( max_hit * 7/6 )
+		if "salve_e" or "salve_ei" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.2 )
+		if "salve" or "salve_i" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 7.0/6 )
 	if "berserk" in player.special_attributes:
-		max_hit = floor( max_hit * 1.2 )
+		max_hit = Utl.ifloor( max_hit * 1.2 )
 	
 	if "ivandis_flail" in player.special_attributes:
-		max_hit = floor( max_hit * 1.2 )
+		max_hit = Utl.ifloor( max_hit * 1.2 )
 	if "blisterwood_flail" in player.special_attributes:
-		max_hit = floor( max_hit * 1.25 )
+		max_hit = Utl.ifloor( max_hit * 1.25 )
 	if "viggora" in player.special_attributes:
-		max_hit = floor( max_hit * 1.5 )
+		max_hit = Utl.ifloor( max_hit * 1.5 )
 	if "void_melee" in player.special_attributes:
-		max_hit = floor( max_hit * 1.1 )
-	if "keris" in player.special_attributes:
-		max_hit = floor( max_hit * 4/3 )
+		max_hit = Utl.ifloor( max_hit * 1.1 )
+	if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
+		max_hit = Utl.ifloor( max_hit * 4.0/3 )
+	if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
+		max_hit = Utl.ifloor( max_hit * 1.25 )
+	if "silverlight" in player.special_attributes:
+		max_hit = Utl.ifloor( max_hit * 1.6 )
+	if "darklight" in player.special_attributes:
+		max_hit = Utl.ifloor( max_hit * 1.6 )
+	if "arclight" in player.special_attributes:
+		max_hit = Utl.ifloor( max_hit * 1.7 )
+	if player.attack_style == "crush":
+		if "inquisitor_1" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.005 )
+		elif "inquisitor_2" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.01 )
+		elif "inquisitor_3" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.025 )
+	
 	if "dharok" in player.special_attributes:
-		max_hit = floor( max_hit * 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 )
+		max_hit = Utl.ifloor( max_hit * 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 )
 		
 	p_max_hit = max_hit
 	
@@ -136,21 +141,43 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 func calc_p_hit_chance( player : player, target_mon : monster ):
 	
 	# Melee
-	var eff_atk = floor( ( floor( player.attack * player.prayer_atk ) + player.style_atk_bonus + 8) * player.other_atk_bonus )
+	var eff_atk : int = Utl.ifloor( player.attack * player.prayer_atk ) + player.style_atk_bonus + 8
 	
-	var special_bonus : float = calc_special_melee_acc_bonus( player, target_mon )
+	if "obsidian_armor" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.1 )
+	if "black_mask" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+	else:
+		if "salve_e" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.2 )
+		if "salve" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
 	
-	var atk_roll = floor( eff_atk * ( player.atk_bonus  + 64 ) * special_bonus )
+	if "blisterwood_flail" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.5 )
+	if "viggora" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.5 )
+	if "void_melee" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.1 )
+	if "arclight" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.7 )
+	if player.attack_style == "crush":
+		if "inquisitor_1" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.005 )
+		elif "inquisitor_2" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.01 )
+		elif "inquisitor_3" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.025 )
 	
+	var atk_roll : int = eff_atk * ( player.atk_bonus + 64 )
 	
-	
-	var def_roll = ( target_mon.defence_level + 9 ) * ( target_mon.style_def( player.attack_style ) + 64 )
+	var def_roll : int = ( target_mon.defence_level + 9 ) * ( target_mon.style_def( player.attack_style ) + 64 )
 	
 	
 	if atk_roll > def_roll:
-		p_hit_chance = 1 - 0.5 * ( def_roll + 2 ) / ( atk_roll + 1 )
+		p_hit_chance = 1 - 0.5 * ( def_roll + 2.0 ) / ( atk_roll + 1.0 )
 	else:
-		p_hit_chance = 0.5 * atk_roll / ( def_roll + 1 )
+		p_hit_chance = 0.5 * atk_roll / ( def_roll + 1.0 )
 
 func calc_m_hit_chance( player : player, target_mon : monster ):
 	
@@ -176,22 +203,49 @@ func simulate_combat( player : player, target_mon : monster ):
 	
 	var ten_minutes : int = 1000 # ticks
 	var keris : bool = "keris" in player.special_attributes
+	var gaddehammer : bool = "gaddehammer" in player.special_attributes
 	
 	var simulated_kills = 100000
-	for _kills in range(1, simulated_kills): #1000 rounds
-		var target_hp = target_mon.hitpoints
-		while target_hp > 0:
-			if( tick % player.attack_speed  == 0):
+	
+	if keris:
+		for _kills in range(1, simulated_kills): # 100000 rounds
+			var target_hp = target_mon.hitpoints
+			while target_hp > 0:
 				# Player attacks
 				if rng.randf() < p_hit_chance:
-					if keris and rng.randi_range( 1, 51) == 1:
-						target_hp -= rng.randi_range( 0, floor( p_max_hit * 3 / 1.33 ) )
+					if rng.randi_range( 1, 51) == 1:
+						target_hp -= rng.randi_range( 0, floor( p_max_hit * 3 ) )
 					else:
 						target_hp -= rng.randi_range( 0, p_max_hit)
-			tick += 1
-		if _kills == 1 && tick >= 1000:
-			print( "Too slow kills to simulate" )
-			return
+				tick += player.attack_speed
+			if _kills == 1 && tick >= ten_minutes:
+				print( "Too slow kills to simulate" )
+				return
+	elif gaddehammer:
+		for _kills in range(1, simulated_kills): # 100000 rounds
+			var target_hp = target_mon.hitpoints
+			while target_hp > 0:
+				# Player attacks
+				if rng.randf() < p_hit_chance:
+					if rng.randi_range( 1, 51) == 1:
+						target_hp -= rng.randi_range( 0, floor( p_max_hit * 2 ) )
+					else:
+						target_hp -= rng.randi_range( 0, p_max_hit)
+				tick += player.attack_speed
+			if _kills == 1 && tick >= ten_minutes:
+				print( "Too slow kills to simulate" )
+				return
+	else:
+		for _kills in range(1, simulated_kills): #1000 rounds
+			var target_hp = target_mon.hitpoints
+			while target_hp > 0:
+				# Player attacks
+				if rng.randf() < p_hit_chance:
+					target_hp -= rng.randi_range( 0, p_max_hit)
+				tick += player.attack_speed
+			if _kills == 1 && tick >= ten_minutes:
+				print( "Too slow kills to simulate" )
+				return
 	
 	p_dps2 = ( simulated_kills * target_mon.hitpoints ) / ( tick * 0.6 )
 	time_to_kill2 =  ( tick * 0.6 ) / simulated_kills

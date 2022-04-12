@@ -41,6 +41,7 @@ config/icon="res://icon.png"
 Config="*res://config.gd"
 Database="*res://database.tscn"
 HardcodedData="*res://data/hardcoded_data.tscn"
+Utl="*res://utilities.tscn"
 
 [display]
 
