@@ -501,11 +501,11 @@ margin_right = 477.0
 margin_bottom = 82.0
 label = "Max hit:"
 
-[node name="p_hitchance" parent="results" instance=ExtResource( 4 )]
+[node name="p_hitchance" parent="results" instance=ExtResource( 11 )]
 margin_top = 86.0
 margin_right = 477.0
 margin_bottom = 100.0
-label = "Hit chance %:"
+label = "Hit chance:"
 
 [node name="p_dps" parent="results" instance=ExtResource( 4 )]
 margin_top = 104.0
@@ -542,11 +542,11 @@ margin_right = 477.0
 margin_bottom = 198.0
 label = "Max hit:"
 
-[node name="m_hitchance" parent="results" instance=ExtResource( 4 )]
+[node name="m_hitchance" parent="results" instance=ExtResource( 11 )]
 margin_top = 202.0
 margin_right = 477.0
 margin_bottom = 216.0
-label = "Hit chance %:"
+label = "Hit chance:"
 
 [node name="m_dps" parent="results" instance=ExtResource( 4 )]
 margin_top = 220.0

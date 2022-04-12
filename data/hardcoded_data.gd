@@ -5,61 +5,56 @@ extends Node
 var equipment_specials : Dictionary = {
 	"black_mask" : {
 		"items": ["Black mask"],
-		"targets": ["slayer"],
 		"name": "Black mask",
 		"description": "16.67% bonus to melee accuracy and damage against slayer target."
 	},
 	"black_mask_i" : {
 		"items": ["Black mask (i)"],
-		"targets": ["slayer"],
 		"name": "Black mask (i)",
 		"description": "16.67% bonus to melee accuracy and damage against slayer target.\n15% bonus to ranged accuracy, ranged damage, magic accuracy and magic damage."
 	},
 	"slayer_helm" : {
 		"items": ["Slayer helmet"],
-		"targets": ["slayer"],
 		"name": "Slayer helmet",
 		"description": "16.67% bonus to melee accuracy and damage against slayer target."
 	},
 	"slayer_helm_i" : {
 		"items": ["Slayer helmet (i)"],
-		"targets": ["slayer"],
 		"name": "Slayer helmet (i)",
 		"description": "16.67% bonus to melee accuracy and damage against slayer target.\n15% bonus to ranged accuracy, ranged damage, magic accuracy and magic damage."
 	},
 	"ivandis_flail": {
 		"items": ["Ivandis flail"],
-		"targets": ["vampyre"],
 		"name": "Ivandis flail",
 		"description": "20% damage bonus against vampyres."
 	},
 	"blisterwood_flail": {
 		"items": ["Blisterwood flail"],
-		"targets": ["vampyre"],
 		"name": "Blisterwood flail",
 		"description": "25% damage and 5% accuracy bonus against vampyres."
 	},
+	"blisterwood_sickle": {
+		"items": ["Blisterwood sickle"],
+		"name": "Blisterwood sickle",
+		"description": "15% damage and 5% accuracy bonus against vampyres."
+	},
 	"salve": {
 		"items": ["Salve amulet"],
-		"targets": ["undead"],
 		"name": "Salve amulet",
 		"description": "16.67% melee damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
 	},
 	"salve_e": {
 		"items": ["Salve amulet (e)"],
-		"targets": ["undead"],
 		"name": "Salve amulet (e)",
 		"description": "20% melee damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
 	},
 	"salve_ei": {
 		"items": ["Salve amulet(ei)"],
-		"targets": ["undead"],
 		"name": "Salve amulet (ei)",
 		"description": "20% melee, magic and ranged damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
 	},
 	"salve_i": {
 		"items": ["Salve amulet(i)"],
-		"targets": ["undead"],
 		"name": "Salve amulet (i)",
 		"description": "16.67% melee and ranged damage and accuracy bonus against undead.\n15% magic damage and accuracy bonus against undead (NOTE: Uncertain of magic bonus). Does not stack with black mask/slayer helmet."
 	},
@@ -107,14 +102,12 @@ var equipment_specials : Dictionary = {
 		"description": "2.5% bonus to crush damage and accuracy",
 	},
 	"keris": {
-		"items": ["Keris", "Keris (p)", "Keris (p+)", "Keris (p++)"],
-		"targets": ["kalphite"],
+		"items": ["Keris", "Keris(p)", "Keris(p+)", "Keris(p++)"],
 		"name": "Keris",
 		"description": "33% bonus damage against kalphites. 1/51 chance for 3x damage.",
 	},
 	"gadderhammer": {
 		"items": ["Gadderhammer"],
-		"targets": ["shade"],
 		"name": "Gadderhammer",
 		"description": "25% bonus damage against shades. 1/20 chance for 2x damage.",
 	},
@@ -126,19 +119,16 @@ var equipment_specials : Dictionary = {
 	},
 	"silverlight": {
 		"items": ["Silverlight"],
-		"targets": ["demon"],
 		"name": "Silverlight",
 		"description": "60% bonus to melee damage against demons"
 	},
 	"darklight": {
 		"items": ["Darklight"],
-		"targets": ["demon"],
 		"name": "Darklight",
 		"description": "60% bonus to melee damage against demons (unkown)"
 	},
 	"arclight": {
 		"items": ["Arclight"],
-		"targets": ["demon"],
 		"name": "Arclight",
 		"description": "70% bonus to melee damage and accuracy against demons"
 	},
@@ -146,6 +136,16 @@ var equipment_specials : Dictionary = {
 		"items": ["Blood'n'tar snelm", "Broken bark snelm", "Bruise blue snelm", "Myre snelm", "Ochre snelm"],
 		"name": "Snelm",
 		"description": "Reduces damage taken from snails (unknown)"
+	},
+	"dragonhunter_lance": {
+		"items": ["Dragon hunter lance"],
+		"name": "Dragon hunter lance",
+		"description": "20% damage and accuracy bonus against dragons"
+	},
+	"leaf_baxe": {
+		"items": ["Leaf-bladed battleaxe"],
+		"name": "Leaf-bladed battleaxe",
+		"description": "17.5% damage and accuracy bonus against turoths and kurasks"
 	}
 }
 

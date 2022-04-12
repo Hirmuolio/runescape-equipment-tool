@@ -92,36 +92,41 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 	# viggora ?
 	# Dharok ?
 	
+	if "void_melee" in player.special_attributes:
+		max_hit = Utl.ifloor( max_hit * 1.1 )
 	if "obsidian_armor" in player.special_attributes:
 		max_hit = Utl.ifloor( max_hit * 1.1 )
-	if "black_mask" or "black_mask_i" or "slayer_helm" or "slayer_helm_i" in player.special_attributes:
+	
+	if "black_mask" in player.special_attributes or "black_mask_i" in player.special_attributes or "slayer_helm" in player.special_attributes or "slayer_helm_i" in player.special_attributes:
 		max_hit = Utl.ifloor( max_hit * 7.0/6 )
-	else:
+	elif "undead" in target_mon.attributes:
 		if "salve_e" or "salve_ei" in player.special_attributes:
 			max_hit = Utl.ifloor( max_hit * 1.2 )
-		if "salve" or "salve_i" in player.special_attributes:
+		elif "salve" or "salve_i" in player.special_attributes:
 			max_hit = Utl.ifloor( max_hit * 7.0/6 )
 	if "berserk" in player.special_attributes:
 		max_hit = Utl.ifloor( max_hit * 1.2 )
 	
-	if "ivandis_flail" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.2 )
-	if "blisterwood_flail" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.25 )
+	if "vampyre" in target_mon.attributes:
+		if "ivandis_flail" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.2 )
+		elif "blisterwood_flail" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.25 )
+		elif "blisterwood_sickle" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.15 )
 	if "viggora" in player.special_attributes:
 		max_hit = Utl.ifloor( max_hit * 1.5 )
-	if "void_melee" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.1 )
 	if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
 		max_hit = Utl.ifloor( max_hit * 4.0/3 )
 	if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
 		max_hit = Utl.ifloor( max_hit * 1.25 )
-	if "silverlight" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.6 )
-	if "darklight" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.6 )
-	if "arclight" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.7 )
+	if "demon" in target_mon.attributes:
+		if "silverlight" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.6 )
+		elif "darklight" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.6 )
+		elif "arclight" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.7 )
 	if player.attack_style == "crush":
 		if "inquisitor_1" in player.special_attributes:
 			max_hit = Utl.ifloor( max_hit * 1.005 )
@@ -129,6 +134,10 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 			max_hit = Utl.ifloor( max_hit * 1.01 )
 		elif "inquisitor_3" in player.special_attributes:
 			max_hit = Utl.ifloor( max_hit * 1.025 )
+	if "dragonhunter_lance" in player.special_attributes && "dragon" in target_mon.attributes:
+		max_hit = Utl.ifloor( max_hit * 1.2 )
+	if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
+		max_hit = Utl.ifloor( max_hit * 1.175 )
 	
 	if "dharok" in player.special_attributes:
 		max_hit = Utl.ifloor( max_hit * 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 )
@@ -143,23 +152,28 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 	# Melee
 	var eff_atk : int = Utl.ifloor( player.attack * player.prayer_atk ) + player.style_atk_bonus + 8
 	
-	if "obsidian_armor" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.1 )
-	if "black_mask" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
-	else:
-		if "salve_e" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.2 )
-		if "salve" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
-	
-	if "blisterwood_flail" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.5 )
-	if "viggora" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.5 )
+	# These should probably be in same order as in max hit
 	if "void_melee" in player.special_attributes:
 		eff_atk = Utl.ifloor( eff_atk * 1.1 )
-	if "arclight" in player.special_attributes:
+	if "obsidian_armor" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.1 )
+	
+	if "black_mask" in player.special_attributes or "black_mask_i" in player.special_attributes or "slayer_helm" in player.special_attributes or "slayer_helm_i" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+	elif "undead" in target_mon.attributes:
+		if "salve_e" or "salve_ei" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.2 )
+		elif "salve" or "salve_i" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+	
+	if "vampyre" in target_mon.attributes:
+		if "blisterwood_flail" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.05 )
+		elif "blisterwood_sickle" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.05 )
+	if "viggora" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.5 )
+	if "arclight" in player.special_attributes && "demon" in target_mon.attributes:
 		eff_atk = Utl.ifloor( eff_atk * 1.7 )
 	if player.attack_style == "crush":
 		if "inquisitor_1" in player.special_attributes:
@@ -168,6 +182,10 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 			eff_atk = Utl.ifloor( eff_atk * 1.01 )
 		elif "inquisitor_3" in player.special_attributes:
 			eff_atk = Utl.ifloor( eff_atk * 1.025 )
+	if "dragonhunter_lance" in player.special_attributes && "dragon" in target_mon.attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.2 )
+	if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
+		eff_atk = Utl.ifloor( eff_atk * 1.175 )
 	
 	var atk_roll : int = eff_atk * ( player.atk_bonus + 64 )
 	
@@ -201,11 +219,11 @@ func simulate_combat( player : player, target_mon : monster ):
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	
-	var ten_minutes : int = 1000 # ticks
+	var max_kill_duration : int = 2000 # ticks
 	var keris : bool = "keris" in player.special_attributes
 	var gaddehammer : bool = "gaddehammer" in player.special_attributes
 	
-	var simulated_kills = 100000
+	var simulated_kills = 10000
 	
 	if keris:
 		for _kills in range(1, simulated_kills): # 100000 rounds
@@ -218,7 +236,7 @@ func simulate_combat( player : player, target_mon : monster ):
 					else:
 						target_hp -= rng.randi_range( 0, p_max_hit)
 				tick += player.attack_speed
-			if _kills == 1 && tick >= ten_minutes:
+			if _kills == 1 && tick >= max_kill_duration:
 				print( "Too slow kills to simulate" )
 				return
 	elif gaddehammer:
@@ -232,7 +250,7 @@ func simulate_combat( player : player, target_mon : monster ):
 					else:
 						target_hp -= rng.randi_range( 0, p_max_hit)
 				tick += player.attack_speed
-			if _kills == 1 && tick >= ten_minutes:
+			if _kills == 1 && tick >= max_kill_duration:
 				print( "Too slow kills to simulate" )
 				return
 	else:
@@ -243,7 +261,7 @@ func simulate_combat( player : player, target_mon : monster ):
 				if rng.randf() < p_hit_chance:
 					target_hp -= rng.randi_range( 0, p_max_hit)
 				tick += player.attack_speed
-			if _kills == 1 && tick >= ten_minutes:
+			if _kills == 1 && tick >= max_kill_duration:
 				print( "Too slow kills to simulate" )
 				return
 	
