@@ -119,9 +119,9 @@ var equipment_specials : Dictionary = {
 		"description": "25% bonus damage against shades. 1/20 chance for 2x damage.",
 	},
 	"void_melee": {
-		"items": ["Void melee helm", "Void knight top", "Void knight robe","Void knight gloves"],
+		"items": ["Void melee helm", "Void knight top", "Elite void top", "Void knight robe", "Elite void robe", "Void knight gloves"],
 		"name": "Void melee set",
-		"description": "10% bonus to melee damage amd accuracy",
+		"description": "10% bonus to melee damage and accuracy",
 		"set": 4
 	},
 	"silverlight": {
@@ -328,6 +328,14 @@ func specials_of_item( item : equipment ) -> Array:
 func item_is_blacklisted( item_name : String ) -> bool:
 	# Items that are in the json but we don't want them
 	
+	# Manualy whitelisted items
+	var whitelisted_items : Array = [
+		"Void seal(8)"
+	]
+	
+	if item_name in whitelisted_items:
+		return false
+	
 	# Manual blacklist list
 	var blacklisted_items : Array = [
 		"Amulet of glory (t1)",
@@ -335,8 +343,18 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"Amulet of glory (t3)",
 		"Amulet of glory (t4)",
 		"Amulet of glory (t5)",
-		"Amulet of glory (t6)"
+		"Amulet of glory (t6)",
+		"Void knight robe (l)",
+		"Elite void robe (l)",
+		"Void knight top (l)",
+		"Elite void top (l)",
+		"Void knight gloves (l)",
+		"Void knight mace (l)",
+		"Void melee helm (l)",
+		"Void ranger helm (l)",
+		"Void mage helm (l)"
 	]
+	
 	
 	if item_name in blacklisted_items:
 		return true
