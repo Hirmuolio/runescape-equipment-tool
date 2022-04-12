@@ -4,24 +4,34 @@ extends Node
 # Tells what items have specific special attribute
 var equipment_specials : Dictionary = {
 	"black_mask" : {
-		"items": ["Black mask"],
-		"name": "Black mask",
+		"items": ["Black mask", "Black mask (i)", "Slayer helmet", "Slayer helmet (i)"],
+		"name": "Black mask/slayer helm",
 		"description": "16.67% bonus to melee accuracy and damage against slayer target."
 	},
 	"black_mask_i" : {
-		"items": ["Black mask (i)"],
-		"name": "Black mask (i)",
-		"description": "16.67% bonus to melee accuracy and damage against slayer target.\n15% bonus to ranged accuracy, ranged damage, magic accuracy and magic damage."
+		"items": ["Black mask (i)", "Slayer helmet (i)"],
+		"name": "Black mask/slayer helm (i)",
+		"description": "15% bonus to ranged accuracy, ranged damage, magic accuracy and magic damage."
 	},
-	"slayer_helm" : {
-		"items": ["Slayer helmet"],
-		"name": "Slayer helmet",
-		"description": "16.67% bonus to melee accuracy and damage against slayer target."
+	"salve": {
+		"items": ["Salve amulet", "Salve amulet(i)"],
+		"name": "Salve amulet",
+		"description": "16.67% melee damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
 	},
-	"slayer_helm_i" : {
-		"items": ["Slayer helmet (i)"],
-		"name": "Slayer helmet (i)",
-		"description": "16.67% bonus to melee accuracy and damage against slayer target.\n15% bonus to ranged accuracy, ranged damage, magic accuracy and magic damage."
+	"salve_e": {
+		"items": ["Salve amulet (e)", "Salve amulet(ei)"],
+		"name": "Salve amulet (e)",
+		"description": "20% melee damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
+	},
+	"salve_ei": {
+		"items": ["Salve amulet(ei)"],
+		"name": "Salve amulet (ei)",
+		"description": "20% magic and ranged damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
+	},
+	"salve_i": {
+		"items": ["Salve amulet(i)"],
+		"name": "Salve amulet (i)",
+		"description": "16.67% ranged damage and accuracy bonus against undead. 15% magic damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
 	},
 	"ivandis_flail": {
 		"items": ["Ivandis flail"],
@@ -37,26 +47,6 @@ var equipment_specials : Dictionary = {
 		"items": ["Blisterwood sickle"],
 		"name": "Blisterwood sickle",
 		"description": "15% damage and 5% accuracy bonus against vampyres."
-	},
-	"salve": {
-		"items": ["Salve amulet"],
-		"name": "Salve amulet",
-		"description": "16.67% melee damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
-	},
-	"salve_e": {
-		"items": ["Salve amulet (e)"],
-		"name": "Salve amulet (e)",
-		"description": "20% melee damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
-	},
-	"salve_ei": {
-		"items": ["Salve amulet(ei)"],
-		"name": "Salve amulet (ei)",
-		"description": "20% melee, magic and ranged damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
-	},
-	"salve_i": {
-		"items": ["Salve amulet(i)"],
-		"name": "Salve amulet (i)",
-		"description": "16.67% melee and ranged damage and accuracy bonus against undead.\n15% magic damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
 	},
 	"avarice": {
 		"items": ["Amulet of avarice"],

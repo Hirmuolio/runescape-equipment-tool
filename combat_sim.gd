@@ -97,13 +97,13 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 	if "obsidian_armor" in player.special_attributes:
 		max_hit = Utl.ifloor( max_hit * 1.1 )
 	
-	if "black_mask" in player.special_attributes or "black_mask_i" in player.special_attributes or "slayer_helm" in player.special_attributes or "slayer_helm_i" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 7.0/6 )
-	elif "undead" in target_mon.attributes:
-		if "salve_e" or "salve_ei" in player.special_attributes:
+	if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
 			max_hit = Utl.ifloor( max_hit * 1.2 )
-		elif "salve" or "salve_i" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 7.0/6 )
+	elif "black_mask" in player.special_attributes:
+		max_hit = Utl.ifloor( max_hit * 7.0/6 )
+	elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
+		max_hit = Utl.ifloor( max_hit * 7.0/6 )
+	
 	if "berserk" in player.special_attributes:
 		max_hit = Utl.ifloor( max_hit * 1.2 )
 	
@@ -158,13 +158,12 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 	if "obsidian_armor" in player.special_attributes:
 		eff_atk = Utl.ifloor( eff_atk * 1.1 )
 	
-	if "black_mask" in player.special_attributes or "black_mask_i" in player.special_attributes or "slayer_helm" in player.special_attributes or "slayer_helm_i" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
-	elif "undead" in target_mon.attributes:
-		if "salve_e" or "salve_ei" in player.special_attributes:
+	if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
 			eff_atk = Utl.ifloor( eff_atk * 1.2 )
-		elif "salve" or "salve_i" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+	elif "black_mask" in player.special_attributes:
+		eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+	elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
+		eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
 	
 	if "vampyre" in target_mon.attributes:
 		if "blisterwood_flail" in player.special_attributes:

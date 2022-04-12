@@ -29,8 +29,10 @@ func print_specials():
 	$special_desc.clear()
 	
 	for special in player_data.special_attributes:
-		$special_desc.add_text ( HardcodedData.equipment_specials[ special ][ "name" ] )
 		$special_desc.push_indent( 1 )
+		$special_desc.add_text ( HardcodedData.equipment_specials[ special ][ "name" ] )
+		$special_desc.pop()
+		$special_desc.newline()
 		$special_desc.append_bbcode ( HardcodedData.equipment_specials[ special ][ "description" ] )
 		$special_desc.newline()
 		$special_desc.newline()
