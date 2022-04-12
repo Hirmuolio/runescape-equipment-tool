@@ -140,7 +140,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		max_hit = Utl.ifloor( max_hit * 1.175 )
 	
 	if "dharok" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 )
+		max_hit = Utl.ifloor( max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
 		
 	p_max_hit = max_hit
 	
@@ -201,6 +201,11 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 	var atk_roll : int
 	var def_roll : int
 	
+	if target_mon.attack_type.size() == 0:
+		# Incomplete attack info
+		m_hit_chance = 0
+		return
+	
 	if target_mon.attack_type[0] == "magic":
 		var eff_atk : int = target_mon.attack_level + 9
 		atk_roll = eff_atk * ( target_mon.attack_magic  + 64 )
@@ -215,7 +220,7 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 
 	elif target_mon.attack_type[0] == "ranged":
 		var eff_atk : int = target_mon.ranged_level + 8
-		atk_roll = eff_atk * ( target_mon.ranged_bonus  + 64 )
+		atk_roll = eff_atk * ( target_mon.attack_ranged  + 64 )
 		
 		var eff_def : int = Utl.ifloor( player.defence * player.prayer_def ) + player.style_def_bonus + 8
 		def_roll = eff_def * ( player.style_def( "ranged" ) + 64 )

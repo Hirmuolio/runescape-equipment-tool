@@ -20,7 +20,7 @@ script = ExtResource( 6 )
 
 [node name="player" type="VBoxContainer" parent="."]
 margin_right = 354.0
-margin_bottom = 810.0
+margin_bottom = 830.0
 script = ExtResource( 10 )
 
 [node name="name" parent="player" instance=ExtResource( 12 )]
@@ -154,30 +154,41 @@ margin_bottom = 468.0
 value = 1
 label = "Ranged lvl"
 
-[node name="combat_lvl" parent="player" instance=ExtResource( 4 )]
-visible = false
-margin_top = 444.0
-margin_right = 354.0
-margin_bottom = 458.0
-label = "Combat lvl:"
-
-[node name="HSeparator4" type="HSeparator" parent="player"]
+[node name="hp_lvl" parent="player" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 472.0
 margin_right = 354.0
-margin_bottom = 476.0
+margin_bottom = 496.0
+value = 1
+label = "HP lvl"
+
+[node name="hp" parent="player" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 500.0
+margin_right = 354.0
+margin_bottom = 524.0
+value = 1
+label = "Current HP"
+
+[node name="HSeparator4" type="HSeparator" parent="player"]
+margin_top = 528.0
+margin_right = 354.0
+margin_bottom = 532.0
 
 [node name="label6" type="Label" parent="player"]
-margin_top = 480.0
+margin_top = 536.0
 margin_right = 354.0
-margin_bottom = 494.0
+margin_bottom = 550.0
 size_flags_horizontal = 3
 text = "Attack bonuses"
 align = 1
 
 [node name="eq_attack" type="GridContainer" parent="player"]
-margin_top = 498.0
+margin_top = 554.0
 margin_right = 354.0
-margin_bottom = 530.0
+margin_bottom = 586.0
 columns = 5
 
 [node name="label" type="Label" parent="player/eq_attack"]
@@ -259,22 +270,22 @@ text = "+0"
 align = 1
 
 [node name="HSeparator6" type="HSeparator" parent="player"]
-margin_top = 534.0
+margin_top = 590.0
 margin_right = 354.0
-margin_bottom = 538.0
+margin_bottom = 594.0
 
 [node name="label7" type="Label" parent="player"]
-margin_top = 542.0
+margin_top = 598.0
 margin_right = 354.0
-margin_bottom = 556.0
+margin_bottom = 612.0
 size_flags_horizontal = 3
 text = "Defence bonuses"
 align = 1
 
 [node name="eq_def" type="GridContainer" parent="player"]
-margin_top = 560.0
+margin_top = 616.0
 margin_right = 354.0
-margin_bottom = 592.0
+margin_bottom = 648.0
 columns = 5
 
 [node name="label" type="Label" parent="player/eq_def"]
@@ -356,22 +367,22 @@ text = "+0"
 align = 1
 
 [node name="HSeparator7" type="HSeparator" parent="player"]
-margin_top = 596.0
+margin_top = 652.0
 margin_right = 354.0
-margin_bottom = 600.0
+margin_bottom = 656.0
 
 [node name="label8" type="Label" parent="player"]
-margin_top = 604.0
+margin_top = 660.0
 margin_right = 354.0
-margin_bottom = 618.0
+margin_bottom = 674.0
 size_flags_horizontal = 3
 text = "Other bonuses"
 align = 1
 
 [node name="eq_other" type="GridContainer" parent="player"]
-margin_top = 622.0
+margin_top = 678.0
 margin_right = 354.0
-margin_bottom = 654.0
+margin_bottom = 710.0
 columns = 5
 
 [node name="label" type="Label" parent="player/eq_other"]
@@ -453,30 +464,30 @@ text = "0"
 align = 1
 
 [node name="HSeparator5" type="HSeparator" parent="player"]
-margin_top = 658.0
+margin_top = 714.0
 margin_right = 354.0
-margin_bottom = 662.0
+margin_bottom = 718.0
 
 [node name="Label" type="Label" parent="player"]
-margin_top = 666.0
+margin_top = 722.0
 margin_right = 354.0
-margin_bottom = 680.0
+margin_bottom = 736.0
 text = "Prayers:"
 
 [node name="prayers" type="VBoxContainer" parent="player"]
-margin_top = 684.0
+margin_top = 740.0
 margin_right = 354.0
-margin_bottom = 684.0
+margin_bottom = 740.0
 
 [node name="VSeparator" type="VSeparator" parent="."]
 margin_left = 358.0
 margin_right = 362.0
-margin_bottom = 810.0
+margin_bottom = 830.0
 
 [node name="results" type="VBoxContainer" parent="."]
 margin_left = 366.0
 margin_right = 843.0
-margin_bottom = 810.0
+margin_bottom = 830.0
 size_flags_horizontal = 3
 script = ExtResource( 7 )
 
@@ -575,18 +586,18 @@ text = "Special effects:"
 [node name="special_desc" type="RichTextLabel" parent="results"]
 margin_top = 264.0
 margin_right = 477.0
-margin_bottom = 810.0
+margin_bottom = 830.0
 size_flags_vertical = 3
 
 [node name="VSeparator2" type="VSeparator" parent="."]
 margin_left = 847.0
 margin_right = 851.0
-margin_bottom = 810.0
+margin_bottom = 830.0
 
 [node name="monster" type="VBoxContainer" parent="."]
 margin_left = 855.0
 margin_right = 1333.0
-margin_bottom = 810.0
+margin_bottom = 830.0
 size_flags_horizontal = 3
 script = ExtResource( 8 )
 
@@ -599,6 +610,7 @@ margin_top = 18.0
 margin_right = 478.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 0, 30 )
+fit_content_height = true
 
 [node name="HSeparator3" type="HSeparator" parent="monster"]
 margin_top = 52.0
@@ -783,5 +795,7 @@ label = "Size:"
 [connection signal="value_changed" from="player/defence" to="player_data" method="_on_defence_value_changed"]
 [connection signal="value_changed" from="player/magic" to="player_data" method="_on_magic_value_changed"]
 [connection signal="value_changed" from="player/ranged" to="player_data" method="_on_ranged_value_changed"]
+[connection signal="value_changed" from="player/hp_lvl" to="player_data" method="_on_hp_lvl_value_changed"]
+[connection signal="value_changed" from="player/hp" to="player_data" method="_on_hp_value_changed"]
 [connection signal="pressed" from="results/Button" to="." method="_on_Button_pressed"]
 [connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]

@@ -237,6 +237,14 @@ func _on_ranged_value_changed( new_lvl ):
 	ranged = new_lvl
 	recalculate_stats()
 
+func _on_hp_lvl_value_changed(new_lvl):
+	hp_lvl = new_lvl
+	recalculate_stats()
+
+
+func _on_hp_value_changed(new_lvl):
+	current_hp = new_lvl
+	recalculate_stats()
 
 func _on_attack_style_attack_style(new_stance):
 	attack_stance = new_stance[0]
@@ -358,3 +366,6 @@ func _get_pray_magic_def()-> float:
 		if "magic_defence" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic_defence"] ) / 100
 	return 1.0
+
+
+

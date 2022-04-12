@@ -46,7 +46,7 @@ Utl="*res://utilities.tscn"
 [display]
 
 window/size/width=1333
-window/size/height=810
+window/size/height=830
 
 [physics]
 
