@@ -56,7 +56,17 @@ var equipment_specials : Dictionary = {
 	"salve_i": {
 		"items": ["Salve amulet(i)"],
 		"name": "Salve amulet (i)",
-		"description": "16.67% melee and ranged damage and accuracy bonus against undead.\n15% magic damage and accuracy bonus against undead (NOTE: Uncertain of magic bonus). Does not stack with black mask/slayer helmet."
+		"description": "16.67% melee and ranged damage and accuracy bonus against undead.\n15% magic damage and accuracy bonus against undead. Does not stack with black mask/slayer helmet."
+	},
+	"avarice": {
+		"items": ["Amulet of avarice"],
+		"name": "Amulet of avarice",
+		"description": "20% damage and accuracy against revenants. (not implemented)"
+	},
+	"ethereum": {
+		"items": ["Bracelet of ethereum"],
+		"name": "Bracelet of ethereum",
+		"description": "75% reduced damage from revenants (not implemented)"
 	},
 	"dharok": {
 		"items": ["Dharok's helm", "Dharok's platebody", "Dharok's platelegs", "Dharok's greataxe"],
