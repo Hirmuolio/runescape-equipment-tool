@@ -197,7 +197,7 @@ func _on_ranged_value_changed( new_lvl ):
 func _on_attack_style_attack_style(new_stance):
 	attack_stance = new_stance[0]
 	attack_style = new_stance[1]
-	pass # Replace with function body.
+	recalculate_stats()
 
 func _get_style_str() -> int:
 	if attack_stance == "aggressive":
@@ -273,6 +273,7 @@ func style_def( attack_styles : Array ) -> int:
 	
 	push_warning ( "Invalid monster melee attack style " + '"' + attack_styles[0] + '"' )
 	return 0
+
 
 func _get_attack_speed() -> int:
 	# Ticks per attack
