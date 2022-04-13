@@ -353,20 +353,3 @@ func load_monsters_res():
 	
 	file.close()
 
-func list_files( path ) -> Array:
-	# Finds all file paths in a directory
-	
-	var files : Array = []
-	
-	var dir = Directory.new()
-	if dir.open(path) == OK:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if !dir.current_is_dir():
-				files.push_back( path + file_name )
-			file_name = dir.get_next()
-	else:
-		push_error("An error occurred when trying to open directory of saved items.")
-	
-	return files
