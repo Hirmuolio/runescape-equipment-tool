@@ -81,6 +81,11 @@ var equipment_specials : Dictionary = {
 		"name": "Viggora's chainmace",
 		"description": "50% bonus to melee damage amd accuracy in wilderness (only in PvE)",
 	},
+	"craw": {
+		"items": ["Craw's bow"],
+		"name": "Craw's bow",
+		"description": "50% bonus to ranged damage amd accuracy in wilderness (only in PvE)",
+	},
 	"inquisitor_1": {
 		"items": ["Inquisitor's hauberk", "Inquisitor's plateskirt", "Inquisitor's great helm"],
 		"set": 1,
@@ -117,6 +122,12 @@ var equipment_specials : Dictionary = {
 		"description": "10% bonus to melee damage and accuracy",
 		"set": 4
 	},
+	"void_ranged": {
+		"items": ["Void ranger helm", "Void knight top", "Elite void top", "Void knight robe", "Elite void robe", "Void knight gloves"],
+		"name": "Void ranger set",
+		"description": "10% bonus to ranged damage and accuracy",
+		"set": 4
+	},
 	"silverlight": {
 		"items": ["Silverlight"],
 		"name": "Silverlight",
@@ -142,6 +153,11 @@ var equipment_specials : Dictionary = {
 		"name": "Dragon hunter lance",
 		"description": "20% damage and accuracy bonus against dragons"
 	},
+	"dragonhunter_crossbow": {
+		"items": ["Dragon hunter crossbow"],
+		"name": "Dragon hunter crossbow",
+		"description": "25% damage and 30% accuracy bonus against dragons"
+	},
 	"leaf_baxe": {
 		"items": ["Leaf-bladed battleaxe"],
 		"name": "Leaf-bladed battleaxe",
@@ -151,6 +167,16 @@ var equipment_specials : Dictionary = {
 		"items": ["Barronite mace"],
 		"name": "Barronite mace",
 		"description": "15% damage bonus against golems"
+	},
+	"holy_water": {
+		"items": ["Holy water"],
+		"name": "Holy water",
+		"description": "Unknown bonus against demons"
+	},
+	"twisted": {
+		"items": ["Twisted bow"],
+		"name": "Twisted bow",
+		"description": "Increased damage and accuracy basaed on enemy magic level/accuracy"
 	}
 }
 

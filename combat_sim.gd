@@ -75,122 +75,192 @@ func do_simulations( player : player, target_mon : monster ):
 
 func calc_p_max_hit( player : player, target_mon : monster ):
 	
-	# Melee
-	var eff_str : int = Utl.ifloor( player.strength * player.prayer_str ) + player.style_str_bonus + 8
-	
-	var max_hit : int = Utl.ifloor( 0.5 + eff_str * ( player.str_bonus + 64 ) / 640.0 )
-	base_max_hit = max_hit
-	# Special bonuses need to be applied in specific order
-	#Order:
-	# Obsidian armor before salve (e)
-	# Obsidian armor before berserker necklace
-	# Black mask before berserker necklace
-	# Black mask before special attack
-	# Keris ?
-	# silver/dark/ardc ?
-	# Void ?
-	# viggora ?
-	# Dharok ?
-	
-	if "void_melee" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.1 )
-	if "obsidian_armor" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.1 )
-	
-	if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 1.2 )
-	elif "black_mask" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 7.0/6 )
-	elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
-		max_hit = Utl.ifloor( max_hit * 7.0/6 )
-	
-	if "berserk" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.2 )
-	
-	if "vampyre" in target_mon.attributes:
-		if "ivandis_flail" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.2 )
-		elif "blisterwood_flail" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.25 )
-		elif "blisterwood_sickle" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.15 )
-	if "viggora" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * 1.5 )
-	if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
-		max_hit = Utl.ifloor( max_hit * 4.0/3 )
-	if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
-		max_hit = Utl.ifloor( max_hit * 1.25 )
-	if "demon" in target_mon.attributes:
-		if "silverlight" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.6 )
-		elif "darklight" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.6 )
-		elif "arclight" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.7 )
-	if player.attack_style == "crush":
-		if "inquisitor_1" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.005 )
-		elif "inquisitor_2" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.01 )
-		elif "inquisitor_3" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.025 )
-	if "dragonhunter_lance" in player.special_attributes && "dragon" in target_mon.attributes:
-		max_hit = Utl.ifloor( max_hit * 1.2 )
-	if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
-		max_hit = Utl.ifloor( max_hit * 1.175 )
-	if "barronite" in player.special_attributes && "golem" in target_mon.attributes:
-		max_hit = Utl.ifloor( max_hit * 1.15 )
-	
-	if "dharok" in player.special_attributes:
-		max_hit = Utl.ifloor( max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
+	if player.attack_style == "ranged":
+		var eff_str : int = Utl.ifloor( player.ranged * player.prayer_rng * player.prayer_rng_str ) + player.style_rng_bonus + 8
 		
-	p_max_hit = max_hit
+		var max_hit : int = Utl.ifloor(  0.5 + eff_str * ( player.rng_str_bonus + 64 ) / 640.0 )
+		base_max_hit = max_hit
+		
+		if "void_ranged" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.1 )
+		
+		if "salve_ei" in player.special_attributes and "undead" in target_mon.attributes:
+				max_hit = Utl.ifloor( max_hit * 1.2 )
+		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 7.0/6 ) # *1.16
+		elif "black_mask_i" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.15 )
+		
+		if "holy_water" in player.special_attributes and "demon" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 1 ) #unknown so lets not do anything
+		
+		if "dragonhunter_crossbow" in player.special_attributes and "dragon" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 1.25 )
+		if "craw" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.5 )
+		
+		
+		
+		if "twisted" in player.special_attributes:
+			var mag = max( target_mon.magic_level, target_mon.attack_magic )
+			var mult = clamp( 0, 3 * mag - ( 3 * mag / 10.0 - 140 )^2, 2.5 )
+			max_hit = Utl.ifloor( max_hit * mult )
+		
+		p_max_hit = max_hit
+		
+	else:
+		# Melee
+		var eff_str : int = Utl.ifloor( player.strength * player.prayer_str ) + player.style_str_bonus + 8
+		
+		var max_hit : int = Utl.ifloor( 0.5 + eff_str * ( player.str_bonus + 64 ) / 640.0 )
+		base_max_hit = max_hit
+		# Special bonuses need to be applied in specific order
+		#Order:
+		# Obsidian armor before salve (e)
+		# Obsidian armor before berserker necklace
+		# Black mask before berserker necklace
+		# Black mask before special attack
+		# Keris ?
+		# silver/dark/ardc ?
+		# Void ?
+		# viggora ?
+		# Dharok ?
+		
+		if "void_melee" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.1 )
+		if "obsidian_armor" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.1 )
+		
+		if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
+				max_hit = Utl.ifloor( max_hit * 1.2 )
+		elif "black_mask" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 7.0/6 )
+		elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 7.0/6 )
+		
+		if "berserk" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.2 )
+		
+		if "vampyre" in target_mon.attributes:
+			if "ivandis_flail" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.2 )
+			elif "blisterwood_flail" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.25 )
+			elif "blisterwood_sickle" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.15 )
+		if "viggora" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * 1.5 )
+		if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 4.0/3 )
+		if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 1.25 )
+		if "demon" in target_mon.attributes:
+			if "silverlight" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.6 )
+			elif "darklight" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.6 )
+			elif "arclight" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.7 )
+		if player.attack_style == "crush":
+			if "inquisitor_1" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.005 )
+			elif "inquisitor_2" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.01 )
+			elif "inquisitor_3" in player.special_attributes:
+				max_hit = Utl.ifloor( max_hit * 1.025 )
+		if "dragonhunter_lance" in player.special_attributes && "dragon" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 1.2 )
+		if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 1.175 )
+		if "barronite" in player.special_attributes && "golem" in target_mon.attributes:
+			max_hit = Utl.ifloor( max_hit * 1.15 )
+		
+		if "dharok" in player.special_attributes:
+			max_hit = Utl.ifloor( max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
+			
+		p_max_hit = max_hit
 	
 
 
 
 func calc_p_hit_chance( player : player, target_mon : monster ):
 	
-	# Melee
-	var eff_atk : int = Utl.ifloor( player.attack * player.prayer_atk ) + player.style_atk_bonus + 8
+	var atk_roll : int
+	var def_roll : int
 	
-	# These should probably be in same order as in max hit
-	if "void_melee" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.1 )
-	if "obsidian_armor" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.1 )
+	if player.attack_style == "ranged":
+		var eff_atk : int = Utl.ifloor( player.ranged * player.prayer_rng * player.prayer_rng_atk ) + player.style_rng_bonus + 8
+		
+		if "void_ranged" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.1 )
+		
+		if "salve_ei" in player.special_attributes and "undead" in target_mon.attributes:
+				eff_atk = Utl.ifloor( eff_atk * 1.2 )
+		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
+			eff_atk = Utl.ifloor( eff_atk * 7.0/6 ) # *1.16
+		elif "black_mask_i" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.15 )
+		
+		if "holy_water" in player.special_attributes and "demon" in target_mon.attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1 ) #unknown so lets not do anything
+		
+		if "dragonhunter_crossbow" in player.special_attributes and "dragon" in target_mon.attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.3 )
+		if "craw" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.5 )
+		
+		
+		
+		if "twisted" in player.special_attributes:
+			var mag = max( target_mon.magic_level, target_mon.attack_magic )
+			var mult = clamp( 0, 3 * mag - ( 3 * mag / 10.0 - 100 )^2 - 8.6, 1.4 )
+			eff_atk = Utl.ifloor( eff_atk * mult )
+		
+		atk_roll = eff_atk * ( player.rng_bonus + 64 )
+		
+		def_roll = ( target_mon.defence_level + 9 ) * ( target_mon.style_def( "ranged" ) + 64 )
 	
-	if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
+	else:
+		# Melee
+		var eff_atk : int = Utl.ifloor( player.attack * player.prayer_atk ) + player.style_atk_bonus + 8
+		
+		# These should probably be in same order as in max hit
+		if "void_melee" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.1 )
+		if "obsidian_armor" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.1 )
+		
+		if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
+				eff_atk = Utl.ifloor( eff_atk * 1.2 )
+		elif "black_mask" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+		elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
+			eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+		
+		if "vampyre" in target_mon.attributes:
+			if "blisterwood_flail" in player.special_attributes:
+				eff_atk = Utl.ifloor( eff_atk * 1.05 )
+			elif "blisterwood_sickle" in player.special_attributes:
+				eff_atk = Utl.ifloor( eff_atk * 1.05 )
+		if "viggora" in player.special_attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.5 )
+		if "arclight" in player.special_attributes && "demon" in target_mon.attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.7 )
+		if player.attack_style == "crush":
+			if "inquisitor_1" in player.special_attributes:
+				eff_atk = Utl.ifloor( eff_atk * 1.005 )
+			elif "inquisitor_2" in player.special_attributes:
+				eff_atk = Utl.ifloor( eff_atk * 1.01 )
+			elif "inquisitor_3" in player.special_attributes:
+				eff_atk = Utl.ifloor( eff_atk * 1.025 )
+		if "dragonhunter_lance" in player.special_attributes && "dragon" in target_mon.attributes:
 			eff_atk = Utl.ifloor( eff_atk * 1.2 )
-	elif "black_mask" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
-	elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
-		eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
-	
-	if "vampyre" in target_mon.attributes:
-		if "blisterwood_flail" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.05 )
-		elif "blisterwood_sickle" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.05 )
-	if "viggora" in player.special_attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.5 )
-	if "arclight" in player.special_attributes && "demon" in target_mon.attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.7 )
-	if player.attack_style == "crush":
-		if "inquisitor_1" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.005 )
-		elif "inquisitor_2" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.01 )
-		elif "inquisitor_3" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.025 )
-	if "dragonhunter_lance" in player.special_attributes && "dragon" in target_mon.attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.2 )
-	if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
-		eff_atk = Utl.ifloor( eff_atk * 1.175 )
-	
-	var atk_roll : int = eff_atk * ( player.atk_bonus + 64 )
-	
-	var def_roll : int = ( target_mon.defence_level + 9 ) * ( target_mon.style_def( player.attack_style ) + 64 )
+		if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
+			eff_atk = Utl.ifloor( eff_atk * 1.175 )
+		
+		atk_roll = eff_atk * ( player.atk_bonus + 64 )
+		
+		def_roll = ( target_mon.defence_level + 9 ) * ( target_mon.style_def( player.attack_style ) + 64 )
 	
 	
 	if atk_roll > def_roll:
