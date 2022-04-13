@@ -261,20 +261,20 @@ func load_monsters_json():
 			
 		i += 1
 	
-	save_monsters_user()
+	save_monsters()
 
-func save_monsters_user():
+func save_monsters():
 	# Saves the monster data so they don't need to be processed again.
 	var dir = Directory.new()
-	if !dir.dir_exists( "user://monsters/" ):
-		dir.open("user://")
-		dir.make_dir("monsters")
+	if !dir.dir_exists( "res://database/monsters/" ):
+		push_error ( "res://database/monsters/ does not exist" )
+	
+	var monster_path : String = "res://database/monsters/monster_data"
+	var file = File.new()
+	file.open(monster_path, File.WRITE)
 	
 	for _monster in $monsters.get_children():
 		var monster : monster = _monster # Hack to get typing
-		var monster_path : String = monsters_path + monster.monster_name + "_" + str(monster.monster_id) + ".monster"
-		var file = File.new()
-		file.open(monster_path, File.WRITE)
 		
 		file.store_pascal_string( monster.monster_name )
 		file.store_32( monster.monster_id )
@@ -309,61 +309,54 @@ func save_monsters_user():
 		
 		file.store_pascal_string( var2str(monster.attack_type) )
 		file.store_pascal_string( var2str(monster.attributes) )
-		
-		file.close()
 
-func load_monsters_user():
-	for file_path in list_files( monsters_path ):
-		load_monsters( file_path )
 
 func load_monsters_res():
-	for file_path in list_files( "res://database/monsters/" ):
-		load_monsters( file_path )
-
-func load_monsters( file_path : String ):
+	var file_path = "res://database/monsters/monster_data"
 	var class_monster = load( "res://data/monster.tscn" )
 	
 	var file = File.new()
 	file.open( file_path , File.READ )
 	
-	var new_monster : monster = class_monster.instance()
-	$monsters.add_child( new_monster )
-	
-	new_monster.monster_name = file.get_pascal_string()
-	new_monster.monster_id = file.get_32()
-	new_monster.examine = file.get_pascal_string()
-	
-	new_monster.set_name( String( new_monster.monster_id ) )
-	
-	new_monster.attack_level = file.get_64()
-	new_monster.strength_level = file.get_64()
-	new_monster.magic_level = file.get_64()
-	new_monster.ranged_level = file.get_64()
-	new_monster.defence_level = file.get_64()
-	new_monster.hitpoints = file.get_64()
-	
-	new_monster.combat_level = file.get_64()
-	
-	new_monster.attack_bonus = file.get_64()
-	new_monster.strength_bonus = file.get_64()
-	new_monster.attack_magic = file.get_64()
-	new_monster.str_magic = file.get_64()
-	new_monster.attack_ranged = file.get_64()
-	new_monster.str_ranged = file.get_64()
-	
-	new_monster.max_hit = file.get_64()
-	
-	new_monster.defence_stab = file.get_64()
-	new_monster.defence_slash = file.get_64()
-	new_monster.defence_crush = file.get_64()
-	new_monster.defence_magic = file.get_64()
-	new_monster.defence_ranged = file.get_64()
-	
-	new_monster.attack_speed = file.get_64()
-	new_monster.size = file.get_pascal_string()
-	
-	new_monster.attack_type = str2var( file.get_pascal_string() )
-	new_monster.attributes = str2var( file.get_pascal_string() )
+	while file.get_position() < file.get_len():
+		var new_monster : monster = class_monster.instance()
+		$monsters.add_child( new_monster )
+		
+		new_monster.monster_name = file.get_pascal_string()
+		new_monster.monster_id = file.get_32()
+		new_monster.examine = file.get_pascal_string()
+		
+		new_monster.set_name( String( new_monster.monster_id ) )
+		
+		new_monster.attack_level = file.get_64()
+		new_monster.strength_level = file.get_64()
+		new_monster.magic_level = file.get_64()
+		new_monster.ranged_level = file.get_64()
+		new_monster.defence_level = file.get_64()
+		new_monster.hitpoints = file.get_64()
+		
+		new_monster.combat_level = file.get_64()
+		
+		new_monster.attack_bonus = file.get_64()
+		new_monster.strength_bonus = file.get_64()
+		new_monster.attack_magic = file.get_64()
+		new_monster.str_magic = file.get_64()
+		new_monster.attack_ranged = file.get_64()
+		new_monster.str_ranged = file.get_64()
+		
+		new_monster.max_hit = file.get_64()
+		
+		new_monster.defence_stab = file.get_64()
+		new_monster.defence_slash = file.get_64()
+		new_monster.defence_crush = file.get_64()
+		new_monster.defence_magic = file.get_64()
+		new_monster.defence_ranged = file.get_64()
+		
+		new_monster.attack_speed = file.get_64()
+		new_monster.size = file.get_pascal_string()
+		
+		new_monster.attack_type = str2var( file.get_pascal_string() )
+		new_monster.attributes = str2var( file.get_pascal_string() )
 	
 	file.close()
 
