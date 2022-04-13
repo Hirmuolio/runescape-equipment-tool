@@ -104,16 +104,18 @@ func load_items_json():
 
 func save_items_user():
 	# Saves the item date so they don't need to be processed again.
+	
 	var dir = Directory.new()
-	if !dir.dir_exists( "user://items/" ):
-		dir.open("user://")
-		dir.make_dir("items")
+	if !dir.dir_exists( "res://database/" ):
+		push_error ( "res://database/ does not exist" )
+	
+	var monster_path : String = "res://database/item_data"
+	var file = File.new()
+	file.open(monster_path, File.WRITE)
+	
 	
 	for _item in $items.get_children():
 		var item : equipment = _item # Hack to get typing
-		var item_path : String = items_path + item.item_name + "_" + str( item.item_id ) + ".item"
-		var file = File.new()
-		file.open(item_path, File.WRITE)
 		
 		file.store_pascal_string( item.item_name )
 		file.store_pascal_string( item.equipment_slot )
@@ -139,54 +141,45 @@ func save_items_user():
 		
 		file.store_64( item.attack_speed )
 		file.store_pascal_string( var2str(item.stances) )
-		
-		file.close()
 
-func load_items_user():
-	for file_path in list_files( items_path ):
-		load_items( file_path ) 
 
 func load_items_res():
-	for file_path in list_files( "res://database/items/" ):
-		load_items( file_path ) 
-
-func load_items( file_path : String ):
 	var class_item = load( "res://data/equipment.tscn" )
+	var file_path = "res://database/item_data"
 	
 	var file = File.new()
 	file.open( file_path , File.READ )
-	
-	var new_item : equipment = class_item.instance()
-	$items.add_child( new_item )
-	
-	new_item.item_name = file.get_pascal_string()
-	new_item.equipment_slot = file.get_pascal_string()
-	new_item.item_id = file.get_32()
-	new_item.examine = file.get_pascal_string()
-	
-	new_item.set_name( String( new_item.item_id ) )
-	
-	new_item.attack_stab = file.get_64()
-	new_item.attack_slash = file.get_64()
-	new_item.attack_crush = file.get_64()
-	new_item.attack_magic = file.get_64()
-	new_item.attack_ranged = file.get_64()
-	
-	new_item.defence_stab = file.get_64()
-	new_item.defence_slash = file.get_64()
-	new_item.defence_crush = file.get_64()
-	new_item.defence_magic = file.get_64()
-	new_item.defence_ranged = file.get_64()
-	
-	new_item.melee_strength = file.get_64()
-	new_item.ranged_strength = file.get_64()
-	new_item.magic_damage = file.get_64()
-	new_item.prayer = file.get_64()
-	
-	new_item.attack_speed = file.get_64()
-	new_item.stances = str2var( file.get_pascal_string() )
-	
-	file.close()
+	while file.get_position() < file.get_len():
+		var new_item : equipment = class_item.instance()
+		$items.add_child( new_item )
+		
+		new_item.item_name = file.get_pascal_string()
+		new_item.equipment_slot = file.get_pascal_string()
+		new_item.item_id = file.get_32()
+		new_item.examine = file.get_pascal_string()
+		
+		new_item.set_name( String( new_item.item_id ) )
+		
+		new_item.attack_stab = file.get_64()
+		new_item.attack_slash = file.get_64()
+		new_item.attack_crush = file.get_64()
+		new_item.attack_magic = file.get_64()
+		new_item.attack_ranged = file.get_64()
+		
+		new_item.defence_stab = file.get_64()
+		new_item.defence_slash = file.get_64()
+		new_item.defence_crush = file.get_64()
+		new_item.defence_magic = file.get_64()
+		new_item.defence_ranged = file.get_64()
+		
+		new_item.melee_strength = file.get_64()
+		new_item.ranged_strength = file.get_64()
+		new_item.magic_damage = file.get_64()
+		new_item.prayer = file.get_64()
+		
+		new_item.attack_speed = file.get_64()
+		new_item.stances = str2var( file.get_pascal_string() )
+
 
 func load_monsters_json():
 	# Loads all the monsters from monsters-complete.json
@@ -266,10 +259,10 @@ func load_monsters_json():
 func save_monsters():
 	# Saves the monster data so they don't need to be processed again.
 	var dir = Directory.new()
-	if !dir.dir_exists( "res://database/monsters/" ):
-		push_error ( "res://database/monsters/ does not exist" )
+	if !dir.dir_exists( "res://database/" ):
+		push_error ( "res://database/ does not exist" )
 	
-	var monster_path : String = "res://database/monsters/monster_data"
+	var monster_path : String = "res://database/monster_data"
 	var file = File.new()
 	file.open(monster_path, File.WRITE)
 	
@@ -312,7 +305,7 @@ func save_monsters():
 
 
 func load_monsters_res():
-	var file_path = "res://database/monsters/monster_data"
+	var file_path = "res://database/monster_data"
 	var class_monster = load( "res://data/monster.tscn" )
 	
 	var file = File.new()
