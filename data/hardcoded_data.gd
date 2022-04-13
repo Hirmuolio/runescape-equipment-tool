@@ -348,16 +348,7 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"Amulet of glory (t3)",
 		"Amulet of glory (t4)",
 		"Amulet of glory (t5)",
-		"Amulet of glory (t6)",
-		"Void knight robe (l)",
-		"Elite void robe (l)",
-		"Void knight top (l)",
-		"Elite void top (l)",
-		"Void knight gloves (l)",
-		"Void knight mace (l)",
-		"Void melee helm (l)",
-		"Void ranger helm (l)",
-		"Void mage helm (l)",
+		"Amulet of glory (t6)"
 	]
 	
 	
@@ -380,6 +371,9 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		if elem in item_name:
 			return true
 	
+	# Locked items
+	if "(l)" in item_name:
+		return true
 	
 	# Damaged barrows gear
 	var barrow_names = ["Verac", "Ahrim", "Torag", "Guthan", "Karil", "Dharok"]
