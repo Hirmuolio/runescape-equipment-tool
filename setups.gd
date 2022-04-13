@@ -37,3 +37,8 @@ func _on_save_set_pressed():
 func _on_load_set_pressed():
 	get_current_tab_control().load_data( OS.get_clipboard() )
 	pass # Replace with function body.
+
+
+func _on_Button_pressed():
+	if get_tab_count() > 1:
+		get_current_tab_control().queue_free()

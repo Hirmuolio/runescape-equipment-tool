@@ -49,15 +49,21 @@ margin_right = 64.0
 margin_bottom = 20.0
 text = "New set"
 
-[node name="save_set" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 68.0
-margin_right = 213.0
+margin_right = 155.0
+margin_bottom = 20.0
+text = "Close setup"
+
+[node name="save_set" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 159.0
+margin_right = 304.0
 margin_bottom = 20.0
 text = "Save set to clipboard"
 
 [node name="load_set" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 217.0
-margin_right = 380.0
+margin_left = 308.0
+margin_right = 471.0
 margin_bottom = 20.0
 text = "Load set from clipboard"
 
@@ -81,5 +87,6 @@ margin_bottom = -4.0
 [connection signal="item_selected" from="HBoxContainer/TabContainer/monster" to="HBoxContainer/VBoxContainer/setups" method="_on_monster_item_selected"]
 [connection signal="prayer_selected" from="HBoxContainer/TabContainer/prayers" to="HBoxContainer/VBoxContainer/setups" method="_on_prayer_list_prayer_selected"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/new_setup" to="HBoxContainer/VBoxContainer/setups" method="_on_new_setup_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/Button" to="HBoxContainer/VBoxContainer/setups" method="_on_Button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/save_set" to="HBoxContainer/VBoxContainer/setups" method="_on_save_set_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/load_set" to="HBoxContainer/VBoxContainer/setups" method="_on_load_set_pressed"]
