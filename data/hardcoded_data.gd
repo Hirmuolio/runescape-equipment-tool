@@ -146,6 +146,11 @@ var equipment_specials : Dictionary = {
 		"items": ["Leaf-bladed battleaxe"],
 		"name": "Leaf-bladed battleaxe",
 		"description": "17.5% damage and accuracy bonus against turoths and kurasks"
+	},
+	"barronite": {
+		"items": ["Barronite mace"],
+		"name": "Barronite mace",
+		"description": "15% damage bonus against golems"
 	}
 }
 
@@ -352,7 +357,7 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"Void knight mace (l)",
 		"Void melee helm (l)",
 		"Void ranger helm (l)",
-		"Void mage helm (l)"
+		"Void mage helm (l)",
 	]
 	
 	

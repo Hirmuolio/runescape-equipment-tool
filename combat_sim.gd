@@ -138,6 +138,8 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		max_hit = Utl.ifloor( max_hit * 1.2 )
 	if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
 		max_hit = Utl.ifloor( max_hit * 1.175 )
+	if "barronite" in player.special_attributes && "golem" in target_mon.attributes:
+		max_hit = Utl.ifloor( max_hit * 1.15 )
 	
 	if "dharok" in player.special_attributes:
 		max_hit = Utl.ifloor( max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
