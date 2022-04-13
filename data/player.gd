@@ -240,10 +240,7 @@ func _on_ranged_value_changed( new_lvl ):
 	recalculate_stats()
 
 func _on_hp_lvl_value_changed(new_lvl):
-	if current_hp == hp_lvl:
-		current_hp = new_lvl
 	hp_lvl = new_lvl
-	
 	recalculate_stats()
 
 

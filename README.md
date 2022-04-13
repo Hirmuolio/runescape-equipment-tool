@@ -14,5 +14,6 @@ Known inaccurate data:
 * Snelm damage reduction is unknown.
 * Probably various bugs.
 * Loading bad setups will give bad results.
+* You can do nonsense setups.
 
 Monster/item data was sourced from https://www.osrsbox.com/projects/osrsbox-db/ (seems to be dead now). Data is not included in the source. Extract from release if you need it.
