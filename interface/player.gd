@@ -12,7 +12,7 @@ func _ready():
 
 
 func refresh_eq_stats():
-	var player_stats = get_parent().get_node( "player_data" )
+	var player_stats = get_parent().get_parent().get_node( "player_data" )
 	
 	get_node( "eq_attack/stab" ).text = stat_string( player_stats.get_equipment_bonus( "attack_stab" ) )
 	get_node( "eq_attack/slash" ).text = stat_string( player_stats.get_equipment_bonus( "attack_slash" ) )

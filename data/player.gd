@@ -69,7 +69,7 @@ func save_string() -> String:
 	ret += setup_name + "\n"
 	
 	# attack, str, def, mage, range, hp, pray
-	ret += str(attack) + "," + str(strength) + "," + str(defence) + "," + str(ranged) + "," + str(hp_lvl) + "," + str( prayer ) + "\n"
+	ret += str(attack) + "," + str(strength) + "," + str(defence) + "," + str(ranged) + "," + str(magic) + "," + str(hp_lvl) + "," + str( prayer ) + "\n"
 	
 	for item in all_equipped():
 		if item:
@@ -93,8 +93,10 @@ func load_string( setup : String ):
 	strength = int(levels[1])
 	defence = int(levels[2])
 	ranged = int(levels[3])
-	hp_lvl = int(levels[4])
-	prayer = int(levels[5])
+	magic = int(levels[4])
+	hp_lvl = int(levels[5])
+	current_hp = hp_lvl
+	prayer = int(levels[6])
 	data.remove(0)
 	
 	var gear_ids : PoolStringArray = data[0].split( ",")
@@ -238,7 +240,10 @@ func _on_ranged_value_changed( new_lvl ):
 	recalculate_stats()
 
 func _on_hp_lvl_value_changed(new_lvl):
+	if current_hp == hp_lvl:
+		current_hp = new_lvl
 	hp_lvl = new_lvl
+	
 	recalculate_stats()
 
 

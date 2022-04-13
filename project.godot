@@ -33,6 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Runescape Equipment Tool"
+config/description="Tool that simulates Runescape equipment"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
@@ -46,7 +47,7 @@ Utl="*res://utilities.tscn"
 [display]
 
 window/size/width=1333
-window/size/height=830
+window/size/height=900
 
 [physics]
 

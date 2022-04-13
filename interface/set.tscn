@@ -18,98 +18,104 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 6 )
 
-[node name="player" type="VBoxContainer" parent="."]
+[node name="player_container" type="ScrollContainer" parent="."]
 margin_right = 354.0
-margin_bottom = 830.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 354, 0 )
+
+[node name="player" type="VBoxContainer" parent="player_container"]
+margin_right = 354.0
+margin_bottom = 740.0
+rect_min_size = Vector2( 354, 0 )
 script = ExtResource( 10 )
 
-[node name="name" parent="player" instance=ExtResource( 12 )]
+[node name="name" parent="player_container/player" instance=ExtResource( 12 )]
 margin_bottom = 24.0
 label = "Name"
 
-[node name="weapon" parent="player" instance=ExtResource( 1 )]
+[node name="weapon" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 28.0
 margin_right = 354.0
 margin_bottom = 48.0
 slot = "weapon"
 
-[node name="head" parent="player" instance=ExtResource( 1 )]
+[node name="head" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 52.0
 margin_right = 354.0
 margin_bottom = 72.0
 slot = "head"
 
-[node name="body" parent="player" instance=ExtResource( 1 )]
+[node name="body" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 76.0
 margin_right = 354.0
 margin_bottom = 96.0
 slot = "body"
 
-[node name="legs" parent="player" instance=ExtResource( 1 )]
+[node name="legs" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 100.0
 margin_right = 354.0
 margin_bottom = 120.0
 slot = "legs"
 
-[node name="feet" parent="player" instance=ExtResource( 1 )]
+[node name="feet" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 124.0
 margin_right = 354.0
 margin_bottom = 144.0
 slot = "feet"
 
-[node name="shield" parent="player" instance=ExtResource( 1 )]
+[node name="shield" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 148.0
 margin_right = 354.0
 margin_bottom = 168.0
 slot = "shield"
 
-[node name="hands" parent="player" instance=ExtResource( 1 )]
+[node name="hands" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 172.0
 margin_right = 354.0
 margin_bottom = 192.0
 slot = "hands"
 
-[node name="cape" parent="player" instance=ExtResource( 1 )]
+[node name="cape" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 196.0
 margin_right = 354.0
 margin_bottom = 216.0
 slot = "cape"
 
-[node name="ring" parent="player" instance=ExtResource( 1 )]
+[node name="ring" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 220.0
 margin_right = 354.0
 margin_bottom = 240.0
 slot = "ring"
 
-[node name="neck" parent="player" instance=ExtResource( 1 )]
+[node name="neck" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 244.0
 margin_right = 354.0
 margin_bottom = 264.0
 slot = "neck"
 
-[node name="ammo" parent="player" instance=ExtResource( 1 )]
+[node name="ammo" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 268.0
 margin_right = 354.0
 margin_bottom = 288.0
 slot = "ammo"
 
-[node name="HSeparator" type="HSeparator" parent="player"]
+[node name="HSeparator" type="HSeparator" parent="player_container/player"]
 margin_top = 292.0
 margin_right = 354.0
 margin_bottom = 296.0
 
-[node name="attack_style" type="OptionButton" parent="player"]
+[node name="attack_style" type="OptionButton" parent="player_container/player"]
 margin_top = 300.0
 margin_right = 354.0
 margin_bottom = 320.0
 script = ExtResource( 5 )
 
-[node name="HSeparator3" type="HSeparator" parent="player"]
+[node name="HSeparator3" type="HSeparator" parent="player_container/player"]
 margin_top = 324.0
 margin_right = 354.0
 margin_bottom = 328.0
 
-[node name="attack" parent="player" instance=ExtResource( 3 )]
+[node name="attack" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 332.0
@@ -118,7 +124,7 @@ margin_bottom = 356.0
 value = 1
 label = "Attack lvl"
 
-[node name="strength" parent="player" instance=ExtResource( 3 )]
+[node name="strength" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 360.0
@@ -127,7 +133,7 @@ margin_bottom = 384.0
 value = 1
 label = "Strength lvl"
 
-[node name="defence" parent="player" instance=ExtResource( 3 )]
+[node name="defence" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 388.0
@@ -136,7 +142,7 @@ margin_bottom = 412.0
 value = 1
 label = "Defence lvl"
 
-[node name="magic" parent="player" instance=ExtResource( 3 )]
+[node name="magic" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 416.0
@@ -145,7 +151,7 @@ margin_bottom = 440.0
 value = 1
 label = "Magic lvl"
 
-[node name="ranged" parent="player" instance=ExtResource( 3 )]
+[node name="ranged" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 444.0
@@ -154,7 +160,7 @@ margin_bottom = 468.0
 value = 1
 label = "Ranged lvl"
 
-[node name="hp_lvl" parent="player" instance=ExtResource( 3 )]
+[node name="hp_lvl" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 472.0
@@ -163,7 +169,7 @@ margin_bottom = 496.0
 value = 1
 label = "HP lvl"
 
-[node name="hp" parent="player" instance=ExtResource( 3 )]
+[node name="hp" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 500.0
@@ -172,12 +178,12 @@ margin_bottom = 524.0
 value = 1
 label = "Current HP"
 
-[node name="HSeparator4" type="HSeparator" parent="player"]
+[node name="HSeparator4" type="HSeparator" parent="player_container/player"]
 margin_top = 528.0
 margin_right = 354.0
 margin_bottom = 532.0
 
-[node name="label6" type="Label" parent="player"]
+[node name="label6" type="Label" parent="player_container/player"]
 margin_top = 536.0
 margin_right = 354.0
 margin_bottom = 550.0
@@ -185,20 +191,20 @@ size_flags_horizontal = 3
 text = "Attack bonuses"
 align = 1
 
-[node name="eq_attack" type="GridContainer" parent="player"]
+[node name="eq_attack" type="GridContainer" parent="player_container/player"]
 margin_top = 554.0
 margin_right = 354.0
 margin_bottom = 586.0
 columns = 5
 
-[node name="label" type="Label" parent="player/eq_attack"]
+[node name="label" type="Label" parent="player_container/player/eq_attack"]
 margin_right = 67.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Stab"
 align = 1
 
-[node name="label2" type="Label" parent="player/eq_attack"]
+[node name="label2" type="Label" parent="player_container/player/eq_attack"]
 margin_left = 71.0
 margin_right = 138.0
 margin_bottom = 14.0
@@ -206,7 +212,7 @@ size_flags_horizontal = 3
 text = "Slash"
 align = 1
 
-[node name="label3" type="Label" parent="player/eq_attack"]
+[node name="label3" type="Label" parent="player_container/player/eq_attack"]
 margin_left = 142.0
 margin_right = 209.0
 margin_bottom = 14.0
@@ -214,7 +220,7 @@ size_flags_horizontal = 3
 text = "Crush"
 align = 1
 
-[node name="label4" type="Label" parent="player/eq_attack"]
+[node name="label4" type="Label" parent="player_container/player/eq_attack"]
 margin_left = 213.0
 margin_right = 280.0
 margin_bottom = 14.0
@@ -222,7 +228,7 @@ size_flags_horizontal = 3
 text = "Magic"
 align = 1
 
-[node name="label5" type="Label" parent="player/eq_attack"]
+[node name="label5" type="Label" parent="player_container/player/eq_attack"]
 margin_left = 284.0
 margin_right = 351.0
 margin_bottom = 14.0
@@ -230,14 +236,14 @@ size_flags_horizontal = 3
 text = "Ranged"
 align = 1
 
-[node name="stab" type="Label" parent="player/eq_attack"]
+[node name="stab" type="Label" parent="player_container/player/eq_attack"]
 margin_top = 18.0
 margin_right = 67.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="slash" type="Label" parent="player/eq_attack"]
+[node name="slash" type="Label" parent="player_container/player/eq_attack"]
 margin_left = 71.0
 margin_top = 18.0
 margin_right = 138.0
@@ -245,7 +251,7 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="crush" type="Label" parent="player/eq_attack"]
+[node name="crush" type="Label" parent="player_container/player/eq_attack"]
 margin_left = 142.0
 margin_top = 18.0
 margin_right = 209.0
@@ -253,7 +259,7 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="magic" type="Label" parent="player/eq_attack"]
+[node name="magic" type="Label" parent="player_container/player/eq_attack"]
 margin_left = 213.0
 margin_top = 18.0
 margin_right = 280.0
@@ -261,7 +267,7 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="ranged" type="Label" parent="player/eq_attack"]
+[node name="ranged" type="Label" parent="player_container/player/eq_attack"]
 margin_left = 284.0
 margin_top = 18.0
 margin_right = 351.0
@@ -269,12 +275,12 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="HSeparator6" type="HSeparator" parent="player"]
+[node name="HSeparator6" type="HSeparator" parent="player_container/player"]
 margin_top = 590.0
 margin_right = 354.0
 margin_bottom = 594.0
 
-[node name="label7" type="Label" parent="player"]
+[node name="label7" type="Label" parent="player_container/player"]
 margin_top = 598.0
 margin_right = 354.0
 margin_bottom = 612.0
@@ -282,20 +288,20 @@ size_flags_horizontal = 3
 text = "Defence bonuses"
 align = 1
 
-[node name="eq_def" type="GridContainer" parent="player"]
+[node name="eq_def" type="GridContainer" parent="player_container/player"]
 margin_top = 616.0
 margin_right = 354.0
 margin_bottom = 648.0
 columns = 5
 
-[node name="label" type="Label" parent="player/eq_def"]
+[node name="label" type="Label" parent="player_container/player/eq_def"]
 margin_right = 67.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Stab"
 align = 1
 
-[node name="label2" type="Label" parent="player/eq_def"]
+[node name="label2" type="Label" parent="player_container/player/eq_def"]
 margin_left = 71.0
 margin_right = 138.0
 margin_bottom = 14.0
@@ -303,7 +309,7 @@ size_flags_horizontal = 3
 text = "Slash"
 align = 1
 
-[node name="label3" type="Label" parent="player/eq_def"]
+[node name="label3" type="Label" parent="player_container/player/eq_def"]
 margin_left = 142.0
 margin_right = 209.0
 margin_bottom = 14.0
@@ -311,7 +317,7 @@ size_flags_horizontal = 3
 text = "Crush"
 align = 1
 
-[node name="label4" type="Label" parent="player/eq_def"]
+[node name="label4" type="Label" parent="player_container/player/eq_def"]
 margin_left = 213.0
 margin_right = 280.0
 margin_bottom = 14.0
@@ -319,7 +325,7 @@ size_flags_horizontal = 3
 text = "Magic"
 align = 1
 
-[node name="label5" type="Label" parent="player/eq_def"]
+[node name="label5" type="Label" parent="player_container/player/eq_def"]
 margin_left = 284.0
 margin_right = 351.0
 margin_bottom = 14.0
@@ -327,14 +333,14 @@ size_flags_horizontal = 3
 text = "Ranged"
 align = 1
 
-[node name="stab" type="Label" parent="player/eq_def"]
+[node name="stab" type="Label" parent="player_container/player/eq_def"]
 margin_top = 18.0
 margin_right = 67.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="slash" type="Label" parent="player/eq_def"]
+[node name="slash" type="Label" parent="player_container/player/eq_def"]
 margin_left = 71.0
 margin_top = 18.0
 margin_right = 138.0
@@ -342,7 +348,7 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="crush" type="Label" parent="player/eq_def"]
+[node name="crush" type="Label" parent="player_container/player/eq_def"]
 margin_left = 142.0
 margin_top = 18.0
 margin_right = 209.0
@@ -350,7 +356,7 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="magic" type="Label" parent="player/eq_def"]
+[node name="magic" type="Label" parent="player_container/player/eq_def"]
 margin_left = 213.0
 margin_top = 18.0
 margin_right = 280.0
@@ -358,7 +364,7 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="ranged" type="Label" parent="player/eq_def"]
+[node name="ranged" type="Label" parent="player_container/player/eq_def"]
 margin_left = 284.0
 margin_top = 18.0
 margin_right = 351.0
@@ -366,12 +372,12 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="HSeparator7" type="HSeparator" parent="player"]
+[node name="HSeparator7" type="HSeparator" parent="player_container/player"]
 margin_top = 652.0
 margin_right = 354.0
 margin_bottom = 656.0
 
-[node name="label8" type="Label" parent="player"]
+[node name="label8" type="Label" parent="player_container/player"]
 margin_top = 660.0
 margin_right = 354.0
 margin_bottom = 674.0
@@ -379,20 +385,20 @@ size_flags_horizontal = 3
 text = "Other bonuses"
 align = 1
 
-[node name="eq_other" type="GridContainer" parent="player"]
+[node name="eq_other" type="GridContainer" parent="player_container/player"]
 margin_top = 678.0
 margin_right = 354.0
 margin_bottom = 710.0
 columns = 5
 
-[node name="label" type="Label" parent="player/eq_other"]
+[node name="label" type="Label" parent="player_container/player/eq_other"]
 margin_right = 67.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Str"
 align = 1
 
-[node name="label2" type="Label" parent="player/eq_other"]
+[node name="label2" type="Label" parent="player_container/player/eq_other"]
 margin_left = 71.0
 margin_right = 138.0
 margin_bottom = 14.0
@@ -400,7 +406,7 @@ size_flags_horizontal = 3
 text = "Rng str"
 align = 1
 
-[node name="label3" type="Label" parent="player/eq_other"]
+[node name="label3" type="Label" parent="player_container/player/eq_other"]
 margin_left = 142.0
 margin_right = 209.0
 margin_bottom = 14.0
@@ -408,7 +414,7 @@ size_flags_horizontal = 3
 text = "Mg dmg"
 align = 1
 
-[node name="label4" type="Label" parent="player/eq_other"]
+[node name="label4" type="Label" parent="player_container/player/eq_other"]
 margin_left = 213.0
 margin_right = 280.0
 margin_bottom = 14.0
@@ -416,7 +422,7 @@ size_flags_horizontal = 3
 text = "Pray"
 align = 1
 
-[node name="label5" type="Label" parent="player/eq_other"]
+[node name="label5" type="Label" parent="player_container/player/eq_other"]
 margin_left = 284.0
 margin_right = 351.0
 margin_bottom = 14.0
@@ -424,14 +430,14 @@ size_flags_horizontal = 3
 text = "Speed"
 align = 1
 
-[node name="str" type="Label" parent="player/eq_other"]
+[node name="str" type="Label" parent="player_container/player/eq_other"]
 margin_top = 18.0
 margin_right = 67.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="rng_str" type="Label" parent="player/eq_other"]
+[node name="rng_str" type="Label" parent="player_container/player/eq_other"]
 margin_left = 71.0
 margin_top = 18.0
 margin_right = 138.0
@@ -439,7 +445,7 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="mg_dmg" type="Label" parent="player/eq_other"]
+[node name="mg_dmg" type="Label" parent="player_container/player/eq_other"]
 margin_left = 142.0
 margin_top = 18.0
 margin_right = 209.0
@@ -447,7 +453,7 @@ margin_bottom = 32.0
 text = "+0%"
 align = 1
 
-[node name="pray" type="Label" parent="player/eq_other"]
+[node name="pray" type="Label" parent="player_container/player/eq_other"]
 margin_left = 213.0
 margin_top = 18.0
 margin_right = 280.0
@@ -455,7 +461,7 @@ margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="speed" type="Label" parent="player/eq_other"]
+[node name="speed" type="Label" parent="player_container/player/eq_other"]
 margin_left = 284.0
 margin_top = 18.0
 margin_right = 351.0
@@ -463,18 +469,18 @@ margin_bottom = 32.0
 text = "0"
 align = 1
 
-[node name="HSeparator5" type="HSeparator" parent="player"]
+[node name="HSeparator5" type="HSeparator" parent="player_container/player"]
 margin_top = 714.0
 margin_right = 354.0
 margin_bottom = 718.0
 
-[node name="Label" type="Label" parent="player"]
+[node name="Label" type="Label" parent="player_container/player"]
 margin_top = 722.0
 margin_right = 354.0
 margin_bottom = 736.0
 text = "Prayers:"
 
-[node name="prayers" type="VBoxContainer" parent="player"]
+[node name="prayers" type="VBoxContainer" parent="player_container/player"]
 margin_top = 740.0
 margin_right = 354.0
 margin_bottom = 740.0
@@ -482,12 +488,12 @@ margin_bottom = 740.0
 [node name="VSeparator" type="VSeparator" parent="."]
 margin_left = 358.0
 margin_right = 362.0
-margin_bottom = 830.0
+margin_bottom = 900.0
 
 [node name="results" type="VBoxContainer" parent="."]
 margin_left = 366.0
 margin_right = 843.0
-margin_bottom = 830.0
+margin_bottom = 900.0
 size_flags_horizontal = 3
 script = ExtResource( 7 )
 
@@ -586,18 +592,18 @@ text = "Special effects:"
 [node name="special_desc" type="RichTextLabel" parent="results"]
 margin_top = 264.0
 margin_right = 477.0
-margin_bottom = 830.0
+margin_bottom = 900.0
 size_flags_vertical = 3
 
 [node name="VSeparator2" type="VSeparator" parent="."]
 margin_left = 847.0
 margin_right = 851.0
-margin_bottom = 830.0
+margin_bottom = 900.0
 
 [node name="monster" type="VBoxContainer" parent="."]
 margin_left = 855.0
 margin_right = 1333.0
-margin_bottom = 830.0
+margin_bottom = 900.0
 size_flags_horizontal = 3
 script = ExtResource( 8 )
 
@@ -776,26 +782,26 @@ label = "Size:"
 
 [node name="combat_sim" parent="." instance=ExtResource( 9 )]
 
-[connection signal="text_changed" from="player/name" to="." method="_on_name_text_changed"]
-[connection signal="remove_gear" from="player/weapon" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/head" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/body" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/legs" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/feet" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/shield" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/hands" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/cape" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/ring" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/neck" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player/ammo" to="player_data" method="_on_remove_gear"]
-[connection signal="attack_style" from="player/attack_style" to="player_data" method="_on_attack_style_attack_style"]
-[connection signal="item_selected" from="player/attack_style" to="player/attack_style" method="_on_attack_style_item_selected"]
-[connection signal="value_changed" from="player/attack" to="player_data" method="_on_attack_value_changed"]
-[connection signal="value_changed" from="player/strength" to="player_data" method="_on_strength_value_changed"]
-[connection signal="value_changed" from="player/defence" to="player_data" method="_on_defence_value_changed"]
-[connection signal="value_changed" from="player/magic" to="player_data" method="_on_magic_value_changed"]
-[connection signal="value_changed" from="player/ranged" to="player_data" method="_on_ranged_value_changed"]
-[connection signal="value_changed" from="player/hp_lvl" to="player_data" method="_on_hp_lvl_value_changed"]
-[connection signal="value_changed" from="player/hp" to="player_data" method="_on_hp_value_changed"]
+[connection signal="text_changed" from="player_container/player/name" to="." method="_on_name_text_changed"]
+[connection signal="remove_gear" from="player_container/player/weapon" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/head" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/body" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/legs" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/feet" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/shield" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/hands" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/cape" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/ring" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/neck" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/ammo" to="player_data" method="_on_remove_gear"]
+[connection signal="attack_style" from="player_container/player/attack_style" to="player_data" method="_on_attack_style_attack_style"]
+[connection signal="item_selected" from="player_container/player/attack_style" to="player_container/player/attack_style" method="_on_attack_style_item_selected"]
+[connection signal="value_changed" from="player_container/player/attack" to="player_data" method="_on_attack_value_changed"]
+[connection signal="value_changed" from="player_container/player/strength" to="player_data" method="_on_strength_value_changed"]
+[connection signal="value_changed" from="player_container/player/defence" to="player_data" method="_on_defence_value_changed"]
+[connection signal="value_changed" from="player_container/player/magic" to="player_data" method="_on_magic_value_changed"]
+[connection signal="value_changed" from="player_container/player/ranged" to="player_data" method="_on_ranged_value_changed"]
+[connection signal="value_changed" from="player_container/player/hp_lvl" to="player_data" method="_on_hp_lvl_value_changed"]
+[connection signal="value_changed" from="player_container/player/hp" to="player_data" method="_on_hp_value_changed"]
 [connection signal="pressed" from="results/Button" to="." method="_on_Button_pressed"]
 [connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]
