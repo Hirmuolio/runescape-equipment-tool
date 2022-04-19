@@ -18,9 +18,9 @@ align = 2
 
 [node name="display" type="Label" parent="."]
 margin_left = 134.0
-margin_right = 134.0
+margin_right = 169.0
 margin_bottom = 14.0
+rect_min_size = Vector2( 35, 0 )
 mouse_filter = 1
 
-[connection signal="mouse_entered" from="Label" to="." method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="display" to="." method="_on_mouse_entered"]

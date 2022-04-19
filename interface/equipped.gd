@@ -30,3 +30,11 @@ func remove_gear():
 func _on_Button_pressed():
 	remove_gear()
 	emit_signal("remove_gear", slot )
+
+
+
+func _on_Button_mouse_entered():
+	if equipped_gear:
+		var hoover_node = load( "res://interface/hoover_info.tscn" ).instance()
+		get_tree().get_root().add_child( hoover_node )
+		hoover_node.initialize( $Button, equipped_gear.examine )

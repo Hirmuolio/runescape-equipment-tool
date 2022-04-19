@@ -4,6 +4,8 @@ extends Node
 var p_max_hit : int
 var base_max_hit : int
 var p_hit_chance : float
+var p_hit_roll : int
+var p_def_roll : int
 var p_dps : float
 var p_dps2 : float
 var time_to_kill : float
@@ -11,6 +13,8 @@ var time_to_kill2 : float
 
 var m_max_hit : int
 var m_hit_chance : float
+var m_hit_roll : int
+var m_def_roll : int
 var m_dps : float
 
 signal simulation_done()
@@ -262,6 +266,8 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 		
 		def_roll = ( target_mon.defence_level + 9 ) * ( target_mon.style_def( player.attack_style ) + 64 )
 	
+	p_hit_roll = atk_roll
+	m_def_roll = def_roll
 	
 	if atk_roll > def_roll:
 		p_hit_chance = 1 - 0.5 * ( def_roll + 2.0 ) / ( atk_roll + 1.0 )
@@ -304,8 +310,10 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 		
 		var eff_def : int = Utl.ifloor( player.defence * player.prayer_def ) + player.style_def_bonus + 8
 		def_roll = eff_def * ( player.style_def( target_mon.attack_type[0] ) + 64 )
-		
-		
+	
+	
+	p_def_roll = def_roll
+	m_hit_roll = atk_roll
 	if atk_roll > def_roll:
 		m_hit_chance = 1 - 0.5 * ( def_roll + 2 ) / ( atk_roll + 1 )
 	else:

@@ -13,13 +13,16 @@ func refresh_results():
 	#print_specials( player_data )
 	
 	$p_maxhit.value = combat_sim.p_max_hit
+	$p_maxhit.hoover_info = "Base max hit: " + str( combat_sim.base_max_hit )
 	$p_hitchance.value = str( stepify( combat_sim.p_hit_chance * 100, 0.01 ) ) + "%"
+	$p_hitchance.hoover_info = "Player attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
 	$p_dps.value = stepify( combat_sim.p_dps, 0.01 )
 	$p_dps2.value = stepify( combat_sim.p_dps2, 0.01 )
 	$spk.value = stepify( combat_sim.time_to_kill2, 0.01 )
 	
 	$m_maxhit.value = combat_sim.m_max_hit
 	$m_hitchance.value = str( stepify( combat_sim.m_hit_chance  * 100, 0.01 ) ) + "%"
+	$m_hitchance.hoover_info = "Monster attack roll: " + str(combat_sim.m_hit_roll)+ "\nPlayer def roll: " + str(combat_sim.p_def_roll)
 	$m_dps.value = stepify( combat_sim.m_dps, 0.1 )
 	
 	pass
