@@ -396,39 +396,76 @@ func simulate_combat( player : player, target_mon : monster ):
 	rng.randomize()
 	
 	var max_kill_duration : int = 2000 # ticks
-	var keris : bool = "keris" in player.special_attributes
-	var gaddehammer : bool = "gaddehammer" in player.special_attributes
+	
+	var crit_chance : float = 0
+	if "keris" in player.special_attributes:
+		crit_chance = 1.0/51
+	elif "gaddehammer" in player.special_attributes:
+		crit_chance = 1.0/51
+	else:
+		if "onyx_bolt_e" in player.special_attributes:
+			crit_chance = 0.11
+		if "dragonstone_bolt_e" in player.special_attributes and not ("dragon" in target_mon.attributes):
+			crit_chance = 0.06
+		if "diamond_bolt_e" in player.special_attributes:
+			crit_chance = 0.1
+		if "ruby_bolt_e" in player.special_attributes:
+			crit_chance = 0.06
+		if "pearl_bolt_e" in player.special_attributes:
+			crit_chance = 0.06
+		if "opal_bolt_e" in player.special_attributes:
+			crit_chance = 0.05
+		
+		# This is a bit hacky but should not run when non-bolt crit is possible.
+		var kandarin_hard : bool = false
+		if kandarin_hard:
+			crit_chance *= 1.1
+		
 	
 	var simulated_kills = 10000
 	
-	if keris:
-		for _kills in range(1, simulated_kills): # 100000 rounds
-			var target_hp = target_mon.hitpoints
-			while target_hp > 0:
-				# Player attacks
-				if rng.randf() < p_hit_chance:
-					if rng.randi_range( 1, 51) == 1:
-						target_hp -= rng.randi_range( 0, floor( p_max_hit * 3 ) )
-					else:
+	if crit_chance > 0:
+		if "ruby_bolt_e" in player.special_attributes:
+			for _kills in range(1, simulated_kills):
+				var target_hp = target_mon.hitpoints
+				while target_hp > 0:
+					# Player attacks
+					if rng.randf() < p_hit_chance:
+						if rng.randf() <= crit_chance:
+							target_hp -= min( 100, int( target_mon.hitpoints * 0.2 ) )
+						else:
+							target_hp -= rng.randi_range( 0, p_max_hit)
+					tick += player.attack_speed
+				if _kills == 1 && tick >= max_kill_duration:
+					print( "Too slow kills to simulate" )
+					return
+		if "diamond_bolt_e" in player.special_attributes:
+			for _kills in range(1, simulated_kills):
+				var target_hp = target_mon.hitpoints
+				while target_hp > 0:
+					# Player attacks
+					if rng.randf() <= crit_chance:
+						target_hp -= rng.randi_range( 0, crit_max_hit)
+					elif rng.randf() < p_hit_chance:
 						target_hp -= rng.randi_range( 0, p_max_hit)
-				tick += player.attack_speed
-			if _kills == 1 && tick >= max_kill_duration:
-				print( "Too slow kills to simulate" )
-				return
-	elif gaddehammer:
-		for _kills in range(1, simulated_kills): # 100000 rounds
-			var target_hp = target_mon.hitpoints
-			while target_hp > 0:
-				# Player attacks
-				if rng.randf() < p_hit_chance:
-					if rng.randi_range( 1, 51) == 1:
-						target_hp -= rng.randi_range( 0, floor( p_max_hit * 2 ) )
-					else:
-						target_hp -= rng.randi_range( 0, p_max_hit)
-				tick += player.attack_speed
-			if _kills == 1 && tick >= max_kill_duration:
-				print( "Too slow kills to simulate" )
-				return
+					tick += player.attack_speed
+				if _kills == 1 && tick >= max_kill_duration:
+					print( "Too slow kills to simulate" )
+					return
+		else:
+			for _kills in range(1, simulated_kills): # 100000 rounds
+				var target_hp = target_mon.hitpoints
+				while target_hp > 0:
+					# Player attacks
+					if rng.randf() < p_hit_chance:
+						if rng.randf() <= crit_chance:
+							target_hp -= rng.randi_range( 0, crit_max_hit )
+						else:
+							target_hp -= rng.randi_range( 0, p_max_hit)
+					tick += player.attack_speed
+				if _kills == 1 && tick >= max_kill_duration:
+					print( "Too slow kills to simulate" )
+					return
 	else:
 		for _kills in range(1, simulated_kills): #1000 rounds
 			var target_hp = target_mon.hitpoints
