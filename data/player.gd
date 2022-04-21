@@ -44,22 +44,16 @@ var attack_stance : String
 # Dynamically calculated attributes:
 var str_bonus : int setget ,_get_str_bonus
 var atk_bonus : int setget ,_get_atk_bonus
-var rng_bonus : int setget ,_get_rng_bonus
-var rng_str_bonus : int setget ,_get_rng_str_bonus
 
 var prayer_str : float setget ,_get_pray_str
 var prayer_atk : float setget ,_get_pray_att
 var prayer_def : float setget ,_get_pray_def
-var prayer_rng : float setget ,_get_pray_rng
-var prayer_rng_atk : float setget ,_get_pray_rng_atk
-var prayer_rng_str : float setget ,_get_pray_rng_str
 var prayer_magic : float setget ,_get_pray_magic
 var prayer_magic_def : float setget ,_get_pray_magic_def
 
 var style_str_bonus : int setget ,_get_style_str
 var style_atk_bonus : int setget ,_get_style_atk
 var style_def_bonus : int setget ,_get_style_def
-var style_rng_bonus : int setget ,_get_style_rng
 
 var other_str_bonus : float = 1 #TODO
 var other_atk_bonus : float = 1 #TODO
@@ -280,11 +274,6 @@ func _get_style_def() -> int:
 		return 1
 	return 0
 
-func _get_style_rng() -> int:
-	if attack_stance == "accurate":
-		return 3
-	return 0
-
 func get_equipment_bonus( attribute : String ) -> int:
 	var bonus : int = 0
 	
@@ -326,12 +315,6 @@ func _get_atk_bonus() -> int:
 	
 	push_warning ( "Invalid weapon melee attack style " + '"' + attack_style + '"' )
 	return get_equipment_bonus( "attack_stab" )
-
-func _get_rng_str_bonus() -> int:
-	return get_equipment_bonus( "ranged_strength" )
-
-func _get_rng_bonus() -> int:
-	return get_equipment_bonus( "attack_ranged" )
 
 func style_def( ag_attack_style : String ) -> int:
 	
@@ -386,20 +369,5 @@ func _get_pray_magic_def()-> float:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic_defence"] ) / 100
 	return 1.0
 
-func _get_pray_rng() -> float:
-	for pray_id in prayers:
-		if "ranged" in HardcodedData.prayers[pray_id]["modifiers"]:
-			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged"] ) / 100
-	return 1.0
 
-func _get_pray_rng_atk() -> float:
-	for pray_id in prayers:
-		if "ranged_att" in HardcodedData.prayers[pray_id]["modifiers"]:
-			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged_atk"] ) / 100
-	return 1.0
 
-func _get_pray_rng_str() -> float:
-	for pray_id in prayers:
-		if "ranged_str" in HardcodedData.prayers[pray_id]["modifiers"]:
-			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged_str"] ) / 100
-	return 1.0

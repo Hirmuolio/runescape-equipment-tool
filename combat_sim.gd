@@ -1,8 +1,10 @@
 extends Node
 
 
-var p_max_hit : int
-var base_max_hit : int
+var p_max_hit : int	# Max hit with equipment specials
+var base_max_hit : int	# Max hit without extra bonuses
+var crit_max_hit : int	# Max hit with occasionally triggering specials
+
 var p_hit_chance : float
 var p_hit_roll : int
 var p_def_roll : int
@@ -79,45 +81,106 @@ func do_simulations( player : player, target_mon : monster ):
 
 func calc_p_max_hit( player : player, target_mon : monster ):
 	
-	if player.attack_style == "ranged":
-		var eff_str : int = Utl.ifloor( player.ranged * player.prayer_rng * player.prayer_rng_str ) + player.style_rng_bonus + 8
+	if player.attack_stance == "magic":
+		var spell : equipment = player.spell
+		var max_hit : int
 		
-		var max_hit : int = Utl.ifloor(  0.5 + eff_str * ( player.rng_str_bonus + 64 ) / 640.0 )
-		base_max_hit = max_hit
+		if spell.item_name == "Slayer dart":
+			if "slayer_task" in target_mon.attributes and "slayer_staff_e" in player.special_attributes:
+				max_hit = int( player.magic / 6.0 ) + 10
+			else:
+				max_hit = int( player.magic / 10.0 ) + 10
+			base_max_hit = max_hit
+		else:
+			max_hit = spell.magic_max_hit
+			base_max_hit = max_hit
+			
+			if spell.bolt_spell && "chaos_gauntlet" in player.special_attributes: # TODO
+				max_hit += 3
+			if spell.god_spell && "charge" in player.special_attributes && player.cape.god_cape:
+				max_hit += 10
 		
-		if "void_ranged" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.1 )
+		max_hit = int( max_hit * player.mag_dmg_bonus )
+		
+		
+		if "elite_void_magic" in player.special_attributes:
+				max_hit = int( max_hit * 1.025 )
 		
 		if "salve_ei" in player.special_attributes and "undead" in target_mon.attributes:
-				max_hit = Utl.ifloor( max_hit * 1.2 )
+				max_hit = int( max_hit * 1.2 )
 		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 7.0/6 ) # *1.16
+			max_hit = int( max_hit * 1.15 ) # *1.16
 		elif "black_mask_i" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.15 )
+			max_hit = int( max_hit * 1.15 )
+		
+		if "tome_of_fire" in player.special_attributes && spell.element == "fire":
+			max_hit = int( max_hit * 1.5 )
+		if "tome_of_water" in player.special_attributes && spell.element == "water":
+			max_hit = int( max_hit * 1.2 )
+		if "somke_bass" in player.special_attributes && spell.book == "standard":
+			max_hit = int( max_hit * 1.1 )
+		
+		if "thammaron" in player.special_attributes:
+			max_hit = int( max_hit * 1.25 )
+		
+		
+	elif player.attack_style == "ranged":
+		var eff_str : int = int( player.ranged * player.prayer_rng ) + player.style_rng_bonus + 8
+		
+		base_max_hit = int(  0.5 + eff_str * ( player.rng_str_bonus + 64 ) / 640.0 )
+		base_max_hit = int( base_max_hit * player.prayer_rng_str )
+		
+		p_max_hit = base_max_hit
+		
+		if "void_ranged" in player.special_attributes:
+			p_max_hit = int( p_max_hit * 1.1 )
+		elif "elite_void_ranged" in player.special_attributes:
+				p_max_hit = int( p_max_hit * 1.125 )
+		
+		if "salve_ei" in player.special_attributes and "undead" in target_mon.attributes:
+				p_max_hit = int( p_max_hit * 1.2 )
+		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
+			p_max_hit = int( p_max_hit * 7.0/6 ) # *1.16
+		elif "black_mask_i" in player.special_attributes:
+			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if "holy_water" in player.special_attributes and "demon" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 1 ) #unknown so lets not do anything
+			p_max_hit = int( p_max_hit * 1 ) #unknown so lets not do anything
 		
 		if "dragonhunter_crossbow" in player.special_attributes and "dragon" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 1.25 )
+			p_max_hit = int( p_max_hit * 1.25 )
 		if "craw" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.5 )
-		
-		
+			p_max_hit = int( p_max_hit * 1.5 )
 		
 		if "twisted" in player.special_attributes:
 			var mag = max( target_mon.magic_level, target_mon.attack_magic )
 			var mult = clamp( 0, 3 * mag - ( 3 * mag / 10.0 - 140 )^2, 2.5 )
-			max_hit = Utl.ifloor( max_hit * mult )
+			p_max_hit = int( p_max_hit * mult )
 		
-		p_max_hit = max_hit
+		
+		crit_max_hit = p_max_hit
+		if "opal_bolt_e" in player.special_attributes:
+			crit_max_hit = int( player.ranged * 1.1 )
+		if "pearl_bolt_e" in player.special_attributes:
+			if "fiery" in target_mon.attributes:
+				crit_max_hit += int( player.ranged / 15.0 )
+			else:
+				crit_max_hit += int( player.ranged / 20.0 )
+		if "diamond_bolt_e" in player.special_attributes:
+			crit_max_hit = int( crit_max_hit * 1.15 )
+		if "dragonstone_bolt_e" in player.special_attributes and not ( "dragon" in target_mon.attributes ):
+			crit_max_hit += int( crit_max_hit / 20.0 )
+		if "onyx_bolt_e" in player.special_attributes:
+			crit_max_hit = int( crit_max_hit * 1.2 )
+		if "ruby_bolt_e" in player.special_attributes:
+			crit_max_hit = max( crit_max_hit, int( min( target_mon.hitpoints * 1.2, 100) ) )
 		
 	else:
 		# Melee
-		var eff_str : int = Utl.ifloor( player.strength * player.prayer_str ) + player.style_str_bonus + 8
+		var eff_str : int = int( player.strength * player.prayer_str ) + player.style_str_bonus + 8
 		
-		var max_hit : int = Utl.ifloor( 0.5 + eff_str * ( player.str_bonus + 64 ) / 640.0 )
-		base_max_hit = max_hit
+		base_max_hit = int( 0.5 + eff_str * ( player.str_bonus + 64 ) / 640.0 )
+		
 		# Special bonuses need to be applied in specific order
 		#Order:
 		# Obsidian armor before salve (e)
@@ -129,60 +192,66 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		# Void ?
 		# viggora ?
 		# Dharok ?
-		
+		p_max_hit = base_max_hit
 		if "void_melee" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.1 )
+			p_max_hit = int( p_max_hit * 1.1 )
 		if "obsidian_armor" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.1 )
+			p_max_hit = int( p_max_hit * 1.1 )
 		
 		if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
-				max_hit = Utl.ifloor( max_hit * 1.2 )
+				p_max_hit = int( p_max_hit * 1.2 )
 		elif "black_mask" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 7.0/6 )
+			p_max_hit = int( p_max_hit * 7.0/6 )
 		elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 7.0/6 )
+			p_max_hit = int( p_max_hit * 7.0/6 )
 		
 		if "berserk" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.2 )
+			p_max_hit = int( p_max_hit * 1.2 )
 		
 		if "vampyre" in target_mon.attributes:
 			if "ivandis_flail" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.2 )
+				p_max_hit = int( p_max_hit * 1.2 )
 			elif "blisterwood_flail" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.25 )
+				p_max_hit = int( p_max_hit * 1.25 )
 			elif "blisterwood_sickle" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.15 )
+				p_max_hit = int( p_max_hit * 1.15 )
 		if "viggora" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * 1.5 )
+			p_max_hit = int( p_max_hit * 1.5 )
 		if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 4.0/3 )
+			p_max_hit = int( p_max_hit * 4.0/3 )
 		if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 1.25 )
+			p_max_hit = int( p_max_hit * 1.25 )
 		if "demon" in target_mon.attributes:
 			if "silverlight" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.6 )
+				p_max_hit = int( p_max_hit * 1.6 )
 			elif "darklight" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.6 )
+				p_max_hit = int( p_max_hit * 1.6 )
 			elif "arclight" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.7 )
+				p_max_hit = int( p_max_hit * 1.7 )
 		if player.attack_style == "crush":
 			if "inquisitor_1" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.005 )
+				p_max_hit = int( p_max_hit * 1.005 )
 			elif "inquisitor_2" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.01 )
+				p_max_hit = int( p_max_hit * 1.01 )
 			elif "inquisitor_3" in player.special_attributes:
-				max_hit = Utl.ifloor( max_hit * 1.025 )
+				p_max_hit = int( p_max_hit * 1.025 )
 		if "dragonhunter_lance" in player.special_attributes && "dragon" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 1.2 )
+			p_max_hit = int( p_max_hit * 1.2 )
 		if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 1.175 )
+			p_max_hit = int( p_max_hit * 1.175 )
 		if "barronite" in player.special_attributes && "golem" in target_mon.attributes:
-			max_hit = Utl.ifloor( max_hit * 1.15 )
+			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if "dharok" in player.special_attributes:
-			max_hit = Utl.ifloor( max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
+			p_max_hit = int( p_max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
 			
-		p_max_hit = max_hit
+		crit_max_hit = p_max_hit
+		
+		if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
+			crit_max_hit = p_max_hit * 3
+		if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
+			crit_max_hit = p_max_hit * 2
+		
 	
 
 
@@ -193,32 +262,32 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 	var def_roll : int
 	
 	if player.attack_style == "ranged":
-		var eff_atk : int = Utl.ifloor( player.ranged * player.prayer_rng * player.prayer_rng_atk ) + player.style_rng_bonus + 8
+		var eff_atk : int = int( player.ranged * player.prayer_rng * player.prayer_rng_atk ) + player.style_rng_bonus + 8
 		
 		if "void_ranged" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.1 )
+			eff_atk = int( eff_atk * 1.1 )
 		
 		if "salve_ei" in player.special_attributes and "undead" in target_mon.attributes:
-				eff_atk = Utl.ifloor( eff_atk * 1.2 )
+				eff_atk = int( eff_atk * 1.2 )
 		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
-			eff_atk = Utl.ifloor( eff_atk * 7.0/6 ) # *1.16
+			eff_atk = int( eff_atk * 7.0/6 ) # *1.16
 		elif "black_mask_i" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.15 )
+			eff_atk = int( eff_atk * 1.15 )
 		
 		if "holy_water" in player.special_attributes and "demon" in target_mon.attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1 ) #unknown so lets not do anything
+			eff_atk = int( eff_atk * 1 ) #unknown so lets not do anything
 		
 		if "dragonhunter_crossbow" in player.special_attributes and "dragon" in target_mon.attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.3 )
+			eff_atk = int( eff_atk * 1.3 )
 		if "craw" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.5 )
+			eff_atk = int( eff_atk * 1.5 )
 		
 		
 		
 		if "twisted" in player.special_attributes:
 			var mag = max( target_mon.magic_level, target_mon.attack_magic )
 			var mult = clamp( 0, 3 * mag - ( 3 * mag / 10.0 - 100 )^2 - 8.6, 1.4 )
-			eff_atk = Utl.ifloor( eff_atk * mult )
+			eff_atk = int( eff_atk * mult )
 		
 		atk_roll = eff_atk * ( player.rng_bonus + 64 )
 		
@@ -226,41 +295,41 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 	
 	else:
 		# Melee
-		var eff_atk : int = Utl.ifloor( player.attack * player.prayer_atk ) + player.style_atk_bonus + 8
+		var eff_atk : int = int( player.attack * player.prayer_atk ) + player.style_atk_bonus + 8
 		
 		# These should probably be in same order as in max hit
 		if "void_melee" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.1 )
+			eff_atk = int( eff_atk * 1.1 )
 		if "obsidian_armor" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.1 )
+			eff_atk = int( eff_atk * 1.1 )
 		
 		if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
-				eff_atk = Utl.ifloor( eff_atk * 1.2 )
+				eff_atk = int( eff_atk * 1.2 )
 		elif "black_mask" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+			eff_atk = int( eff_atk * 7.0/6 )
 		elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
-			eff_atk = Utl.ifloor( eff_atk * 7.0/6 )
+			eff_atk = int( eff_atk * 7.0/6 )
 		
 		if "vampyre" in target_mon.attributes:
 			if "blisterwood_flail" in player.special_attributes:
-				eff_atk = Utl.ifloor( eff_atk * 1.05 )
+				eff_atk = int( eff_atk * 1.05 )
 			elif "blisterwood_sickle" in player.special_attributes:
-				eff_atk = Utl.ifloor( eff_atk * 1.05 )
+				eff_atk = int( eff_atk * 1.05 )
 		if "viggora" in player.special_attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.5 )
+			eff_atk = int( eff_atk * 1.5 )
 		if "arclight" in player.special_attributes && "demon" in target_mon.attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.7 )
+			eff_atk = int( eff_atk * 1.7 )
 		if player.attack_style == "crush":
 			if "inquisitor_1" in player.special_attributes:
-				eff_atk = Utl.ifloor( eff_atk * 1.005 )
+				eff_atk = int( eff_atk * 1.005 )
 			elif "inquisitor_2" in player.special_attributes:
-				eff_atk = Utl.ifloor( eff_atk * 1.01 )
+				eff_atk = int( eff_atk * 1.01 )
 			elif "inquisitor_3" in player.special_attributes:
-				eff_atk = Utl.ifloor( eff_atk * 1.025 )
+				eff_atk = int( eff_atk * 1.025 )
 		if "dragonhunter_lance" in player.special_attributes && "dragon" in target_mon.attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.2 )
+			eff_atk = int( eff_atk * 1.2 )
 		if "leaf_baxe" in player.special_attributes && "leafy" in target_mon.attributes:
-			eff_atk = Utl.ifloor( eff_atk * 1.175 )
+			eff_atk = int( eff_atk * 1.175 )
 		
 		atk_roll = eff_atk * ( player.atk_bonus + 64 )
 		
@@ -289,10 +358,10 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 		atk_roll = eff_atk * ( target_mon.attack_magic  + 64 )
 		
 		# This may be wrong but nobody knows better
-		var eff_def : int = Utl.ifloor( ( Utl.ifloor( player.defence * player.prayer_def ) + player.style_def_bonus ) * 0.3 )
-		eff_def += Utl.ifloor( player.magic * player.prayer_magic * 0.7 ) + 8
+		var eff_def : int = int( ( int( player.defence * player.prayer_def ) + player.style_def_bonus ) * 0.3 )
+		eff_def += int( player.magic * player.prayer_magic * 0.7 ) + 8
 		# Uhh... maybe
-		eff_def = Utl.ifloor( eff_def * player.prayer_magic_def )
+		eff_def = int( eff_def * player.prayer_magic_def )
 		
 		def_roll = eff_def * ( player.style_def( "magic" ) + 64 )
 
@@ -300,7 +369,7 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 		var eff_atk : int = target_mon.ranged_level + 8
 		atk_roll = eff_atk * ( target_mon.attack_ranged  + 64 )
 		
-		var eff_def : int = Utl.ifloor( player.defence * player.prayer_def ) + player.style_def_bonus + 8
+		var eff_def : int = int( player.defence * player.prayer_def ) + player.style_def_bonus + 8
 		def_roll = eff_def * ( player.style_def( "ranged" ) + 64 )
 		
 	else:
@@ -308,7 +377,7 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 		var eff_atk : int = target_mon.attack_level + 8
 		atk_roll = eff_atk * ( target_mon.attack_bonus  + 64 )
 		
-		var eff_def : int = Utl.ifloor( player.defence * player.prayer_def ) + player.style_def_bonus + 8
+		var eff_def : int = int( player.defence * player.prayer_def ) + player.style_def_bonus + 8
 		def_roll = eff_def * ( player.style_def( target_mon.attack_type[0] ) + 64 )
 	
 	

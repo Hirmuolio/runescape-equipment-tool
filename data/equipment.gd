@@ -32,6 +32,10 @@ var prayer : int
 
 var attack_speed : int
 var stances : Array
+var element : String
+
+# Spells are items in here
+var magic_max_hit : int
 
 # Hardcoded attributes set during load
 var special_effects : Array

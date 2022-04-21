@@ -128,6 +128,22 @@ var equipment_specials : Dictionary = {
 		"description": "10% bonus to ranged damage and accuracy",
 		"set": 4
 	},
+	"void_magic": {
+		"items": ["Void mage helm", "Void knight top", "Elite void top", "Void knight robe", "Elite void robe", "Void knight gloves"],
+		"name": "Void ranger set",
+		"description": "45% bonus to magic accuracy",
+		"set": 4
+	},
+	"elite_void_magic": {
+		"items": ["Elite void robe", "Elite void top", "Void knight gloves", "Void mage helm"],
+		"name": "Elite void mage",
+		"description": "2.5% magic damage bonus"
+	},
+	"elite_void_ranged": {
+		"items": ["Elite void robe", "Elite void top", "Void knight gloves", "Void ranger helm"],
+		"name": "Elite void mage",
+		"description": "2.5% ranged damage bonus"
+	},
 	"silverlight": {
 		"items": ["Silverlight"],
 		"name": "Silverlight",
@@ -177,6 +193,76 @@ var equipment_specials : Dictionary = {
 		"items": ["Twisted bow"],
 		"name": "Twisted bow",
 		"description": "Increased damage and accuracy basaed on enemy magic level/accuracy"
+	},
+	"slayer_staff_e": {
+		"items": ["Slayer's staff (e)"],
+		"name": "Slayer's staff (e)",
+		"description": "Increased slayer dart damage against slayer tasks"
+	},
+	"chaos_gauntlet": {
+		"items": ["Chaos gauntlets"],
+		"name": "Chaos gauntlets",
+		"description": "+3 to bolt spell damage"
+	},
+	"tome_of_fire": {
+		"items": ["Tome of fire"],
+		"name": "Tome of fire",
+		"description": "+50% bonus for fire spell damage"
+	},
+	"tome_of_water": {
+		"items": ["Tome of water"],
+		"name": "Tome of water",
+		"description": "+20% bonus for water spell damage and accuracy"
+	},
+	"somke_bass": {
+		"items": ["Smoke battlestaff"],
+		"name": "Smoke battlestaff",
+		"description": "+10% bonus for standard spell damage and accuracy"
+	},
+	"thammaron": {
+		"items": ["Thammaron's sceptre"],
+		"name": "Thammaron's sceptre",
+		"description": "+100% accuracy and +25% damage to magic (NPC only in wilderness)"
+	},
+	"opal_bolt_e": {
+		"items": ["Opal bolts (e)"],
+		"name": "Opal bolts (e)",
+		"description": "5% chance to deal [ranged level]/10 damage"
+	},
+	"jade_bolt_e": {
+		"items": ["Jade bolts (e)"],
+		"name": "Jade bolts (e)",
+		"description": "6% chance to deal bind target on place"
+	},
+	"pearl_bolt_e": {
+		"items": ["Pearl bolts (e)"],
+		"name": "Pearl bolts (e)",
+		"description": "6% chance to add [ranged level]/20 ( [ranged level]/15 against fiery targets) damage to hit"
+	},
+	"emerald_bolt_e": {
+		"items": ["Emerald bolts (e)"],
+		"name": "Emerald bolts (e)",
+		"description": "55% (54% in pvp) chance to poison target by 5 points (not implemented)"
+	},
+	"ruby_bolt_e": {
+		"items": ["Ruby bolts (e)"],
+		"name": "Ruby bolts (e)",
+		"description": "6% (11% in pvp) chance to deal 20% of target's remaining HP in damage (max 100 damage). Also reduces user's current HP by 10%. Does not activate if user would die."
+	},
+	"diamond_bolt_e": {
+		"items": ["Diamond bolts (e)"],
+		"name": "Diamond bolts (e)",
+		"description": "10% (5% in pvp) chance to quarantee a hit with 15% extra damage. Status changes are ignored for this hit."
+	},
+	"dragonstone_bolt_e": {
+		"items": ["Dragonstone bolts (e)"],
+		"name": "Dragonstone bolts (e)",
+		"description": "6% chance to apply [ranged level]/20 extra damage. Does not activate against targets immune to dragonfire."
+	},
+	"onyx_bolt_e": {
+		"items": ["Onyx bolts (e)"],
+		"name": "Onyx bolts (e)",
+		"description": "11% (10% in pvp) chance to deal 20% extra damage and heal the user by 25% of the damage dealt. Does not work against undead."
 	}
 }
 
