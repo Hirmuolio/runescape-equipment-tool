@@ -137,12 +137,14 @@ var equipment_specials : Dictionary = {
 	"elite_void_magic": {
 		"items": ["Elite void robe", "Elite void top", "Void knight gloves", "Void mage helm"],
 		"name": "Elite void mage",
-		"description": "2.5% magic damage bonus"
+		"description": "2.5% magic damage bonus",
+		"set": 4
 	},
 	"elite_void_ranged": {
 		"items": ["Elite void robe", "Elite void top", "Void knight gloves", "Void ranger helm"],
 		"name": "Elite void mage",
-		"description": "2.5% ranged damage bonus"
+		"description": "2.5% ranged damage bonus",
+		"set": 4
 	},
 	"silverlight": {
 		"items": ["Silverlight"],
@@ -263,6 +265,46 @@ var equipment_specials : Dictionary = {
 		"items": ["Onyx bolts (e)"],
 		"name": "Onyx bolts (e)",
 		"description": "11% (10% in pvp) chance to deal 20% extra damage and heal the user by 25% of the damage dealt. Does not work against undead."
+	},
+	"scythe_vitur": {
+		"items": ["Scythe of vitur"],
+		"name": "Scythe of vitur",
+		"description": "Hits large targets up to three times per attack. -50% damage on second hit and -75% damage on third hit."
+	},
+	"damned_ahrim": {
+		"items": ["Amulet of the damned", "Ahrim's hood", "Ahrim's robetop", "Ahrim's robeskirt", "Ahrim's staff"],
+		"name": "Amulet of the Damned + Ahrim set",
+		"description": "25% chance to deal 30% more damage.",
+		"set": 5
+	},
+	"damned_karil": {
+		"items": ["Amulet of the damned", "Karil's coif", "Karil's leathertop", "Karil's leatherskirt", "Karil's crossbow"],
+		"name": "Amulet of the Damned + Karil set",
+		"description": "25% chance to hit twice. The second hit deals half damage.",
+		"set": 5
+	},
+	"damned_dharok": {
+		"items": ["Amulet of the damned", "Dharok's helm", "Dharok's platebody", "Dharok's platelegs", "Dharok's greataxe"],
+		"name": "Amulet of the Damned + Dharok set",
+		"description": "25% chance to recoil 15% of damage taken. (Not implemented)",
+		"set": 5
+	},
+	"damned_torag": {
+		"items": ["Amulet of the damned", "Torag's helm", "Torag's platebody", "Torag's platelegs", "Torag's hammers"],
+		"name": "Amulet of the Damned + Torag set",
+		"description": "+1% to defence level for every 1 Hitpoint missing. (Not implemented)",
+		"set": 5
+	},
+	"ring_of_recoil": {
+		"items": ["Ring of recoil", "Ring of suffering", "Ring of suffering (i)"],
+		"name": "Ring of recoil",
+		"description": "Recoild 10% + 1 of the received damage back. (Not implemented)"
+	},
+	"verac": {
+		"items": ["Verac's helm", "Verac's brassard", "Verac's plateskirt", "Verac's flail"],
+		"name": "Verac the Defiled",
+		"description": "25% chance for quaranteed hit with +1 damage bonus.",
+		"set": 4
 	}
 }
 

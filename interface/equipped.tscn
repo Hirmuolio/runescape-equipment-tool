@@ -22,6 +22,5 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 250, 0 )
 size_flags_horizontal = 3
 
-[connection signal="mouse_entered" from="." to="." method="_on_HBoxContainer_mouse_entered"]
 [connection signal="mouse_entered" from="Button" to="." method="_on_Button_mouse_entered"]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

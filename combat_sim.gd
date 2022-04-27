@@ -123,6 +123,10 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		if "thammaron" in player.special_attributes:
 			max_hit = int( max_hit * 1.25 )
 		
+		crit_max_hit = p_max_hit
+		if "damned_ahrim" in player.special_attributes:
+			crit_max_hit = int( crit_max_hit * 1.3 )
+		
 		
 	elif player.attack_style == "ranged":
 		var eff_str : int = int( player.ranged * player.prayer_rng ) + player.style_rng_bonus + 8
@@ -152,12 +156,6 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		if "craw" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.5 )
 		
-		if "twisted" in player.special_attributes:
-			var mag = max( target_mon.magic_level, target_mon.attack_magic )
-			var mult = clamp( 0, 3 * mag - ( 3 * mag / 10.0 - 140 )^2, 2.5 )
-			p_max_hit = int( p_max_hit * mult )
-		
-		
 		crit_max_hit = p_max_hit
 		if "opal_bolt_e" in player.special_attributes:
 			crit_max_hit = int( player.ranged * 1.1 )
@@ -173,7 +171,12 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		if "onyx_bolt_e" in player.special_attributes:
 			crit_max_hit = int( crit_max_hit * 1.2 )
 		if "ruby_bolt_e" in player.special_attributes:
-			crit_max_hit = max( crit_max_hit, int( min( target_mon.hitpoints * 1.2, 100) ) )
+			crit_max_hit = int( max( crit_max_hit, int( min( target_mon.hitpoints * 1.2, 100) ) ) )
+		
+		if "twisted" in player.special_attributes:
+			var mag = max( target_mon.magic_level, target_mon.attack_magic )
+			var mult = clamp( 0, 3 * mag - ( 3 * mag / 10.0 - 140 )^2, 2.5 )
+			p_max_hit = int( p_max_hit * mult )
 		
 	else:
 		# Melee
@@ -187,16 +190,14 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		# Obsidian armor before berserker necklace
 		# Black mask before berserker necklace
 		# Black mask before special attack
-		# Keris ?
-		# silver/dark/ardc ?
-		# Void ?
-		# viggora ?
-		# Dharok ?
+		# Others ???
 		p_max_hit = base_max_hit
 		if "void_melee" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.1 )
 		if "obsidian_armor" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.1 )
+		
+		
 		
 		if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
 				p_max_hit = int( p_max_hit * 1.2 )
@@ -215,8 +216,6 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 				p_max_hit = int( p_max_hit * 1.25 )
 			elif "blisterwood_sickle" in player.special_attributes:
 				p_max_hit = int( p_max_hit * 1.15 )
-		if "viggora" in player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.5 )
 		if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 4.0/3 )
 		if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
@@ -251,6 +250,8 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 			crit_max_hit = p_max_hit * 3
 		if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
 			crit_max_hit = p_max_hit * 2
+		if "viggora" in player.special_attributes:
+			p_max_hit = int( p_max_hit * 1.5 )
 		
 	
 
@@ -402,6 +403,12 @@ func simulate_combat( player : player, target_mon : monster ):
 		crit_chance = 1.0/51
 	elif "gaddehammer" in player.special_attributes:
 		crit_chance = 1.0/51
+	elif "damned_ahrim":
+		crit_chance = 0.25
+	elif "damned_karil":
+		crit_chance = 0.25
+	elif "verac":
+		crit_chance = 0.25
 	else:
 		if "onyx_bolt_e" in player.special_attributes:
 			crit_chance = 0.11
@@ -422,12 +429,12 @@ func simulate_combat( player : player, target_mon : monster ):
 			crit_chance *= 1.1
 		
 	
-	var simulated_kills = 10000
+	var simulated_kills : int = 10000
 	
 	if crit_chance > 0:
 		if "ruby_bolt_e" in player.special_attributes:
 			for _kills in range(1, simulated_kills):
-				var target_hp = target_mon.hitpoints
+				var target_hp : int = target_mon.hitpoints
 				while target_hp > 0:
 					# Player attacks
 					if rng.randf() < p_hit_chance:
@@ -452,6 +459,32 @@ func simulate_combat( player : player, target_mon : monster ):
 				if _kills == 1 && tick >= max_kill_duration:
 					print( "Too slow kills to simulate" )
 					return
+		if "damned_karil" in player.special_attributes:
+			for _kills in range(1, simulated_kills):
+				var target_hp = target_mon.hitpoints
+				while target_hp > 0:
+					# Player attacks
+					if rng.randf() < p_hit_chance:
+						target_hp -= rng.randi_range( 0, p_max_hit)
+					if rng.randf() <= crit_chance && rng.randf() < p_hit_chance:
+						target_hp -= rng.randi_range( 0, int( p_max_hit * 0.5 ) )
+					tick += player.attack_speed
+				if _kills == 1 && tick >= max_kill_duration:
+					print( "Too slow kills to simulate" )
+					return
+		if "verac" in player.special_attributes:
+			for _kills in range(1, simulated_kills):
+				var target_hp = target_mon.hitpoints
+				while target_hp > 0:
+					# Player attacks
+					if rng.randf() < crit_chance:
+						target_hp -= rng.randi_range( 0, p_max_hit)
+					elif rng.randf() < p_hit_chance:
+						target_hp -= rng.randi_range( 0, p_max_hit) + 1
+					tick += player.attack_speed
+				if _kills == 1 && tick >= max_kill_duration:
+					print( "Too slow kills to simulate" )
+					return
 		else:
 			for _kills in range(1, simulated_kills): # 100000 rounds
 				var target_hp = target_mon.hitpoints
@@ -466,6 +499,21 @@ func simulate_combat( player : player, target_mon : monster ):
 				if _kills == 1 && tick >= max_kill_duration:
 					print( "Too slow kills to simulate" )
 					return
+	elif "scythe_vitur" in player.special_attributes and int(target_mon.size) > 1:
+		for _kills in range(1, simulated_kills): #1000 rounds
+			var target_hp = target_mon.hitpoints
+			while target_hp > 0:
+				# Player attacks
+				if rng.randf() < p_hit_chance:
+					target_hp -= rng.randi_range( 0, p_max_hit )
+				if rng.randf() < p_hit_chance:
+					target_hp -= rng.randi_range( 0, int( p_max_hit * 0.5 ) )
+				if rng.randf() < p_hit_chance:
+					target_hp -= rng.randi_range( 0, int( p_max_hit * 0.25 ) )
+				tick += player.attack_speed
+			if _kills == 1 && tick >= max_kill_duration:
+				print( "Too slow kills to simulate" )
+				return
 	else:
 		for _kills in range(1, simulated_kills): #1000 rounds
 			var target_hp = target_mon.hitpoints
