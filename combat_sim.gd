@@ -26,8 +26,23 @@ func _ready():
 	pass # Replace with function body.
 
 func clear_results():
+	p_max_hit = 0
+	base_max_hit = 0
+	crit_max_hit = 0
+	
+	p_hit_chance = 0
+	p_hit_roll = 0
+	p_def_roll = 0
+	p_dps = 0
 	p_dps2 = 0
+	time_to_kill = 0
 	time_to_kill2 = 0
+	
+	m_max_hit = 0
+	m_hit_chance = 0
+	m_hit_roll = 0
+	m_def_roll = 0
+	m_dps = 0
 	pass
 
 func do_fast_simulations( player : player, target_mon : monster ):
@@ -43,6 +58,8 @@ func do_fast_simulations( player : player, target_mon : monster ):
 	calc_p_hit_chance( player, target_mon )
 	
 	p_dps = p_hit_chance * p_max_hit / 2 / player.attack_speed / 0.6
+	if p_dps == 0:
+		return
 	time_to_kill = target_mon.hitpoints / p_dps
 	
 	calc_m_hit_chance( player, target_mon )
@@ -65,6 +82,8 @@ func do_simulations( player : player, target_mon : monster ):
 	calc_p_hit_chance( player, target_mon )
 	
 	p_dps = p_hit_chance * p_max_hit / 2 / player.attack_speed / 0.6
+	if p_dps == 0:
+		return
 	time_to_kill = target_mon.hitpoints / p_dps
 	
 	calc_m_hit_chance( player, target_mon )
@@ -175,7 +194,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		
 		if "twisted" in player.special_attributes:
 			var mag = max( target_mon.magic_level, target_mon.attack_magic )
-			var mult = clamp( 0, 3 * mag - ( 3 * mag / 10.0 - 140 )^2, 2.5 )
+			var mult : float = clamp( 0, 2.5 + ( 3 * mag / 10.0  - 14 - pow( 3 * mag / 10.0 - 140, 2 ) ) * 0.0001, 1.4 )
 			p_max_hit = int( p_max_hit * mult )
 		
 	else:
@@ -286,8 +305,8 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 		
 		
 		if "twisted" in player.special_attributes:
-			var mag = max( target_mon.magic_level, target_mon.attack_magic )
-			var mult = clamp( 0, 3 * mag - ( 3 * mag / 10.0 - 100 )^2 - 8.6, 1.4 )
+			var mag : int= max( target_mon.magic_level, target_mon.attack_magic )
+			var mult : float = clamp( 0, 1.4 + ( 3 * mag / 10.0 - 10 - pow( 3 * mag / 10.0 - 100, 2 ) ) * 0.0001, 1.4 )
 			eff_atk = int( eff_atk * mult )
 		
 		atk_roll = eff_atk * ( player.rng_bonus + 64 )
