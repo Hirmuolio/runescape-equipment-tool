@@ -6,7 +6,7 @@ class_name equipment
 var item_name : String
 var examine : String
 var item_id : int
-# weapon, 2h, ammo, cape, legs, body, shield, neck, head, feet, hands, ring, shield
+# weapon, 2h, ammo, cape, legs, body, shield, neck, head, feet, hands, ring, shield, spell
 var equipment_slot : String
 
 var two_handed : bool = false
@@ -27,12 +27,11 @@ var defence_ranged : int
 
 var melee_strength : int
 var ranged_strength : int
-var magic_damage : int
+var magic_damage_bonus : int
 var prayer : int
 
 var attack_speed : int
 var stances : Array
-var element : String
 
 # Spells are items in here
 var magic_max_hit : int
@@ -43,7 +42,6 @@ var special_effects : Array
 # Current state in the list
 var is_hidden = false
 
-# Item specials. Mostly hardcoded
 
 
 func is_identical( oth_item : equipment ) -> bool:
@@ -77,7 +75,7 @@ func is_identical( oth_item : equipment ) -> bool:
 		return false
 	if ranged_strength != oth_item.ranged_strength:
 		return false
-	if magic_damage != oth_item.magic_damage:
+	if magic_damage_bonus != oth_item.magic_damage_bonus:
 		return false
 	if prayer != oth_item.prayer:
 		return false

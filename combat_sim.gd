@@ -49,9 +49,11 @@ func do_fast_simulations( player : player, target_mon : monster ):
 	clear_results()
 	if !player:
 		print( "NO PLAYER EXISTS")
+		emit_signal("simulation_done")
 		return
 	if !target_mon:
 		print( "NO TARGET MONSTER")
+		emit_signal("simulation_done")
 		return
 	
 	calc_p_max_hit( player, target_mon )
@@ -59,6 +61,7 @@ func do_fast_simulations( player : player, target_mon : monster ):
 	
 	p_dps = p_hit_chance * p_max_hit / 2 / player.attack_speed / 0.6
 	if p_dps == 0:
+		emit_signal("simulation_done")
 		return
 	time_to_kill = target_mon.hitpoints / p_dps
 	
@@ -73,9 +76,11 @@ func do_simulations( player : player, target_mon : monster ):
 	clear_results()
 	if !player:
 		print( "NO PLAYER EXISTS")
+		emit_signal("simulation_done")
 		return
 	if !target_mon:
 		print( "NO TARGET MONSTER")
+		emit_signal("simulation_done")
 		return
 	
 	calc_p_max_hit( player, target_mon )
@@ -83,6 +88,7 @@ func do_simulations( player : player, target_mon : monster ):
 	
 	p_dps = p_hit_chance * p_max_hit / 2 / player.attack_speed / 0.6
 	if p_dps == 0:
+		emit_signal("simulation_done")
 		return
 	time_to_kill = target_mon.hitpoints / p_dps
 	
@@ -93,54 +99,52 @@ func do_simulations( player : player, target_mon : monster ):
 	
 	
 	simulate_combat( player, target_mon )
-	
-	
-	
 	emit_signal("simulation_done")
 
 func calc_p_max_hit( player : player, target_mon : monster ):
 	
 	if player.attack_stance == "magic":
 		var spell : equipment = player.spell
-		var max_hit : int
+		if !spell:
+			return
 		
 		if spell.item_name == "Slayer dart":
 			if "slayer_task" in target_mon.attributes and "slayer_staff_e" in player.special_attributes:
-				max_hit = int( player.magic / 6.0 ) + 10
+				base_max_hit = int( player.magic / 6.0 ) + 10
 			else:
-				max_hit = int( player.magic / 10.0 ) + 10
-			base_max_hit = max_hit
+				base_max_hit = int( player.magic / 10.0 ) + 10
 		else:
-			max_hit = spell.magic_max_hit
-			base_max_hit = max_hit
-			
-			if spell.bolt_spell && "chaos_gauntlet" in player.special_attributes: # TODO
-				max_hit += 3
-			if spell.god_spell && "charge" in player.special_attributes && player.cape.god_cape:
-				max_hit += 10
+			base_max_hit = spell.magic_max_hit
 		
-		max_hit = int( max_hit * player.mag_dmg_bonus )
+		p_max_hit = base_max_hit
+		
+		if "bolt" in spell.special_effects && "chaos_gauntlet" in player.special_attributes: # TODO
+			p_max_hit += 3
+		if "god_spell" in spell.special_effects && "charge" in player.special_attributes && "god_cape" in player.cape.special_effects:
+			p_max_hit += 10
+		
+		p_max_hit = int( p_max_hit * player.mag_dmg_bonus )
 		
 		
 		if "elite_void_magic" in player.special_attributes:
-				max_hit = int( max_hit * 1.025 )
+				p_max_hit = int( p_max_hit * 1.025 )
 		
 		if "salve_ei" in player.special_attributes and "undead" in target_mon.attributes:
-				max_hit = int( max_hit * 1.2 )
+				p_max_hit = int( p_max_hit * 1.2 )
 		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
-			max_hit = int( max_hit * 1.15 ) # *1.16
+			p_max_hit = int( p_max_hit * 1.15 ) # *1.16
 		elif "black_mask_i" in player.special_attributes:
-			max_hit = int( max_hit * 1.15 )
+			p_max_hit = int( p_max_hit * 1.15 )
 		
-		if "tome_of_fire" in player.special_attributes && spell.element == "fire":
-			max_hit = int( max_hit * 1.5 )
-		if "tome_of_water" in player.special_attributes && spell.element == "water":
-			max_hit = int( max_hit * 1.2 )
-		if "somke_bass" in player.special_attributes && spell.book == "standard":
-			max_hit = int( max_hit * 1.1 )
+		if "tome_of_fire" in player.special_attributes && "fire" in spell.special_effects:
+			p_max_hit = int( p_max_hit * 1.5 )
+		if "tome_of_water" in player.special_attributes && "water" in spell.special_effects:
+			p_max_hit = int( p_max_hit * 1.2 )
+		if "somke_bass" in player.special_attributes && "standard" in spell.special_effects:
+			p_max_hit = int( p_max_hit * 1.1 )
 		
 		if "thammaron" in player.special_attributes:
-			max_hit = int( max_hit * 1.25 )
+			p_max_hit = int( p_max_hit * 1.25 )
 		
 		crit_max_hit = p_max_hit
 		if "damned_ahrim" in player.special_attributes:
@@ -278,10 +282,41 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 
 func calc_p_hit_chance( player : player, target_mon : monster ):
 	
+	# Math mostly based on wiki
+	# I do not trust this math at all
+	
 	var atk_roll : int
 	var def_roll : int
 	
-	if player.attack_style == "ranged":
+	if player.attack_stance == "magic":
+		var eff_atk : int = int( player.magic * player.prayer_magic )
+		eff_atk = int( eff_atk * player.prayer_magic_atk )
+		
+		if "void_magic" in player.special_attributes:
+			eff_atk = int( eff_atk * 1.45 )
+		
+		eff_atk += player.style_mag_bonus + 9
+		
+		if "salve_ei" in player.special_attributes and "undead" in target_mon.attributes:
+				eff_atk = int( eff_atk * 1.2 )
+		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
+			eff_atk = int( eff_atk * 7.0/6 ) # *1.16
+		elif "black_mask_i" in player.special_attributes:
+			eff_atk = int( eff_atk * 1.15 )
+		
+		if "tome_of_water" in player.special_attributes && "water" in player.spell.special_effects:
+			eff_atk = int( eff_atk * 1.2 )
+		if "somke_bass" in player.special_attributes:
+			eff_atk = int( eff_atk * 1.1 )
+		if "thammaron" in player.special_attributes:
+			eff_atk = int( eff_atk * 2 )
+		
+		atk_roll = eff_atk * ( player.magic_bonus + 64 )
+		
+		
+		
+		pass
+	elif player.attack_style == "ranged":
 		var eff_atk : int = int( player.ranged * player.prayer_rng * player.prayer_rng_atk ) + player.style_rng_bonus + 8
 		
 		if "void_ranged" in player.special_attributes:
@@ -305,7 +340,7 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 		
 		
 		if "twisted" in player.special_attributes:
-			var mag : int= max( target_mon.magic_level, target_mon.attack_magic )
+			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
 			var mult : float = clamp( 0, 1.4 + ( 3 * mag / 10.0 - 10 - pow( 3 * mag / 10.0 - 100, 2 ) ) * 0.0001, 1.4 )
 			eff_atk = int( eff_atk * mult )
 		
@@ -458,7 +493,7 @@ func simulate_combat( player : player, target_mon : monster ):
 					# Player attacks
 					if rng.randf() < p_hit_chance:
 						if rng.randf() <= crit_chance:
-							target_hp -= min( 100, int( target_mon.hitpoints * 0.2 ) )
+							target_hp -= int( min( 100, int( target_mon.hitpoints * 0.2 ) ) )
 						else:
 							target_hp -= rng.randi_range( 0, p_max_hit)
 					tick += player.attack_speed

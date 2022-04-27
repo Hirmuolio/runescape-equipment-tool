@@ -457,7 +457,6 @@ var prayers : Dictionary = {
 	}
 }
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	generate_items_with_specials()
@@ -538,3 +537,234 @@ func item_is_blacklisted( item_name : String ) -> bool:
 				return true
 			
 	return false
+
+func load_spells():
+	
+	var spells : Dictionary = {
+		"wind_strike":{
+			"name": "Wind strike",
+			"damage": 2,
+			"attributes": ["standard", "air", "strike"]
+		},
+		"water_strike":{
+			"name": "Water strike",
+			"damage": 4,
+			"attributes": ["standard", "water", "strike"]
+		},
+		"earth_strike":{
+			"name": "Earth strike",
+			"damage": 6,
+			"attributes": ["standard", "earth", "strike"]
+		},
+		"fire_strike":{
+			"name": "Fire strike",
+			"damage": 8,
+			"attributes": ["standard", "fire", "strike"]
+		},
+		"wind_bolt":{
+			"name": "Wind bolt",
+			"damage": 9,
+			"attributes": ["standard", "air", "bolt"]
+		},
+		"water_bolt":{
+			"name": "Water bolt",
+			"damage": 10,
+			"attributes": ["standard", "water", "bolt"]
+		},
+		"earth_bolt":{
+			"name": "Earth bolt",
+			"damage": 11,
+			"attributes": ["standard", "earth", "bolt"]
+		},
+		"fire_bolt":{
+			"name": "Fire bolt",
+			"damage": 12,
+			"attributes": ["standard", "fire", "bolt"]
+		},
+		"crumble_undead":{
+			"name": "Crumble undead",
+			"damage": 15,
+			"attributes": ["standard", "undead"]
+		},
+		"wind_blast":{
+			"name": "Wind blast",
+			"damage": 13,
+			"attributes": ["standard", "air", "blast"]
+		},
+		"water_blast":{
+			"name": "Water blast",
+			"damage": 14,
+			"attributes": ["standard", "water", "blast"]
+		},
+		"earth_blast":{
+			"name": "Earth blast",
+			"damage": 15,
+			"attributes": ["standard", "earth", "blast"]
+		},
+		"fire_blast":{
+			"name": "Fire blast",
+			"damage": 16,
+			"attributes": ["standard", "fire", "blast"]
+		},
+		"magic_dart":{
+			"name": "Magic dart",
+			"damage": 1,
+			"attributes": ["standard", "blast"]
+		},
+		"saradomin_strike":{
+			"name": "Saradomin strike",
+			"damage": 20,
+			"attributes": ["standard", "god_spell"]
+		},
+		"zamorak_flames":{
+			"name": "Flames of Zamorak",
+			"damage": 20,
+			"attributes": ["standard", "god_spell"]
+		},
+		"guthix_claws":{
+			"name": "Claws of Guthix",
+			"damage": 20,
+			"attributes": ["standard", "god_spell"]
+		},
+		"wind_wave":{
+			"name": "Wind wave",
+			"damage": 17,
+			"attributes": ["standard", "wind", "wave"]
+		},
+		"water_wave":{
+			"name": "Water wave",
+			"damage": 18,
+			"attributes": ["standard", "water", "wave"]
+		},
+		"earth_wave":{
+			"name": "Earth wave",
+			"damage": 19,
+			"attributes": ["standard", "earth", "wave"]
+		},
+		"fire_wave":{
+			"name": "Fire wave",
+			"damage": 20,
+			"attributes": ["standard", "fire", "wave"]
+		},
+		"iban_blast":{
+			"name": "Iban blast",
+			"damage": 25,
+			"attributes": ["standard"]
+		},
+		"wind_surge":{
+			"name": "Wind surge",
+			"damage": 21,
+			"attributes": ["standard", "wind", "surge"]
+		},
+		"water_surge":{
+			"name": "Water surge",
+			"damage": 22,
+			"attributes": ["standard", "water", "surge"]
+		},
+		"earth_surge":{
+			"name": "Earth surge",
+			"damage": 23,
+			"attributes": ["standard", "earth", "surge"]
+		},
+		"fire_surge":{
+			"name": "Fire surge",
+			"damage": 24,
+			"attributes": ["standard", "fire", "surge"]
+		},
+		"smoke_rush":{
+			"name": "Smoke rush",
+			"damage": 13,
+			"attributes": ["ancient", "smoke", "rush"]
+		},
+		"shadow_rush":{
+			"name": "Shadow rush",
+			"damage": 14,
+			"attributes": ["ancient", "shadow", "rush"]
+		},
+		"blood_rush":{
+			"name": "Blood rush",
+			"damage": 15,
+			"attributes": ["ancient", "blood", "rush"]
+		},
+		"ice_rush":{
+			"name": "Ice rush",
+			"damage": 16,
+			"attributes": ["ancient", "ice", "rush"]
+		},
+		"smoke_burst":{
+			"name": "Smoke burst",
+			"damage": 17,
+			"attributes": ["ancient", "smoke", "burst"]
+		},
+		"shadow_burst":{
+			"name": "Shadow burst",
+			"damage": 18,
+			"attributes": ["ancient", "shadow", "burst"]
+		},
+		"blood_burst":{
+			"name": "Blood burst",
+			"damage": 21,
+			"attributes": ["ancient", "blood", "burst"]
+		},
+		"ice_burst":{
+			"name": "Ice burst",
+			"damage": 22,
+			"attributes": ["ancient", "ice", "burst"]
+		},
+		"smoke_blitz":{
+			"name": "Smoke blitz",
+			"damage": 23,
+			"attributes": ["ancient", "smoke", "blitz"]
+		},
+		"shadow_blitz":{
+			"name": "Shadow blitz",
+			"damage": 24,
+			"attributes": ["ancient", "shadow", "blitz"]
+		},
+		"blood_blitz":{
+			"name": "Blood blitz",
+			"damage": 25,
+			"attributes": ["ancient", "blood", "blitz"]
+		},
+		"ice_blitz":{
+			"name": "Ice blitz",
+			"damage": 26,
+			"attributes": ["ancient", "ice", "blitz"]
+		},
+		"demonbane_1":{
+			"name": "Inferior demonbane",
+			"damage": 16,
+			"attributes": ["arceeus", "demonbane"]
+		},
+		"demonbane_2":{
+			"name": "Superior demonbane",
+			"damage": 23,
+			"attributes": ["arceeus", "demonbane"]
+		},
+		"demonbane_3":{
+			"name": "Dark demonbane",
+			"damage": 30,
+			"attributes": ["arceeus", "demonbane"]
+		}
+	}
+	
+	#"wind_strike":{
+	#	"name": "Wind strike",
+	#	"damage": 2,
+	#	"attributes": ["standard", "air", "strike"]
+	#}
+	
+	var class_item = load( "res://data/equipment.tscn" )
+	var id : int = -1
+	for spell in spells.values():
+		var new_item : equipment = class_item.instance()
+		Database.get_node("items").add_child( new_item )
+		
+		new_item.item_name = spell["name"]
+		new_item.magic_max_hit = spell["damage"]
+		new_item.special_effects = spell["attributes"]
+		
+		new_item.equipment_slot = "spell"
+		new_item.item_id = id
+		id -= 1
+	pass

@@ -30,6 +30,7 @@ var ammo : equipment
 var ring : equipment
 var neck : equipment
 var hands : equipment
+var spell : equipment
 
 
 # slash, crush, stab, magic, ranged
@@ -46,6 +47,8 @@ var str_bonus : int setget ,_get_str_bonus
 var atk_bonus : int setget ,_get_atk_bonus
 var rng_str_bonus : int setget, _get_rng_str
 var rng_bonus : int setget, _get_rng
+var magic_bonus : int setget, _get_magic_bonus
+var mag_dmg_bonus : float setget, _get_mag_dmg_bonus
 
 var prayer_str : float setget ,_get_pray_str
 var prayer_atk : float setget ,_get_pray_atk
@@ -54,12 +57,14 @@ var prayer_rng : float setget ,_get_pray_rng
 var prayer_rng_atk : float setget ,_get_pray_rng_atk
 var prayer_rng_str : float setget ,_get_pray_rng_str
 var prayer_magic : float setget ,_get_pray_magic
+var prayer_magic_atk : float setget ,_get_pray_magic_atk
 var prayer_magic_def : float setget ,_get_pray_magic_def
 
 var style_str_bonus : int setget ,_get_style_str
 var style_atk_bonus : int setget ,_get_style_atk
 var style_def_bonus : int setget ,_get_style_def
 var style_rng_bonus : int setget ,_get_style_rng
+var style_mag_bonus : int setget ,_getstyle_mag
 
 var other_str_bonus : float = 1 #TODO
 var other_atk_bonus : float = 1 #TODO
@@ -287,6 +292,11 @@ func _get_style_rng() -> int:
 		return 1
 	return 0
 
+func _getstyle_mag() -> int:
+	if attack_stance == "accurate":
+		return 2
+	return 0
+
 func get_equipment_bonus( attribute : String ) -> int:
 	var bonus : int = 0
 	
@@ -326,7 +336,7 @@ func _get_atk_bonus() -> int:
 	elif attack_style == "crush":
 		return get_equipment_bonus( "attack_crush" )
 	
-	push_warning ( "Invalid weapon melee attack style " + '"' + attack_style + '"' )
+	#push_warning ( "Invalid weapon melee attack style " + '"' + attack_style + '"' )
 	return get_equipment_bonus( "attack_stab" )
 
 func _get_rng_str() -> int:
@@ -334,6 +344,12 @@ func _get_rng_str() -> int:
 
 func _get_rng() -> int:
 	return get_equipment_bonus( "attack_ranged" )
+
+func _get_magic_bonus() -> int:
+	return get_equipment_bonus( "attack_magic" )
+
+func _get_mag_dmg_bonus() -> float:
+	return ( 100 + get_equipment_bonus( "magic_damage_bonus" ) ) / 100.0
 
 func style_def( ag_attack_style : String ) -> int:
 	
@@ -348,6 +364,9 @@ func style_def( ag_attack_style : String ) -> int:
 	elif ag_attack_style == "ranged":
 		return get_equipment_bonus( "defence_ranged" )
 	
+	elif ag_attack_style == "melee":
+		push_warning ( "Unknown melee attack style" )
+		return get_equipment_bonus( "defence_slash" )
 	push_warning ( "Invalid monster melee attack style " + '"' + ag_attack_style + '"' )
 	return 0
 
@@ -382,10 +401,16 @@ func _get_pray_magic() -> float:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic"] ) / 100
 	return 1.0
 
+func _get_pray_magic_atk() -> float:
+	for pray_id in prayers:
+		if "magic" in HardcodedData.prayers[pray_id]["modifiers"]:
+			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic"] ) / 100
+	return 1.0
+
 func _get_pray_magic_def()-> float:
 	for pray_id in prayers:
-		if "magic_defence" in HardcodedData.prayers[pray_id]["modifiers"]:
-			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic_defence"] ) / 100
+		if "magic_attack" in HardcodedData.prayers[pray_id]["modifiers"]:
+			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic_attack"] ) / 100
 	return 1.0
 
 func _get_pray_rng() -> float:

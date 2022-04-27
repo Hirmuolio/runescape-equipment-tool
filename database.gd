@@ -9,6 +9,8 @@ func _ready():
 	
 	#load_monsters_json()
 	load_monsters_res()
+	
+	HardcodedData.load_spells()
 
 func get_items():
 	return $items.get_children()
@@ -62,9 +64,7 @@ func load_items_json():
 		
 		new_item.melee_strength = item["equipment"]["melee_strength"]
 		new_item.ranged_strength = item["equipment"]["ranged_strength"]
-		new_item.magic_damage = item["equipment"]["magic_damage"]
-		
-		new_item.magic_damage = item["equipment"]["magic_damage"]
+		new_item.magic_damage_bonus = item["equipment"]["magic_damage"]
 		
 		new_item.prayer = item["equipment"]["prayer"]
 		
@@ -136,7 +136,7 @@ func save_items_user():
 		
 		file.store_64( item.melee_strength )
 		file.store_64( item.ranged_strength )
-		file.store_64( item.magic_damage )
+		file.store_64( item.magic_damage_bonus )
 		file.store_64( item.prayer )
 		
 		file.store_64( item.attack_speed )
@@ -174,7 +174,7 @@ func load_items_res():
 		
 		new_item.melee_strength = file.get_64()
 		new_item.ranged_strength = file.get_64()
-		new_item.magic_damage = file.get_64()
+		new_item.magic_damage_bonus = file.get_64()
 		new_item.prayer = file.get_64()
 		
 		new_item.attack_speed = file.get_64()

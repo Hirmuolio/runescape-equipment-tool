@@ -25,7 +25,7 @@ rect_min_size = Vector2( 354, 0 )
 
 [node name="player" type="VBoxContainer" parent="player_container"]
 margin_right = 354.0
-margin_bottom = 740.0
+margin_bottom = 764.0
 rect_min_size = Vector2( 354, 0 )
 script = ExtResource( 10 )
 
@@ -99,102 +99,108 @@ margin_right = 354.0
 margin_bottom = 288.0
 slot = "ammo"
 
-[node name="HSeparator" type="HSeparator" parent="player_container/player"]
+[node name="spell" parent="player_container/player" instance=ExtResource( 1 )]
 margin_top = 292.0
 margin_right = 354.0
-margin_bottom = 296.0
+margin_bottom = 312.0
+slot = "spell"
 
-[node name="attack_style" type="OptionButton" parent="player_container/player"]
-margin_top = 300.0
+[node name="HSeparator" type="HSeparator" parent="player_container/player"]
+margin_top = 316.0
 margin_right = 354.0
 margin_bottom = 320.0
+
+[node name="attack_style" type="OptionButton" parent="player_container/player"]
+margin_top = 324.0
+margin_right = 354.0
+margin_bottom = 344.0
 script = ExtResource( 5 )
 
 [node name="HSeparator3" type="HSeparator" parent="player_container/player"]
-margin_top = 324.0
+margin_top = 348.0
 margin_right = 354.0
-margin_bottom = 328.0
+margin_bottom = 352.0
 
 [node name="attack" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 332.0
+margin_top = 356.0
 margin_right = 354.0
-margin_bottom = 356.0
+margin_bottom = 380.0
 value = 1
 label = "Attack lvl"
 
 [node name="strength" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 360.0
+margin_top = 384.0
 margin_right = 354.0
-margin_bottom = 384.0
+margin_bottom = 408.0
 value = 1
 label = "Strength lvl"
 
 [node name="defence" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 388.0
+margin_top = 412.0
 margin_right = 354.0
-margin_bottom = 412.0
+margin_bottom = 436.0
 value = 1
 label = "Defence lvl"
 
 [node name="magic" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 416.0
+margin_top = 440.0
 margin_right = 354.0
-margin_bottom = 440.0
+margin_bottom = 464.0
 value = 1
 label = "Magic lvl"
 
 [node name="ranged" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 444.0
+margin_top = 468.0
 margin_right = 354.0
-margin_bottom = 468.0
+margin_bottom = 492.0
 value = 1
 label = "Ranged lvl"
 
 [node name="hp_lvl" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 472.0
+margin_top = 496.0
 margin_right = 354.0
-margin_bottom = 496.0
+margin_bottom = 520.0
 value = 1
 label = "HP lvl"
 
 [node name="hp" parent="player_container/player" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 500.0
+margin_top = 524.0
 margin_right = 354.0
-margin_bottom = 524.0
+margin_bottom = 548.0
 value = 1
 label = "Current HP"
 
 [node name="HSeparator4" type="HSeparator" parent="player_container/player"]
-margin_top = 528.0
+margin_top = 552.0
 margin_right = 354.0
-margin_bottom = 532.0
+margin_bottom = 556.0
 
 [node name="label6" type="Label" parent="player_container/player"]
-margin_top = 536.0
+margin_top = 560.0
 margin_right = 354.0
-margin_bottom = 550.0
+margin_bottom = 574.0
 size_flags_horizontal = 3
 text = "Attack bonuses"
 align = 1
 
 [node name="eq_attack" type="GridContainer" parent="player_container/player"]
-margin_top = 554.0
+margin_top = 578.0
 margin_right = 354.0
-margin_bottom = 586.0
+margin_bottom = 610.0
 columns = 5
 
 [node name="label" type="Label" parent="player_container/player/eq_attack"]
@@ -276,22 +282,22 @@ text = "+0"
 align = 1
 
 [node name="HSeparator6" type="HSeparator" parent="player_container/player"]
-margin_top = 590.0
+margin_top = 614.0
 margin_right = 354.0
-margin_bottom = 594.0
+margin_bottom = 618.0
 
 [node name="label7" type="Label" parent="player_container/player"]
-margin_top = 598.0
+margin_top = 622.0
 margin_right = 354.0
-margin_bottom = 612.0
+margin_bottom = 636.0
 size_flags_horizontal = 3
 text = "Defence bonuses"
 align = 1
 
 [node name="eq_def" type="GridContainer" parent="player_container/player"]
-margin_top = 616.0
+margin_top = 640.0
 margin_right = 354.0
-margin_bottom = 648.0
+margin_bottom = 672.0
 columns = 5
 
 [node name="label" type="Label" parent="player_container/player/eq_def"]
@@ -373,22 +379,22 @@ text = "+0"
 align = 1
 
 [node name="HSeparator7" type="HSeparator" parent="player_container/player"]
-margin_top = 652.0
+margin_top = 676.0
 margin_right = 354.0
-margin_bottom = 656.0
+margin_bottom = 680.0
 
 [node name="label8" type="Label" parent="player_container/player"]
-margin_top = 660.0
+margin_top = 684.0
 margin_right = 354.0
-margin_bottom = 674.0
+margin_bottom = 698.0
 size_flags_horizontal = 3
 text = "Other bonuses"
 align = 1
 
 [node name="eq_other" type="GridContainer" parent="player_container/player"]
-margin_top = 678.0
+margin_top = 702.0
 margin_right = 354.0
-margin_bottom = 710.0
+margin_bottom = 734.0
 columns = 5
 
 [node name="label" type="Label" parent="player_container/player/eq_other"]
@@ -470,20 +476,20 @@ text = "0"
 align = 1
 
 [node name="HSeparator5" type="HSeparator" parent="player_container/player"]
-margin_top = 714.0
+margin_top = 738.0
 margin_right = 354.0
-margin_bottom = 718.0
+margin_bottom = 742.0
 
 [node name="Label" type="Label" parent="player_container/player"]
-margin_top = 722.0
+margin_top = 746.0
 margin_right = 354.0
-margin_bottom = 736.0
+margin_bottom = 760.0
 text = "Prayers:"
 
 [node name="prayers" type="VBoxContainer" parent="player_container/player"]
-margin_top = 740.0
+margin_top = 764.0
 margin_right = 354.0
-margin_bottom = 740.0
+margin_bottom = 764.0
 
 [node name="VSeparator" type="VSeparator" parent="."]
 margin_left = 358.0
@@ -794,6 +800,7 @@ label = "Size:"
 [connection signal="remove_gear" from="player_container/player/ring" to="player_data" method="_on_remove_gear"]
 [connection signal="remove_gear" from="player_container/player/neck" to="player_data" method="_on_remove_gear"]
 [connection signal="remove_gear" from="player_container/player/ammo" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="player_container/player/spell" to="player_data" method="_on_remove_gear"]
 [connection signal="attack_style" from="player_container/player/attack_style" to="player_data" method="_on_attack_style_attack_style"]
 [connection signal="item_selected" from="player_container/player/attack_style" to="player_container/player/attack_style" method="_on_attack_style_item_selected"]
 [connection signal="value_changed" from="player_container/player/attack" to="player_data" method="_on_attack_value_changed"]
