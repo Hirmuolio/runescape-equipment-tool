@@ -731,6 +731,26 @@ func load_spells():
 			"damage": 26,
 			"attributes": ["ancient", "ice", "blitz"]
 		},
+		"smoke_barrage":{
+			"name": "Smoke barrage",
+			"damage": 27,
+			"attributes": ["ancient", "smoke", "barrage"]
+		},
+		"shadow_barrage":{
+			"name": "Shadow barrage",
+			"damage": 28,
+			"attributes": ["ancient", "shadow", "barrage"]
+		},
+		"blood_barrage":{
+			"name": "Blood barrage",
+			"damage": 29,
+			"attributes": ["ancient", "blood", "barrage"]
+		},
+		"ice_barrage":{
+			"name": "Ice barrage",
+			"damage": 30,
+			"attributes": ["ancient", "ice", "barrage"]
+		},
 		"demonbane_1":{
 			"name": "Inferior demonbane",
 			"damage": 16,

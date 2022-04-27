@@ -123,25 +123,35 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		if "god_spell" in spell.special_effects && "charge" in player.special_attributes && "god_cape" in player.cape.special_effects:
 			p_max_hit += 10
 		
-		p_max_hit = int( p_max_hit * player.mag_dmg_bonus )
+		# This doesn't make sense but is supposedly "correct"
+		var multiplier : float = 1
 		
+		multiplier +=  player.mag_dmg_bonus / 100.0
 		
+		if "somke_bass" in player.special_attributes && "standard" in spell.special_effects:
+			multiplier += 0.1
 		if "elite_void_magic" in player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.025 )
+				multiplier += 0.025 
 		
+		var salve : bool = false
 		if "salve_ei" in player.special_attributes and "undead" in target_mon.attributes:
-				p_max_hit = int( p_max_hit * 1.2 )
+			multiplier += 0.2
+			salve = true
 		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 1.15 ) # *1.16
-		elif "black_mask_i" in player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.15 )
+			multiplier += 0.15
+			salve = true
+			
+		p_max_hit = int( p_max_hit * multiplier )
 		
 		if "tome_of_fire" in player.special_attributes && "fire" in spell.special_effects:
 			p_max_hit = int( p_max_hit * 1.5 )
 		if "tome_of_water" in player.special_attributes && "water" in spell.special_effects:
 			p_max_hit = int( p_max_hit * 1.2 )
-		if "somke_bass" in player.special_attributes && "standard" in spell.special_effects:
-			p_max_hit = int( p_max_hit * 1.1 )
+		
+		# This is weird and technically there could be a situation where taking off salve (e)
+		# would give more dps. Not sure if that ever happens in practice.
+		if !salve and "black_mask_i" in player.special_attributes:
+			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if "thammaron" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.25 )

@@ -48,7 +48,7 @@ var atk_bonus : int setget ,_get_atk_bonus
 var rng_str_bonus : int setget, _get_rng_str
 var rng_bonus : int setget, _get_rng
 var magic_bonus : int setget, _get_magic_bonus
-var mag_dmg_bonus : float setget, _get_mag_dmg_bonus
+var mag_dmg_bonus : int setget, _get_mag_dmg_bonus
 
 var prayer_str : float setget ,_get_pray_str
 var prayer_atk : float setget ,_get_pray_atk
@@ -348,8 +348,8 @@ func _get_rng() -> int:
 func _get_magic_bonus() -> int:
 	return get_equipment_bonus( "attack_magic" )
 
-func _get_mag_dmg_bonus() -> float:
-	return ( 100 + get_equipment_bonus( "magic_damage_bonus" ) ) / 100.0
+func _get_mag_dmg_bonus() -> int:
+	return get_equipment_bonus( "magic_damage_bonus" )
 
 func style_def( ag_attack_style : String ) -> int:
 	
