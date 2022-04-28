@@ -365,7 +365,7 @@ func style_def( ag_attack_style : String ) -> int:
 		return get_equipment_bonus( "defence_ranged" )
 	
 	elif ag_attack_style == "melee":
-		push_warning ( "Unknown melee attack style" )
+		print( "Unknown melee attack style" )
 		return get_equipment_bonus( "defence_slash" )
 	push_warning ( "Invalid monster melee attack style " + '"' + ag_attack_style + '"' )
 	return 0

@@ -23,8 +23,8 @@ var m_dps : float
 
 var charge_spell : bool = false
 var kandarin_diary : bool = false
-var wilderness : bool = false
-var slayer_task : bool = false
+var wilderness : bool = true
+var slayer_task : bool = true
 var mark_of_darkness : bool = false
 
 signal simulation_done()
@@ -360,7 +360,7 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 			if mark_of_darkness: 
 				eff_atk = int( eff_atk * 1.4 )
 			else:
-				p_max_hit = int( p_max_hit * 1.2 )
+				eff_atk = int( eff_atk * 1.2 )
 		
 		atk_roll = eff_atk * ( player.magic_bonus + 64 )
 		
