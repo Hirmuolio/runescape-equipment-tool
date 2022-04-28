@@ -494,22 +494,22 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 func simulate_combat( player : player, target_mon : monster ):
 	
 	# Full tick accurate combat simulation
-	var tick = 0
+	
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	
-	var max_kill_duration : int = 2000 # ticks
+	
 	
 	var crit_chance : float = 0
 	if "keris" in player.special_attributes:
 		crit_chance = 1.0/51
 	elif "gaddehammer" in player.special_attributes:
 		crit_chance = 1.0/51
-	elif "damned_ahrim":
+	elif "damned_ahrim" in player.special_attributes:
 		crit_chance = 0.25
-	elif "damned_karil":
+	elif "damned_karil" in player.special_attributes:
 		crit_chance = 0.25
-	elif "verac":
+	elif "verac" in player.special_attributes:
 		crit_chance = 0.25
 	else:
 		if "onyx_bolt_e" in player.special_attributes:
@@ -531,6 +531,8 @@ func simulate_combat( player : player, target_mon : monster ):
 		
 	
 	var simulated_kills : int = 10000
+	var max_kill_duration : int = 4000 # ticks
+	var tick : int = 0
 	
 	if crit_chance > 0:
 		if "ruby_bolt_e" in player.special_attributes:
@@ -547,7 +549,7 @@ func simulate_combat( player : player, target_mon : monster ):
 				if _kills == 1 && tick >= max_kill_duration:
 					print( "Too slow kills to simulate" )
 					return
-		if "diamond_bolt_e" in player.special_attributes:
+		elif "diamond_bolt_e" in player.special_attributes:
 			for _kills in range(1, simulated_kills):
 				var target_hp = target_mon.hitpoints
 				while target_hp > 0:
@@ -560,7 +562,7 @@ func simulate_combat( player : player, target_mon : monster ):
 				if _kills == 1 && tick >= max_kill_duration:
 					print( "Too slow kills to simulate" )
 					return
-		if "damned_karil" in player.special_attributes:
+		elif "damned_karil" in player.special_attributes:
 			for _kills in range(1, simulated_kills):
 				var target_hp = target_mon.hitpoints
 				while target_hp > 0:
@@ -573,7 +575,7 @@ func simulate_combat( player : player, target_mon : monster ):
 				if _kills == 1 && tick >= max_kill_duration:
 					print( "Too slow kills to simulate" )
 					return
-		if "verac" in player.special_attributes:
+		elif "verac" in player.special_attributes:
 			for _kills in range(1, simulated_kills):
 				var target_hp = target_mon.hitpoints
 				while target_hp > 0:
