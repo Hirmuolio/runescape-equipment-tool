@@ -13,7 +13,12 @@ func refresh_results():
 	#print_specials( player_data )
 	
 	$p_maxhit.value = combat_sim.p_max_hit
-	$p_maxhit.hoover_info = "Base max hit: " + str( combat_sim.base_max_hit )
+	
+	var max_hoover_info : String = ""
+	max_hoover_info += "Base max hit: " + str( combat_sim.base_max_hit )
+	if combat_sim.p_max_hit != combat_sim.crit_max_hit:
+		max_hoover_info += "\nCritical hit: " + str( combat_sim.crit_max_hit )
+	$p_maxhit.hoover_info = max_hoover_info
 	$p_hitchance.value = str( stepify( combat_sim.p_hit_chance * 100, 0.01 ) ) + "%"
 	$p_hitchance.hoover_info = "Player attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
 	$p_dps.value = stepify( combat_sim.p_dps, 0.01 )

@@ -254,6 +254,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		
 		base_max_hit = int( 0.5 + eff_str * ( player.str_bonus + 64 ) / 640.0 )
 		
+		
 		# Special bonuses need to be applied in specific order
 		#Order:
 		# Obsidian armor before salve (e)
@@ -262,6 +263,8 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		# Black mask before special attack
 		# Others ???
 		p_max_hit = base_max_hit
+		crit_max_hit = p_max_hit
+		
 		if "void_melee" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.1 )
 		if "obsidian_armor" in player.special_attributes:
@@ -318,7 +321,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		if "dharok" in player.special_attributes:
 			p_max_hit = int( p_max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
 			
-		crit_max_hit = p_max_hit
+		
 		
 		
 	
