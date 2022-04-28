@@ -334,6 +334,8 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 	var def_roll : int
 	
 	if player.attack_stance == "magic":
+		if !player.spell:
+			return
 		var eff_atk : int = int( player.magic * player.prayer_magic )
 		eff_atk = int( eff_atk * player.prayer_magic_atk )
 		
