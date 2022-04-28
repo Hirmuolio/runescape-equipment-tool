@@ -320,7 +320,8 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		
 		if "dharok" in player.special_attributes:
 			p_max_hit = int( p_max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
-			
+		if "verac" in player.special_attributes:
+			crit_max_hit += 1
 		
 		
 		
@@ -536,7 +537,7 @@ func simulate_combat( player : player, target_mon : monster ):
 		
 	
 	var simulated_kills : int = 10000
-	var max_kill_duration : int = 4000 # ticks
+	var max_kill_duration : int = 2000 # ticks
 	var tick : int = 0
 	
 	if crit_chance > 0:
