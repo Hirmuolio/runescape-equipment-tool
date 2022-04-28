@@ -17,10 +17,8 @@ These simulated results take into account that monster may have less hp than you
 
 # Known inaccurate data:
 * Monsters with multiple attack types only use the first one listed.
-* Magic based melee/range is not handled.
-* Melee accuracy equations are untested (not practical to test).
-* Player magic defence equation is based on quessing.
-* Using more than one item with damage/accuracy multiplier may be wrong with some items (needs testing).
+* Accuracy equations are untested (not practical to test).
+* Various things are unknown (or the wiki gives conflictin data).
 * Darklight damage bonus is unknown.
 * Snelm damage reduction is unknown.
 * Probably various bugs.
