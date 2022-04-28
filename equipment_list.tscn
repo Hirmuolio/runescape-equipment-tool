@@ -26,7 +26,7 @@ size_flags_horizontal = 3
 [node name="Tree" type="Tree" parent="."]
 margin_top = 28.0
 margin_right = 1333.0
-margin_bottom = 780.0
+margin_bottom = 1000.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 allow_reselect = true

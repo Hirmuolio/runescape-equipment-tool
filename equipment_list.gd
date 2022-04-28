@@ -59,7 +59,7 @@ func filter( search_term : String ):
 
 func _on_search_text_changed(search_term):
 	
-	var do_search : bool = search_term.length() > Config.min_search_length
+	var do_search : bool = search_term.length() >= Config.min_search_length
 	
 	if !do_search && !search_active:
 		return

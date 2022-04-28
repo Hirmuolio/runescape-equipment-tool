@@ -814,20 +814,17 @@ margin_top = 470.0
 margin_bottom = 494.0
 value = true
 label = "Slayer task:"
-hoover_info = "Monster is current slayer task"
 
 [node name="wilderness" parent="monster" instance=ExtResource( 13 )]
 margin_top = 498.0
 margin_bottom = 522.0
 value = true
 label = "Wilderness:"
-hoover_info = "Monster is in wilderness"
 
 [node name="darkness" parent="monster" instance=ExtResource( 13 )]
 margin_top = 526.0
 margin_bottom = 550.0
 label = "Mark of darkness:"
-hoover_info = "Monster is under effect of Mark of darkness"
 
 [node name="player_data" parent="." instance=ExtResource( 2 )]
 
