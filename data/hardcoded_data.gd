@@ -107,7 +107,7 @@ var equipment_specials : Dictionary = {
 		"description": "2.5% bonus to crush damage and accuracy",
 	},
 	"keris": {
-		"items": ["Keris", "Keris(p)", "Keris(p+)", "Keris(p++)"],
+		"items": ["Keris", "Keris(p)", "Keris(p+)", "Keris(p++)", "Keris partisan"],
 		"name": "Keris",
 		"description": "33% bonus damage against kalphites. 1/51 chance for 3x damage.",
 	},
@@ -788,3 +788,4 @@ func load_spells():
 		new_item.item_id = id
 		id -= 1
 	pass
+

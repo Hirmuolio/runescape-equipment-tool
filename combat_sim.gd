@@ -123,7 +123,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		if "god_spell" in spell.special_effects && "charge" in player.special_attributes && "god_cape" in player.cape.special_effects:
 			p_max_hit += 10
 		
-		# This doesn't make sense but is supposedly "correct"
+		# This doesn't make sense but is supposedly "correct" (at least mostly)
 		var multiplier : float = 1
 		
 		multiplier +=  player.mag_dmg_bonus / 100.0
@@ -148,7 +148,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		if "tome_of_water" in player.special_attributes && "water" in spell.special_effects:
 			p_max_hit = int( p_max_hit * 1.2 )
 		
-		# This is weird and technically there could be a situation where taking off salve (e)
+		# This is weird and technically there could be a situation where taking off salve amulet
 		# would give more dps. Not sure if that ever happens in practice.
 		if !salve and "black_mask_i" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.15 )
@@ -250,8 +250,10 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 			elif "blisterwood_sickle" in player.special_attributes:
 				p_max_hit = int( p_max_hit * 1.15 )
 		if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
+			crit_max_hit = p_max_hit * 3 # I think the crit is without the 33%
 			p_max_hit = int( p_max_hit * 4.0/3 )
 		if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
+			crit_max_hit = p_max_hit * 2
 			p_max_hit = int( p_max_hit * 1.25 )
 		if "demon" in target_mon.attributes:
 			if "silverlight" in player.special_attributes:
@@ -273,18 +275,14 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 			p_max_hit = int( p_max_hit * 1.175 )
 		if "barronite" in player.special_attributes && "golem" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 1.15 )
+		if "viggora" in player.special_attributes:
+			p_max_hit = int( p_max_hit * 1.5 )
 		
 		if "dharok" in player.special_attributes:
 			p_max_hit = int( p_max_hit * ( 1 + ( player.hp_lvl - player.current_hp ) * player.hp_lvl * 0.0001 ) )
 			
 		crit_max_hit = p_max_hit
 		
-		if "keris" in player.special_attributes and "kalphite" in target_mon.attributes:
-			crit_max_hit = p_max_hit * 3
-		if "gadderhammer" in player.special_attributes and "shade" in target_mon.attributes:
-			crit_max_hit = p_max_hit * 2
-		if "viggora" in player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.5 )
 		
 	
 
