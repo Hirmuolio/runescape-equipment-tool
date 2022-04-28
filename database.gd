@@ -4,8 +4,8 @@ var items_path : String = "user://items/"
 var monsters_path : String = "user://monsters/"
 
 func _ready():
-	load_items_json()
-	#load_items_res()
+	#load_items_json()
+	load_items_res()
 	
 	#load_monsters_json()
 	load_monsters_res()
