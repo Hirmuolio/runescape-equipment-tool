@@ -3,6 +3,7 @@ extends HBoxContainer
 
 
 func _ready():
+	set_monster( Database.get_monsters()[0] )
 	var _err = $combat_sim.connect("simulation_done", $results, "refresh_results")
 
 
