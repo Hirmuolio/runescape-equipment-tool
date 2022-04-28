@@ -15,7 +15,7 @@ func player_equip( item : equipment):
 
 func refresh_results():
 	print("REFRES")
-	$combat_sim.do_fast_simulations( $player_data, $monster.current_monster )
+	$combat_sim.do_fast_simulations()
 	$results.print_specials()
 	$player_container/player.refresh_eq_stats()
 
@@ -30,7 +30,7 @@ func set_monster( monster_node : monster ):
 
 
 func _on_Button_pressed():
-	$combat_sim.do_simulations( $player_data, $monster.current_monster )
+	$combat_sim.do_simulations()
 
 func prayer_add( prayer_id : String ):
 	if $player_data.prayer_add( prayer_id ):

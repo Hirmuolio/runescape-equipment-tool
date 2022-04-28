@@ -305,6 +305,13 @@ var equipment_specials : Dictionary = {
 		"name": "Verac the Defiled",
 		"description": "25% chance for quaranteed hit with +1 damage bonus.",
 		"set": 4
+	},
+	"god_cape": {
+		"items": ["Saradomin cape", "Zamorak cape", "Guthix cape",
+		"Imbued saradomin cape", "Imbued zamorak cape", "Imbued guthix cape",
+		"Imbued saradomin max cape", "Imbued zamorak max cape", "Imbued guthix max cape"],
+		"name": "God cape",
+		"description": ""
 	}
 }
 

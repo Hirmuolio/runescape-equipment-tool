@@ -19,11 +19,39 @@ var m_hit_roll : int
 var m_def_roll : int
 var m_dps : float
 
+# Special states set by the UI:
+
+var charge_spell : bool = false
+var kandarin_diary : bool = false
+var wilderness : bool = false
+var slayer_task : bool = false
+var mark_of_darkness : bool = false
+
 signal simulation_done()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+
+func _on_slayer_value_changed(new_value):
+	slayer_task = new_value
+	do_fast_simulations()
+
+func _on_charge_value_changed(new_value):
+	charge_spell = new_value
+	do_fast_simulations()
+
+func _on_kandarin_value_changed(new_value):
+	kandarin_diary = new_value
+	do_fast_simulations()
+
+func _on_wilderness_value_changed(new_value):
+	wilderness = new_value
+	do_fast_simulations()
+
+func _on_darkness_value_changed(new_value):
+	mark_of_darkness = new_value
+	do_fast_simulations()
 
 func clear_results():
 	p_max_hit = 0
@@ -45,9 +73,12 @@ func clear_results():
 	m_dps = 0
 	pass
 
-func do_fast_simulations( player : player, target_mon : monster ):
+func do_fast_simulations():
+	var act_player = get_parent().get_node("player_data")
+	var target_mon = get_parent().get_node("monster").current_monster
+	
 	clear_results()
-	if !player:
+	if !act_player:
 		print( "NO PLAYER EXISTS")
 		emit_signal("simulation_done")
 		return
@@ -56,25 +87,28 @@ func do_fast_simulations( player : player, target_mon : monster ):
 		emit_signal("simulation_done")
 		return
 	
-	calc_p_max_hit( player, target_mon )
-	calc_p_hit_chance( player, target_mon )
+	calc_p_max_hit( act_player, target_mon )
+	calc_p_hit_chance( act_player, target_mon )
 	
-	p_dps = p_hit_chance * p_max_hit / 2 / player.attack_speed / 0.6
+	p_dps = p_hit_chance * p_max_hit / 2 / act_player.attack_speed / 0.6
 	if p_dps == 0:
 		emit_signal("simulation_done")
 		return
 	time_to_kill = target_mon.hitpoints / p_dps
 	
-	calc_m_hit_chance( player, target_mon )
+	calc_m_hit_chance( act_player, target_mon )
 	m_max_hit = target_mon.max_hit
 	
 	m_dps = m_hit_chance * m_max_hit / 2 / target_mon.attack_speed / 0.6
 	
 	emit_signal("simulation_done")
 
-func do_simulations( player : player, target_mon : monster ):
+func do_simulations():
+	var act_player = get_parent().get_node("player_data")
+	var target_mon = get_parent().get_node("monster").current_monster
+	
 	clear_results()
-	if !player:
+	if !act_player:
 		print( "NO PLAYER EXISTS")
 		emit_signal("simulation_done")
 		return
@@ -83,22 +117,22 @@ func do_simulations( player : player, target_mon : monster ):
 		emit_signal("simulation_done")
 		return
 	
-	calc_p_max_hit( player, target_mon )
-	calc_p_hit_chance( player, target_mon )
+	calc_p_max_hit( act_player, target_mon )
+	calc_p_hit_chance( act_player, target_mon )
 	
-	p_dps = p_hit_chance * p_max_hit / 2 / player.attack_speed / 0.6
+	p_dps = p_hit_chance * p_max_hit / 2 / act_player.attack_speed / 0.6
 	if p_dps == 0:
 		emit_signal("simulation_done")
 		return
 	time_to_kill = target_mon.hitpoints / p_dps
 	
-	calc_m_hit_chance( player, target_mon )
+	calc_m_hit_chance( act_player, target_mon )
 	m_max_hit = target_mon.max_hit
 	
 	m_dps = m_hit_chance * m_max_hit / 2 / target_mon.attack_speed / 0.6
 	
 	
-	simulate_combat( player, target_mon )
+	simulate_combat( act_player, target_mon )
 	emit_signal("simulation_done")
 
 func calc_p_max_hit( player : player, target_mon : monster ):
@@ -109,7 +143,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 			return
 		
 		if spell.item_name == "Slayer dart":
-			if "slayer_task" in target_mon.attributes and "slayer_staff_e" in player.special_attributes:
+			if slayer_task and "slayer_staff_e" in player.special_attributes:
 				base_max_hit = int( player.magic / 6.0 ) + 10
 			else:
 				base_max_hit = int( player.magic / 10.0 ) + 10
@@ -120,7 +154,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		
 		if "bolt" in spell.special_effects && "chaos_gauntlet" in player.special_attributes: # TODO
 			p_max_hit += 3
-		if "god_spell" in spell.special_effects && "charge" in player.special_attributes && "god_cape" in player.cape.special_effects:
+		if "god_spell" in spell.special_effects && charge_spell && "god_cape" in player.special_attributes:
 			p_max_hit += 10
 		
 		# This doesn't make sense but is supposedly "correct" (at least mostly)
@@ -150,10 +184,13 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		
 		# This is weird and technically there could be a situation where taking off salve amulet
 		# would give more dps. Not sure if that ever happens in practice.
-		if !salve and "black_mask_i" in player.special_attributes:
+		if slayer_task and !salve and "black_mask_i" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.15 )
 		
-		if "thammaron" in player.special_attributes:
+		if wilderness and "thammaron" in player.special_attributes:
+			p_max_hit = int( p_max_hit * 1.25 )
+		
+		if mark_of_darkness and "demonbane" in spell.special_effects and "demon" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 1.25 )
 		
 		crit_max_hit = p_max_hit
@@ -178,7 +215,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 				p_max_hit = int( p_max_hit * 1.2 )
 		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 7.0/6 ) # *1.16
-		elif "black_mask_i" in player.special_attributes:
+		elif slayer_task and "black_mask_i" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if "holy_water" in player.special_attributes and "demon" in target_mon.attributes:
@@ -186,7 +223,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		
 		if "dragonhunter_crossbow" in player.special_attributes and "dragon" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 1.25 )
-		if "craw" in player.special_attributes:
+		if wilderness and "craw" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.5 )
 		
 		crit_max_hit = p_max_hit
@@ -234,7 +271,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 		
 		if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
 				p_max_hit = int( p_max_hit * 1.2 )
-		elif "black_mask" in player.special_attributes:
+		elif slayer_task and "black_mask" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 7.0/6 )
 		elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 7.0/6 )
@@ -275,7 +312,7 @@ func calc_p_max_hit( player : player, target_mon : monster ):
 			p_max_hit = int( p_max_hit * 1.175 )
 		if "barronite" in player.special_attributes && "golem" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 1.15 )
-		if "viggora" in player.special_attributes:
+		if wilderness and "viggora" in player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.5 )
 		
 		if "dharok" in player.special_attributes:
@@ -309,21 +346,24 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 				eff_atk = int( eff_atk * 1.2 )
 		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
 			eff_atk = int( eff_atk * 7.0/6 ) # *1.16
-		elif "black_mask_i" in player.special_attributes:
+		elif slayer_task and "black_mask_i" in player.special_attributes:
 			eff_atk = int( eff_atk * 1.15 )
 		
 		if "tome_of_water" in player.special_attributes && "water" in player.spell.special_effects:
 			eff_atk = int( eff_atk * 1.2 )
 		if "somke_bass" in player.special_attributes:
 			eff_atk = int( eff_atk * 1.1 )
-		if "thammaron" in player.special_attributes:
+		if wilderness and "thammaron" in player.special_attributes:
 			eff_atk = int( eff_atk * 2 )
+		
+		if "demonbane" in player.spell.special_effects and "demon" in target_mon.attributes:
+			if mark_of_darkness: 
+				eff_atk = int( eff_atk * 1.4 )
+			else:
+				p_max_hit = int( p_max_hit * 1.2 )
 		
 		atk_roll = eff_atk * ( player.magic_bonus + 64 )
 		
-		
-		
-		pass
 	elif player.attack_style == "ranged":
 		var eff_atk : int = int( player.ranged * player.prayer_rng * player.prayer_rng_atk ) + player.style_rng_bonus + 8
 		
@@ -334,7 +374,7 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 				eff_atk = int( eff_atk * 1.2 )
 		elif "salve_i" in player.special_attributes and "undead" in target_mon.attributes:
 			eff_atk = int( eff_atk * 7.0/6 ) # *1.16
-		elif "black_mask_i" in player.special_attributes:
+		elif slayer_task and "black_mask_i" in player.special_attributes:
 			eff_atk = int( eff_atk * 1.15 )
 		
 		if "holy_water" in player.special_attributes and "demon" in target_mon.attributes:
@@ -342,7 +382,7 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 		
 		if "dragonhunter_crossbow" in player.special_attributes and "dragon" in target_mon.attributes:
 			eff_atk = int( eff_atk * 1.3 )
-		if "craw" in player.special_attributes:
+		if wilderness and "craw" in player.special_attributes:
 			eff_atk = int( eff_atk * 1.5 )
 		
 		
@@ -368,7 +408,7 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 		
 		if "salve_e" in player.special_attributes and "undead" in target_mon.attributes:
 				eff_atk = int( eff_atk * 1.2 )
-		elif "black_mask" in player.special_attributes:
+		elif slayer_task and "black_mask" in player.special_attributes:
 			eff_atk = int( eff_atk * 7.0/6 )
 		elif "salve" in player.special_attributes and "undead" in target_mon.attributes:
 			eff_atk = int( eff_atk * 7.0/6 )
@@ -378,7 +418,7 @@ func calc_p_hit_chance( player : player, target_mon : monster ):
 				eff_atk = int( eff_atk * 1.05 )
 			elif "blisterwood_sickle" in player.special_attributes:
 				eff_atk = int( eff_atk * 1.05 )
-		if "viggora" in player.special_attributes:
+		if wilderness and "viggora" in player.special_attributes:
 			eff_atk = int( eff_atk * 1.5 )
 		if "arclight" in player.special_attributes && "demon" in target_mon.attributes:
 			eff_atk = int( eff_atk * 1.7 )
@@ -486,8 +526,7 @@ func simulate_combat( player : player, target_mon : monster ):
 			crit_chance = 0.05
 		
 		# This is a bit hacky but should not run when non-bolt crit is possible.
-		var kandarin_hard : bool = false
-		if kandarin_hard:
+		if kandarin_diary:
 			crit_chance *= 1.1
 		
 	
@@ -592,3 +631,18 @@ func simulate_combat( player : player, target_mon : monster ):
 	time_to_kill2 =  ( tick * 0.6 ) / simulated_kills
 	
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

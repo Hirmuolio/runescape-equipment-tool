@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://interface/equipped.tscn" type="PackedScene" id=1]
 [ext_resource path="res://data/player.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://interface/player.gd" type="Script" id=10]
 [ext_resource path="res://interface/text_display.tscn" type="PackedScene" id=11]
 [ext_resource path="res://interface/text_input.tscn" type="PackedScene" id=12]
+[ext_resource path="res://interface/tickbox.tscn" type="PackedScene" id=13]
 
 [node name="setup" type="HBoxContainer"]
 anchor_right = 1.0
@@ -20,12 +21,12 @@ script = ExtResource( 6 )
 
 [node name="player_container" type="ScrollContainer" parent="."]
 margin_right = 354.0
-margin_bottom = 900.0
+margin_bottom = 1000.0
 rect_min_size = Vector2( 354, 0 )
 
 [node name="player" type="VBoxContainer" parent="player_container"]
 margin_right = 354.0
-margin_bottom = 764.0
+margin_bottom = 828.0
 rect_min_size = Vector2( 354, 0 )
 script = ExtResource( 10 )
 
@@ -480,26 +481,45 @@ margin_top = 738.0
 margin_right = 354.0
 margin_bottom = 742.0
 
-[node name="Label" type="Label" parent="player_container/player"]
+[node name="charge" parent="player_container/player" instance=ExtResource( 13 )]
 margin_top = 746.0
 margin_right = 354.0
-margin_bottom = 760.0
+margin_bottom = 770.0
+label = "Charge spell:"
+hoover_info = "Increases god spell damage from 20 to 30"
+
+[node name="kandarin" parent="player_container/player" instance=ExtResource( 13 )]
+margin_top = 774.0
+margin_right = 354.0
+margin_bottom = 798.0
+label = "Kandarin hard diary:"
+hoover_info = "10% increase in enchanted bolt proc chance"
+
+[node name="HSeparator8" type="HSeparator" parent="player_container/player"]
+margin_top = 802.0
+margin_right = 354.0
+margin_bottom = 806.0
+
+[node name="Label" type="Label" parent="player_container/player"]
+margin_top = 810.0
+margin_right = 354.0
+margin_bottom = 824.0
 text = "Prayers:"
 
 [node name="prayers" type="VBoxContainer" parent="player_container/player"]
-margin_top = 764.0
+margin_top = 828.0
 margin_right = 354.0
-margin_bottom = 764.0
+margin_bottom = 828.0
 
 [node name="VSeparator" type="VSeparator" parent="."]
 margin_left = 358.0
 margin_right = 362.0
-margin_bottom = 900.0
+margin_bottom = 1000.0
 
 [node name="results" type="VBoxContainer" parent="."]
 margin_left = 366.0
 margin_right = 843.0
-margin_bottom = 900.0
+margin_bottom = 1000.0
 size_flags_horizontal = 3
 script = ExtResource( 7 )
 
@@ -598,18 +618,18 @@ text = "Special effects:"
 [node name="special_desc" type="RichTextLabel" parent="results"]
 margin_top = 264.0
 margin_right = 477.0
-margin_bottom = 900.0
+margin_bottom = 1000.0
 size_flags_vertical = 3
 
 [node name="VSeparator2" type="VSeparator" parent="."]
 margin_left = 847.0
 margin_right = 851.0
-margin_bottom = 900.0
+margin_bottom = 1000.0
 
 [node name="monster" type="VBoxContainer" parent="."]
 margin_left = 855.0
 margin_right = 1333.0
-margin_bottom = 900.0
+margin_bottom = 1000.0
 size_flags_horizontal = 3
 script = ExtResource( 8 )
 
@@ -784,6 +804,29 @@ margin_right = 478.0
 margin_bottom = 458.0
 label = "Size:"
 
+[node name="HSeparator5" type="HSeparator" parent="monster"]
+margin_top = 462.0
+margin_right = 478.0
+margin_bottom = 466.0
+
+[node name="slayer" parent="monster" instance=ExtResource( 13 )]
+margin_top = 470.0
+margin_bottom = 494.0
+label = "Slayer task:"
+hoover_info = "Monster is current slayer task"
+
+[node name="wilderness" parent="monster" instance=ExtResource( 13 )]
+margin_top = 498.0
+margin_bottom = 522.0
+label = "Wilderness:"
+hoover_info = "Monster is in wilderness"
+
+[node name="darkness" parent="monster" instance=ExtResource( 13 )]
+margin_top = 526.0
+margin_bottom = 550.0
+label = "Mark of darkness:"
+hoover_info = "Monster is under effect of Mark of darkness"
+
 [node name="player_data" parent="." instance=ExtResource( 2 )]
 
 [node name="combat_sim" parent="." instance=ExtResource( 9 )]
@@ -810,5 +853,10 @@ label = "Size:"
 [connection signal="value_changed" from="player_container/player/ranged" to="player_data" method="_on_ranged_value_changed"]
 [connection signal="value_changed" from="player_container/player/hp_lvl" to="player_data" method="_on_hp_lvl_value_changed"]
 [connection signal="value_changed" from="player_container/player/hp" to="player_data" method="_on_hp_value_changed"]
+[connection signal="value_changed" from="player_container/player/charge" to="combat_sim" method="_on_charge_value_changed"]
+[connection signal="value_changed" from="player_container/player/kandarin" to="combat_sim" method="_on_kandarin_value_changed"]
 [connection signal="pressed" from="results/Button" to="." method="_on_Button_pressed"]
+[connection signal="value_changed" from="monster/slayer" to="combat_sim" method="_on_slayer_value_changed"]
+[connection signal="value_changed" from="monster/wilderness" to="combat_sim" method="_on_wilderness_value_changed"]
+[connection signal="value_changed" from="monster/darkness" to="combat_sim" method="_on_darkness_value_changed"]
 [connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]
