@@ -90,5 +90,5 @@ func is_identical( oth_item : equipment ) -> bool:
 	return true
 
 func info()->String:
-	
 	return examine
+

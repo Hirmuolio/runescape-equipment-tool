@@ -312,6 +312,16 @@ var equipment_specials : Dictionary = {
 		"Imbued saradomin max cape", "Imbued zamorak max cape", "Imbued guthix max cape"],
 		"name": "God cape",
 		"description": ""
+	},
+	"powered_staff": {
+		"items": ["Trident of the seas", "Trident of the seas (full)", "Trident of the seas (e)", 
+		"Starter staff",
+		"Trident of the swamp", "Trident of the swamp (e)",
+		"Sanguinesti staff", "Holy sanguinesti staff",
+		"Dawnbringer",
+		"Crystal staff (basic)", "Crystal staff (attuned)", "Crystal staff (perfected)"],
+		"name": "Powered staff",
+		"description": ""
 	}
 }
 
@@ -793,6 +803,7 @@ func load_spells():
 		
 		new_item.equipment_slot = "spell"
 		new_item.item_id = id
+		new_item.set_name( String( new_item.item_id ) )
 		id -= 1
 	pass
 
