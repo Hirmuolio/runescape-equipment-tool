@@ -140,9 +140,7 @@ func style_def( style : String ):
 			return defence_slash
 		"crush":
 			return defence_crush
-		"spellcasting":
-			return defence_magic
-		"defensive casting":
+		"magic":
 			return defence_magic
 		"ranged":
 			return defence_ranged

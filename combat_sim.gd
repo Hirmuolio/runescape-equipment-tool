@@ -368,8 +368,6 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
 	
 	if magic_attack:
-		if !act_player.spell:
-			return
 		var eff_atk : int = int( act_player.magic * act_player.prayer_magic )
 		eff_atk = int( eff_atk * act_player.prayer_magic_atk )
 		
@@ -393,11 +391,13 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 		if wilderness and "thammaron" in act_player.special_attributes:
 			atk_roll = int( atk_roll * 2 )
 		
-		if "demonbane" in act_player.spell.special_effects and "demon" in target_mon.attributes:
+		if act_player.spell and "demonbane" in act_player.spell.special_effects and "demon" in target_mon.attributes:
 			if mark_of_darkness: 
 				atk_roll = int( atk_roll * 1.4 )
 			else:
 				atk_roll = int( atk_roll * 1.2 )
+		
+		def_roll = ( target_mon.magic_level + 9 ) * ( target_mon.style_def( "magic" ) + 64 )
 		
 		
 		
