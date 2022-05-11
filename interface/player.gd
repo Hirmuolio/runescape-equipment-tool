@@ -29,7 +29,7 @@ func refresh_eq_stats():
 	get_node( "eq_other/str" ).text = stat_string( player_stats.get_equipment_bonus( "melee_strength" ) )
 	get_node( "eq_other/rng_str" ).text = stat_string( player_stats.get_equipment_bonus( "ranged_strength" ) )
 	get_node( "eq_other/mg_dmg" ).text = "+" + str( player_stats.get_equipment_bonus( "magic_damage_bonus" ) ) + "%"
-	get_node( "eq_other/pray" ).text = stat_string( player_stats.get_equipment_bonus( "melee_strength" ) )
+	get_node( "eq_other/pray" ).text = stat_string( player_stats.get_equipment_bonus( "prayer" ) )
 	get_node( "eq_other/speed" ).text = str( player_stats.get_equipment_bonus( "attack_speed" ) )
 	
 	

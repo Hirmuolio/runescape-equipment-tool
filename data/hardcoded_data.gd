@@ -322,6 +322,11 @@ var equipment_specials : Dictionary = {
 		"Crystal staff (basic)", "Crystal staff (attuned)", "Crystal staff (perfected)"],
 		"name": "Powered staff",
 		"description": ""
+	},
+	"bulwark": {
+		"items": ["Dinh's bulwark"],
+		"name": "Dinh's bulwark",
+		"description": "Str bonus increases based on defence bonuses. 20% damage reduction in block mode."
 	}
 }
 
@@ -346,7 +351,7 @@ var prayers : Dictionary = {
 		}
 	},
 	"def_15": {
-		"name": "Steek Skin",
+		"name": "Steel Skin",
 		"description": "+15% Defence",
 		"modifiers": {
 			"defence": 15
