@@ -2,7 +2,8 @@
 
 Tool for simulating armor and weapon effectiveness against monsters.
 
-The tool can currently handle only melee weapons.
+Web version available at https://hirmuolio.github.io/ret/ret.html
+(copy-pasting setups does not properly work in web version)
 
 # What it does
 
