@@ -341,63 +341,72 @@ var prayers : Dictionary = {
 		"description": "+5% Defence",
 		"modifiers": {
 			"defence": 5
-		}
+		},
+		"type": ["defence"]
 	},
 	"def_10": {
 		"name": "Rock Skin",
 		"description": "+10% Defence",
 		"modifiers": {
 			"defence": 10
-		}
+		},
+		"type": ["defence"]
 	},
 	"def_15": {
 		"name": "Steel Skin",
 		"description": "+15% Defence",
 		"modifiers": {
 			"defence": 15
-		}
+		},
+		"type": ["defence"]
 	},
 	"str_5": {
 		"name": "Burst of Strength",
 		"description": "+5% Strength",
 		"modifiers": {
 			"strength": 5
-		}
+		},
+		"type": ["damage"]
 	},
 	"str_10": {
 		"name": "Superhuman Strength",
 		"description": "+10% Strength",
 		"modifiers": {
 			"strength": 10
-		}
+		},
+		"type": ["damage"]
 	},
 	"str_15": {
 		"name": "Ultimate Strength",
 		"description": "+15% Strength",
 		"modifiers": {
 			"strength": 15
-		}
+		},
+		"type": ["damage"]
 	},
 	"att_5": {
 		"name": "Clarity of Thought",
 		"description": "+5% Attack",
 		"modifiers": {
 			"attack": 5
-		}
+		},
+		"type": ["accuracy"]
 	},
 	"att_10": {
 		"name": "Improved Reflexes",
 		"description": "+10% Attack",
 		"modifiers": {
 			"attack": 10
-		}
+		},
+		"type": ["accuracy"]
 	},
 	"att_15": {
 		"name": "Incredible Reflexes",
 		"description": "+15% Attack",
 		"modifiers": {
 			"attack": 15
-		}
+		},
+		"type": ["accuracy"]
 	},
 	"rng_5": {
 		"name": "Sharp Eye",

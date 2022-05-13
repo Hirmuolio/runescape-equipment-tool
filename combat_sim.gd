@@ -154,6 +154,8 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 				base_max_hit = 20 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
 			elif act_player.weapon.item_name in ["Trident of the swamp", "Trident of the swamp (e)"]:
 				base_max_hit = 23 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
+			elif act_player.weapon.item_name in ["Sanguinesti staff", "Holy sanguinesti staff"]:
+				base_max_hit = 26 + int( max( ( act_player.magic - 82 ) / 3, -19 ) )
 			elif act_player.weapon.item_name == "Dawnbringer":
 				base_max_hit = 0 # No idea what the base damage is
 			elif act_player.weapon.item_name == "Crystal staff (basic)":
