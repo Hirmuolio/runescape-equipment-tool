@@ -267,7 +267,8 @@ var equipment_specials : Dictionary = {
 		"description": "11% (10% in pvp) chance to deal 20% extra damage and heal the user by 25% of the damage dealt. Does not work against undead."
 	},
 	"scythe_vitur": {
-		"items": ["Scythe of vitur"],
+		"items": ["Scythe of vitur", "Holy scythe of vitur", "Sanguine scythe of vitur",
+		"Scythe of vitur (uncharged)", "Holy scythe of vitur (uncharged)", "Sanguine scythe of vitur (uncharged)"],
 		"name": "Scythe of vitur",
 		"description": "Hits large targets up to three times per attack. -50% damage on second hit and -75% damage on third hit."
 	},
@@ -532,7 +533,10 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"Amulet of glory (t3)",
 		"Amulet of glory (t4)",
 		"Amulet of glory (t5)",
-		"Amulet of glory (t6)"
+		"Amulet of glory (t6)",
+		"Torva platelegs (damaged)",
+		"Torva full helm (damaged)",
+		"Torva platebody (damaged)"
 	]
 	
 	
