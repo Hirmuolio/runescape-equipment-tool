@@ -75,6 +75,10 @@ var attack_speed : int setget ,_get_attack_speed
 var prayers : Array = []
 var special_attributes : Array = []
 
+# Signals for refreshing UI
+
+signal prayers_changed()
+
 func save_string() -> String:
 	var ret = ""
 	ret += setup_name + "\n"
@@ -194,23 +198,24 @@ func equip( new_item : equipment  ):
 	set_specials()
 	recalculate_stats()
 
-func prayer_add( prayer_id : String ) -> bool:
-	# Returns true if prayer was added
+func prayer_add( prayer_id : String ):
 	if prayer_id in prayers:
-		return false
+		return
 	
-	# Can't have multiple prayers modify same stat
-	# Not good check. TODO make better
-	var already_modified : Array = []
-	for pra in prayers:
-		already_modified.append_array( HardcodedData.prayers[pra]["modifiers"].keys() )
-	for mod in HardcodedData.prayers[prayer_id]["modifiers"].keys():
-		if mod in already_modified:
-			return false
+	# Can't have multiple prayers of same "type"
+	# Remove old conflicting prayers
+	var to_remove : Array = []
+	for mod in HardcodedData.prayers[prayer_id]["type"]:
+		for pra in prayers:
+			if mod in HardcodedData.prayers[pra]["type"]:
+				to_remove.append( pra )
+	for pra in to_remove:
+		prayers.erase( pra )
 	
 	prayers.append( prayer_id )
+	
 	recalculate_stats()
-	return true
+	emit_signal("prayers_changed")
 
 func prayer_remove( prayer_id : String ):
 	prayers.erase( prayer_id )
@@ -379,54 +384,73 @@ func _get_attack_speed() -> int:
 
 func _get_pray_str() -> float:
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "strength" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["strength"] ) / 100
 	return 1.0
 
 func _get_pray_atk() -> float:
+	
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "attack" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["attack"] ) / 100
 	return 1.0
 
 func _get_pray_def() -> float:
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "defence" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["defence"] ) / 100
 	return 1.0
 
 func _get_pray_magic() -> float:
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "magic" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic"] ) / 100
 	return 1.0
 
 func _get_pray_magic_atk() -> float:
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "magic" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic"] ) / 100
 	return 1.0
 
 func _get_pray_magic_def()-> float:
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "magic_attack" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["magic_attack"] ) / 100
 	return 1.0
 
 func _get_pray_rng() -> float:
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "ranged" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged"] ) / 100
 	return 1.0
 
 func _get_pray_rng_str() -> float:
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "ranged_str" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged_str"] ) / 100
 	return 1.0
 
 func _get_pray_rng_atk() -> float:
 	for pray_id in prayers:
+		if not "modifiers" in HardcodedData.prayers[pray_id]:
+			continue
 		if "ranged_attack" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged_attack"] ) / 100
 	return 1.0

@@ -414,21 +414,24 @@ var prayers : Dictionary = {
 		"description": "+5% Ranged",
 		"modifiers": {
 			"ranged": 5
-		}
+		},
+		"type": ["accuracy", "damage"]
 	},
 	"rng_10": {
 		"name": "Hawk Eye",
 		"description": "+10% Ranged",
 		"modifiers": {
 			"ranged": 10
-		}
+		},
+		"type": ["accuracy", "damage"]
 	},
 	"rng_15": {
 		"name": "Eagle Eye",
 		"description": "+15% Ranged",
 		"modifiers": {
 			"ranged": 15
-		}
+		},
+		"type": ["accuracy", "damage"]
 	},
 	"rng_20": {
 		"name": "Rigour",
@@ -437,28 +440,32 @@ var prayers : Dictionary = {
 			"ranged_attack": 20,
 			"ranged_str": 23,
 			"defence": 25
-		}
+		},
+		"type": ["accuracy", "damage", "defence"]
 	},
 	"mage_5": {
 		"name": "Mystic Will",
 		"description": "+5% Magical attack and defence",
 		"modifiers": {
 			"magic": 5
-		}
+		},
+		"type": ["accuracy", "damage"]
 	},
 	"mage_10": {
 		"name": "Mystic Lore",
 		"description": "+10% Magical attack and defence",
 		"modifiers": {
 			"magic": 10
-		}
+		},
+		"type": ["accuracy", "damage"]
 	},
 	"mage_15": {
 		"name": "Mystic Might",
 		"description": "+15% Magical attack and defence",
 		"modifiers": {
 			"magic": 15
-		}
+		},
+		"type": ["accuracy", "damage"]
 	},
 	"mage_25": {
 		"name": "Augury",
@@ -467,7 +474,8 @@ var prayers : Dictionary = {
 			"magic_attack": 25,
 			"magic_defence": 25,
 			"defence": 25
-		}
+		},
+		"type": ["accuracy", "damage", "defence"]
 	},
 	"chivalry": {
 		"name": "Chivalry",
@@ -476,7 +484,8 @@ var prayers : Dictionary = {
 			"attack": 15,
 			"strength": 18,
 			"defence": 20
-		}
+		},
+		"type": ["accuracy", "damage", "defence"]
 	},
 	"piety": {
 		"name": "Piety",
@@ -485,7 +494,54 @@ var prayers : Dictionary = {
 			"attack": 20,
 			"strength": 23,
 			"defence": 25
-		}
+		},
+		"type": ["accuracy", "damage", "defence"]
+	},
+	"protect_melee": {
+		"name": "Protect from Melee",
+		"description": "Protect from Melee",
+		"type": ["overhead"]
+	},
+	"protect_magic": {
+		"name": "Protect from Magic",
+		"description": "Protect from Magic",
+		"type": ["overhead"]
+	},
+	"protect_ranged": {
+		"name": "Protect from Ranged",
+		"description": "Protect from Ranged",
+		"type": ["overhead"]
+	},
+	"smite": {
+		"name": "Smite",
+		"description": "Smite",
+		"type": ["overhead"]
+	},
+	"retribution": {
+		"name": "Retribution",
+		"description": "Retribution",
+		"type": ["overhead"]
+	},
+	"redemption": {
+		"name": "Redemption",
+		"description": "Redemption",
+		"type": ["overhead"]
+	},
+	"preserve": {
+		"name": "Preserve",
+		"description": "Preserve"
+	},
+	"rapid_restore": {
+		"name": "Rapid Restore",
+		"description": "Rapid Restore"
+	},
+	"rapid_heal": {
+		"name": "Rapid Heal",
+		"description": "Rapid Heal"
+	},
+	"protect_item": {
+		"name": "Protect Item",
+		"description": "Protect Item"
 	}
 }
 

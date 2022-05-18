@@ -859,3 +859,4 @@ label = "Mark of darkness:"
 [connection signal="value_changed" from="monster/wilderness" to="combat_sim" method="_on_wilderness_value_changed"]
 [connection signal="value_changed" from="monster/darkness" to="combat_sim" method="_on_darkness_value_changed"]
 [connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]
+[connection signal="prayers_changed" from="player_data" to="player_container/player" method="_on_player_data_prayers_changed"]

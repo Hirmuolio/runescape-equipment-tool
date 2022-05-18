@@ -33,13 +33,7 @@ func _on_Button_pressed():
 	$combat_sim.do_simulations()
 
 func prayer_add( prayer_id : String ):
-	if $player_data.prayer_add( prayer_id ):
-		var prayer_button_scene := preload( "res://interface/pray_button.tscn")
-		var button := prayer_button_scene.instance()
-		button.pray_id = prayer_id
-		var _err1 = button.connect( "button_down", $player_data, "prayer_remove", [prayer_id] )
-		var _err2 = button.connect( "button_down", button, "remove_button" )
-		$player_container/player/prayers.add_child( button )
+	$player_data.prayer_add( prayer_id )
 
 
 func _on_name_text_changed(new_text):

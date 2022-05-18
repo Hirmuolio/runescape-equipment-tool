@@ -1,10 +1,7 @@
 extends VBoxContainer
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
+onready var player_stats = get_parent().get_parent().get_node( "player_data" )
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,7 +9,7 @@ func _ready():
 
 
 func refresh_eq_stats():
-	var player_stats = get_parent().get_parent().get_node( "player_data" )
+	#var player_stats = get_parent().get_parent().get_node( "player_data" )
 	
 	get_node( "eq_attack/stab" ).text = stat_string( player_stats.get_equipment_bonus( "attack_stab" ) )
 	get_node( "eq_attack/slash" ).text = stat_string( player_stats.get_equipment_bonus( "attack_slash" ) )
@@ -40,4 +37,21 @@ func stat_string( value : int ) -> String:
 		return str(value)
 	
 	return "+" + str(value)
+	
+
+
+func _on_player_data_prayers_changed():
+	
+	for child in $prayers.get_children():
+		child.queue_free()
+	
+	var prayer_button_scene := preload( "res://interface/pray_button.tscn")
+	
+	for prayer in player_stats.prayers:
+		var button := prayer_button_scene.instance()
+		button.pray_id = prayer
+		var _err1 = button.connect( "button_down", player_stats, "prayer_remove", [prayer] )
+		var _err2 = button.connect( "button_down", button, "remove_button" )
+		$prayers.add_child( button )
+	
 	
