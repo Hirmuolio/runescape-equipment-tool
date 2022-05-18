@@ -19,7 +19,6 @@ func _set_value( new_value ):
 	$display.text = String(value)
 
 
-
 func _on_display_mouse_entered():
 	if hoover_info:
 		var hoover_node = load( "res://interface/hoover_info.tscn" ).instance()

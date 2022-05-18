@@ -343,7 +343,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"defence": 5
 		},
-		"type": ["defence"]
+		"type": ["defence"],
+		"drain": 3
 	},
 	"def_10": {
 		"name": "Rock Skin",
@@ -351,7 +352,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"defence": 10
 		},
-		"type": ["defence"]
+		"type": ["defence"],
+		"drain": 6
 	},
 	"def_15": {
 		"name": "Steel Skin",
@@ -359,7 +361,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"defence": 15
 		},
-		"type": ["defence"]
+		"type": ["defence"],
+		"drain": 12
 	},
 	"str_5": {
 		"name": "Burst of Strength",
@@ -367,7 +370,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"strength": 5
 		},
-		"type": ["damage"]
+		"type": ["damage"],
+		"drain": 3
 	},
 	"str_10": {
 		"name": "Superhuman Strength",
@@ -375,7 +379,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"strength": 10
 		},
-		"type": ["damage"]
+		"type": ["damage"],
+		"drain": 6
 	},
 	"str_15": {
 		"name": "Ultimate Strength",
@@ -383,7 +388,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"strength": 15
 		},
-		"type": ["damage"]
+		"type": ["damage"],
+		"drain": 12
 	},
 	"att_5": {
 		"name": "Clarity of Thought",
@@ -391,7 +397,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"attack": 5
 		},
-		"type": ["accuracy"]
+		"type": ["accuracy"],
+		"drain": 3
 	},
 	"att_10": {
 		"name": "Improved Reflexes",
@@ -399,7 +406,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"attack": 10
 		},
-		"type": ["accuracy"]
+		"type": ["accuracy"],
+		"drain": 6
 	},
 	"att_15": {
 		"name": "Incredible Reflexes",
@@ -407,7 +415,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"attack": 15
 		},
-		"type": ["accuracy"]
+		"type": ["accuracy"],
+		"drain": 12
 	},
 	"rng_5": {
 		"name": "Sharp Eye",
@@ -415,7 +424,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"ranged": 5
 		},
-		"type": ["accuracy", "damage"]
+		"type": ["accuracy", "damage"],
+		"drain": 3
 	},
 	"rng_10": {
 		"name": "Hawk Eye",
@@ -423,7 +433,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"ranged": 10
 		},
-		"type": ["accuracy", "damage"]
+		"type": ["accuracy", "damage"],
+		"drain": 6
 	},
 	"rng_15": {
 		"name": "Eagle Eye",
@@ -431,7 +442,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"ranged": 15
 		},
-		"type": ["accuracy", "damage"]
+		"type": ["accuracy", "damage"],
+		"drain": 12
 	},
 	"rng_20": {
 		"name": "Rigour",
@@ -441,7 +453,8 @@ var prayers : Dictionary = {
 			"ranged_str": 23,
 			"defence": 25
 		},
-		"type": ["accuracy", "damage", "defence"]
+		"type": ["accuracy", "damage", "defence"],
+		"drain": 24
 	},
 	"mage_5": {
 		"name": "Mystic Will",
@@ -449,7 +462,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"magic": 5
 		},
-		"type": ["accuracy", "damage"]
+		"type": ["accuracy", "damage"],
+		"drain": 3
 	},
 	"mage_10": {
 		"name": "Mystic Lore",
@@ -457,7 +471,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"magic": 10
 		},
-		"type": ["accuracy", "damage"]
+		"type": ["accuracy", "damage"],
+		"drain": 6
 	},
 	"mage_15": {
 		"name": "Mystic Might",
@@ -465,7 +480,8 @@ var prayers : Dictionary = {
 		"modifiers": {
 			"magic": 15
 		},
-		"type": ["accuracy", "damage"]
+		"type": ["accuracy", "damage"],
+		"drain": 12
 	},
 	"mage_25": {
 		"name": "Augury",
@@ -475,7 +491,8 @@ var prayers : Dictionary = {
 			"magic_defence": 25,
 			"defence": 25
 		},
-		"type": ["accuracy", "damage", "defence"]
+		"type": ["accuracy", "damage", "defence"],
+		"drain": 24
 	},
 	"chivalry": {
 		"name": "Chivalry",
@@ -485,7 +502,8 @@ var prayers : Dictionary = {
 			"strength": 18,
 			"defence": 20
 		},
-		"type": ["accuracy", "damage", "defence"]
+		"type": ["accuracy", "damage", "defence"],
+		"drain": 24
 	},
 	"piety": {
 		"name": "Piety",
@@ -495,53 +513,68 @@ var prayers : Dictionary = {
 			"strength": 23,
 			"defence": 25
 		},
-		"type": ["accuracy", "damage", "defence"]
+		"type": ["accuracy", "damage", "defence"],
+		"drain": 24
 	},
 	"protect_melee": {
 		"name": "Protect from Melee",
 		"description": "Protect from Melee",
-		"type": ["overhead"]
+		"type": ["overhead"],
+		"drain": 12
 	},
 	"protect_magic": {
 		"name": "Protect from Magic",
 		"description": "Protect from Magic",
-		"type": ["overhead"]
+		"type": ["overhead"],
+		"drain": 12
 	},
 	"protect_ranged": {
 		"name": "Protect from Ranged",
 		"description": "Protect from Ranged",
-		"type": ["overhead"]
+		"type": ["overhead"],
+		"drain": 12
 	},
 	"smite": {
 		"name": "Smite",
 		"description": "Smite",
-		"type": ["overhead"]
+		"type": ["overhead"],
+		"drain": 18
 	},
 	"retribution": {
 		"name": "Retribution",
 		"description": "Retribution",
-		"type": ["overhead"]
+		"type": ["overhead"],
+		"drain": 3
 	},
 	"redemption": {
 		"name": "Redemption",
 		"description": "Redemption",
-		"type": ["overhead"]
+		"type": ["overhead"],
+		"drain": 6
 	},
 	"preserve": {
 		"name": "Preserve",
-		"description": "Preserve"
+		"description": "Preserve",
+		"type": [],
+		"drain": 2
 	},
 	"rapid_restore": {
 		"name": "Rapid Restore",
-		"description": "Rapid Restore"
+		"description": "Rapid Restore",
+		"type": [],
+		"drain": 1
 	},
 	"rapid_heal": {
 		"name": "Rapid Heal",
-		"description": "Rapid Heal"
+		"description": "Rapid Heal",
+		"type": [],
+		"drain": 2
 	},
 	"protect_item": {
 		"name": "Protect Item",
-		"description": "Protect Item"
+		"description": "Protect Item",
+		"type": [],
+		"drain": 2
 	}
 }
 

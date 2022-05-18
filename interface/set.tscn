@@ -569,54 +569,60 @@ margin_right = 477.0
 margin_bottom = 136.0
 label = "Simulated DPS:"
 
-[node name="spk" parent="results" instance=ExtResource( 4 )]
+[node name="spk" parent="results" instance=ExtResource( 11 )]
 margin_top = 140.0
 margin_right = 477.0
 margin_bottom = 154.0
-label = "Seconds per kill:"
+label = "Time to kill"
 
-[node name="HSeparator2" type="HSeparator" parent="results"]
+[node name="pray_drain" parent="results" instance=ExtResource( 11 )]
 margin_top = 158.0
 margin_right = 477.0
-margin_bottom = 162.0
+margin_bottom = 172.0
+label = "Prayer drain"
 
-[node name="Label3" type="Label" parent="results"]
-margin_top = 166.0
+[node name="HSeparator2" type="HSeparator" parent="results"]
+margin_top = 176.0
 margin_right = 477.0
 margin_bottom = 180.0
-text = "Monster:"
 
-[node name="m_maxhit" parent="results" instance=ExtResource( 4 )]
+[node name="Label3" type="Label" parent="results"]
 margin_top = 184.0
 margin_right = 477.0
 margin_bottom = 198.0
-label = "Max hit:"
+text = "Monster:"
 
-[node name="m_hitchance" parent="results" instance=ExtResource( 11 )]
+[node name="m_maxhit" parent="results" instance=ExtResource( 4 )]
 margin_top = 202.0
 margin_right = 477.0
 margin_bottom = 216.0
-label = "Hit chance:"
+label = "Max hit:"
 
-[node name="m_dps" parent="results" instance=ExtResource( 4 )]
+[node name="m_hitchance" parent="results" instance=ExtResource( 11 )]
 margin_top = 220.0
 margin_right = 477.0
 margin_bottom = 234.0
+label = "Hit chance:"
+
+[node name="m_dps" parent="results" instance=ExtResource( 4 )]
+margin_top = 238.0
+margin_right = 477.0
+margin_bottom = 252.0
 label = "DPS:"
 
 [node name="HSeparator3" type="HSeparator" parent="results"]
-margin_top = 238.0
-margin_right = 477.0
-margin_bottom = 242.0
-
-[node name="Label4" type="Label" parent="results"]
-margin_top = 246.0
+margin_top = 256.0
 margin_right = 477.0
 margin_bottom = 260.0
+
+[node name="Label4" type="Label" parent="results"]
+margin_top = 264.0
+margin_right = 477.0
+margin_bottom = 278.0
 text = "Special effects:"
 
 [node name="special_desc" type="RichTextLabel" parent="results"]
-margin_top = 264.0
+margin_top = 282.0
 margin_right = 477.0
 margin_bottom = 1000.0
 size_flags_vertical = 3

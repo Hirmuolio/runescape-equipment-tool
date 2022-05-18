@@ -23,14 +23,24 @@ func refresh_results():
 	$p_hitchance.hoover_info = "Player attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
 	$p_dps.value = stepify( combat_sim.p_dps, 0.01 )
 	$p_dps2.value = stepify( combat_sim.p_dps2, 0.01 )
-	$spk.value = stepify( combat_sim.time_to_kill2, 0.01 )
+	$spk.value = str( stepify( combat_sim.time_to_kill2, 0.01 ) ) + " s"
 	
 	$m_maxhit.value = combat_sim.m_max_hit
 	$m_hitchance.value = str( stepify( combat_sim.m_hit_chance  * 100, 0.01 ) ) + "%"
 	$m_hitchance.hoover_info = "Monster attack roll: " + str(combat_sim.m_hit_roll)+ "\nPlayer def roll: " + str(combat_sim.p_def_roll)
 	$m_dps.value = stepify( combat_sim.m_dps, 0.1 )
 	
-	pass
+	var drain_res : float = 2 * player_data.get_equipment_bonus( "prayer" ) + 60
+	var drain : float = 0
+	for prayer in player_data.prayers:
+		drain += HardcodedData.prayers[prayer].drain
+	if drain > 0:
+		var seconds_per_drain : float = 0.6 * ( drain_res / drain )
+		var drain_per_second : float = 1 / seconds_per_drain
+		$pray_drain.value = str( stepify( drain_per_second, 0.1 ) ) + " points/s"
+	else:
+		$pray_drain.value = "0"
+	$pray_drain.hoover_info = "Total drain: " + str(drain) + "\nDrain resistance: " + str( drain_res )
 
 func print_specials():
 	
