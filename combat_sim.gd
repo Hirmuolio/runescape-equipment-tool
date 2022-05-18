@@ -99,6 +99,7 @@ func do_fast_simulations():
 	calc_m_hit_chance( act_player, target_mon )
 	m_max_hit = target_mon.max_hit
 	if "bulwark" in act_player.special_attributes and act_player.attack_stance == "block":
+		# warning-ignore:integer_division
 		m_max_hit = m_max_hit * 4 / 5
 	
 	m_dps = m_hit_chance * m_max_hit / 2 / target_mon.attack_speed / 0.6
@@ -151,10 +152,13 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 				spell = Database.get_node( "items/-4" )
 				base_max_hit = 8
 			elif act_player.weapon.item_name in ["Trident of the seas", "Trident of the seas (full)", "Trident of the seas (e)"]:
+				# warning-ignore:integer_division
 				base_max_hit = 20 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
 			elif act_player.weapon.item_name in ["Trident of the swamp", "Trident of the swamp (e)"]:
+				# warning-ignore:integer_division
 				base_max_hit = 23 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
 			elif act_player.weapon.item_name in ["Sanguinesti staff", "Holy sanguinesti staff"]:
+				# warning-ignore:integer_division
 				base_max_hit = 26 + int( max( ( act_player.magic - 82 ) / 3, -19 ) )
 			elif act_player.weapon.item_name == "Dawnbringer":
 				base_max_hit = 0 # No idea what the base damage is
@@ -291,9 +295,10 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			var total_def : int = act_player.get_equipment_bonus( "defence_stab" ) + act_player.get_equipment_bonus( "defence_slash" ) + act_player.get_equipment_bonus( "defence_crush" ) + act_player.get_equipment_bonus( "defence_ranged" )
 			# I do not know if these should be done as integer division or not
 			# I do them as integer divisions
+			# warning-ignore:integer_division
 			eq_str += ( total_def / 4 - 200 ) / 3 - 38
 		
-		base_max_hit = int( 0.5 + eff_str * ( act_player.str_bonus + 64 ) / 640.0 )
+		base_max_hit = int( 0.5 + eff_str * ( eq_str + 64 ) / 640.0 )
 		
 		
 		# Special bonuses need to be applied in specific order
