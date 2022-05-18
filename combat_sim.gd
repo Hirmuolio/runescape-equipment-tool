@@ -10,7 +10,6 @@ var p_hit_roll : int
 var p_def_roll : int
 var p_dps : float
 var p_dps2 : float
-var time_to_kill : float
 var time_to_kill2 : float
 
 var m_max_hit : int
@@ -63,7 +62,6 @@ func clear_results():
 	p_def_roll = 0
 	p_dps = 0
 	p_dps2 = 0
-	time_to_kill = 0
 	time_to_kill2 = 0
 	
 	m_max_hit = 0
@@ -94,7 +92,6 @@ func do_fast_simulations():
 	if p_dps == 0:
 		emit_signal("simulation_done")
 		return
-	time_to_kill = target_mon.hitpoints / p_dps
 	
 	calc_m_hit_chance( act_player, target_mon )
 	m_max_hit = target_mon.max_hit
@@ -127,7 +124,6 @@ func do_simulations():
 	if p_dps == 0:
 		emit_signal("simulation_done")
 		return
-	time_to_kill = target_mon.hitpoints / p_dps
 	
 	calc_m_hit_chance( act_player, target_mon )
 	m_max_hit = target_mon.max_hit
@@ -295,6 +291,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			var total_def : int = act_player.get_equipment_bonus( "defence_stab" ) + act_player.get_equipment_bonus( "defence_slash" ) + act_player.get_equipment_bonus( "defence_crush" ) + act_player.get_equipment_bonus( "defence_ranged" )
 			# I do not know if these should be done as integer division or not
 			# I do them as integer divisions
+			# warning-ignore:integer_division
 			# warning-ignore:integer_division
 			eq_str += ( total_def / 4 - 200 ) / 3 - 38
 		

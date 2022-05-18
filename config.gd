@@ -13,12 +13,12 @@ var search_mode = 2 # 0 = findn(), 1 = matchn() exact match, 2 = is_subsequence_
 func _ready():
 	return
 	# Not using config file
-	var err = config.load( config_path )
-	if err == OK:
-		load_config()
-	else:
-		print( "No config file found. Using defaults.")
-		save_config()
+#	var err = config.load( config_path )
+#	if err == OK:
+#		load_config()
+#	else:
+#		print( "No config file found. Using defaults.")
+#		save_config()
 
 
 func load_config():
