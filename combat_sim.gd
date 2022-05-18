@@ -257,7 +257,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		
 		crit_max_hit = p_max_hit
 		if "opal_bolt_e" in act_player.special_attributes:
-			crit_max_hit = int( act_player.ranged * 1.1 )
+			crit_max_hit = p_max_hit + int( act_player.ranged * 0.1 )
 		if "pearl_bolt_e" in act_player.special_attributes:
 			if "fiery" in target_mon.attributes:
 				crit_max_hit += int( act_player.ranged / 15.0 )
