@@ -28,7 +28,7 @@ func _on_info_pressed():
 
 
 func _on_info_meta_clicked(meta):
-	OS.shell_open(meta)
+	var _err = OS.shell_open(meta)
 
 
 
