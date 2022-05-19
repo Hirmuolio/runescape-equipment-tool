@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://equipment_list.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://interface/set.tscn" type="PackedScene" id=4]
 [ext_resource path="res://interface/monster_list.tscn" type="PackedScene" id=5]
 [ext_resource path="res://interface/prayer_list.tscn" type="PackedScene" id=6]
+[ext_resource path="res://interface/info_overlay.tscn" type="PackedScene" id=7]
 
 [node name="interface" type="Control"]
 anchor_right = 1.0
@@ -67,6 +68,18 @@ margin_right = 471.0
 margin_bottom = 20.0
 text = "Load set from clipboard"
 
+[node name="padding" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 475.0
+margin_right = 938.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="info" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 942.0
+margin_right = 979.0
+margin_bottom = 20.0
+text = "Info"
+
 [node name="setups" type="TabContainer" parent="HBoxContainer/VBoxContainer"]
 margin_top = 24.0
 margin_right = 979.0
@@ -83,6 +96,9 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
+[node name="info_overlay" parent="." instance=ExtResource( 7 )]
+visible = false
+
 [connection signal="item_selected" from="HBoxContainer/TabContainer/equipment" to="HBoxContainer/VBoxContainer/setups" method="_on_equipment_list_item_selected"]
 [connection signal="item_selected" from="HBoxContainer/TabContainer/monster" to="HBoxContainer/VBoxContainer/setups" method="_on_monster_item_selected"]
 [connection signal="prayer_selected" from="HBoxContainer/TabContainer/prayers" to="HBoxContainer/VBoxContainer/setups" method="_on_prayer_list_prayer_selected"]
@@ -90,3 +106,4 @@ margin_bottom = -4.0
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/Button" to="HBoxContainer/VBoxContainer/setups" method="_on_Button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/save_set" to="HBoxContainer/VBoxContainer/setups" method="_on_save_set_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/load_set" to="HBoxContainer/VBoxContainer/setups" method="_on_load_set_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/info" to="info_overlay" method="_on_info_pressed"]

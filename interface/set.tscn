@@ -561,13 +561,21 @@ label = "Hit chance:"
 margin_top = 104.0
 margin_right = 477.0
 margin_bottom = 118.0
-label = "DPS:"
+label = "Paper DPS:"
+hoover_info = "Paper dps = 0.5 * hit_chance * max_hit / attack_duration
+
+Does not consider all special effects or overhit in the calculations."
 
 [node name="p_dps2" parent="results" instance=ExtResource( 4 )]
 margin_top = 122.0
 margin_right = 477.0
 margin_bottom = 136.0
 label = "Simulated DPS:"
+hoover_info = "Real dps simulated from large number of kills.
+
+Takes into account special effects (enchanged bolts, etc.)  and overhit.
+
+(press the \"simulate\" button above)"
 
 [node name="spk" parent="results" instance=ExtResource( 11 )]
 margin_top = 140.0

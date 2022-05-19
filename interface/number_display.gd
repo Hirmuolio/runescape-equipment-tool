@@ -5,7 +5,7 @@ tool
 export var  value : float = 0 setget _set_value
 export var label : String = "Label" setget _set_label
 
-var hoover_info : String
+export(String, MULTILINE) var hoover_info
 
 func _ready():
 	pass
