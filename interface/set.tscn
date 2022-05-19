@@ -523,6 +523,7 @@ unique_name_in_owner = true
 margin_left = 366.0
 margin_right = 843.0
 margin_bottom = 1000.0
+rect_min_size = Vector2( 320, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 7 )
 
@@ -648,6 +649,7 @@ unique_name_in_owner = true
 margin_left = 855.0
 margin_right = 1333.0
 margin_bottom = 1000.0
+rect_min_size = Vector2( 320, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 8 )
 
