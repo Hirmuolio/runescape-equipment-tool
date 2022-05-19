@@ -1,8 +1,8 @@
 extends VBoxContainer
 
 
-onready var player_data = get_parent().get_node("player_data")
-onready var combat_sim = get_parent().get_node("combat_sim")
+onready var player_data = get_parent().get_parent().get_node("player_data") # TODO make nicer
+onready var combat_sim = get_parent().get_parent().get_node("combat_sim")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

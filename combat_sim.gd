@@ -73,7 +73,7 @@ func clear_results():
 
 func do_fast_simulations():
 	var act_player = get_parent().get_node("player_data")
-	var target_mon = get_parent().get_node("monster").current_monster
+	var target_mon = get_parent().get_node("%monster_panel").current_monster
 	
 	clear_results()
 	if !act_player:
@@ -105,7 +105,7 @@ func do_fast_simulations():
 
 func do_simulations():
 	var act_player = get_parent().get_node("player_data")
-	var target_mon = get_parent().get_node("monster").current_monster
+	var target_mon = get_parent().get_node("%monster_panel").current_monster
 	
 	clear_results()
 	if !act_player:
