@@ -15,16 +15,19 @@ anchor_bottom = 1.0
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 margin_right = 500.0
-margin_bottom = 1000.0
+margin_bottom = 980.0
 
 [node name="info" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
 margin_right = 500.0
-margin_bottom = 1000.0
-rect_min_size = Vector2( 500, 0 )
-size_flags_vertical = 3
+margin_bottom = 300.0
+rect_min_size = Vector2( 500, 300 )
 text = "asdasdasdsda
 as
 d
@@ -32,18 +35,44 @@ asd
 adas
 d"
 
+[node name="license" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
+margin_top = 304.0
+margin_right = 500.0
+margin_bottom = 980.0
+rect_min_size = Vector2( 500, 0 )
+size_flags_vertical = 3
+text = "Copyright (c) 2022 Hirmuolio
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE."
+
 [node name="changelog" type="RichTextLabel" parent="HBoxContainer"]
 margin_left = 504.0
-margin_right = 1282.0
-margin_bottom = 1000.0
+margin_right = 1262.0
+margin_bottom = 980.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 2 )
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 1286.0
-margin_right = 1333.0
-margin_bottom = 1000.0
+margin_left = 1266.0
+margin_right = 1313.0
+margin_bottom = 980.0
 
 [node name="Button" type="Button" parent="HBoxContainer/VBoxContainer2"]
 margin_right = 47.0
@@ -51,4 +80,5 @@ margin_bottom = 20.0
 text = "Close"
 
 [connection signal="meta_clicked" from="HBoxContainer/VBoxContainer/info" to="." method="_on_info_meta_clicked"]
+[connection signal="meta_clicked" from="HBoxContainer/VBoxContainer/license" to="." method="_on_info_meta_clicked"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer2/Button" to="." method="_on_Button_pressed"]

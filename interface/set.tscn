@@ -14,115 +14,117 @@
 [ext_resource path="res://interface/text_input.tscn" type="PackedScene" id=12]
 [ext_resource path="res://interface/tickbox.tscn" type="PackedScene" id=13]
 
-[node name="setup" type="HBoxContainer"]
+[node name="setup" type="ScrollContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 6 )
 
-[node name="player_container" type="ScrollContainer" parent="."]
+[node name="hbox" type="HBoxContainer" parent="."]
+margin_right = 1333.0
+margin_bottom = 1000.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="player_panel" type="VBoxContainer" parent="hbox"]
+unique_name_in_owner = true
 margin_right = 354.0
 margin_bottom = 1000.0
 rect_min_size = Vector2( 354, 0 )
-
-[node name="player" type="VBoxContainer" parent="player_container"]
-margin_right = 354.0
-margin_bottom = 828.0
-rect_min_size = Vector2( 354, 0 )
 script = ExtResource( 10 )
 
-[node name="name" parent="player_container/player" instance=ExtResource( 12 )]
+[node name="name" parent="hbox/player_panel" instance=ExtResource( 12 )]
 margin_bottom = 24.0
 label = "Name"
 
-[node name="weapon" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="weapon" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 28.0
 margin_right = 354.0
 margin_bottom = 48.0
 slot = "weapon"
 
-[node name="head" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="head" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 52.0
 margin_right = 354.0
 margin_bottom = 72.0
 slot = "head"
 
-[node name="body" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="body" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 76.0
 margin_right = 354.0
 margin_bottom = 96.0
 slot = "body"
 
-[node name="legs" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="legs" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 100.0
 margin_right = 354.0
 margin_bottom = 120.0
 slot = "legs"
 
-[node name="feet" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="feet" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 124.0
 margin_right = 354.0
 margin_bottom = 144.0
 slot = "feet"
 
-[node name="shield" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="shield" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 148.0
 margin_right = 354.0
 margin_bottom = 168.0
 slot = "shield"
 
-[node name="hands" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="hands" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 172.0
 margin_right = 354.0
 margin_bottom = 192.0
 slot = "hands"
 
-[node name="cape" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="cape" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 196.0
 margin_right = 354.0
 margin_bottom = 216.0
 slot = "cape"
 
-[node name="ring" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="ring" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 220.0
 margin_right = 354.0
 margin_bottom = 240.0
 slot = "ring"
 
-[node name="neck" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="neck" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 244.0
 margin_right = 354.0
 margin_bottom = 264.0
 slot = "neck"
 
-[node name="ammo" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="ammo" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 268.0
 margin_right = 354.0
 margin_bottom = 288.0
 slot = "ammo"
 
-[node name="spell" parent="player_container/player" instance=ExtResource( 1 )]
+[node name="spell" parent="hbox/player_panel" instance=ExtResource( 1 )]
 margin_top = 292.0
 margin_right = 354.0
 margin_bottom = 312.0
 slot = "spell"
 
-[node name="HSeparator" type="HSeparator" parent="player_container/player"]
+[node name="HSeparator" type="HSeparator" parent="hbox/player_panel"]
 margin_top = 316.0
 margin_right = 354.0
 margin_bottom = 320.0
 
-[node name="attack_style" type="OptionButton" parent="player_container/player"]
+[node name="attack_style" type="OptionButton" parent="hbox/player_panel"]
 margin_top = 324.0
 margin_right = 354.0
 margin_bottom = 344.0
 script = ExtResource( 5 )
 
-[node name="HSeparator3" type="HSeparator" parent="player_container/player"]
+[node name="HSeparator3" type="HSeparator" parent="hbox/player_panel"]
 margin_top = 348.0
 margin_right = 354.0
 margin_bottom = 352.0
 
-[node name="attack" parent="player_container/player" instance=ExtResource( 3 )]
+[node name="attack" parent="hbox/player_panel" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 356.0
@@ -131,7 +133,7 @@ margin_bottom = 380.0
 value = 1
 label = "Attack lvl"
 
-[node name="strength" parent="player_container/player" instance=ExtResource( 3 )]
+[node name="strength" parent="hbox/player_panel" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 384.0
@@ -140,7 +142,7 @@ margin_bottom = 408.0
 value = 1
 label = "Strength lvl"
 
-[node name="defence" parent="player_container/player" instance=ExtResource( 3 )]
+[node name="defence" parent="hbox/player_panel" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 412.0
@@ -149,7 +151,7 @@ margin_bottom = 436.0
 value = 1
 label = "Defence lvl"
 
-[node name="magic" parent="player_container/player" instance=ExtResource( 3 )]
+[node name="magic" parent="hbox/player_panel" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 440.0
@@ -158,7 +160,7 @@ margin_bottom = 464.0
 value = 1
 label = "Magic lvl"
 
-[node name="ranged" parent="player_container/player" instance=ExtResource( 3 )]
+[node name="ranged" parent="hbox/player_panel" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 468.0
@@ -167,7 +169,7 @@ margin_bottom = 492.0
 value = 1
 label = "Ranged lvl"
 
-[node name="hp_lvl" parent="player_container/player" instance=ExtResource( 3 )]
+[node name="hp_lvl" parent="hbox/player_panel" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 496.0
@@ -176,7 +178,7 @@ margin_bottom = 520.0
 value = 1
 label = "HP lvl"
 
-[node name="hp" parent="player_container/player" instance=ExtResource( 3 )]
+[node name="hp" parent="hbox/player_panel" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 524.0
@@ -185,12 +187,12 @@ margin_bottom = 548.0
 value = 1
 label = "Current HP"
 
-[node name="HSeparator4" type="HSeparator" parent="player_container/player"]
+[node name="HSeparator4" type="HSeparator" parent="hbox/player_panel"]
 margin_top = 552.0
 margin_right = 354.0
 margin_bottom = 556.0
 
-[node name="label6" type="Label" parent="player_container/player"]
+[node name="label6" type="Label" parent="hbox/player_panel"]
 margin_top = 560.0
 margin_right = 354.0
 margin_bottom = 574.0
@@ -198,96 +200,96 @@ size_flags_horizontal = 3
 text = "Attack bonuses"
 align = 1
 
-[node name="eq_attack" type="GridContainer" parent="player_container/player"]
+[node name="eq_attack" type="GridContainer" parent="hbox/player_panel"]
 margin_top = 578.0
 margin_right = 354.0
 margin_bottom = 610.0
 columns = 5
 
-[node name="label" type="Label" parent="player_container/player/eq_attack"]
-margin_right = 67.0
+[node name="label" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_right = 68.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Stab"
 align = 1
 
-[node name="label2" type="Label" parent="player_container/player/eq_attack"]
-margin_left = 71.0
-margin_right = 138.0
+[node name="label2" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_left = 72.0
+margin_right = 140.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Slash"
 align = 1
 
-[node name="label3" type="Label" parent="player_container/player/eq_attack"]
-margin_left = 142.0
-margin_right = 209.0
+[node name="label3" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_left = 144.0
+margin_right = 212.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Crush"
 align = 1
 
-[node name="label4" type="Label" parent="player_container/player/eq_attack"]
-margin_left = 213.0
-margin_right = 280.0
+[node name="label4" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_left = 216.0
+margin_right = 283.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Magic"
 align = 1
 
-[node name="label5" type="Label" parent="player_container/player/eq_attack"]
-margin_left = 284.0
-margin_right = 351.0
+[node name="label5" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_left = 287.0
+margin_right = 354.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Ranged"
 align = 1
 
-[node name="stab" type="Label" parent="player_container/player/eq_attack"]
+[node name="stab" type="Label" parent="hbox/player_panel/eq_attack"]
 margin_top = 18.0
-margin_right = 67.0
+margin_right = 68.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="slash" type="Label" parent="player_container/player/eq_attack"]
-margin_left = 71.0
+[node name="slash" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_left = 72.0
 margin_top = 18.0
-margin_right = 138.0
+margin_right = 140.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="crush" type="Label" parent="player_container/player/eq_attack"]
-margin_left = 142.0
+[node name="crush" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_left = 144.0
 margin_top = 18.0
-margin_right = 209.0
+margin_right = 212.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="magic" type="Label" parent="player_container/player/eq_attack"]
-margin_left = 213.0
+[node name="magic" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_left = 216.0
 margin_top = 18.0
-margin_right = 280.0
+margin_right = 283.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="ranged" type="Label" parent="player_container/player/eq_attack"]
-margin_left = 284.0
+[node name="ranged" type="Label" parent="hbox/player_panel/eq_attack"]
+margin_left = 287.0
 margin_top = 18.0
-margin_right = 351.0
+margin_right = 354.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="HSeparator6" type="HSeparator" parent="player_container/player"]
+[node name="HSeparator6" type="HSeparator" parent="hbox/player_panel"]
 margin_top = 614.0
 margin_right = 354.0
 margin_bottom = 618.0
 
-[node name="label7" type="Label" parent="player_container/player"]
+[node name="label7" type="Label" parent="hbox/player_panel"]
 margin_top = 622.0
 margin_right = 354.0
 margin_bottom = 636.0
@@ -295,96 +297,96 @@ size_flags_horizontal = 3
 text = "Defence bonuses"
 align = 1
 
-[node name="eq_def" type="GridContainer" parent="player_container/player"]
+[node name="eq_def" type="GridContainer" parent="hbox/player_panel"]
 margin_top = 640.0
 margin_right = 354.0
 margin_bottom = 672.0
 columns = 5
 
-[node name="label" type="Label" parent="player_container/player/eq_def"]
-margin_right = 67.0
+[node name="label" type="Label" parent="hbox/player_panel/eq_def"]
+margin_right = 68.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Stab"
 align = 1
 
-[node name="label2" type="Label" parent="player_container/player/eq_def"]
-margin_left = 71.0
-margin_right = 138.0
+[node name="label2" type="Label" parent="hbox/player_panel/eq_def"]
+margin_left = 72.0
+margin_right = 140.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Slash"
 align = 1
 
-[node name="label3" type="Label" parent="player_container/player/eq_def"]
-margin_left = 142.0
-margin_right = 209.0
+[node name="label3" type="Label" parent="hbox/player_panel/eq_def"]
+margin_left = 144.0
+margin_right = 212.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Crush"
 align = 1
 
-[node name="label4" type="Label" parent="player_container/player/eq_def"]
-margin_left = 213.0
-margin_right = 280.0
+[node name="label4" type="Label" parent="hbox/player_panel/eq_def"]
+margin_left = 216.0
+margin_right = 283.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Magic"
 align = 1
 
-[node name="label5" type="Label" parent="player_container/player/eq_def"]
-margin_left = 284.0
-margin_right = 351.0
+[node name="label5" type="Label" parent="hbox/player_panel/eq_def"]
+margin_left = 287.0
+margin_right = 354.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Ranged"
 align = 1
 
-[node name="stab" type="Label" parent="player_container/player/eq_def"]
+[node name="stab" type="Label" parent="hbox/player_panel/eq_def"]
 margin_top = 18.0
-margin_right = 67.0
+margin_right = 68.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="slash" type="Label" parent="player_container/player/eq_def"]
-margin_left = 71.0
+[node name="slash" type="Label" parent="hbox/player_panel/eq_def"]
+margin_left = 72.0
 margin_top = 18.0
-margin_right = 138.0
+margin_right = 140.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="crush" type="Label" parent="player_container/player/eq_def"]
-margin_left = 142.0
+[node name="crush" type="Label" parent="hbox/player_panel/eq_def"]
+margin_left = 144.0
 margin_top = 18.0
-margin_right = 209.0
+margin_right = 212.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="magic" type="Label" parent="player_container/player/eq_def"]
-margin_left = 213.0
+[node name="magic" type="Label" parent="hbox/player_panel/eq_def"]
+margin_left = 216.0
 margin_top = 18.0
-margin_right = 280.0
+margin_right = 283.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="ranged" type="Label" parent="player_container/player/eq_def"]
-margin_left = 284.0
+[node name="ranged" type="Label" parent="hbox/player_panel/eq_def"]
+margin_left = 287.0
 margin_top = 18.0
-margin_right = 351.0
+margin_right = 354.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="HSeparator7" type="HSeparator" parent="player_container/player"]
+[node name="HSeparator7" type="HSeparator" parent="hbox/player_panel"]
 margin_top = 676.0
 margin_right = 354.0
 margin_bottom = 680.0
 
-[node name="label8" type="Label" parent="player_container/player"]
+[node name="label8" type="Label" parent="hbox/player_panel"]
 margin_top = 684.0
 margin_right = 354.0
 margin_bottom = 698.0
@@ -392,172 +394,174 @@ size_flags_horizontal = 3
 text = "Other bonuses"
 align = 1
 
-[node name="eq_other" type="GridContainer" parent="player_container/player"]
+[node name="eq_other" type="GridContainer" parent="hbox/player_panel"]
 margin_top = 702.0
 margin_right = 354.0
 margin_bottom = 734.0
 columns = 5
 
-[node name="label" type="Label" parent="player_container/player/eq_other"]
-margin_right = 67.0
+[node name="label" type="Label" parent="hbox/player_panel/eq_other"]
+margin_right = 68.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Str"
 align = 1
 
-[node name="label2" type="Label" parent="player_container/player/eq_other"]
-margin_left = 71.0
-margin_right = 138.0
+[node name="label2" type="Label" parent="hbox/player_panel/eq_other"]
+margin_left = 72.0
+margin_right = 140.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Rng str"
 align = 1
 
-[node name="label3" type="Label" parent="player_container/player/eq_other"]
-margin_left = 142.0
-margin_right = 209.0
+[node name="label3" type="Label" parent="hbox/player_panel/eq_other"]
+margin_left = 144.0
+margin_right = 212.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Mg dmg"
 align = 1
 
-[node name="label4" type="Label" parent="player_container/player/eq_other"]
-margin_left = 213.0
-margin_right = 280.0
+[node name="label4" type="Label" parent="hbox/player_panel/eq_other"]
+margin_left = 216.0
+margin_right = 283.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Pray"
 align = 1
 
-[node name="label5" type="Label" parent="player_container/player/eq_other"]
-margin_left = 284.0
-margin_right = 351.0
+[node name="label5" type="Label" parent="hbox/player_panel/eq_other"]
+margin_left = 287.0
+margin_right = 354.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Speed"
 align = 1
 
-[node name="str" type="Label" parent="player_container/player/eq_other"]
+[node name="str" type="Label" parent="hbox/player_panel/eq_other"]
 margin_top = 18.0
-margin_right = 67.0
+margin_right = 68.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="rng_str" type="Label" parent="player_container/player/eq_other"]
-margin_left = 71.0
+[node name="rng_str" type="Label" parent="hbox/player_panel/eq_other"]
+margin_left = 72.0
 margin_top = 18.0
-margin_right = 138.0
+margin_right = 140.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="mg_dmg" type="Label" parent="player_container/player/eq_other"]
-margin_left = 142.0
+[node name="mg_dmg" type="Label" parent="hbox/player_panel/eq_other"]
+margin_left = 144.0
 margin_top = 18.0
-margin_right = 209.0
+margin_right = 212.0
 margin_bottom = 32.0
 text = "+0%"
 align = 1
 
-[node name="pray" type="Label" parent="player_container/player/eq_other"]
-margin_left = 213.0
+[node name="pray" type="Label" parent="hbox/player_panel/eq_other"]
+margin_left = 216.0
 margin_top = 18.0
-margin_right = 280.0
+margin_right = 283.0
 margin_bottom = 32.0
 text = "+0"
 align = 1
 
-[node name="speed" type="Label" parent="player_container/player/eq_other"]
-margin_left = 284.0
+[node name="speed" type="Label" parent="hbox/player_panel/eq_other"]
+margin_left = 287.0
 margin_top = 18.0
-margin_right = 351.0
+margin_right = 354.0
 margin_bottom = 32.0
 text = "0"
 align = 1
 
-[node name="HSeparator5" type="HSeparator" parent="player_container/player"]
+[node name="HSeparator5" type="HSeparator" parent="hbox/player_panel"]
 margin_top = 738.0
 margin_right = 354.0
 margin_bottom = 742.0
 
-[node name="charge" parent="player_container/player" instance=ExtResource( 13 )]
+[node name="charge" parent="hbox/player_panel" instance=ExtResource( 13 )]
 margin_top = 746.0
 margin_right = 354.0
 margin_bottom = 770.0
 label = "Charge spell:"
 hoover_info = "Increases god spell damage from 20 to 30"
 
-[node name="kandarin" parent="player_container/player" instance=ExtResource( 13 )]
+[node name="kandarin" parent="hbox/player_panel" instance=ExtResource( 13 )]
 margin_top = 774.0
 margin_right = 354.0
 margin_bottom = 798.0
 label = "Kandarin hard diary:"
 hoover_info = "10% increase in enchanted bolt proc chance"
 
-[node name="HSeparator8" type="HSeparator" parent="player_container/player"]
+[node name="HSeparator8" type="HSeparator" parent="hbox/player_panel"]
 margin_top = 802.0
 margin_right = 354.0
 margin_bottom = 806.0
 
-[node name="Label" type="Label" parent="player_container/player"]
+[node name="Label" type="Label" parent="hbox/player_panel"]
 margin_top = 810.0
 margin_right = 354.0
 margin_bottom = 824.0
 text = "Prayers:"
 
-[node name="prayers" type="VBoxContainer" parent="player_container/player"]
+[node name="prayers" type="VBoxContainer" parent="hbox/player_panel"]
 margin_top = 828.0
 margin_right = 354.0
 margin_bottom = 828.0
 
-[node name="VSeparator" type="VSeparator" parent="."]
+[node name="VSeparator" type="VSeparator" parent="hbox"]
 margin_left = 358.0
 margin_right = 362.0
 margin_bottom = 1000.0
 
-[node name="results" type="VBoxContainer" parent="."]
+[node name="result_panel" type="VBoxContainer" parent="hbox"]
+unique_name_in_owner = true
 margin_left = 366.0
 margin_right = 843.0
 margin_bottom = 1000.0
+rect_min_size = Vector2( 290, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 7 )
 
-[node name="Button" type="Button" parent="results"]
+[node name="Button" type="Button" parent="hbox/result_panel"]
 margin_right = 477.0
 margin_bottom = 20.0
 text = "Simulate"
 
-[node name="Label" type="Label" parent="results"]
+[node name="Label" type="Label" parent="hbox/result_panel"]
 margin_top = 24.0
 margin_right = 477.0
 margin_bottom = 38.0
 text = "Simulation results:"
 
-[node name="HSeparator" type="HSeparator" parent="results"]
+[node name="HSeparator" type="HSeparator" parent="hbox/result_panel"]
 margin_top = 42.0
 margin_right = 477.0
 margin_bottom = 46.0
 
-[node name="Label2" type="Label" parent="results"]
+[node name="Label2" type="Label" parent="hbox/result_panel"]
 margin_top = 50.0
 margin_right = 477.0
 margin_bottom = 64.0
 text = "Player:"
 
-[node name="p_maxhit" parent="results" instance=ExtResource( 4 )]
+[node name="p_maxhit" parent="hbox/result_panel" instance=ExtResource( 4 )]
 margin_top = 68.0
 margin_right = 477.0
 margin_bottom = 82.0
 label = "Max hit:"
 
-[node name="p_hitchance" parent="results" instance=ExtResource( 11 )]
+[node name="p_hitchance" parent="hbox/result_panel" instance=ExtResource( 11 )]
 margin_top = 86.0
 margin_right = 477.0
 margin_bottom = 100.0
 label = "Hit chance:"
 
-[node name="p_dps" parent="results" instance=ExtResource( 4 )]
+[node name="p_dps" parent="hbox/result_panel" instance=ExtResource( 4 )]
 margin_top = 104.0
 margin_right = 477.0
 margin_bottom = 118.0
@@ -566,7 +570,7 @@ hoover_info = "Paper dps = 0.5 * hit_chance * max_hit / attack_duration
 
 Does not consider all special effects or overhit in the calculations."
 
-[node name="p_dps2" parent="results" instance=ExtResource( 4 )]
+[node name="p_dps2" parent="hbox/result_panel" instance=ExtResource( 4 )]
 margin_top = 122.0
 margin_right = 477.0
 margin_bottom = 136.0
@@ -577,300 +581,312 @@ Takes into account special effects (enchanged bolts, etc.)  and overhit.
 
 (press the \"simulate\" button above)"
 
-[node name="spk" parent="results" instance=ExtResource( 11 )]
+[node name="spk" parent="hbox/result_panel" instance=ExtResource( 11 )]
 margin_top = 140.0
 margin_right = 477.0
 margin_bottom = 154.0
 label = "Time to kill"
 
-[node name="pray_drain" parent="results" instance=ExtResource( 11 )]
+[node name="pray_drain" parent="hbox/result_panel" instance=ExtResource( 11 )]
 margin_top = 158.0
 margin_right = 477.0
 margin_bottom = 172.0
 label = "Prayer drain"
 
-[node name="HSeparator2" type="HSeparator" parent="results"]
+[node name="HSeparator2" type="HSeparator" parent="hbox/result_panel"]
 margin_top = 176.0
 margin_right = 477.0
 margin_bottom = 180.0
 
-[node name="Label3" type="Label" parent="results"]
+[node name="Label3" type="Label" parent="hbox/result_panel"]
 margin_top = 184.0
 margin_right = 477.0
 margin_bottom = 198.0
 text = "Monster:"
 
-[node name="m_maxhit" parent="results" instance=ExtResource( 4 )]
+[node name="m_maxhit" parent="hbox/result_panel" instance=ExtResource( 4 )]
 margin_top = 202.0
 margin_right = 477.0
 margin_bottom = 216.0
 label = "Max hit:"
 
-[node name="m_hitchance" parent="results" instance=ExtResource( 11 )]
+[node name="m_hitchance" parent="hbox/result_panel" instance=ExtResource( 11 )]
 margin_top = 220.0
 margin_right = 477.0
 margin_bottom = 234.0
 label = "Hit chance:"
 
-[node name="m_dps" parent="results" instance=ExtResource( 4 )]
+[node name="m_dps" parent="hbox/result_panel" instance=ExtResource( 4 )]
 margin_top = 238.0
 margin_right = 477.0
 margin_bottom = 252.0
 label = "DPS:"
 
-[node name="HSeparator3" type="HSeparator" parent="results"]
+[node name="HSeparator3" type="HSeparator" parent="hbox/result_panel"]
 margin_top = 256.0
 margin_right = 477.0
 margin_bottom = 260.0
 
-[node name="Label4" type="Label" parent="results"]
+[node name="Label4" type="Label" parent="hbox/result_panel"]
 margin_top = 264.0
 margin_right = 477.0
 margin_bottom = 278.0
 text = "Special effects:"
 
-[node name="special_desc" type="RichTextLabel" parent="results"]
+[node name="special_desc" type="RichTextLabel" parent="hbox/result_panel"]
 margin_top = 282.0
 margin_right = 477.0
 margin_bottom = 1000.0
 size_flags_vertical = 3
 
-[node name="VSeparator2" type="VSeparator" parent="."]
+[node name="VSeparator2" type="VSeparator" parent="hbox"]
 margin_left = 847.0
 margin_right = 851.0
 margin_bottom = 1000.0
 
-[node name="monster" type="VBoxContainer" parent="."]
+[node name="monster_panel" type="VBoxContainer" parent="hbox"]
+unique_name_in_owner = true
 margin_left = 855.0
 margin_right = 1333.0
 margin_bottom = 1000.0
+rect_min_size = Vector2( 290, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 8 )
 
-[node name="name" type="Label" parent="monster"]
+[node name="name" type="Label" parent="hbox/monster_panel"]
 margin_right = 478.0
 margin_bottom = 14.0
 
-[node name="description" type="RichTextLabel" parent="monster"]
+[node name="description" type="RichTextLabel" parent="hbox/monster_panel"]
 margin_top = 18.0
 margin_right = 478.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 0, 30 )
 fit_content_height = true
 
-[node name="HSeparator3" type="HSeparator" parent="monster"]
+[node name="HSeparator3" type="HSeparator" parent="hbox/monster_panel"]
 margin_top = 52.0
 margin_right = 478.0
 margin_bottom = 56.0
 
-[node name="levels" type="Label" parent="monster"]
+[node name="levels" type="Label" parent="hbox/monster_panel"]
 margin_top = 60.0
 margin_right = 478.0
 margin_bottom = 74.0
 text = "Levels:"
 
-[node name="health" parent="monster" instance=ExtResource( 4 )]
+[node name="health" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 78.0
 margin_right = 478.0
 margin_bottom = 92.0
 label = "HP:"
 
-[node name="attack" parent="monster" instance=ExtResource( 4 )]
+[node name="attack" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 96.0
 margin_right = 478.0
 margin_bottom = 110.0
 label = "Attack:"
 
-[node name="strength" parent="monster" instance=ExtResource( 4 )]
+[node name="strength" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 114.0
 margin_right = 478.0
 margin_bottom = 128.0
 label = "Strength:"
 
-[node name="defence" parent="monster" instance=ExtResource( 4 )]
+[node name="defence" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 132.0
 margin_right = 478.0
 margin_bottom = 146.0
 label = "Defence"
 
-[node name="magic" parent="monster" instance=ExtResource( 4 )]
+[node name="magic" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 150.0
 margin_right = 478.0
 margin_bottom = 164.0
 label = "Magic:"
 
-[node name="ranged" parent="monster" instance=ExtResource( 4 )]
+[node name="ranged" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 168.0
 margin_right = 478.0
 margin_bottom = 182.0
 label = "Ranged:"
 
-[node name="HSeparator" type="HSeparator" parent="monster"]
+[node name="HSeparator" type="HSeparator" parent="hbox/monster_panel"]
 margin_top = 186.0
 margin_right = 478.0
 margin_bottom = 190.0
 
-[node name="style" parent="monster" instance=ExtResource( 11 )]
+[node name="style" parent="hbox/monster_panel" instance=ExtResource( 11 )]
 margin_top = 194.0
 margin_right = 478.0
 margin_bottom = 208.0
 label = "Attack style:"
 
-[node name="speed" parent="monster" instance=ExtResource( 4 )]
+[node name="speed" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 212.0
 margin_right = 478.0
 margin_bottom = 226.0
 label = "Attack speed:"
 
-[node name="max_hit" parent="monster" instance=ExtResource( 4 )]
+[node name="max_hit" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 230.0
 margin_right = 478.0
 margin_bottom = 244.0
 label = "Max hit:"
 
-[node name="atk_bonus" parent="monster" instance=ExtResource( 4 )]
+[node name="atk_bonus" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 248.0
 margin_right = 478.0
 margin_bottom = 262.0
 label = "Atk bonus:"
 
-[node name="str_bonus" parent="monster" instance=ExtResource( 4 )]
+[node name="str_bonus" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 266.0
 margin_right = 478.0
 margin_bottom = 280.0
 label = "Str bonus:"
 
-[node name="mage_bonus" parent="monster" instance=ExtResource( 4 )]
+[node name="mage_bonus" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 284.0
 margin_right = 478.0
 margin_bottom = 298.0
 label = "Magic bonus:"
 
-[node name="mage_str_bonus" parent="monster" instance=ExtResource( 4 )]
+[node name="mage_str_bonus" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 visible = false
 margin_top = 196.0
 margin_right = 331.0
 margin_bottom = 210.0
 label = "mage dmg bonus:"
 
-[node name="rng_bonus" parent="monster" instance=ExtResource( 4 )]
+[node name="rng_bonus" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 302.0
 margin_right = 478.0
 margin_bottom = 316.0
 label = "Rng bonus:"
 
-[node name="rng_str_bonus" parent="monster" instance=ExtResource( 4 )]
+[node name="rng_str_bonus" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 visible = false
 margin_top = 214.0
 margin_right = 331.0
 margin_bottom = 228.0
 label = "Rng str bonus:"
 
-[node name="HSeparator2" type="HSeparator" parent="monster"]
+[node name="HSeparator2" type="HSeparator" parent="hbox/monster_panel"]
 margin_top = 320.0
 margin_right = 478.0
 margin_bottom = 324.0
 
-[node name="def_stab" parent="monster" instance=ExtResource( 4 )]
+[node name="def_stab" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 328.0
 margin_right = 478.0
 margin_bottom = 342.0
 label = "Def stab"
 
-[node name="def_slash" parent="monster" instance=ExtResource( 4 )]
+[node name="def_slash" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 346.0
 margin_right = 478.0
 margin_bottom = 360.0
 label = "Def slash"
 
-[node name="def_crush" parent="monster" instance=ExtResource( 4 )]
+[node name="def_crush" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 364.0
 margin_right = 478.0
 margin_bottom = 378.0
 label = "Def crush"
 
-[node name="def_mage" parent="monster" instance=ExtResource( 4 )]
+[node name="def_mage" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 382.0
 margin_right = 478.0
 margin_bottom = 396.0
 label = "Def magic"
 
-[node name="def_range" parent="monster" instance=ExtResource( 4 )]
+[node name="def_range" parent="hbox/monster_panel" instance=ExtResource( 4 )]
 margin_top = 400.0
 margin_right = 478.0
 margin_bottom = 414.0
 label = "Def ranged:"
 
-[node name="HSeparator4" type="HSeparator" parent="monster"]
+[node name="HSeparator4" type="HSeparator" parent="hbox/monster_panel"]
 margin_top = 418.0
 margin_right = 478.0
 margin_bottom = 422.0
 
-[node name="attributes" parent="monster" instance=ExtResource( 11 )]
+[node name="attributes" parent="hbox/monster_panel" instance=ExtResource( 11 )]
 margin_top = 426.0
 margin_right = 478.0
 margin_bottom = 440.0
 label = "Attributes:"
 
-[node name="size" parent="monster" instance=ExtResource( 11 )]
+[node name="size" parent="hbox/monster_panel" instance=ExtResource( 11 )]
 margin_top = 444.0
 margin_right = 478.0
 margin_bottom = 458.0
 label = "Size:"
 
-[node name="HSeparator5" type="HSeparator" parent="monster"]
+[node name="HSeparator5" type="HSeparator" parent="hbox/monster_panel"]
 margin_top = 462.0
 margin_right = 478.0
 margin_bottom = 466.0
 
-[node name="slayer" parent="monster" instance=ExtResource( 13 )]
+[node name="slayer" parent="hbox/monster_panel" instance=ExtResource( 13 )]
 margin_top = 470.0
 margin_bottom = 494.0
 value = true
 label = "Slayer task:"
 
-[node name="wilderness" parent="monster" instance=ExtResource( 13 )]
+[node name="wilderness" parent="hbox/monster_panel" instance=ExtResource( 13 )]
 margin_top = 498.0
 margin_bottom = 522.0
 value = true
 label = "Wilderness:"
 
-[node name="darkness" parent="monster" instance=ExtResource( 13 )]
+[node name="darkness" parent="hbox/monster_panel" instance=ExtResource( 13 )]
 margin_top = 526.0
 margin_bottom = 550.0
 label = "Mark of darkness:"
+
+[node name="d_warammer" parent="hbox/monster_panel" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 554.0
+margin_right = 478.0
+margin_bottom = 578.0
+label = "DWH specs"
+hoover_info = "Number of dragon warhammer specs applied. -30% defence per hit (multiplicatively stacks)"
 
 [node name="player_data" parent="." instance=ExtResource( 2 )]
 
 [node name="combat_sim" parent="." instance=ExtResource( 9 )]
 
-[connection signal="text_changed" from="player_container/player/name" to="." method="_on_name_text_changed"]
-[connection signal="remove_gear" from="player_container/player/weapon" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/head" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/body" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/legs" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/feet" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/shield" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/hands" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/cape" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/ring" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/neck" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/ammo" to="player_data" method="_on_remove_gear"]
-[connection signal="remove_gear" from="player_container/player/spell" to="player_data" method="_on_remove_gear"]
-[connection signal="attack_style" from="player_container/player/attack_style" to="player_data" method="_on_attack_style_attack_style"]
-[connection signal="item_selected" from="player_container/player/attack_style" to="player_container/player/attack_style" method="_on_attack_style_item_selected"]
-[connection signal="value_changed" from="player_container/player/attack" to="player_data" method="_on_attack_value_changed"]
-[connection signal="value_changed" from="player_container/player/strength" to="player_data" method="_on_strength_value_changed"]
-[connection signal="value_changed" from="player_container/player/defence" to="player_data" method="_on_defence_value_changed"]
-[connection signal="value_changed" from="player_container/player/magic" to="player_data" method="_on_magic_value_changed"]
-[connection signal="value_changed" from="player_container/player/ranged" to="player_data" method="_on_ranged_value_changed"]
-[connection signal="value_changed" from="player_container/player/hp_lvl" to="player_data" method="_on_hp_lvl_value_changed"]
-[connection signal="value_changed" from="player_container/player/hp" to="player_data" method="_on_hp_value_changed"]
-[connection signal="value_changed" from="player_container/player/charge" to="combat_sim" method="_on_charge_value_changed"]
-[connection signal="value_changed" from="player_container/player/kandarin" to="combat_sim" method="_on_kandarin_value_changed"]
-[connection signal="pressed" from="results/Button" to="." method="_on_Button_pressed"]
-[connection signal="value_changed" from="monster/slayer" to="combat_sim" method="_on_slayer_value_changed"]
-[connection signal="value_changed" from="monster/wilderness" to="combat_sim" method="_on_wilderness_value_changed"]
-[connection signal="value_changed" from="monster/darkness" to="combat_sim" method="_on_darkness_value_changed"]
+[connection signal="text_changed" from="hbox/player_panel/name" to="." method="_on_name_text_changed"]
+[connection signal="remove_gear" from="hbox/player_panel/weapon" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/head" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/body" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/legs" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/feet" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/shield" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/hands" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/cape" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/ring" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/neck" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/ammo" to="player_data" method="_on_remove_gear"]
+[connection signal="remove_gear" from="hbox/player_panel/spell" to="player_data" method="_on_remove_gear"]
+[connection signal="attack_style" from="hbox/player_panel/attack_style" to="player_data" method="_on_attack_style_attack_style"]
+[connection signal="item_selected" from="hbox/player_panel/attack_style" to="hbox/player_panel/attack_style" method="_on_attack_style_item_selected"]
+[connection signal="value_changed" from="hbox/player_panel/attack" to="player_data" method="_on_attack_value_changed"]
+[connection signal="value_changed" from="hbox/player_panel/strength" to="player_data" method="_on_strength_value_changed"]
+[connection signal="value_changed" from="hbox/player_panel/defence" to="player_data" method="_on_defence_value_changed"]
+[connection signal="value_changed" from="hbox/player_panel/magic" to="player_data" method="_on_magic_value_changed"]
+[connection signal="value_changed" from="hbox/player_panel/ranged" to="player_data" method="_on_ranged_value_changed"]
+[connection signal="value_changed" from="hbox/player_panel/hp_lvl" to="player_data" method="_on_hp_lvl_value_changed"]
+[connection signal="value_changed" from="hbox/player_panel/hp" to="player_data" method="_on_hp_value_changed"]
+[connection signal="value_changed" from="hbox/player_panel/charge" to="combat_sim" method="_on_charge_value_changed"]
+[connection signal="value_changed" from="hbox/player_panel/kandarin" to="combat_sim" method="_on_kandarin_value_changed"]
+[connection signal="pressed" from="hbox/result_panel/Button" to="." method="_on_Button_pressed"]
+[connection signal="value_changed" from="hbox/monster_panel/slayer" to="combat_sim" method="_on_slayer_value_changed"]
+[connection signal="value_changed" from="hbox/monster_panel/wilderness" to="combat_sim" method="_on_wilderness_value_changed"]
+[connection signal="value_changed" from="hbox/monster_panel/darkness" to="combat_sim" method="_on_darkness_value_changed"]
+[connection signal="value_changed" from="hbox/monster_panel/d_warammer" to="combat_sim" method="_on_d_warammer_value_changed"]
 [connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]
-[connection signal="prayers_changed" from="player_data" to="player_container/player" method="_on_player_data_prayers_changed"]
+[connection signal="prayers_changed" from="player_data" to="hbox/player_panel" method="_on_player_data_prayers_changed"]

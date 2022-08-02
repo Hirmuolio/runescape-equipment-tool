@@ -44,10 +44,19 @@ Database="*res://database.tscn"
 HardcodedData="*res://data/hardcoded_data.tscn"
 Utl="*res://utilities.tscn"
 
+[debug]
+
+gdscript/warnings/integer_division=false
+
 [display]
 
 window/size/width=1333
 window/size/height=1000
+
+[global]
+
+warning=false
+integer=false
 
 [physics]
 
