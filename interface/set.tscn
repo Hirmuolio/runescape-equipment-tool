@@ -523,7 +523,7 @@ unique_name_in_owner = true
 margin_left = 366.0
 margin_right = 843.0
 margin_bottom = 1000.0
-rect_min_size = Vector2( 320, 0 )
+rect_min_size = Vector2( 290, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 7 )
 
@@ -649,7 +649,7 @@ unique_name_in_owner = true
 margin_left = 855.0
 margin_right = 1333.0
 margin_bottom = 1000.0
-rect_min_size = Vector2( 320, 0 )
+rect_min_size = Vector2( 290, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 8 )
 
@@ -846,6 +846,15 @@ margin_top = 526.0
 margin_bottom = 550.0
 label = "Mark of darkness:"
 
+[node name="d_warammer" parent="hbox/monster_panel" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 554.0
+margin_right = 478.0
+margin_bottom = 578.0
+label = "DWH specs"
+hoover_info = "Number of dragon warhammer specs applied. -30% defence per hit (multiplicatively stacks)"
+
 [node name="player_data" parent="." instance=ExtResource( 2 )]
 
 [node name="combat_sim" parent="." instance=ExtResource( 9 )]
@@ -878,5 +887,6 @@ label = "Mark of darkness:"
 [connection signal="value_changed" from="hbox/monster_panel/slayer" to="combat_sim" method="_on_slayer_value_changed"]
 [connection signal="value_changed" from="hbox/monster_panel/wilderness" to="combat_sim" method="_on_wilderness_value_changed"]
 [connection signal="value_changed" from="hbox/monster_panel/darkness" to="combat_sim" method="_on_darkness_value_changed"]
+[connection signal="value_changed" from="hbox/monster_panel/d_warammer" to="combat_sim" method="_on_d_warammer_value_changed"]
 [connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]
 [connection signal="prayers_changed" from="player_data" to="hbox/player_panel" method="_on_player_data_prayers_changed"]

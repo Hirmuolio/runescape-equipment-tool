@@ -25,6 +25,7 @@ var kandarin_diary : bool = false
 var wilderness : bool = true
 var slayer_task : bool = true
 var mark_of_darkness : bool = false
+var dwh_specs : int = 0
 
 signal simulation_done()
 
@@ -50,6 +51,10 @@ func _on_wilderness_value_changed(new_value):
 
 func _on_darkness_value_changed(new_value):
 	mark_of_darkness = new_value
+	do_fast_simulations()
+
+func _on_d_warammer_value_changed(new_value):
+	dwh_specs = new_value
 	do_fast_simulations()
 
 func clear_results():
@@ -96,7 +101,6 @@ func do_fast_simulations():
 	calc_m_hit_chance( act_player, target_mon )
 	m_max_hit = target_mon.max_hit
 	if "bulwark" in act_player.special_attributes and act_player.attack_stance == "block":
-		# warning-ignore:integer_division
 		m_max_hit = m_max_hit * 4 / 5
 	
 	m_dps = m_hit_chance * m_max_hit / 2 / target_mon.attack_speed / 0.6
@@ -148,13 +152,10 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 				spell = Database.get_node( "items/-4" )
 				base_max_hit = 8
 			elif act_player.weapon.item_name in ["Trident of the seas", "Trident of the seas (full)", "Trident of the seas (e)"]:
-				# warning-ignore:integer_division
 				base_max_hit = 20 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
 			elif act_player.weapon.item_name in ["Trident of the swamp", "Trident of the swamp (e)"]:
-				# warning-ignore:integer_division
 				base_max_hit = 23 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
 			elif act_player.weapon.item_name in ["Sanguinesti staff", "Holy sanguinesti staff"]:
-				# warning-ignore:integer_division
 				base_max_hit = 26 + int( max( ( act_player.magic - 82 ) / 3, -19 ) )
 			elif act_player.weapon.item_name == "Dawnbringer":
 				base_max_hit = 0 # No idea what the base damage is
@@ -273,9 +274,11 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			crit_max_hit = int( max( crit_max_hit, int( min( target_mon.hitpoints * 1.2, 100) ) ) )
 		
 		if "twisted" in act_player.special_attributes:
-			var mag = max( target_mon.magic_level, target_mon.attack_magic )
-			var mult : float = clamp( 0, 2.5 + ( 3 * mag / 10.0  - 14 - pow( 3 * mag / 10.0 - 140, 2 ) ) * 0.0001, 1.4 )
-			p_max_hit = int( p_max_hit * mult )
+			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
+			var mult_1 : int = ( 10*3*mag / 10 - 14 ) / 100
+			var mult_2 : int = ( 3*mag/10 - 100 )*( 3*mag/10 - 140 )/100
+			var percent : int = int( clamp( 250 + mult_1 - mult_2, 0, 250 ) )
+			p_max_hit = p_max_hit * percent / 100
 		
 	else:
 		# Melee
@@ -291,8 +294,6 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			var total_def : int = act_player.get_equipment_bonus( "defence_stab" ) + act_player.get_equipment_bonus( "defence_slash" ) + act_player.get_equipment_bonus( "defence_crush" ) + act_player.get_equipment_bonus( "defence_ranged" )
 			# I do not know if these should be done as integer division or not
 			# I do them as integer divisions
-			# warning-ignore:integer_division
-			# warning-ignore:integer_division
 			eq_str += ( total_def / 4 - 200 ) / 3 - 38
 		
 		base_max_hit = int( 0.5 + eff_str * ( eq_str + 64 ) / 640.0 )
@@ -441,10 +442,16 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 		
 		if "twisted" in act_player.special_attributes:
 			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
-			var mult : float = clamp( 0, 1.4 + ( 3 * mag / 10.0 - 10 - pow( 3 * mag / 10.0 - 100, 2 ) ) * 0.0001, 1.4 )
-			atk_roll = int( atk_roll * mult )
+			var mult_1 : int = ( 10*3*mag / 10 - 10 ) / 100
+			var mult_2 : int = ( 3*mag/10 - 100 )*( 3*mag/10 - 100 )/100
+			var percent : int = int( clamp( 140 + mult_1 - mult_2, 0, 140 ) )
+			atk_roll = atk_roll * percent / 100
 		
-		def_roll = ( target_mon.defence_level + 9 ) * ( target_mon.style_def( "ranged" ) + 64 )
+		var monster_def_lvl : int = target_mon.defence_level
+		if dwh_specs > 0:
+			for _i in range(dwh_specs):
+				monster_def_lvl = monster_def_lvl * 7 / 10
+		def_roll = ( monster_def_lvl + 9 ) * ( target_mon.style_def( "ranged" ) + 64 )
 	
 	else:
 		# Melee
@@ -487,7 +494,12 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 		if "leaf_baxe" in act_player.special_attributes && "leafy" in target_mon.attributes:
 			atk_roll = int( atk_roll * 1.175 )
 		
-		def_roll = ( target_mon.defence_level + 9 ) * ( target_mon.style_def( act_player.attack_style ) + 64 )
+		var monster_def_lvl : int = target_mon.defence_level
+		if dwh_specs > 0:
+			for _i in range(dwh_specs):
+				monster_def_lvl = monster_def_lvl * 7 / 10
+		
+		def_roll = ( monster_def_lvl + 9 ) * ( target_mon.style_def( act_player.attack_style ) + 64 )
 	
 	p_hit_roll = atk_roll
 	m_def_roll = def_roll
@@ -684,6 +696,9 @@ func simulate_combat( player : player, target_mon : monster ):
 	time_to_kill2 =  ( tick * 0.6 ) / simulated_kills
 	
 	
+
+
+
 
 
 
