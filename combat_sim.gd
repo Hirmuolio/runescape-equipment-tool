@@ -146,7 +146,23 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 	if magic_attack:
 		var spell : equipment = act_player.spell
 		
-		if powered_staff:
+		var salamander : bool = "salamander" in act_player.weapon.item_name or act_player.weapon.item_name == "Swamp lizard"
+		
+		if salamander:
+			var magic_str : int = 3
+			if act_player.weapon.item_name == "Swamp lizard":
+				magic_str = 56
+			if act_player.weapon.item_name == "Orange salamander":
+				magic_str = 59
+			if act_player.weapon.item_name == "Red salamander":
+				magic_str = 77
+			if act_player.weapon.item_name == "Black salamander":
+				magic_str = 92
+			
+			# Math with floats. Can runescript even do that!?
+			base_max_hit = int( 0.5 + act_player.magic * ( 64.0 + magic_str ) / 640 )
+			p_max_hit = base_max_hit
+		elif powered_staff:
 			if act_player.weapon.item_name == "Starter staff":
 				# Messy system for setting fire strike as attack
 				spell = Database.get_node( "items/-4" )

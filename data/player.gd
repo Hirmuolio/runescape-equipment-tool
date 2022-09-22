@@ -270,7 +270,7 @@ func _on_attack_style_attack_style(new_stance):
 	recalculate_stats()
 
 func _get_style_str() -> int:
-	if attack_stance == "aggressive":
+	if attack_stance == "aggressive" or attack_stance == "scorch":
 		return 3
 	elif attack_stance == "controlled":
 		return 1
@@ -291,14 +291,14 @@ func _get_style_def() -> int:
 	return 0
 
 func _get_style_rng() -> int:
-	if attack_stance == "accurate":
+	if attack_stance == "accurate" or attack_stance == "flare":
 		return 3
 	elif attack_stance == "longrange":
 		return 1
 	return 0
 
 func _getstyle_mag() -> int:
-	if attack_stance == "accurate":
+	if attack_stance == "accurate" or attack_stance == "blaze":
 		return 2
 	return 0
 
@@ -370,7 +370,7 @@ func style_def( ag_attack_style : String ) -> int:
 		return get_equipment_bonus( "defence_ranged" )
 	
 	elif ag_attack_style == "melee":
-		print( "Unknown melee attack style" )
+		print( "Unknown monster attack style: ", ag_attack_style )
 		return get_equipment_bonus( "defence_slash" )
 	push_warning ( "Invalid monster melee attack style " + '"' + ag_attack_style + '"' )
 	return 0

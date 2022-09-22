@@ -144,5 +144,7 @@ func style_def( style : String ):
 			return defence_magic
 		"ranged":
 			return defence_ranged
+	print( "Invalid style: ", style)
+	return 0
 	pass
 
