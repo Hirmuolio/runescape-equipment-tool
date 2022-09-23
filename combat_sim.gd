@@ -159,8 +159,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			if act_player.weapon.item_name == "Black salamander":
 				magic_str = 92
 			
-			# Math with floats. Can runescript even do that!?
-			base_max_hit = int( 0.5 + act_player.magic * ( 64.0 + magic_str ) / 640 )
+			base_max_hit = (320 + act_player.magic * ( 64 + magic_str ) ) / 640
 			p_max_hit = base_max_hit
 		elif powered_staff:
 			if act_player.weapon.item_name == "Starter staff":
@@ -348,7 +347,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 				p_max_hit = int( p_max_hit * 1.25 )
 			elif "blisterwood_sickle" in act_player.special_attributes:
 				p_max_hit = int( p_max_hit * 1.15 )
-		if "keris" in act_player.special_attributes and "kalphite" in target_mon.attributes:
+		if "keris" in act_player.special_attributes and ( "kalphite" in target_mon.attributes or "scabarite"  in target_mon.attributes ):
 			crit_max_hit = p_max_hit * 3 # I think the crit is without the 33%
 			p_max_hit = int( p_max_hit * 4.0/3 )
 		if "gadderhammer" in act_player.special_attributes and "shade" in target_mon.attributes:

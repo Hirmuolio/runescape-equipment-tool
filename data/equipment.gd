@@ -42,7 +42,8 @@ var special_effects : Array
 # Current state in the list
 var is_hidden = false
 
-
+func is_salamander() -> bool:
+	return "salamander" in item_name or item_name == "Swamp lizard"
 
 func is_identical( oth_item : equipment ) -> bool:
 	

@@ -230,6 +230,9 @@ func load_monsters_json():
 		new_monster.defence_ranged = monster["defence_ranged"]
 		
 		new_monster.attributes = monster["attributes"]
+		# Workaround for the data
+		if monster["category"] && monster["category"][0] == "scabarites":
+			new_monster.attributes.append( "scabarite" )
 		
 		new_monster.attack_speed = monster["attack_speed"]
 		new_monster.attack_type = monster["attack_type"]
