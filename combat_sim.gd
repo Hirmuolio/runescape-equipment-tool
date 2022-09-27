@@ -331,35 +331,35 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		
 		
 		if "salve_e" in act_player.special_attributes and "undead" in target_mon.attributes:
-				p_max_hit = int( p_max_hit * 1.2 )
+				p_max_hit = p_max_hit * 6/5
 		elif slayer_task and "black_mask" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 7.0/6 )
+			p_max_hit = p_max_hit * 7/6
 		elif "salve" in act_player.special_attributes and "undead" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 7.0/6 )
+			p_max_hit = p_max_hit * 7/6
 		
 		if "berserk" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.2 )
+			p_max_hit = p_max_hit * 6/5
 		
-		if "vampyre" in target_mon.attributes:
-			if "ivandis_flail" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.2 )
-			elif "blisterwood_flail" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.25 )
-			elif "blisterwood_sickle" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.15 )
 		if "keris" in act_player.special_attributes and ( "kalphite" in target_mon.attributes or "scabarite"  in target_mon.attributes ):
 			crit_max_hit = p_max_hit * 3 # I think the crit is without the 33%
-			p_max_hit = int( p_max_hit * 4.0/3 )
+			p_max_hit = p_max_hit * 4/3
+		if "vampyre" in target_mon.attributes:
+			if "ivandis_flail" in act_player.special_attributes:
+				p_max_hit = p_max_hit * 6/5
+			elif "blisterwood_flail" in act_player.special_attributes:
+				p_max_hit = p_max_hit * 5/4
+			elif "blisterwood_sickle" in act_player.special_attributes:
+				p_max_hit = p_max_hit * 23/20
 		if "gadderhammer" in act_player.special_attributes and "shade" in target_mon.attributes:
 			crit_max_hit = p_max_hit * 2
-			p_max_hit = int( p_max_hit * 1.25 )
+			p_max_hit = p_max_hit * 5/4
 		if "demon" in target_mon.attributes:
 			if "silverlight" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.6 )
+				p_max_hit = p_max_hit * 8/5
 			elif "darklight" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.6 )
+				p_max_hit = p_max_hit * 8/5
 			elif "arclight" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.7 )
+				p_max_hit = p_max_hit * 17/10
 		if act_player.attack_style == "crush":
 			if "inquisitor_1" in act_player.special_attributes:
 				p_max_hit = int( p_max_hit * 1.005 )
@@ -368,7 +368,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			elif "inquisitor_3" in act_player.special_attributes:
 				p_max_hit = int( p_max_hit * 1.025 )
 		if "dragonhunter_lance" in act_player.special_attributes && "dragon" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 1.2 )
+			p_max_hit = p_max_hit * 6/5
 		if "leaf_baxe" in act_player.special_attributes && "leafy" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 1.175 )
 		if "barronite" in act_player.special_attributes && "golem" in target_mon.attributes:
