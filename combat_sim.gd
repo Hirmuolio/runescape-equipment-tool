@@ -535,7 +535,7 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 		return
 	
 	if target_mon.attack_type[0] == "magic":
-		var eff_atk : int = target_mon.attack_level + 9
+		var eff_atk : int = target_mon.magic_level + 9
 		atk_roll = eff_atk * ( target_mon.attack_magic  + 64 )
 		
 		# This may be wrong but nobody knows better
