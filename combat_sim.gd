@@ -381,7 +381,9 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "verac" in act_player.special_attributes:
 			crit_max_hit += 1
 		
-		
+		if "colossal_blade" in act_player.special_attributes:
+			var monsize : int = int( target_mon.size )
+			p_max_hit = p_max_hit + ( 2 * int( min( monsize * monsize, 5 ) ) )
 
 
 
