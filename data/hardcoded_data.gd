@@ -328,6 +328,11 @@ var equipment_specials : Dictionary = {
 		"items": ["Dinh's bulwark"],
 		"name": "Dinh's bulwark",
 		"description": "Str bonus increases based on defence bonuses. 20% damage reduction in block mode."
+	},
+	"colossal_blade": {
+		"items": ["Colossal blade"],
+		"name": "Colossal blade",
+		"description": "2*monster_size added to max hit (max +10)."
 	}
 }
 

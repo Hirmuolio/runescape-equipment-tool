@@ -146,7 +146,22 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 	if magic_attack:
 		var spell : equipment = act_player.spell
 		
-		if powered_staff:
+		var salamander : bool = "salamander" in act_player.weapon.item_name or act_player.weapon.item_name == "Swamp lizard"
+		
+		if salamander:
+			var magic_str : int = 3
+			if act_player.weapon.item_name == "Swamp lizard":
+				magic_str = 56
+			if act_player.weapon.item_name == "Orange salamander":
+				magic_str = 59
+			if act_player.weapon.item_name == "Red salamander":
+				magic_str = 77
+			if act_player.weapon.item_name == "Black salamander":
+				magic_str = 92
+			
+			base_max_hit = (320 + act_player.magic * ( 64 + magic_str ) ) / 640
+			p_max_hit = base_max_hit
+		elif powered_staff:
 			if act_player.weapon.item_name == "Starter staff":
 				# Messy system for setting fire strike as attack
 				spell = Database.get_node( "items/-4" )
@@ -316,35 +331,35 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		
 		
 		if "salve_e" in act_player.special_attributes and "undead" in target_mon.attributes:
-				p_max_hit = int( p_max_hit * 1.2 )
+				p_max_hit = p_max_hit * 6/5
 		elif slayer_task and "black_mask" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 7.0/6 )
+			p_max_hit = p_max_hit * 7/6
 		elif "salve" in act_player.special_attributes and "undead" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 7.0/6 )
+			p_max_hit = p_max_hit * 7/6
 		
 		if "berserk" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.2 )
+			p_max_hit = p_max_hit * 6/5
 		
+		if "keris" in act_player.special_attributes and ( "kalphite" in target_mon.attributes or "scabarite"  in target_mon.attributes ):
+			crit_max_hit = p_max_hit * 3 # I think the crit is without the 33%
+			p_max_hit = p_max_hit * 4/3
 		if "vampyre" in target_mon.attributes:
 			if "ivandis_flail" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.2 )
+				p_max_hit = p_max_hit * 6/5
 			elif "blisterwood_flail" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.25 )
+				p_max_hit = p_max_hit * 5/4
 			elif "blisterwood_sickle" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.15 )
-		if "keris" in act_player.special_attributes and "kalphite" in target_mon.attributes:
-			crit_max_hit = p_max_hit * 3 # I think the crit is without the 33%
-			p_max_hit = int( p_max_hit * 4.0/3 )
+				p_max_hit = p_max_hit * 23/20
 		if "gadderhammer" in act_player.special_attributes and "shade" in target_mon.attributes:
 			crit_max_hit = p_max_hit * 2
-			p_max_hit = int( p_max_hit * 1.25 )
+			p_max_hit = p_max_hit * 5/4
 		if "demon" in target_mon.attributes:
 			if "silverlight" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.6 )
+				p_max_hit = p_max_hit * 8/5
 			elif "darklight" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.6 )
+				p_max_hit = p_max_hit * 8/5
 			elif "arclight" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.7 )
+				p_max_hit = p_max_hit * 17/10
 		if act_player.attack_style == "crush":
 			if "inquisitor_1" in act_player.special_attributes:
 				p_max_hit = int( p_max_hit * 1.005 )
@@ -353,7 +368,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			elif "inquisitor_3" in act_player.special_attributes:
 				p_max_hit = int( p_max_hit * 1.025 )
 		if "dragonhunter_lance" in act_player.special_attributes && "dragon" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 1.2 )
+			p_max_hit = p_max_hit * 6/5
 		if "leaf_baxe" in act_player.special_attributes && "leafy" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 1.175 )
 		if "barronite" in act_player.special_attributes && "golem" in target_mon.attributes:
@@ -366,7 +381,9 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "verac" in act_player.special_attributes:
 			crit_max_hit += 1
 		
-		
+		if "colossal_blade" in act_player.special_attributes:
+			var monsize : int = int( target_mon.size )
+			p_max_hit = p_max_hit + ( 2 * int( min( monsize * monsize, 5 ) ) )
 
 
 
@@ -520,7 +537,7 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 		return
 	
 	if target_mon.attack_type[0] == "magic":
-		var eff_atk : int = target_mon.attack_level + 9
+		var eff_atk : int = target_mon.magic_level + 9
 		atk_roll = eff_atk * ( target_mon.attack_magic  + 64 )
 		
 		# This may be wrong but nobody knows better
