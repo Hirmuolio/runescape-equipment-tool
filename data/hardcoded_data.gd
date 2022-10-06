@@ -199,7 +199,7 @@ var equipment_specials : Dictionary = {
 	"slayer_staff_e": {
 		"items": ["Slayer's staff (e)"],
 		"name": "Slayer's staff (e)",
-		"description": "Increased slayer dart damage against slayer tasks"
+		"description": "Increased magic dart damage against slayer tasks"
 	},
 	"chaos_gauntlet": {
 		"items": ["Chaos gauntlets"],

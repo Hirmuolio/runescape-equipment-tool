@@ -185,11 +185,11 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			if !spell:
 				return
 			
-			if spell.item_name == "Slayer dart":
+			if spell.item_name == "Magic dart":
 				if slayer_task and "slayer_staff_e" in act_player.special_attributes:
-					base_max_hit = int( act_player.magic / 6.0 ) + 10
+					base_max_hit = act_player.magic / 6 + 13
 				else:
-					base_max_hit = int( act_player.magic / 10.0 ) + 10
+					base_max_hit = act_player.magic / 10 + 10
 			else:
 				base_max_hit = spell.magic_max_hit
 			
