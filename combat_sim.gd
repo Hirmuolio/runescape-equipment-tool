@@ -264,7 +264,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if "holy_water" in act_player.special_attributes and "demon" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 1 ) #unknown so lets not do anything
+			p_max_hit = int( p_max_hit * 7/6 ) #unknown so lets not do anything
 		
 		if "dragonhunter_crossbow" in act_player.special_attributes and "dragon" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 1.25 )
