@@ -221,9 +221,9 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		p_max_hit = int( p_max_hit * multiplier )
 		
 		if spell and "tome_of_fire" in act_player.special_attributes && "fire" in spell.special_effects:
-			p_max_hit = int( p_max_hit * 1.5 )
+			p_max_hit = p_max_hit * 3/2
 		if spell and "tome_of_water" in act_player.special_attributes && "water" in spell.special_effects:
-			p_max_hit = int( p_max_hit * 1.2 )
+			p_max_hit = p_max_hit * 6/5
 		
 		# This is weird and technically there could be a situation where taking off salve amulet
 		# would give more dps. Not sure if that ever happens in practice.
@@ -231,10 +231,10 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if wilderness and "thammaron" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.25 )
+			p_max_hit = p_max_hit * 5/4
 		
 		if spell and mark_of_darkness and "demonbane" in spell.special_effects and "demon" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 1.25 )
+			p_max_hit = p_max_hit * 5/4
 		
 		crit_max_hit = p_max_hit
 		if "damned_ahrim" in act_player.special_attributes:
@@ -248,45 +248,45 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			eff_str = int( eff_str * 1.1 )
 		
 		base_max_hit = int(  0.5 + eff_str * ( act_player.rng_str_bonus + 64 ) / 640.0 )
-		base_max_hit = int( base_max_hit * act_player.prayer_rng_str )
+		base_max_hit = base_max_hit * act_player.prayer_rng_str
 		
 		p_max_hit = base_max_hit
 		
 		
 		if "elite_void_ranged" in act_player.special_attributes:
-				p_max_hit = int( p_max_hit * 1.125 )
+				p_max_hit = p_max_hit * 9/8
 		
 		if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
-				p_max_hit = int( p_max_hit * 1.2 )
+				p_max_hit = p_max_hit * 6/5
 		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 7.0/6 ) # *1.16
+			p_max_hit = p_max_hit * 7/6 # *1.16
 		elif slayer_task and "black_mask_i" in act_player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if "holy_water" in act_player.special_attributes and "demon" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 7/6 ) #unknown so lets not do anything
+			p_max_hit = p_max_hit * 7/6
 		
 		if "dragonhunter_crossbow" in act_player.special_attributes and "dragon" in target_mon.attributes:
-			p_max_hit = int( p_max_hit * 1.25 )
+			p_max_hit = p_max_hit * 5/4
 		if wilderness and "craw" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.5 )
+			p_max_hit = p_max_hit * 3/2
 		
 		crit_max_hit = p_max_hit
 		if "opal_bolt_e" in act_player.special_attributes:
-			crit_max_hit = p_max_hit + int( act_player.ranged * 0.1 )
+			crit_max_hit = p_max_hit + act_player.ranged / 10
 		if "pearl_bolt_e" in act_player.special_attributes:
 			if "fiery" in target_mon.attributes:
-				crit_max_hit += int( act_player.ranged / 15.0 )
+				crit_max_hit += act_player.ranged / 15
 			else:
-				crit_max_hit += int( act_player.ranged / 20.0 )
+				crit_max_hit += act_player.ranged / 20
 		if "diamond_bolt_e" in act_player.special_attributes:
 			crit_max_hit = int( crit_max_hit * 1.15 )
 		if "dragonstone_bolt_e" in act_player.special_attributes and not ( "dragon" in target_mon.attributes ):
-			crit_max_hit += int( crit_max_hit / 20.0 )
+			crit_max_hit += crit_max_hit / 20
 		if "onyx_bolt_e" in act_player.special_attributes:
-			crit_max_hit = int( crit_max_hit * 1.2 )
+			crit_max_hit = crit_max_hit * 6/5
 		if "ruby_bolt_e" in act_player.special_attributes:
-			crit_max_hit = int( max( crit_max_hit, int( min( target_mon.hitpoints * 1.2, 100) ) ) )
+			crit_max_hit = int( max( crit_max_hit, int( min( target_mon.hitpoints * 6/5, 100) ) ) )
 		
 		if "twisted" in act_player.special_attributes:
 			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
@@ -374,7 +374,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "barronite" in act_player.special_attributes && "golem" in target_mon.attributes:
 			p_max_hit = int( p_max_hit * 1.15 )
 		if wilderness and "viggora" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.5 )
+			p_max_hit = p_max_hit * 3/2
 		
 		if "dharok" in act_player.special_attributes:
 			p_max_hit = int( p_max_hit * ( 1 + ( act_player.hp_lvl - act_player.current_hp ) * act_player.hp_lvl * 0.0001 ) )
