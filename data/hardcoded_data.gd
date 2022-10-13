@@ -189,7 +189,7 @@ var equipment_specials : Dictionary = {
 	"holy_water": {
 		"items": ["Holy water"],
 		"name": "Holy water",
-		"description": "Unknown bonus against demons"
+		"description": "60% damage bonus against demons. Reduces target defence by 5% (not simulated)"
 	},
 	"twisted": {
 		"items": ["Twisted bow"],
@@ -333,6 +333,11 @@ var equipment_specials : Dictionary = {
 		"items": ["Colossal blade"],
 		"name": "Colossal blade",
 		"description": "2*monster_size added to max hit (max +10)."
+	},
+	"osmuten_fang": {
+		"items": ["Osmuten's fang"],
+		"name": "Osmuten's fang",
+		"description": "Missed attacks are rerolled\nHits between 15%-85% max hit."
 	}
 }
 

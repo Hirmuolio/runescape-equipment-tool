@@ -264,7 +264,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if "holy_water" in act_player.special_attributes and "demon" in target_mon.attributes:
-			p_max_hit = p_max_hit * 7/6
+			p_max_hit = p_max_hit * 8/5
 		
 		if "dragonhunter_crossbow" in act_player.special_attributes and "dragon" in target_mon.attributes:
 			p_max_hit = p_max_hit * 5/4
@@ -693,6 +693,17 @@ func simulate_combat( player : player, target_mon : monster ):
 					target_hp -= rng.randi_range( 0, int( p_max_hit * 0.5 ) )
 				if rng.randf() < p_hit_chance:
 					target_hp -= rng.randi_range( 0, int( p_max_hit * 0.25 ) )
+				tick += player.attack_speed
+			if _kills == 1 && tick >= max_kill_duration:
+				print( "Too slow kills to simulate" )
+				return
+	elif "osmuten_fang" in player.special_attributes:
+		for _kills in range(1, simulated_kills): #1000 rounds
+			var target_hp = target_mon.hitpoints
+			while target_hp > 0:
+				# Player attacks
+				if rng.randf() < p_hit_chance or rng.randf() < p_hit_chance:
+					target_hp -= rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
 				tick += player.attack_speed
 			if _kills == 1 && tick >= max_kill_duration:
 				print( "Too slow kills to simulate" )
