@@ -5,7 +5,7 @@ var p_max_hit : int	# Max hit with equipment specials
 var base_max_hit : int	# Max hit without extra bonuses
 var crit_max_hit : int	# Max hit with occasionally triggering specials
 
-var p_hit_chance : float
+var p_hit_chance : float # Used for visuals only. Calcs done with rolls.
 var p_hit_roll : int
 var p_def_roll : int
 var p_dps : float
@@ -248,7 +248,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			eff_str = int( eff_str * 1.1 )
 		
 		base_max_hit = int(  0.5 + eff_str * ( act_player.rng_str_bonus + 64 ) / 640.0 )
-		base_max_hit = base_max_hit * act_player.prayer_rng_str
+		base_max_hit = int( base_max_hit * act_player.prayer_rng_str )
 		
 		p_max_hit = base_max_hit
 		
@@ -521,10 +521,18 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 	p_hit_roll = atk_roll
 	m_def_roll = def_roll
 	
-	if atk_roll > def_roll:
-		p_hit_chance = 1 - 0.5 * ( def_roll + 2.0 ) / ( atk_roll + 1.0 )
+	if "osmuten_fang" in act_player.special_attributes:
+		# TODO make different calc here
+		if atk_roll > def_roll:
+			p_hit_chance = 1 - 0.5 * ( def_roll + 2.0 ) / ( atk_roll + 1.0 )
+		else:
+			p_hit_chance = 0.5 * atk_roll / ( def_roll + 1.0 )
 	else:
-		p_hit_chance = 0.5 * atk_roll / ( def_roll + 1.0 )
+		if atk_roll > def_roll:
+			p_hit_chance = 1 - 0.5 * ( def_roll + 2.0 ) / ( atk_roll + 1.0 )
+		else:
+			p_hit_chance = 0.5 * atk_roll / ( def_roll + 1.0 )
+	
 
 func calc_m_hit_chance( player : player, target_mon : monster ):
 	
@@ -566,10 +574,11 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 	
 	p_def_roll = def_roll
 	m_hit_roll = atk_roll
+	
 	if atk_roll > def_roll:
-		m_hit_chance = 1 - 0.5 * ( def_roll + 2 ) / ( atk_roll + 1 )
+		m_hit_chance = 1 - 0.5 * ( def_roll + 2.0 ) / ( atk_roll + 1.0 )
 	else:
-		m_hit_chance = 0.5 * atk_roll / ( def_roll + 1 )
+		m_hit_chance = 0.5 * atk_roll / ( def_roll + 1.0 )
 
 func simulate_combat( player : player, target_mon : monster ):
 	
@@ -620,7 +629,7 @@ func simulate_combat( player : player, target_mon : monster ):
 				var target_hp : int = target_mon.hitpoints
 				while target_hp > 0:
 					# Player attacks
-					if rng.randf() < p_hit_chance:
+					if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 						if rng.randf() <= crit_chance:
 							target_hp -= int( min( 100, int( target_mon.hitpoints * 0.2 ) ) )
 						else:
@@ -636,7 +645,7 @@ func simulate_combat( player : player, target_mon : monster ):
 					# Player attacks
 					if rng.randf() <= crit_chance:
 						target_hp -= rng.randi_range( 0, crit_max_hit)
-					elif rng.randf() < p_hit_chance:
+					elif rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 						target_hp -= rng.randi_range( 0, p_max_hit)
 					tick += player.attack_speed
 				if _kills == 1 && tick >= max_kill_duration:
@@ -647,9 +656,9 @@ func simulate_combat( player : player, target_mon : monster ):
 				var target_hp = target_mon.hitpoints
 				while target_hp > 0:
 					# Player attacks
-					if rng.randf() < p_hit_chance:
+					if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 						target_hp -= rng.randi_range( 0, p_max_hit)
-					if rng.randf() <= crit_chance && rng.randf() < p_hit_chance:
+					if rng.randf() <= crit_chance && rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 						target_hp -= rng.randi_range( 0, int( p_max_hit * 0.5 ) )
 					tick += player.attack_speed
 				if _kills == 1 && tick >= max_kill_duration:
@@ -662,7 +671,7 @@ func simulate_combat( player : player, target_mon : monster ):
 					# Player attacks
 					if rng.randf() < crit_chance:
 						target_hp -= rng.randi_range( 0, p_max_hit)
-					elif rng.randf() < p_hit_chance:
+					elif rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 						target_hp -= rng.randi_range( 0, p_max_hit) + 1
 					tick += player.attack_speed
 				if _kills == 1 && tick >= max_kill_duration:
@@ -673,7 +682,7 @@ func simulate_combat( player : player, target_mon : monster ):
 				var target_hp = target_mon.hitpoints
 				while target_hp > 0:
 					# Player attacks
-					if rng.randf() < p_hit_chance:
+					if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 						if rng.randf() <= crit_chance:
 							target_hp -= rng.randi_range( 0, crit_max_hit )
 						else:
@@ -687,11 +696,11 @@ func simulate_combat( player : player, target_mon : monster ):
 			var target_hp = target_mon.hitpoints
 			while target_hp > 0:
 				# Player attacks
-				if rng.randf() < p_hit_chance:
+				if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 					target_hp -= rng.randi_range( 0, p_max_hit )
-				if rng.randf() < p_hit_chance:
+				if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 					target_hp -= rng.randi_range( 0, int( p_max_hit * 0.5 ) )
-				if rng.randf() < p_hit_chance:
+				if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 					target_hp -= rng.randi_range( 0, int( p_max_hit * 0.25 ) )
 				tick += player.attack_speed
 			if _kills == 1 && tick >= max_kill_duration:
@@ -702,7 +711,8 @@ func simulate_combat( player : player, target_mon : monster ):
 			var target_hp = target_mon.hitpoints
 			while target_hp > 0:
 				# Player attacks
-				if rng.randf() < p_hit_chance or rng.randf() < p_hit_chance:
+				var def_roll : int = rng.randi()%m_def_roll
+				if rng.randi()%p_hit_roll > def_roll or rng.randi()%p_hit_roll > def_roll:
 					target_hp -= rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
 				tick += player.attack_speed
 			if _kills == 1 && tick >= max_kill_duration:
@@ -713,7 +723,7 @@ func simulate_combat( player : player, target_mon : monster ):
 			var target_hp = target_mon.hitpoints
 			while target_hp > 0:
 				# Player attacks
-				if rng.randf() < p_hit_chance:
+				if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
 					target_hp -= rng.randi_range( 0, p_max_hit)
 				tick += player.attack_speed
 			if _kills == 1 && tick >= max_kill_duration:
