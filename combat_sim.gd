@@ -522,11 +522,13 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 	m_def_roll = def_roll
 	
 	if "osmuten_fang" in act_player.special_attributes:
-		# TODO make different calc here
+		# These are very ugly but seem to work. Creatd by wolfram alpha.
 		if atk_roll > def_roll:
-			p_hit_chance = 1 - 0.5 * ( def_roll + 2.0 ) / ( atk_roll + 1.0 )
+			p_hit_chance = 1 - 1.0/def_roll * ( 2*pow(def_roll,3) + 3*pow(def_roll, 2) + def_roll ) / 6.0 / pow(atk_roll, 2)
+		elif atk_roll == def_roll:
+			p_hit_chance = 2.0/3 - pow(def_roll,-2)/6 - pow(def_roll,-1)/2.0
 		else:
-			p_hit_chance = 0.5 * atk_roll / ( def_roll + 1.0 )
+			p_hit_chance = ( 4*pow(atk_roll, 2) + 3*atk_roll - 1 ) / ( 6.0 * atk_roll * def_roll ) - 1.0 / def_roll
 	else:
 		if atk_roll > def_roll:
 			p_hit_chance = 1 - 0.5 * ( def_roll + 2.0 ) / ( atk_roll + 1.0 )
@@ -580,7 +582,7 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 	else:
 		m_hit_chance = 0.5 * atk_roll / ( def_roll + 1.0 )
 
-func simulate_combat( player : player, target_mon : monster ):
+func simulate_combat( act_player : player, target_mon : monster ):
 	
 	# Full tick accurate combat simulation
 	
@@ -590,146 +592,103 @@ func simulate_combat( player : player, target_mon : monster ):
 	
 	
 	var crit_chance : float = 0
-	if "keris" in player.special_attributes:
+	if "keris" in act_player.special_attributes:
 		crit_chance = 1.0/51
-	elif "gaddehammer" in player.special_attributes:
+	elif "gaddehammer" in act_player.special_attributes:
 		crit_chance = 1.0/51
-	elif "damned_ahrim" in player.special_attributes:
+	elif "damned_ahrim" in act_player.special_attributes:
 		crit_chance = 0.25
-	elif "damned_karil" in player.special_attributes:
+	elif "damned_karil" in act_player.special_attributes:
 		crit_chance = 0.25
-	elif "verac" in player.special_attributes:
+	elif "verac" in act_player.special_attributes:
 		crit_chance = 0.25
 	else:
-		if "onyx_bolt_e" in player.special_attributes:
+		if "onyx_bolt_e" in act_player.special_attributes:
 			crit_chance = 0.11
-		if "dragonstone_bolt_e" in player.special_attributes and not ("dragon" in target_mon.attributes):
+		if "dragonstone_bolt_e" in act_player.special_attributes and not ("dragon" in target_mon.attributes):
 			crit_chance = 0.06
-		if "diamond_bolt_e" in player.special_attributes:
+		if "diamond_bolt_e" in act_player.special_attributes:
 			crit_chance = 0.1
-		if "ruby_bolt_e" in player.special_attributes:
+		if "ruby_bolt_e" in act_player.special_attributes:
 			crit_chance = 0.06
-		if "pearl_bolt_e" in player.special_attributes:
+		if "pearl_bolt_e" in act_player.special_attributes:
 			crit_chance = 0.06
-		if "opal_bolt_e" in player.special_attributes:
+		if "opal_bolt_e" in act_player.special_attributes:
 			crit_chance = 0.05
 		
 		# This is a bit hacky but should not run when non-bolt crit is possible.
 		if kandarin_diary:
 			crit_chance *= 1.1
-		
+	
+	var powered_staff : bool = "powered_staff" in act_player.special_attributes
+	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
 	
 	var simulated_kills : int = 10000
 	var max_kill_duration : int = 2000 # ticks
 	var tick : int = 0
 	
-	if crit_chance > 0:
-		if "ruby_bolt_e" in player.special_attributes:
-			for _kills in range(1, simulated_kills):
-				var target_hp : int = target_mon.hitpoints
-				while target_hp > 0:
-					# Player attacks
-					if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-						if rng.randf() <= crit_chance:
-							target_hp -= int( min( 100, int( target_mon.hitpoints * 0.2 ) ) )
-						else:
-							target_hp -= rng.randi_range( 0, p_max_hit)
-					tick += player.attack_speed
-				if _kills == 1 && tick >= max_kill_duration:
-					print( "Too slow kills to simulate" )
-					return
-		elif "diamond_bolt_e" in player.special_attributes:
-			for _kills in range(1, simulated_kills):
-				var target_hp = target_mon.hitpoints
-				while target_hp > 0:
-					# Player attacks
-					if rng.randf() <= crit_chance:
-						target_hp -= rng.randi_range( 0, crit_max_hit)
-					elif rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-						target_hp -= rng.randi_range( 0, p_max_hit)
-					tick += player.attack_speed
-				if _kills == 1 && tick >= max_kill_duration:
-					print( "Too slow kills to simulate" )
-					return
-		elif "damned_karil" in player.special_attributes:
-			for _kills in range(1, simulated_kills):
-				var target_hp = target_mon.hitpoints
-				while target_hp > 0:
-					# Player attacks
-					if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-						target_hp -= rng.randi_range( 0, p_max_hit)
-					if rng.randf() <= crit_chance && rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-						target_hp -= rng.randi_range( 0, int( p_max_hit * 0.5 ) )
-					tick += player.attack_speed
-				if _kills == 1 && tick >= max_kill_duration:
-					print( "Too slow kills to simulate" )
-					return
-		elif "verac" in player.special_attributes:
-			for _kills in range(1, simulated_kills):
-				var target_hp = target_mon.hitpoints
-				while target_hp > 0:
-					# Player attacks
-					if rng.randf() < crit_chance:
-						target_hp -= rng.randi_range( 0, p_max_hit)
-					elif rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-						target_hp -= rng.randi_range( 0, p_max_hit) + 1
-					tick += player.attack_speed
-				if _kills == 1 && tick >= max_kill_duration:
-					print( "Too slow kills to simulate" )
-					return
-		else:
-			for _kills in range(1, simulated_kills): # 100000 rounds
-				var target_hp = target_mon.hitpoints
-				while target_hp > 0:
-					# Player attacks
-					if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-						if rng.randf() <= crit_chance:
-							target_hp -= rng.randi_range( 0, crit_max_hit )
-						else:
-							target_hp -= rng.randi_range( 0, p_max_hit)
-					tick += player.attack_speed
-				if _kills == 1 && tick >= max_kill_duration:
-					print( "Too slow kills to simulate" )
-					return
-	elif "scythe_vitur" in player.special_attributes and int(target_mon.size) > 1:
-		for _kills in range(1, simulated_kills): #1000 rounds
-			var target_hp = target_mon.hitpoints
-			while target_hp > 0:
-				# Player attacks
-				if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-					target_hp -= rng.randi_range( 0, p_max_hit )
-				if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-					target_hp -= rng.randi_range( 0, int( p_max_hit * 0.5 ) )
-				if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-					target_hp -= rng.randi_range( 0, int( p_max_hit * 0.25 ) )
-				tick += player.attack_speed
-			if _kills == 1 && tick >= max_kill_duration:
-				print( "Too slow kills to simulate" )
-				return
-	elif "osmuten_fang" in player.special_attributes:
-		for _kills in range(1, simulated_kills): #1000 rounds
-			var target_hp = target_mon.hitpoints
-			while target_hp > 0:
-				# Player attacks
-				var def_roll : int = rng.randi()%m_def_roll
-				if rng.randi()%p_hit_roll > def_roll or rng.randi()%p_hit_roll > def_roll:
-					target_hp -= rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
-				tick += player.attack_speed
-			if _kills == 1 && tick >= max_kill_duration:
-				print( "Too slow kills to simulate" )
-				return
-	else:
-		for _kills in range(1, simulated_kills): #1000 rounds
-			var target_hp = target_mon.hitpoints
-			while target_hp > 0:
-				# Player attacks
-				if rng.randi()%p_hit_roll > rng.randi()%m_def_roll:
-					target_hp -= rng.randi_range( 0, p_max_hit)
-				tick += player.attack_speed
-			if _kills == 1 && tick >= max_kill_duration:
-				print( "Too slow kills to simulate" )
-				return
 	
+	for _kills in range(1, simulated_kills):
+		var target_hp = target_mon.hitpoints
+		while target_hp > 0:
+			# Single kill loop
+			var def_roll : int = rng.randi_range( 0, p_hit_roll)
+			var att_roll : int = rng.randi_range( 0, p_hit_roll)
+			var damage : int = 0
+			
+			if magic_attack and "brimstone_ring" in act_player.special_attributes:
+				def_roll /= 10
+			
+			if "osmuten_fang" in act_player.special_attributes:
+				att_roll = int( max( att_roll, rng.randi_range( 0, p_hit_roll) ) )
+			
+			
+			# Scythe's triple hit is handled separately
+			if "scythe_vitur" in act_player.special_attributes and int(target_mon.size) > 1:
+				if att_roll > def_roll:
+					damage += rng.randi_range( 0, p_max_hit )
+				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, p_hit_roll):
+					damage += rng.randi_range( 0, p_max_hit /2 )
+				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, p_hit_roll):
+					damage += rng.randi_range( 0, p_max_hit /4 )
+			
+			
+			if rng.randf() <= crit_chance:
+				# it is an abnormal attack
+				if "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
+					# Deal 20% of target's remaining HP( max 100)
+					damage += int( min( 100, target_mon.hitpoints /5 ) )
+				elif "diamond_bolt_e" in act_player.special_attributes:
+					# Hits for +10% damage
+					# Quaranteed hit
+					damage += rng.randi_range( 0, p_max_hit * 11/10)
+				elif "damned_karil" in act_player.special_attributes and att_roll > def_roll:
+					# Attacks twice. Second attack deals half of first attack damage
+					var hit : int = rng.randi_range( 0, p_max_hit )
+					damage += hit + hit / 2
+					pass
+				elif "verac" in act_player.special_attributes:
+					# Quaranteed hit
+					# +1 damage
+					damage += rng.randi_range( 0, p_max_hit ) +1
+				elif att_roll > def_roll:
+					# Some other generic critical hit
+					damage = rng.randi_range( 0, crit_max_hit )
+			elif att_roll > def_roll:
+				# A normal attack
+				
+				if "osmuten_fang" in act_player.special_attributes:
+					damage += rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
+				else:
+					damage += rng.randi_range( 0, p_max_hit)
+				
+				target_hp -= damage
+			
+			tick += act_player.attack_speed
+		if _kills == 1 && tick >= max_kill_duration:
+			print( "Too slow kills to simulate" )
+			return
+				
 	p_dps2 = ( simulated_kills * target_mon.hitpoints ) / ( tick * 0.6 )
 	time_to_kill2 =  ( tick * 0.6 ) / simulated_kills
 	
