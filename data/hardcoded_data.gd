@@ -349,6 +349,16 @@ var equipment_specials : Dictionary = {
 		"items": ["Tumeken's shadow"],
 		"name": "Tumeken's shadow",
 		"description": "Multiplies magic attack and damage bonuses by three (cap at 100% damage bonus)."
+	},
+	"keris_breaching": {
+		"items": ["Keris partisan of breaching"],
+		"name": "Keris partisan of breaching",
+		"description": "33% accuracy bonus against kalphites and scarabites."
+	},
+	"keris_sun": {
+		"items": ["Keris partisan of the sun"],
+		"name": "Keris partisan of the sun",
+		"description": "25% increased accuracy against opponents with less than 25% health."
 	}
 }
 
@@ -646,7 +656,15 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"Amulet of glory (t6)",
 		"Torva platelegs (damaged)",
 		"Torva full helm (damaged)",
-		"Torva platebody (damaged)"
+		"Torva platebody (damaged)",
+		"Uncharged trident",
+		"Uncharged trident (e)",
+		"Trident of the seas (full)",
+		"Uncharged toxic trident",
+		"Uncharged toxic trident (e)",
+		"Sanguinesti staff (uncharged)",
+		"Holy sanguinesti staff (uncharged)",
+		"Bryophyta's staff (uncharged)",
 	]
 	
 	

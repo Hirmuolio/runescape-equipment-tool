@@ -524,6 +524,8 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 			atk_roll = int( atk_roll * 1.2 )
 		if "leaf_baxe" in act_player.special_attributes && "leafy" in target_mon.attributes:
 			atk_roll = int( atk_roll * 1.175 )
+		if "keris_breaching" in act_player.special_attributes and ( "kalphite" in target_mon.attributes or "scabarite"  in target_mon.attributes ):
+			atk_roll = atk_roll * 4 / 3
 		
 		var monster_def_lvl : int = target_mon.defence_level
 		if dwh_specs > 0:
@@ -655,6 +657,8 @@ func simulate_combat( act_player : player, target_mon : monster ):
 			
 			if "osmuten_fang" in act_player.special_attributes:
 				att_roll = int( max( att_roll, rng.randi_range( 0, p_hit_roll) ) )
+			if "keris_sun" in act_player.special_attributes and target_hp * 4 < target_mon.hitpoints:
+				att_roll = att_roll * 5 / 4
 			
 			
 			# Scythe's triple hit is handled separately

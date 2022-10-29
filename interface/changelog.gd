@@ -14,6 +14,8 @@ func _ready():
 	changelog += "\n- Holy water"
 	changelog += "\n- Brinstone ring"
 	changelog += "\n- Fixed Osmuten's fang calculations"
+	changelog += "\n- Tumeken's shadow"
+	changelog += "\n- Keris variants"
 	
 	changelog += "--0.7--"
 	changelog += "\n- Started tracking changelog"
