@@ -254,7 +254,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		var eff_str : int = int( act_player.ranged * act_player.prayer_rng ) + act_player.style_rng_bonus + 8
 		
 		if "void_ranged" in act_player.special_attributes:
-			eff_str = int( eff_str * 1.1 )
+			eff_str = eff_str * 11/10
 		
 		base_max_hit = int(  0.5 + eff_str * ( act_player.rng_str_bonus + 64 ) / 640.0 )
 		base_max_hit = int( base_max_hit * act_player.prayer_rng_str )
@@ -316,8 +316,6 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "bulwark" in act_player.special_attributes and act_player.attack_stance == "accurate":
 			#get_equipment_bonus( "defence_stab" )
 			var total_def : int = act_player.get_equipment_bonus( "defence_stab" ) + act_player.get_equipment_bonus( "defence_slash" ) + act_player.get_equipment_bonus( "defence_crush" ) + act_player.get_equipment_bonus( "defence_ranged" )
-			# I do not know if these should be done as integer division or not
-			# I do them as integer divisions
 			eq_str += ( total_def / 4 - 200 ) / 3 - 38
 		
 		base_max_hit = int( 0.5 + eff_str * ( eq_str + 64 ) / 640.0 )
@@ -427,17 +425,17 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 			atk_roll = int( atk_roll * 1.15 )
 		
 		if "tome_of_water" in act_player.special_attributes && "water" in act_player.spell.special_effects:
-			atk_roll = int( atk_roll * 1.2 )
+			atk_roll = atk_roll * 6/5
 		if "somke_bass" in act_player.special_attributes:
-			atk_roll = int( atk_roll * 1.1 )
+			atk_roll = atk_roll * 11/10
 		if wilderness and "thammaron" in act_player.special_attributes:
-			atk_roll = int( atk_roll * 2 )
+			atk_roll = atk_roll * 2
 		
 		if act_player.spell and "demonbane" in act_player.spell.special_effects and "demon" in target_mon.attributes:
 			if mark_of_darkness: 
-				atk_roll = int( atk_roll * 1.4 )
+				atk_roll = atk_roll * 7/5
 			else:
-				atk_roll = int( atk_roll * 1.2 )
+				atk_roll = atk_roll * 6/5
 		
 		if "tumekens_shadow" in act_player.special_attributes:
 			atk_roll *= 3
@@ -450,24 +448,21 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 		var eff_atk : int = int( act_player.ranged * act_player.prayer_rng * act_player.prayer_rng_atk ) + act_player.style_rng_bonus + 8
 		
 		if "void_ranged" in act_player.special_attributes:
-			eff_atk = int( eff_atk * 1.1 )
+			eff_atk = eff_atk * 11/10
 		
 		atk_roll = eff_atk * ( act_player.rng_bonus + 64 )
 		
 		if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
-			atk_roll = int( atk_roll * 1.2 )
+			atk_roll = atk_roll * 6/5
 		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
-			atk_roll = int( atk_roll * 7.0/6 ) # *1.16
+			atk_roll = atk_roll * 7/6
 		elif slayer_task and "black_mask_i" in act_player.special_attributes:
 			atk_roll = int( atk_roll * 1.15 )
-		
-		if "holy_water" in act_player.special_attributes and "demon" in target_mon.attributes:
-			atk_roll = int( atk_roll * 1 ) #unknown so lets not do anything
 		
 		if "dragonhunter_crossbow" in act_player.special_attributes and "dragon" in target_mon.attributes:
 			atk_roll = int( atk_roll * 1.3 )
 		if wilderness and "craw" in act_player.special_attributes:
-			atk_roll = int( atk_roll * 1.5 )
+			atk_roll = atk_roll * 3/2
 		
 		
 		
@@ -490,19 +485,19 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 		
 		# These should probably be in same order as in max hit
 		if "void_melee" in act_player.special_attributes:
-			eff_atk = int( eff_atk * 1.1 )
+			eff_atk = eff_atk * 11/10
 		
 		atk_roll = eff_atk * ( act_player.atk_bonus + 64 )
 		
 		if "obsidian_armor" in act_player.special_attributes:
-			atk_roll = int( atk_roll * 1.1 )
+			atk_roll = atk_roll * 11/10
 		
 		if "salve_e" in act_player.special_attributes and "undead" in target_mon.attributes:
-			atk_roll = int( atk_roll * 1.2 )
+			atk_roll = atk_roll * 6/5
 		elif slayer_task and "black_mask" in act_player.special_attributes:
-			atk_roll = int( atk_roll * 7.0/6 )
+			atk_roll = atk_roll * 7/6
 		elif "salve" in act_player.special_attributes and "undead" in target_mon.attributes:
-			atk_roll = int( atk_roll * 7.0/6 )
+			atk_roll = atk_roll * 7/6
 		
 		if "vampyre" in target_mon.attributes:
 			if "blisterwood_flail" in act_player.special_attributes:
@@ -510,9 +505,9 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 			elif "blisterwood_sickle" in act_player.special_attributes:
 				atk_roll = int( atk_roll * 1.05 )
 		if wilderness and "viggora" in act_player.special_attributes:
-			atk_roll = int( atk_roll * 1.5 )
+			atk_roll = atk_roll * 3/2
 		if "arclight" in act_player.special_attributes && "demon" in target_mon.attributes:
-			atk_roll = int( atk_roll * 1.7 )
+			atk_roll = atk_roll * 17/10
 		if act_player.attack_style == "crush":
 			if "inquisitor_1" in act_player.special_attributes:
 				atk_roll = int( atk_roll * 1.005 )
@@ -521,7 +516,7 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 			elif "inquisitor_3" in act_player.special_attributes:
 				atk_roll = int( atk_roll * 1.025 )
 		if "dragonhunter_lance" in act_player.special_attributes && "dragon" in target_mon.attributes:
-			atk_roll = int( atk_roll * 1.2 )
+			atk_roll = atk_roll * 6/5
 		if "leaf_baxe" in act_player.special_attributes && "leafy" in target_mon.attributes:
 			atk_roll = int( atk_roll * 1.175 )
 		if "keris_breaching" in act_player.special_attributes and ( "kalphite" in target_mon.attributes or "scabarite"  in target_mon.attributes ):
@@ -538,7 +533,7 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 	m_def_roll = def_roll
 	
 	if "osmuten_fang" in act_player.special_attributes:
-		# These are very ugly but seem to work. Creatd by wolfram alpha.
+		# These are very ugly but seem to work.
 		if atk_roll > def_roll:
 			p_hit_chance = 1 - 1.0/def_roll * ( 2*pow(def_roll,3) + 3*pow(def_roll, 2) + def_roll ) / 6.0 / pow(atk_roll, 2)
 		elif atk_roll == def_roll:
