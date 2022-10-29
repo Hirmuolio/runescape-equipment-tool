@@ -172,6 +172,8 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 				base_max_hit = 23 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
 			elif act_player.weapon.item_name in ["Sanguinesti staff", "Holy sanguinesti staff"]:
 				base_max_hit = 26 + int( max( ( act_player.magic - 82 ) / 3, -19 ) )
+			elif "tumekens_shadow" in act_player.special_attributes:
+				base_max_hit = act_player.magic / 3 + 1
 			elif act_player.weapon.item_name == "Dawnbringer":
 				base_max_hit = 0 # No idea what the base damage is
 			elif act_player.weapon.item_name == "Crystal staff (basic)":
@@ -205,6 +207,11 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		
 		multiplier +=  act_player.mag_dmg_bonus / 100.0
 		
+		if "tumekens_shadow" in act_player.special_attributes:
+			multiplier +=  act_player.mag_dmg_bonus * 3 / 100.0
+		else:
+			multiplier +=  act_player.mag_dmg_bonus / 100.0
+		
 		if spell and "somke_bass" in act_player.special_attributes and "standard" in spell.special_effects:
 			multiplier += 0.1
 		if "elite_void_magic" in act_player.special_attributes:
@@ -217,6 +224,8 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
 			multiplier += 0.15
 			salve = true
+		
+		
 		
 		p_max_hit = int( p_max_hit * multiplier )
 		
@@ -399,13 +408,15 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
 	
 	if magic_attack:
-		var eff_atk : int = int( act_player.magic * act_player.prayer_magic )
+		var eff_atk : int = act_player.magic
+		# Weird handling for different prayer bonuses. Npt sure about these. But
+		eff_atk = int( eff_atk * act_player.prayer_magic )
 		eff_atk = int( eff_atk * act_player.prayer_magic_atk )
 		
 		if "void_magic" in act_player.special_attributes:
 			eff_atk = int( eff_atk * 1.45 )
 		
-		eff_atk += act_player.style_mag_bonus + 9
+		eff_atk += act_player.style_mag_bonus + 8
 		atk_roll = eff_atk * ( act_player.magic_bonus + 64 )
 		
 		if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
@@ -427,6 +438,9 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 				atk_roll = int( atk_roll * 1.4 )
 			else:
 				atk_roll = int( atk_roll * 1.2 )
+		
+		if "tumekens_shadow" in act_player.special_attributes:
+			atk_roll *= 3
 		
 		def_roll = ( target_mon.magic_level + 9 ) * ( target_mon.style_def( "magic" ) + 64 )
 		
@@ -624,7 +638,7 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
 	
 	var simulated_kills : int = 10000
-	var max_kill_duration : int = 2000 # ticks
+	var max_kill_duration : int = 2000 # Limit to prevent freezing
 	var tick : int = 0
 	
 	

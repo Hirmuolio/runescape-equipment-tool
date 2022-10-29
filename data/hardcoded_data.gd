@@ -320,7 +320,8 @@ var equipment_specials : Dictionary = {
 		"Trident of the swamp", "Trident of the swamp (e)",
 		"Sanguinesti staff", "Holy sanguinesti staff",
 		"Dawnbringer",
-		"Crystal staff (basic)", "Crystal staff (attuned)", "Crystal staff (perfected)"],
+		"Crystal staff (basic)", "Crystal staff (attuned)", "Crystal staff (perfected)",
+		"Tumeken's shadow"],
 		"name": "Powered staff",
 		"description": ""
 	},
@@ -343,6 +344,11 @@ var equipment_specials : Dictionary = {
 		"items": ["Brinstone ring"],
 		"name": "Brimstone ring",
 		"description": "On magic attacks 25% chance to ignore 10% of target magic defence."
+	},
+	"tumekens_shadow": {
+		"items": ["Tumeken's shadow"],
+		"name": "Tumeken's shadow",
+		"description": "Multiplies magic attack and damage bonuses by three (cap at 100% damage bonus)."
 	}
 }
 

@@ -299,7 +299,7 @@ func _get_style_rng() -> int:
 
 func _getstyle_mag() -> int:
 	if attack_stance == "accurate" or attack_stance == "blaze":
-		return 2
+		return 3
 	return 0
 
 func get_equipment_bonus( attribute : String ) -> int:
