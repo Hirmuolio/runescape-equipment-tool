@@ -8,7 +8,12 @@ func _ready():
 	var changelog : String ="CHANGELOG\n"
 	changelog += "--0.8--"
 	changelog += "\n- Godot 3.5"
+	changelog += "\n- Bugfixes"
 	changelog += "\n- Salamanders"
+	changelog += "\n- Colossal blade"
+	changelog += "\n- Holy water"
+	changelog += "\n- Brinstone ring"
+	changelog += "\n- Fixed Osmuten's fang calculations"
 	
 	changelog += "--0.7--"
 	changelog += "\n- Started tracking changelog"
