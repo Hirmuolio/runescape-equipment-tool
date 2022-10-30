@@ -16,6 +16,7 @@ func _ready():
 	changelog += "\n- Fixed Osmuten's fang calculations"
 	changelog += "\n- Tumeken's shadow"
 	changelog += "\n- Keris variants"
+	changelog += "\n- Blowpipes"
 	
 	changelog += "--0.7--"
 	changelog += "\n- Started tracking changelog"
