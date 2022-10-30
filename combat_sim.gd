@@ -64,6 +64,7 @@ func clear_results():
 	crit_max_hit = 0
 	
 	p_hit_chance = 0
+	p_hit_chance2 = 0
 	p_hit_roll = 0
 	p_def_roll = 0
 	p_dps = 0
