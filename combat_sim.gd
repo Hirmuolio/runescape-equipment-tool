@@ -6,6 +6,7 @@ var base_max_hit : int	# Max hit without extra bonuses
 var crit_max_hit : int	# Max hit with occasionally triggering specials
 
 var p_hit_chance : float # Used for visuals only. Calcs done with rolls.
+var p_hit_chance2 : float # Result from simulation
 var p_hit_roll : int
 var p_def_roll : int
 var p_dps : float
@@ -636,12 +637,15 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	var max_kill_duration : int = 2000 # Limit to prevent freezing
 	var tick : int = 0
 	
+	var attacks : int = 0
+	var hits : int = 0
+	
 	
 	for _kills in range(1, simulated_kills):
 		var target_hp = target_mon.hitpoints
 		while target_hp > 0:
 			# Single kill loop
-			var def_roll : int = rng.randi_range( 0, p_hit_roll)
+			var def_roll : int = rng.randi_range( 0, m_def_roll)
 			var att_roll : int = rng.randi_range( 0, p_hit_roll)
 			var damage : int = 0
 			
@@ -656,42 +660,53 @@ func simulate_combat( act_player : player, target_mon : monster ):
 			
 			# Scythe's triple hit is handled separately
 			if "scythe_vitur" in act_player.special_attributes and int(target_mon.size) > 1:
+				attacks += 3
 				if att_roll > def_roll:
 					damage += rng.randi_range( 0, p_max_hit )
-				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, p_hit_roll):
+					hits += 1
+				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, m_def_roll):
 					damage += rng.randi_range( 0, p_max_hit /2 )
-				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, p_hit_roll):
+					hits += 1
+				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, m_def_roll):
 					damage += rng.randi_range( 0, p_max_hit /4 )
+					hits += 1
 			
-			
+			attacks += 1
 			if rng.randf() <= crit_chance:
 				# it is an abnormal attack
 				if "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
 					# Deal 20% of target's remaining HP( max 100)
 					damage += int( min( 100, target_mon.hitpoints /5 ) )
+					hits += 1
 				elif "diamond_bolt_e" in act_player.special_attributes:
 					# Hits for +10% damage
 					# Quaranteed hit
 					damage += rng.randi_range( 0, p_max_hit * 11/10)
+					hits += 1
 				elif "damned_karil" in act_player.special_attributes and att_roll > def_roll:
 					# Attacks twice. Second attack deals half of first attack damage
 					var hit : int = rng.randi_range( 0, p_max_hit )
 					damage += hit + hit / 2
+					hits += 1
 					pass
 				elif "verac" in act_player.special_attributes:
 					# Quaranteed hit
 					# +1 damage
 					damage += rng.randi_range( 0, p_max_hit ) +1
+					hits += 1
 				elif att_roll > def_roll:
 					# Some other generic critical hit
 					damage = rng.randi_range( 0, crit_max_hit )
+					hits += 1
 			elif att_roll > def_roll:
 				# A normal attack
 				
 				if "osmuten_fang" in act_player.special_attributes:
 					damage += rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
+					hits += 1
 				else:
 					damage += rng.randi_range( 0, p_max_hit)
+					hits += 1
 				
 				target_hp -= damage
 			
@@ -699,7 +714,8 @@ func simulate_combat( act_player : player, target_mon : monster ):
 		if _kills == 1 && tick >= max_kill_duration:
 			print( "Too slow kills to simulate" )
 			return
-				
+	
+	p_hit_chance2 = float(hits) / attacks
 	p_dps2 = ( simulated_kills * target_mon.hitpoints ) / ( tick * 0.6 )
 	time_to_kill2 =  ( tick * 0.6 ) / simulated_kills
 	

@@ -18,7 +18,7 @@ func _ready():
 	changelog += "\n- Keris variants"
 	changelog += "\n- Blowpipes"
 	
-	changelog += "--0.7--"
+	changelog += "\n\n--0.7--"
 	changelog += "\n- Started tracking changelog"
 	changelog += "\n- Added this info window that tells you about this info window"
 	changelog += "\n- Upgraded from Godot 3.4.4 to Godot 3.5 RC-8"

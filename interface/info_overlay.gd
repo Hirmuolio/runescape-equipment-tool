@@ -6,7 +6,7 @@ func _ready():
 	var info_text : String = ""
 	
 	info_text += "Runescape Equipment Tool"
-	var ret_version : String = "0.7.0"
+	var ret_version : String = "0.8.0"
 	info_text += " v" + ret_version
 	
 	info_text += "[url]https://github.com/Hirmuolio/runescape-equipment-tool[/url]"

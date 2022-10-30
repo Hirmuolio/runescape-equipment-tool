@@ -673,7 +673,6 @@ func item_is_blacklisted( item_name : String ) -> bool:
 	
 	# Charged jewelry
 	var charges : Array = [
-		"(1)",
 		"(2)",
 		"(3)",
 		"(4)",
@@ -682,10 +681,29 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"(7)",
 		"(8)",
 		"(9)",
+		"(i2)",
+		"(i3)",
+		"(i4)",
+		"(i5)",
+		"(i6)",
+	]
+	var jewelry : Array = [
+		"glory",
+		"dueling",
+		"burning",
+		"slayer",
+		"wealth",
+		"passage",
+		"skills",
+		"games",
+		"digsite",
+		"combat"
 	]
 	for elem in charges:
 		if elem in item_name:
-			return true
+			for elem2 in jewelry:
+				if elem2 in item_name:
+					return true
 	
 	# Locked items
 	if "(l)" in item_name:

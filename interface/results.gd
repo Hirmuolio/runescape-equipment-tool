@@ -20,7 +20,9 @@ func refresh_results():
 		max_hoover_info += "\nCritical hit: " + str( combat_sim.crit_max_hit )
 	$p_maxhit.hoover_info = max_hoover_info
 	$p_hitchance.value = str( stepify( combat_sim.p_hit_chance * 100, 0.01 ) ) + "%"
-	$p_hitchance.hoover_info = "Player attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
+	$p_hitchance2.value = str( stepify( combat_sim.p_hit_chance2 * 100, 0.01 ) ) + "%"
+	$p_hitchance.hoover_info = "Approximation from stats. Does not apply all special effects.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
+	$p_hitchance2.hoover_info = "Result from simulated combat.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
 	$p_dps.value = stepify( combat_sim.p_dps, 0.01 )
 	$p_dps2.value = stepify( combat_sim.p_dps2, 0.01 )
 	

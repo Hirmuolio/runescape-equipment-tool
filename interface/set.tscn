@@ -559,22 +559,28 @@ label = "Max hit:"
 margin_top = 86.0
 margin_right = 477.0
 margin_bottom = 100.0
-label = "Hit chance:"
+label = "(approx) Hit chance:"
 
 [node name="p_dps" parent="hbox/result_panel" instance=ExtResource( 4 )]
 margin_top = 104.0
 margin_right = 477.0
 margin_bottom = 118.0
-label = "Paper DPS:"
+label = "(approx) DPS:"
 hoover_info = "Paper dps = 0.5 * hit_chance * max_hit / attack_duration
 
 Does not consider all special effects or overhit in the calculations."
 
-[node name="p_dps2" parent="hbox/result_panel" instance=ExtResource( 4 )]
+[node name="p_hitchance2" parent="hbox/result_panel" instance=ExtResource( 11 )]
 margin_top = 122.0
 margin_right = 477.0
 margin_bottom = 136.0
-label = "Simulated DPS:"
+label = "(sim) Hit chance:"
+
+[node name="p_dps2" parent="hbox/result_panel" instance=ExtResource( 4 )]
+margin_top = 140.0
+margin_right = 477.0
+margin_bottom = 154.0
+label = "(sim) DPS:"
 hoover_info = "Real dps simulated from large number of kills.
 
 Takes into account special effects (enchanged bolts, etc.)  and overhit.
@@ -582,59 +588,59 @@ Takes into account special effects (enchanged bolts, etc.)  and overhit.
 (press the \"simulate\" button above)"
 
 [node name="spk" parent="hbox/result_panel" instance=ExtResource( 11 )]
-margin_top = 140.0
-margin_right = 477.0
-margin_bottom = 154.0
-label = "Time to kill"
-
-[node name="pray_drain" parent="hbox/result_panel" instance=ExtResource( 11 )]
 margin_top = 158.0
 margin_right = 477.0
 margin_bottom = 172.0
-label = "Prayer drain"
+label = "Time to kill:"
 
-[node name="HSeparator2" type="HSeparator" parent="hbox/result_panel"]
+[node name="pray_drain" parent="hbox/result_panel" instance=ExtResource( 11 )]
 margin_top = 176.0
 margin_right = 477.0
-margin_bottom = 180.0
+margin_bottom = 190.0
+label = "Prayer drain:"
 
-[node name="Label3" type="Label" parent="hbox/result_panel"]
-margin_top = 184.0
+[node name="HSeparator2" type="HSeparator" parent="hbox/result_panel"]
+margin_top = 194.0
 margin_right = 477.0
 margin_bottom = 198.0
-text = "Monster:"
 
-[node name="m_maxhit" parent="hbox/result_panel" instance=ExtResource( 4 )]
+[node name="Label3" type="Label" parent="hbox/result_panel"]
 margin_top = 202.0
 margin_right = 477.0
 margin_bottom = 216.0
-label = "Max hit:"
+text = "Monster:"
 
-[node name="m_hitchance" parent="hbox/result_panel" instance=ExtResource( 11 )]
+[node name="m_maxhit" parent="hbox/result_panel" instance=ExtResource( 4 )]
 margin_top = 220.0
 margin_right = 477.0
 margin_bottom = 234.0
-label = "Hit chance:"
+label = "Max hit:"
 
-[node name="m_dps" parent="hbox/result_panel" instance=ExtResource( 4 )]
+[node name="m_hitchance" parent="hbox/result_panel" instance=ExtResource( 11 )]
 margin_top = 238.0
 margin_right = 477.0
 margin_bottom = 252.0
+label = "Hit chance:"
+
+[node name="m_dps" parent="hbox/result_panel" instance=ExtResource( 4 )]
+margin_top = 256.0
+margin_right = 477.0
+margin_bottom = 270.0
 label = "DPS:"
 
 [node name="HSeparator3" type="HSeparator" parent="hbox/result_panel"]
-margin_top = 256.0
-margin_right = 477.0
-margin_bottom = 260.0
-
-[node name="Label4" type="Label" parent="hbox/result_panel"]
-margin_top = 264.0
+margin_top = 274.0
 margin_right = 477.0
 margin_bottom = 278.0
+
+[node name="Label4" type="Label" parent="hbox/result_panel"]
+margin_top = 282.0
+margin_right = 477.0
+margin_bottom = 296.0
 text = "Special effects:"
 
 [node name="special_desc" type="RichTextLabel" parent="hbox/result_panel"]
-margin_top = 282.0
+margin_top = 300.0
 margin_right = 477.0
 margin_bottom = 1000.0
 size_flags_vertical = 3
