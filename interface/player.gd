@@ -27,7 +27,7 @@ func refresh_eq_stats():
 	get_node( "eq_other/rng_str" ).text = stat_string( player_stats.get_equipment_bonus( "ranged_strength" ) )
 	get_node( "eq_other/mg_dmg" ).text = "+" + str( player_stats.get_equipment_bonus( "magic_damage_bonus" ) ) + "%"
 	get_node( "eq_other/pray" ).text = stat_string( player_stats.get_equipment_bonus( "prayer" ) )
-	get_node( "eq_other/speed" ).text = str( player_stats.get_equipment_bonus( "attack_speed" ) )
+	get_node( "eq_other/speed" ).text = str( player_stats.attack_speed )
 	
 	
 	pass
@@ -55,3 +55,9 @@ func _on_player_data_prayers_changed():
 		$prayers.add_child( button )
 	
 	
+
+
+func _on_attack_style_attack_style(new_stance):
+	# Attack speed needs refreshing
+	# Just refresh all
+	refresh_eq_stats()

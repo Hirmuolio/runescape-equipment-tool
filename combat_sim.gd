@@ -600,8 +600,6 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	
-	
-	
 	var crit_chance : float = 0
 	if "keris" in act_player.special_attributes:
 		crit_chance = 1.0/51

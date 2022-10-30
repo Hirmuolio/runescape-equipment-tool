@@ -100,6 +100,28 @@ func load_items_json():
 			
 		i += 1
 	
+	# Create loaded variants of blowpipe
+	var base_blowpipe : equipment = get_node("items/12926")
+	var gen_id : int = -100
+	var darts : Array = [ ["mithril", 9],
+						  ["adamant", 17],
+						  ["rune", 26],
+						  ["amethyst", 28],
+						  ["dragon", 35]
+						]
+	for dart in darts:
+		var loaded_pipe : equipment = class_item.instance()
+		$items.add_child( loaded_pipe )
+		loaded_pipe.copy_from( base_blowpipe )
+		loaded_pipe.ranged_strength += dart[1]
+		loaded_pipe.item_name += " (" + dart[0] + ")"
+		loaded_pipe.item_id = gen_id
+		loaded_pipe.set_name( String( loaded_pipe.item_id ) )
+		gen_id -= 1
+	base_blowpipe.free()
+	
+	
+	
 	print( "EQUIPMENT LOADED")
 	save_items_user()
 	return

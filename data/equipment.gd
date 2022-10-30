@@ -42,6 +42,38 @@ var special_effects : Array
 # Current state in the list
 var is_hidden = false
 
+func copy_from( other_item : equipment ) -> void:
+	item_name = other_item.item_name
+	examine = other_item.examine
+	item_id = other_item.item_id # Remember to override this with something
+	equipment_slot = other_item.equipment_slot
+	two_handed = other_item.two_handed
+	
+	attack_stab = other_item.attack_stab
+	attack_slash = other_item.attack_slash
+	attack_crush = other_item.attack_crush
+	attack_magic = other_item.attack_magic
+	attack_ranged = other_item.attack_ranged
+	
+	defence_stab = other_item.defence_stab
+	defence_slash = other_item.defence_slash
+	defence_crush = other_item.defence_crush
+	defence_magic = other_item.defence_magic
+	defence_ranged = other_item.defence_ranged
+	
+	melee_strength = other_item.melee_strength
+	ranged_strength = other_item.ranged_strength
+	magic_damage_bonus = other_item.magic_damage_bonus
+	prayer = other_item.prayer
+	
+	attack_speed = other_item.attack_speed
+	stances = other_item.stances
+	
+	magic_max_hit = other_item.magic_max_hit
+	special_effects = other_item.special_effects
+	
+	pass
+
 func is_salamander() -> bool:
 	return "salamander" in item_name or item_name == "Swamp lizard"
 
@@ -84,7 +116,7 @@ func is_identical( oth_item : equipment ) -> bool:
 	if attack_speed != oth_item.attack_speed:
 		return false
 	
-	# Comparing the stances causes false positives.
+	# Comparing the stances causes false positives. So it is not done
 	#if stances != oth_item.stances:
 	#	return false
 	

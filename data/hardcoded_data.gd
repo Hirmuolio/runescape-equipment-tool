@@ -664,7 +664,7 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"Uncharged toxic trident (e)",
 		"Sanguinesti staff (uncharged)",
 		"Holy sanguinesti staff (uncharged)",
-		"Bryophyta's staff (uncharged)",
+		"Bryophyta's staff (uncharged)"
 	]
 	
 	

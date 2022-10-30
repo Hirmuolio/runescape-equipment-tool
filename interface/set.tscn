@@ -872,6 +872,7 @@ hoover_info = "Number of dragon warhammer specs applied. -30% defence per hit (m
 [connection signal="remove_gear" from="hbox/player_panel/neck" to="player_data" method="_on_remove_gear"]
 [connection signal="remove_gear" from="hbox/player_panel/ammo" to="player_data" method="_on_remove_gear"]
 [connection signal="remove_gear" from="hbox/player_panel/spell" to="player_data" method="_on_remove_gear"]
+[connection signal="attack_style" from="hbox/player_panel/attack_style" to="hbox/player_panel" method="_on_attack_style_attack_style"]
 [connection signal="attack_style" from="hbox/player_panel/attack_style" to="player_data" method="_on_attack_style_attack_style"]
 [connection signal="item_selected" from="hbox/player_panel/attack_style" to="hbox/player_panel/attack_style" method="_on_attack_style_item_selected"]
 [connection signal="value_changed" from="hbox/player_panel/attack" to="player_data" method="_on_attack_value_changed"]

@@ -378,9 +378,13 @@ func style_def( ag_attack_style : String ) -> int:
 
 func _get_attack_speed() -> int:
 	# Ticks per attack
-	if weapon:
-		return weapon.attack_speed
-	return 5
+	if !weapon:
+		return 5
+	var spd : int = weapon.attack_speed
+	if attack_stance == "rapid":
+		spd -= 1
+	return spd
+	
 
 func _get_pray_str() -> float:
 	for pray_id in prayers:
