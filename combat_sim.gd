@@ -282,22 +282,45 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if wilderness and "craw" in act_player.special_attributes:
 			p_max_hit = p_max_hit * 3/2
 		
+		var zaryte : bool = "zaryte_xbow" in act_player.special_attributes
+		
 		crit_max_hit = p_max_hit
 		if "opal_bolt_e" in act_player.special_attributes:
-			crit_max_hit = p_max_hit + act_player.ranged / 10
+			if zaryte:
+				crit_max_hit = p_max_hit + act_player.ranged / 9
+			else:
+				crit_max_hit = p_max_hit + act_player.ranged / 10
 		if "pearl_bolt_e" in act_player.special_attributes:
 			if "fiery" in target_mon.attributes:
-				crit_max_hit += act_player.ranged / 15
+				if zaryte:
+					crit_max_hit += act_player.ranged / 14 # Not sure about this
+				else:
+					crit_max_hit += act_player.ranged / 15
 			else:
-				crit_max_hit += act_player.ranged / 20
+				if zaryte:
+					crit_max_hit += act_player.ranged / 18 # Not sure about this
+				else:
+					crit_max_hit += act_player.ranged / 20
 		if "diamond_bolt_e" in act_player.special_attributes:
-			crit_max_hit = int( crit_max_hit * 1.15 )
+			if zaryte:
+				crit_max_hit = int( crit_max_hit * 1.25 )
+			else:
+				crit_max_hit = int( crit_max_hit * 1.15 )
 		if "dragonstone_bolt_e" in act_player.special_attributes and not ( "dragon" in target_mon.attributes ):
-			crit_max_hit += crit_max_hit / 20
+			if zaryte:
+				crit_max_hit += int( act_player.ranged * 1.22 )
+			else:
+				crit_max_hit += act_player.ranged * 6/5
 		if "onyx_bolt_e" in act_player.special_attributes:
-			crit_max_hit = crit_max_hit * 6/5
+			if zaryte:
+				crit_max_hit = crit_max_hit * 13/10
+			else:
+				crit_max_hit = crit_max_hit * 12/10
 		if "ruby_bolt_e" in act_player.special_attributes:
-			crit_max_hit = int( max( crit_max_hit, int( min( target_mon.hitpoints * 6/5, 100) ) ) )
+			if zaryte:
+				crit_max_hit = int( max( crit_max_hit, int( min( target_mon.hitpoints * 1.22, 110) ) ) )
+			else:
+				crit_max_hit = int( max( crit_max_hit, int( min( target_mon.hitpoints * 6/5, 100) ) ) )
 		
 		if "twisted" in act_player.special_attributes:
 			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
@@ -633,6 +656,7 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	
 	var powered_staff : bool = "powered_staff" in act_player.special_attributes
 	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
+	var zaryte : bool = "zaryte_xbow" in act_player.special_attributes
 	
 	var simulated_kills : int = 10000
 	var max_kill_duration : int = 2000 # Limit to prevent freezing
@@ -677,9 +701,12 @@ func simulate_combat( act_player : player, target_mon : monster ):
 				# it is an abnormal attack
 				
 				if "diamond_bolt_e" in act_player.special_attributes:
-					# Hits for +10% damage
+					# Hits for +15% damage (+25% with zaryte)
 					# Quaranteed hit
-					damage += rng.randi_range( 0, p_max_hit * 11/10)
+					if zaryte:
+						damage += rng.randi_range( 0, p_max_hit * 5/4)
+					else:
+						damage += rng.randi_range( 0, p_max_hit * 23/20)
 					hits += 1
 				elif "verac" in act_player.special_attributes:
 					# Quaranteed hit
@@ -689,13 +716,19 @@ func simulate_combat( act_player : player, target_mon : monster ):
 				
 				if att_roll > def_roll:
 					if "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
-						# Deal 20% of target's remaining HP (max 100)
-						damage += int( min( 100, target_mon.hitpoints /5 ) )
+						# Deal 20% of target's remaining HP (max 100) (22% max 110 with zaryte)
+						if zaryte:
+							damage += int( min( 110, target_mon.hitpoints *1.22 ) )
+						else:
+							damage += int( min( 100, target_mon.hitpoints /5 ) )
 						hits += 1
 					elif "onyx_bolt_e" in act_player.special_attributes:
-						# Hits for +20% damage
+						# Hits for +20% damage (+30% with zaryte)
 						# Leech life (not implemented)
-						damage += rng.randi_range( 0, p_max_hit * 12/10)
+						if zaryte:
+							damage += rng.randi_range( 0, p_max_hit * 13/10)
+						else:
+							damage += rng.randi_range( 0, p_max_hit * 12/10)
 						hits += 1
 					elif "damned_karil" in act_player.special_attributes and att_roll > def_roll:
 						# Attacks twice. Second attack deals half of first attack damage
@@ -707,6 +740,7 @@ func simulate_combat( act_player : player, target_mon : monster ):
 						# Some other generic critical hit
 						damage += rng.randi_range( 0, crit_max_hit )
 						hits += 1
+				target_hp -= damage
 			elif att_roll > def_roll:
 				# A normal attack
 				
@@ -717,7 +751,7 @@ func simulate_combat( act_player : player, target_mon : monster ):
 					damage += rng.randi_range( 0, p_max_hit)
 					hits += 1
 			
-			target_hp -= damage
+				target_hp -= damage
 			
 			tick += act_player.attack_speed
 		if _kills == 1 && tick >= max_kill_duration:

@@ -359,6 +359,11 @@ var equipment_specials : Dictionary = {
 		"items": ["Keris partisan of the sun"],
 		"name": "Keris partisan of the sun",
 		"description": "25% increased accuracy against opponents with less than 25% health."
+	},
+	"zaryte_xbow": {
+		"items": ["Zaryte crossbow"],
+		"name": "Zaryte crossbow",
+		"description": "Effects of enchanted bolts are improved by 10%."
 	}
 }
 
