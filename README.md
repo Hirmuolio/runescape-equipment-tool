@@ -20,8 +20,6 @@ These simulated results take into account that monster may have less hp than you
 * Monsters with multiple attack types only use the first one listed.
 * Accuracy equations are untested (not practical to test).
 * Various things are unknown (or the wiki gives conflictin data).
-* Darklight damage bonus is unknown.
-* Snelm damage reduction is unknown.
 * Probably various bugs.
 * Loading bad setups will give bad results.
 * You can do nonsense setups.
