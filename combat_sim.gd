@@ -614,7 +614,7 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	elif "verac" in act_player.special_attributes:
 		crit_chance = 0.25
 	else:
-		if "onyx_bolt_e" in act_player.special_attributes:
+		if "onyx_bolt_e" in act_player.special_attributes and not ("undead" in target_mon.attributes):
 			crit_chance = 0.11
 		if "dragonstone_bolt_e" in act_player.special_attributes and not ("dragon" in target_mon.attributes):
 			crit_chance = 0.06
@@ -675,30 +675,38 @@ func simulate_combat( act_player : player, target_mon : monster ):
 			attacks += 1
 			if rng.randf() <= crit_chance:
 				# it is an abnormal attack
-				if "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
-					# Deal 20% of target's remaining HP( max 100)
-					damage += int( min( 100, target_mon.hitpoints /5 ) )
-					hits += 1
-				elif "diamond_bolt_e" in act_player.special_attributes:
+				
+				if "diamond_bolt_e" in act_player.special_attributes:
 					# Hits for +10% damage
 					# Quaranteed hit
 					damage += rng.randi_range( 0, p_max_hit * 11/10)
 					hits += 1
-				elif "damned_karil" in act_player.special_attributes and att_roll > def_roll:
-					# Attacks twice. Second attack deals half of first attack damage
-					var hit : int = rng.randi_range( 0, p_max_hit )
-					damage += hit + hit / 2
-					hits += 1
-					pass
 				elif "verac" in act_player.special_attributes:
 					# Quaranteed hit
 					# +1 damage
 					damage += rng.randi_range( 0, p_max_hit ) +1
 					hits += 1
-				elif att_roll > def_roll:
-					# Some other generic critical hit
-					damage = rng.randi_range( 0, crit_max_hit )
-					hits += 1
+				
+				if att_roll > def_roll:
+					if "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
+						# Deal 20% of target's remaining HP (max 100)
+						damage += int( min( 100, target_mon.hitpoints /5 ) )
+						hits += 1
+					elif "onyx_bolt_e" in act_player.special_attributes:
+						# Hits for +20% damage
+						# Leech life (not implemented)
+						damage += rng.randi_range( 0, p_max_hit * 12/10)
+						hits += 1
+					elif "damned_karil" in act_player.special_attributes and att_roll > def_roll:
+						# Attacks twice. Second attack deals half of first attack damage
+						var hit : int = rng.randi_range( 0, p_max_hit )
+						damage += hit + hit / 2
+						hits += 1
+						pass
+					else:
+						# Some other generic critical hit
+						damage += rng.randi_range( 0, crit_max_hit )
+						hits += 1
 			elif att_roll > def_roll:
 				# A normal attack
 				
@@ -708,8 +716,8 @@ func simulate_combat( act_player : player, target_mon : monster ):
 				else:
 					damage += rng.randi_range( 0, p_max_hit)
 					hits += 1
-				
-				target_hp -= damage
+			
+			target_hp -= damage
 			
 			tick += act_player.attack_speed
 		if _kills == 1 && tick >= max_kill_duration:
