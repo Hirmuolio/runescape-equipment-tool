@@ -154,7 +154,7 @@ var equipment_specials : Dictionary = {
 	"darklight": {
 		"items": ["Darklight"],
 		"name": "Darklight",
-		"description": "62% bonus to melee damage against demons (approximately)"
+		"description": "65% bonus to melee damage against demons (approximately)"
 	},
 	"arclight": {
 		"items": ["Arclight"],
