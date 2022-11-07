@@ -390,7 +390,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			if "silverlight" in act_player.special_attributes:
 				p_max_hit = p_max_hit * 8/5
 			elif "darklight" in act_player.special_attributes:
-				p_max_hit = p_max_hit * 8/5
+				p_max_hit = int( p_max_hit * 1.65 )
 			elif "arclight" in act_player.special_attributes:
 				p_max_hit = p_max_hit * 17/10
 		if act_player.attack_style == "crush":
