@@ -57,7 +57,7 @@ func _on_player_data_prayers_changed():
 	
 
 
-func _on_attack_style_attack_style(new_stance):
+func _on_attack_style_attack_style(_new_stance):
 	# Attack speed needs refreshing
 	# Just refresh all
 	refresh_eq_stats()

@@ -352,6 +352,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		# Obsidian armor before berserker necklace
 		# Black mask before berserker necklace
 		# Black mask before special attack
+		# Salve before dharok
 		# Others ???
 		p_max_hit = base_max_hit
 		crit_max_hit = p_max_hit
@@ -361,9 +362,8 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			p_max_hit = int( p_max_hit * 1.1 )
 		
 		
-		
 		if "salve_e" in act_player.special_attributes and "undead" in target_mon.attributes:
-				p_max_hit = p_max_hit * 6/5
+			p_max_hit = p_max_hit * 6/5
 		elif slayer_task and "black_mask" in act_player.special_attributes:
 			p_max_hit = p_max_hit * 7/6
 		elif "salve" in act_player.special_attributes and "undead" in target_mon.attributes:
@@ -373,8 +373,9 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			p_max_hit = p_max_hit * 6/5
 		
 		if "keris" in act_player.special_attributes and ( "kalphite" in target_mon.attributes or "scabarite"  in target_mon.attributes ):
-			crit_max_hit = p_max_hit * 3 # I think the crit is without the 33%
+			
 			p_max_hit = p_max_hit * 4/3
+			crit_max_hit = p_max_hit * 3 # I think the is with the 33%
 		if "vampyre" in target_mon.attributes:
 			if "ivandis_flail" in act_player.special_attributes:
 				p_max_hit = p_max_hit * 6/5
