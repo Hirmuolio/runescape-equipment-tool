@@ -207,8 +207,6 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		# This doesn't make sense but is supposedly "correct" (at least mostly)
 		var multiplier : float = 1
 		
-		multiplier +=  act_player.mag_dmg_bonus / 100.0
-		
 		if "tumekens_shadow" in act_player.special_attributes:
 			multiplier +=  act_player.mag_dmg_bonus * 3 / 100.0
 		else:
