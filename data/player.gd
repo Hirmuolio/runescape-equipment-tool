@@ -50,6 +50,7 @@ var rng_bonus : int setget, _get_rng
 var magic_bonus : int setget, _get_magic_bonus
 var mag_dmg_bonus : int setget, _get_mag_dmg_bonus
 
+# Modifiers from activ prayers
 var prayer_str : float setget ,_get_pray_str
 var prayer_atk : float setget ,_get_pray_atk
 var prayer_def : float setget ,_get_pray_def
@@ -60,6 +61,7 @@ var prayer_magic : float setget ,_get_pray_magic
 var prayer_magic_atk : float setget ,_get_pray_magic_atk
 var prayer_magic_def : float setget ,_get_pray_magic_def
 
+# Modifiers from attack style
 var style_str_bonus : int setget ,_get_style_str
 var style_atk_bonus : int setget ,_get_style_atk
 var style_def_bonus : int setget ,_get_style_def

@@ -42,8 +42,8 @@ func refresh_results():
 		drain += HardcodedData.prayers[prayer].drain
 	if drain > 0:
 		var seconds_per_drain : float = 0.6 * ( drain_res / drain )
-		var drain_per_second : float = 1 / seconds_per_drain
-		$pray_drain.value = str( stepify( drain_per_second, 0.1 ) ) + " points/s"
+		var drain_per_minute : float = 60 / seconds_per_drain
+		$pray_drain.value = str( int(drain_per_minute * 1000)/1000.0 ) + " points/minute"
 	else:
 		$pray_drain.value = ""
 	$pray_drain.hoover_info = "Total drain: " + str(drain) + "\nDrain resistance: " + str( drain_res )
