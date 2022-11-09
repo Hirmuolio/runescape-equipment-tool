@@ -381,7 +381,11 @@ func _get_attack_speed() -> int:
 	if !weapon:
 		return 5
 	var spd : int = weapon.attack_speed
-	if attack_stance == "rapid":
+	if "powered_staff" in special_attributes:
+		spd = 4
+	if attack_stance == "magic":
+		spd = 5
+	elif attack_stance == "rapid":
 		spd -= 1
 	return spd
 	
