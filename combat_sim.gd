@@ -359,6 +359,9 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "obsidian_armor" in act_player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.1 )
 		
+		if "keris" in act_player.special_attributes and ( "kalphite" in target_mon.attributes or "scabarite"  in target_mon.attributes ):
+			p_max_hit = p_max_hit * 4/3
+			crit_max_hit = p_max_hit * 3 # I think the is with the 33%
 		
 		if "salve_e" in act_player.special_attributes and "undead" in target_mon.attributes:
 			p_max_hit = p_max_hit * 6/5
@@ -370,10 +373,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "berserk" in act_player.special_attributes:
 			p_max_hit = p_max_hit * 6/5
 		
-		if "keris" in act_player.special_attributes and ( "kalphite" in target_mon.attributes or "scabarite"  in target_mon.attributes ):
-			
-			p_max_hit = p_max_hit * 4/3
-			crit_max_hit = p_max_hit * 3 # I think the is with the 33%
+		
 		if "vampyre" in target_mon.attributes:
 			if "ivandis_flail" in act_player.special_attributes:
 				p_max_hit = p_max_hit * 6/5
