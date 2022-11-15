@@ -346,6 +346,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		
 		# Special bonuses need to be applied in specific order
 		#Order:
+		# Keris (partisan) before slayer helm
 		# Obsidian armor before salve (e)
 		# Obsidian armor before berserker necklace
 		# Black mask before berserker necklace
@@ -365,13 +366,16 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		
 		if "salve_e" in act_player.special_attributes and "undead" in target_mon.attributes:
 			p_max_hit = p_max_hit * 6/5
+			crit_max_hit = crit_max_hit * 6/5
 		elif slayer_task and "black_mask" in act_player.special_attributes:
 			p_max_hit = p_max_hit * 7/6
+			crit_max_hit = crit_max_hit * 6/5
 		elif "salve" in act_player.special_attributes and "undead" in target_mon.attributes:
 			p_max_hit = p_max_hit * 7/6
-		
+			crit_max_hit = crit_max_hit * 6/5
 		if "berserk" in act_player.special_attributes:
 			p_max_hit = p_max_hit * 6/5
+			crit_max_hit = crit_max_hit * 6/5
 		
 		
 		if "vampyre" in target_mon.attributes:
