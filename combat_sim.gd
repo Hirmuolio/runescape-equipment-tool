@@ -327,6 +327,17 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			var percent : int = int( clamp( 250 + mult_1 - mult_2, 0, 250 ) )
 			p_max_hit = p_max_hit * percent / 100
 		
+		if "crystal_bow" in act_player.special_attributes:
+			var damage_mult : float = 1
+			if "carystal_body" in act_player.special_attributes:
+				damage_mult += 0.075
+			if "crystal_legs" in act_player.special_attributes:
+				damage_mult += 0.05
+			if "crystal_helm" in act_player.special_attributes:
+				damage_mult += 0.025
+			p_max_hit = int( damage_mult * p_max_hit)
+			
+		
 	else:
 		# Melee
 		var eff_str : int = int( act_player.strength * act_player.prayer_str ) + act_player.style_str_bonus + 8
@@ -376,7 +387,6 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "berserk" in act_player.special_attributes:
 			p_max_hit = p_max_hit * 6/5
 			crit_max_hit = crit_max_hit * 6/5
-		
 		
 		if "vampyre" in target_mon.attributes:
 			if "ivandis_flail" in act_player.special_attributes:
@@ -492,14 +502,22 @@ func calc_p_hit_chance( act_player : player, target_mon : monster ):
 		if wilderness and "craw" in act_player.special_attributes:
 			atk_roll = atk_roll * 3/2
 		
-		
-		
 		if "twisted" in act_player.special_attributes:
 			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
 			var mult_1 : int = ( 10*3*mag / 10 - 10 ) / 100
 			var mult_2 : int = ( 3*mag/10 - 100 )*( 3*mag/10 - 100 )/100
 			var percent : int = int( clamp( 140 + mult_1 - mult_2, 0, 140 ) )
 			atk_roll = atk_roll * percent / 100
+		
+		if "crystal_bow" in act_player.special_attributes:
+			var acc_mult : float = 1
+			if "carystal_body" in act_player.special_attributes:
+				acc_mult += 0.15
+			if "crystal_legs" in act_player.special_attributes:
+				acc_mult += 0.10
+			if "crystal_helm" in act_player.special_attributes:
+				acc_mult += 0.05
+			atk_roll = int( atk_roll * acc_mult)
 		
 		var monster_def_lvl : int = target_mon.defence_level
 		if dwh_specs > 0:

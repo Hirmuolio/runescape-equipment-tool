@@ -364,6 +364,26 @@ var equipment_specials : Dictionary = {
 		"items": ["Zaryte crossbow"],
 		"name": "Zaryte crossbow",
 		"description": "Effects of enchanted bolts are improved by 10%."
+	},
+	"crystal_bow": {
+		"items": ["Crystal bow", "Bow of faerdhinen"],
+		"name": "crystal bow",
+		"description": ""
+	},
+	"carystal_body": {
+		"items": ["Crystal body"],
+		"name": "Crystal body",
+		"description": "7.5% damage bonus, 15% accuracy bonus for crystal bow and Bow of Faerdhinen",
+	},
+	"crystal_legs": {
+		"items": ["Crystal legs"],
+		"name": "Crystal legs",
+		"description": "5% damage bonus, 10% accuracy bonus for crystal bow and Bow of Faerdhinen",
+	},
+	"crystal_helm": {
+		"items": ["Crystal helm"],
+		"name": "Crystal helm",
+		"description": "2.5% damage bonus, 5% accuracy bonus for crystal bow and Bow of Faerdhinen",
 	}
 }
 
