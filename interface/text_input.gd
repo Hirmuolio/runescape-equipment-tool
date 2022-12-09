@@ -2,7 +2,7 @@
 
 extends HBoxContainer
 
-@export var label : String : set = _set_label
+@export var label : String = "" : set = _set_label
 
 signal text_changed( new_text )
 

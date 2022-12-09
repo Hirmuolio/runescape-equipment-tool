@@ -3,15 +3,15 @@
 [ext_resource type="PackedScene" uid="uid://cqaextvgt26nc" path="res://interface/equipped.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://data/player.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://bpg4io1xvcm6n" path="res://interface/int_input.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://interface/number_display.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://dfkfo24fn4ivw" path="res://interface/number_display.tscn" id="4"]
 [ext_resource type="Script" path="res://interface/attack_style.gd" id="5"]
 [ext_resource type="Script" path="res://interface/set.gd" id="6"]
 [ext_resource type="Script" path="res://interface/results.gd" id="7"]
 [ext_resource type="Script" path="res://interface/monster.gd" id="8"]
 [ext_resource type="PackedScene" path="res://combat_sim.tscn" id="9"]
 [ext_resource type="Script" path="res://interface/player.gd" id="10"]
-[ext_resource type="PackedScene" path="res://interface/text_display.tscn" id="11"]
-[ext_resource type="PackedScene" path="res://interface/text_input.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://caopfty80r4hm" path="res://interface/text_display.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://bgeb8ega1wv1b" path="res://interface/text_input.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://bmab4vb7vg8ay" path="res://interface/tickbox.tscn" id="13"]
 
 [node name="setup" type="ScrollContainer"]
@@ -546,21 +546,19 @@ text = "Player:"
 offset_top = 88.0
 offset_right = 489.0
 offset_bottom = 109.0
-value = 0.0
 label = "Max hit:"
-hoover_info = ""
 
 [node name="p_hitchance" parent="hbox/result_panel" instance=ExtResource("11")]
 offset_top = 113.0
 offset_right = 489.0
 offset_bottom = 134.0
+value = "0"
 label = "(approx) Hit chance:"
 
 [node name="p_dps" parent="hbox/result_panel" instance=ExtResource("4")]
 offset_top = 138.0
 offset_right = 489.0
 offset_bottom = 159.0
-value = 0.0
 label = "(approx) DPS:"
 hoover_info = "Paper dps = 0.5 * hit_chance * max_hit / attack_duration
 
@@ -576,7 +574,6 @@ label = "(sim) Hit chance:"
 offset_top = 188.0
 offset_right = 489.0
 offset_bottom = 209.0
-value = 0.0
 label = "(sim) DPS:"
 hoover_info = "Real dps simulated from large number of kills.
 
@@ -588,12 +585,14 @@ Takes into account special effects (enchanged bolts, etc.)  and overhit.
 offset_top = 213.0
 offset_right = 489.0
 offset_bottom = 234.0
+value = "0"
 label = "Time to kill:"
 
 [node name="pray_drain" parent="hbox/result_panel" instance=ExtResource("11")]
 offset_top = 238.0
 offset_right = 489.0
 offset_bottom = 259.0
+value = "0"
 label = "Prayer drain:"
 
 [node name="HSeparator2" type="HSeparator" parent="hbox/result_panel"]
@@ -611,9 +610,7 @@ text = "Monster:"
 offset_top = 296.0
 offset_right = 489.0
 offset_bottom = 317.0
-value = 0.0
 label = "Max hit:"
-hoover_info = ""
 
 [node name="m_hitchance" parent="hbox/result_panel" instance=ExtResource("11")]
 offset_top = 321.0
@@ -625,9 +622,7 @@ label = "Hit chance:"
 offset_top = 346.0
 offset_right = 489.0
 offset_bottom = 367.0
-value = 0.0
 label = "DPS:"
-hoover_info = ""
 
 [node name="HSeparator3" type="HSeparator" parent="hbox/result_panel"]
 offset_top = 371.0
@@ -684,49 +679,37 @@ text = "Levels:"
 offset_top = 59.0
 offset_right = 490.0
 offset_bottom = 80.0
-value = 0.0
 label = "HP:"
-hoover_info = ""
 
 [node name="attack" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 84.0
 offset_right = 490.0
 offset_bottom = 105.0
-value = 0.0
 label = "Attack:"
-hoover_info = ""
 
 [node name="strength" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 109.0
 offset_right = 490.0
 offset_bottom = 130.0
-value = 0.0
 label = "Strength:"
-hoover_info = ""
 
 [node name="defence" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 134.0
 offset_right = 490.0
 offset_bottom = 155.0
-value = 0.0
 label = "Defence"
-hoover_info = ""
 
 [node name="magic" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 159.0
 offset_right = 490.0
 offset_bottom = 180.0
-value = 0.0
 label = "Magic:"
-hoover_info = ""
 
 [node name="ranged" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 184.0
 offset_right = 490.0
 offset_bottom = 205.0
-value = 0.0
 label = "Ranged:"
-hoover_info = ""
 
 [node name="HSeparator" type="HSeparator" parent="hbox/monster_panel"]
 offset_top = 209.0
@@ -743,61 +726,45 @@ label = "Attack style:"
 offset_top = 242.0
 offset_right = 490.0
 offset_bottom = 263.0
-value = 0.0
 label = "Attack speed:"
-hoover_info = ""
 
 [node name="max_hit" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 267.0
 offset_right = 490.0
 offset_bottom = 288.0
-value = 0.0
 label = "Max hit:"
-hoover_info = ""
 
 [node name="atk_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 292.0
 offset_right = 490.0
 offset_bottom = 313.0
-value = 0.0
 label = "Atk bonus:"
-hoover_info = ""
 
 [node name="str_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 317.0
 offset_right = 490.0
 offset_bottom = 338.0
-value = 0.0
 label = "Str bonus:"
-hoover_info = ""
 
 [node name="mage_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 342.0
 offset_right = 490.0
 offset_bottom = 363.0
-value = 0.0
 label = "Magic bonus:"
-hoover_info = ""
 
 [node name="mage_str_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
 visible = false
-value = 0.0
 label = "mage dmg bonus:"
-hoover_info = ""
 
 [node name="rng_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 367.0
 offset_right = 490.0
 offset_bottom = 388.0
-value = 0.0
 label = "Rng bonus:"
-hoover_info = ""
 
 [node name="rng_str_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
 visible = false
-value = 0.0
 label = "Rng str bonus:"
-hoover_info = ""
 
 [node name="HSeparator2" type="HSeparator" parent="hbox/monster_panel"]
 offset_top = 392.0
@@ -808,41 +775,31 @@ offset_bottom = 396.0
 offset_top = 400.0
 offset_right = 490.0
 offset_bottom = 421.0
-value = 0.0
 label = "Def stab"
-hoover_info = ""
 
 [node name="def_slash" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 425.0
 offset_right = 490.0
 offset_bottom = 446.0
-value = 0.0
 label = "Def slash"
-hoover_info = ""
 
 [node name="def_crush" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 450.0
 offset_right = 490.0
 offset_bottom = 471.0
-value = 0.0
 label = "Def crush"
-hoover_info = ""
 
 [node name="def_mage" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 475.0
 offset_right = 490.0
 offset_bottom = 496.0
-value = 0.0
 label = "Def magic"
-hoover_info = ""
 
 [node name="def_range" parent="hbox/monster_panel" instance=ExtResource("4")]
 offset_top = 500.0
 offset_right = 490.0
 offset_bottom = 521.0
-value = 0.0
 label = "Def ranged:"
-hoover_info = ""
 
 [node name="HSeparator4" type="HSeparator" parent="hbox/monster_panel"]
 offset_top = 525.0

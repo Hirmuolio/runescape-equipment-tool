@@ -2,10 +2,10 @@ extends HBoxContainer
 
 @tool
 
-@export var value : float = 0 : set = _set_value
+@export var value : float = 0.0 : set = _set_value
 @export var label : String = "Label" : set = _set_label
 
-@export var hoover_info : String # (String, MULTILINE)
+@export var hoover_info : String = ""# (String, MULTILINE)
 
 func _ready():
 	pass

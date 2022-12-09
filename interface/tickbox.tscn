@@ -10,14 +10,14 @@ script = ExtResource("1")
 hoover_info = ""
 
 [node name="Label" type="Label" parent="."]
-offset_top = 2.0
-offset_right = 32.0
+offset_top = 1.0
+offset_right = 34.0
 offset_bottom = 22.0
 text = "Label"
 
 [node name="CheckBox" type="CheckBox" parent="."]
-offset_left = 36.0
-offset_right = 60.0
+offset_left = 38.0
+offset_right = 62.0
 offset_bottom = 24.0
 
 [connection signal="mouse_entered" from="CheckBox" to="." method="_on_CheckBox_mouse_entered"]

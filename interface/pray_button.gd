@@ -1,7 +1,7 @@
 extends Button
 
 
-var pray_id : String : set = _set_pray_id
+var pray_id : String = "" : set = _set_pray_id
 #var hoover_info : String
 
 
