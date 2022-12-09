@@ -1,25 +1,20 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://bmab4vb7vg8ay"]
 
-[ext_resource path="res://interface/tickbox.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://interface/tickbox.gd" id="1"]
 
 [node name="HBoxContainer" type="HBoxContainer"]
 offset_top = 462.0
 offset_right = 478.0
 offset_bottom = 486.0
-script = ExtResource( 1 )
+script = ExtResource("1")
+hoover_info = ""
 
 [node name="Label" type="Label" parent="."]
-offset_top = 5.0
-offset_right = 130.0
-offset_bottom = 19.0
-minimum_size = Vector2( 130, 0 )
+layout_mode = 2
 text = "Label"
-align = 2
 
 [node name="CheckBox" type="CheckBox" parent="."]
-offset_left = 134.0
-offset_right = 158.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [connection signal="mouse_entered" from="CheckBox" to="." method="_on_CheckBox_mouse_entered"]
 [connection signal="pressed" from="CheckBox" to="." method="_on_CheckBox_pressed"]

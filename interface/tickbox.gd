@@ -21,7 +21,7 @@ func _set_value( new_value : bool ):
 	$CheckBox.button_pressed = new_value
 
 func _on_CheckBox_pressed():
-	emit_signal("value_changed", $CheckBox.pressed )
+	emit_signal("value_changed", $CheckBox.button_pressed )
 
 
 func _on_CheckBox_mouse_entered():

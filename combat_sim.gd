@@ -38,7 +38,7 @@ func _on_slayer_value_changed(new_value):
 	slayer_task = new_value
 	do_fast_simulations()
 
-func _on_charge_value_changed(new_value):
+func _on_charge_value_changed(new_value : bool):
 	charge_spell = new_value
 	do_fast_simulations()
 
