@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://interface/player.gd" id="10"]
 [ext_resource type="PackedScene" path="res://interface/text_display.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://interface/text_input.tscn" id="12"]
-[ext_resource type="PackedScene" path="res://interface/tickbox.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://bmab4vb7vg8ay" path="res://interface/tickbox.tscn" id="13"]
 
 [node name="setup" type="ScrollContainer"]
 anchors_preset = 15
