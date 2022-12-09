@@ -223,7 +223,7 @@ func prayer_remove( prayer_id : String ):
 	prayers.erase( prayer_id )
 	recalculate_stats()
 
-func _on_remove_gear(slot : String):
+func _on_removed_gear(slot : String):
 	if slot == "2h":
 		weapon = null
 	else:
@@ -464,4 +464,3 @@ func _get_pray_rng_atk() -> float:
 		if "ranged_attack" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged_attack"] ) / 100
 	return 1.0
-

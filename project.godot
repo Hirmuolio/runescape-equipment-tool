@@ -51,6 +51,8 @@ gdscript/warnings/integer_division=false
 
 [display]
 
+window/size/viewport_width=1333
+window/size/viewport_height=1000
 window/size/width=1333
 window/size/height=1000
 
@@ -58,6 +60,11 @@ window/size/height=1000
 
 warning=false
 integer=false
+
+[gui]
+
+theme/default_font_antialiasing=2
+theme/lcd_subpixel_layout=2
 
 [physics]
 

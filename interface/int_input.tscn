@@ -1,24 +1,25 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://bpg4io1xvcm6n"]
 
-[ext_resource path="res://interface/int_input.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://interface/int_input.gd" id="1"]
 
 [node name="HBoxContainer" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource("1")
+hoover_info = ""
 
 [node name="Label" type="Label" parent="."]
-offset_top = 493.0
+custom_minimum_size = Vector2(100, 0)
+offset_top = 311.0
 offset_right = 100.0
-offset_bottom = 507.0
-minimum_size = Vector2( 100, 0 )
+offset_bottom = 337.0
 text = "Label"
-align = 2
 
 [node name="LineEdit" type="LineEdit" parent="."]
 offset_left = 104.0
-offset_right = 1333.0
-offset_bottom = 1000.0
+offset_right = 1152.0
+offset_bottom = 648.0
 size_flags_horizontal = 3
 text = "0"
 
