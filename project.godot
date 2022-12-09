@@ -63,6 +63,7 @@ integer=false
 
 [gui]
 
+theme/custom="res://new_theme.tres"
 theme/default_font_antialiasing=2
 theme/lcd_subpixel_layout=2
 

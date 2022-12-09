@@ -1,11 +1,14 @@
 extends RichTextLabel
 
 
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var changelog : String ="CHANGELOG\n"
+	
+	changelog += "--0.9--"
+	changelog += "\n- Godot 4 (beta)"
+	changelog += "\n- Crystal armor"
+	
 	changelog += "--0.8--"
 	changelog += "\n- Godot 3.5"
 	changelog += "\n- Bugfixes"
@@ -29,7 +32,3 @@ func _ready():
 	
 	parse_bbcode ( changelog )
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
