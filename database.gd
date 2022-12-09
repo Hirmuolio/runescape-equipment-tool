@@ -131,10 +131,6 @@ func load_items_json():
 func save_items_user():
 	# Saves the item data so they don't need to be processed again.
 	
-	#var dir = Directory.new()
-	#if !dir.dir_exists( "res://database/" ):
-	#	push_error ( "res://database/ does not exist" )
-	
 	var monster_path : String = "res://database/item_data"
 	var file = FileAccess.open( monster_path, FileAccess.WRITE)
 	

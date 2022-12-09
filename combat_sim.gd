@@ -234,7 +234,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if spell and "tome_of_water" in act_player.special_attributes && "water" in spell.special_effects:
 			p_max_hit = p_max_hit * 6/5
 		
-		# This is weird and technically there could be a situation where taking unchecked salve amulet
+		# This is weird and technically there could be a situation where taking off salve amulet
 		# would give more dps. Not sure if that ever happens in practice.
 		if slayer_task and !salve and "black_mask_i" in act_player.special_attributes:
 			p_max_hit = int( p_max_hit * 1.15 )
@@ -434,7 +434,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 
 func calc_p_hit_chance( act_player : player, target_mon : monster ):
 	
-	# Math mostly based checked wiki
+	# Math mostly based on wiki
 	# I do not trust this math at all
 	
 	var atk_roll : int
