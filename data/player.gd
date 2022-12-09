@@ -88,14 +88,20 @@ func save_string() -> String:
 	# attack, str, def, mage, range, hp, pray
 	ret += str(attack) + "," + str(strength) + "," + str(defence) + "," + str(ranged) + "," + str(magic) + "," + str(hp_lvl) + "," + str( prayer ) + "\n"
 	
+	var first : bool = true
 	for item in all_equipped():
-		if item:
-			ret += str(item.item_id) + ","
+		if first:
+			first = false
 		else:
-			ret += "-1,"
+			ret += ","
+		
+		if item:
+			ret += str(item.item_id)
+		else:
+			ret += "-1"
 	
-	# Remove the unnecessary last ,
-	ret.erase( ret.length()-1, 1 )
+	# Remove the unnecessary last comma
+	# ret.erase( ret.length()-1, 1 )
 	
 	return ret
 

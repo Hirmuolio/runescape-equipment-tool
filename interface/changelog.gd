@@ -30,5 +30,5 @@ func _ready():
 	changelog += "\n- Prayer improvements and prayer drain."
 	changelog += "\n- Bugfixes."
 	
-	parse_bbcode ( changelog )
+	parse_bbcode( changelog )
 

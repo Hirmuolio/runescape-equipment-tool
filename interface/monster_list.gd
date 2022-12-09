@@ -58,7 +58,7 @@ func _on_search_text_changed(search_term):
 			mon.is_hidden = false
 		elif Config.search_mode == 1 and mon.monster_name.matchn(search_term):
 			mon.is_hidden = false
-		elif Config.search_mode == 2 and search_term.is_subsequence_ofi(mon.monster_name):
+		elif Config.search_mode == 2 and search_term.is_subsequence_ofn(mon.monster_name):
 			mon.is_hidden = false
 		elif Config.search_mode > 2:
 			print( "Invalid search methord")

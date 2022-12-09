@@ -20,7 +20,7 @@ func refresh_results():
 	get_node("%player_panel").refresh_eq_stats()
 
 func _on_player_data_gear_change(slot : String, new_gear : equipment):
-	# Sets the gear visible checked the buttons
+	# Sets the gear visible on the buttons
 	# Happens as a result of the actual player gear change
 	get_node("%player_panel/" + slot ).add_gear( new_gear)
 

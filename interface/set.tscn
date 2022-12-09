@@ -23,345 +23,543 @@ grow_vertical = 2
 script = ExtResource("6")
 
 [node name="hbox" type="HBoxContainer" parent="."]
-layout_mode = 2
+offset_right = 1333.0
+offset_bottom = 1000.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="player_panel" type="VBoxContainer" parent="hbox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(330, 0)
-layout_mode = 2
+offset_right = 330.0
+offset_bottom = 1000.0
 theme_override_constants/separation = 2
 script = ExtResource("10")
 
 [node name="name" parent="hbox/player_panel" instance=ExtResource("12")]
-layout_mode = 2
+offset_right = 330.0
+offset_bottom = 26.0
 label = "Name"
 
 [node name="weapon" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 28.0
+offset_right = 330.0
+offset_bottom = 54.0
 slot = "weapon"
 
 [node name="head" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 56.0
+offset_right = 330.0
+offset_bottom = 82.0
 slot = "head"
 
 [node name="body" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 84.0
+offset_right = 330.0
+offset_bottom = 110.0
 slot = "body"
 
 [node name="legs" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 112.0
+offset_right = 330.0
+offset_bottom = 138.0
 slot = "legs"
 
 [node name="feet" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 140.0
+offset_right = 330.0
+offset_bottom = 166.0
 slot = "feet"
 
 [node name="shield" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 168.0
+offset_right = 330.0
+offset_bottom = 194.0
 slot = "shield"
 
 [node name="hands" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 196.0
+offset_right = 330.0
+offset_bottom = 222.0
 slot = "hands"
 
 [node name="cape" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 224.0
+offset_right = 330.0
+offset_bottom = 250.0
 slot = "cape"
 
 [node name="ring" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 252.0
+offset_right = 330.0
+offset_bottom = 278.0
 slot = "ring"
 
 [node name="neck" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 280.0
+offset_right = 330.0
+offset_bottom = 306.0
 slot = "neck"
 
 [node name="ammo" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 308.0
+offset_right = 330.0
+offset_bottom = 334.0
 slot = "ammo"
 
 [node name="spell" parent="hbox/player_panel" instance=ExtResource("1")]
-layout_mode = 2
+offset_top = 336.0
+offset_right = 330.0
+offset_bottom = 362.0
 slot = "spell"
 
 [node name="HSeparator" type="HSeparator" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 364.0
+offset_right = 330.0
+offset_bottom = 368.0
 
 [node name="attack_style" type="OptionButton" parent="hbox/player_panel"]
 custom_minimum_size = Vector2(0, 26)
-layout_mode = 2
+offset_top = 370.0
+offset_right = 330.0
+offset_bottom = 396.0
 script = ExtResource("5")
 
 [node name="HSeparator3" type="HSeparator" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 398.0
+offset_right = 330.0
+offset_bottom = 402.0
 
 [node name="attack" parent="hbox/player_panel" instance=ExtResource("3")]
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 404.0
+offset_right = 330.0
+offset_bottom = 430.0
+grow_horizontal = 1
+grow_vertical = 1
 value = 1
 label = "Attack lvl"
 
 [node name="strength" parent="hbox/player_panel" instance=ExtResource("3")]
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 432.0
+offset_right = 330.0
+offset_bottom = 458.0
+grow_horizontal = 1
+grow_vertical = 1
 value = 1
 label = "Strength lvl"
 
 [node name="defence" parent="hbox/player_panel" instance=ExtResource("3")]
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 460.0
+offset_right = 330.0
+offset_bottom = 486.0
+grow_horizontal = 1
+grow_vertical = 1
 value = 1
 label = "Defence lvl"
 
 [node name="magic" parent="hbox/player_panel" instance=ExtResource("3")]
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 488.0
+offset_right = 330.0
+offset_bottom = 514.0
+grow_horizontal = 1
+grow_vertical = 1
 value = 1
 label = "Magic lvl"
 
 [node name="ranged" parent="hbox/player_panel" instance=ExtResource("3")]
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 516.0
+offset_right = 330.0
+offset_bottom = 542.0
+grow_horizontal = 1
+grow_vertical = 1
 value = 1
 label = "Ranged lvl"
 
 [node name="hp_lvl" parent="hbox/player_panel" instance=ExtResource("3")]
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 544.0
+offset_right = 330.0
+offset_bottom = 570.0
+grow_horizontal = 1
+grow_vertical = 1
 value = 1
 label = "HP lvl"
 
 [node name="hp" parent="hbox/player_panel" instance=ExtResource("3")]
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 572.0
+offset_right = 330.0
+offset_bottom = 598.0
+grow_horizontal = 1
+grow_vertical = 1
 value = 1
 label = "Current HP"
 
 [node name="HSeparator4" type="HSeparator" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 600.0
+offset_right = 330.0
+offset_bottom = 604.0
 
 [node name="label6" type="Label" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 606.0
+offset_right = 330.0
+offset_bottom = 627.0
 size_flags_horizontal = 3
 text = "Attack bonuses"
 
 [node name="eq_attack" type="GridContainer" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 629.0
+offset_right = 330.0
+offset_bottom = 675.0
 columns = 5
 
 [node name="label" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_right = 63.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Stab"
 
 [node name="label2" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_left = 67.0
+offset_right = 130.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Slash"
 
 [node name="label3" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_left = 134.0
+offset_right = 197.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Crush"
 
 [node name="label4" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_left = 201.0
+offset_right = 264.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Magic"
 
 [node name="label5" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_left = 268.0
+offset_right = 330.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Ranged"
 
 [node name="stab" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_top = 25.0
+offset_right = 63.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="slash" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_left = 67.0
+offset_top = 25.0
+offset_right = 130.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="crush" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_left = 134.0
+offset_top = 25.0
+offset_right = 197.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="magic" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_left = 201.0
+offset_top = 25.0
+offset_right = 264.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="ranged" type="Label" parent="hbox/player_panel/eq_attack"]
-layout_mode = 2
+offset_left = 268.0
+offset_top = 25.0
+offset_right = 330.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="HSeparator6" type="HSeparator" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 677.0
+offset_right = 330.0
+offset_bottom = 681.0
 
 [node name="label7" type="Label" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 683.0
+offset_right = 330.0
+offset_bottom = 704.0
 size_flags_horizontal = 3
 text = "Defence bonuses"
 
 [node name="eq_def" type="GridContainer" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 706.0
+offset_right = 330.0
+offset_bottom = 752.0
 columns = 5
 
 [node name="label" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_right = 63.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Stab"
 
 [node name="label2" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_left = 67.0
+offset_right = 130.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Slash"
 
 [node name="label3" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_left = 134.0
+offset_right = 197.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Crush"
 
 [node name="label4" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_left = 201.0
+offset_right = 264.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Magic"
 
 [node name="label5" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_left = 268.0
+offset_right = 330.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Ranged"
 
 [node name="stab" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_top = 25.0
+offset_right = 63.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="slash" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_left = 67.0
+offset_top = 25.0
+offset_right = 130.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="crush" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_left = 134.0
+offset_top = 25.0
+offset_right = 197.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="magic" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_left = 201.0
+offset_top = 25.0
+offset_right = 264.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="ranged" type="Label" parent="hbox/player_panel/eq_def"]
-layout_mode = 2
+offset_left = 268.0
+offset_top = 25.0
+offset_right = 330.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="HSeparator7" type="HSeparator" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 754.0
+offset_right = 330.0
+offset_bottom = 758.0
 
 [node name="label8" type="Label" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 760.0
+offset_right = 330.0
+offset_bottom = 781.0
 size_flags_horizontal = 3
 text = "Other bonuses"
 
 [node name="eq_other" type="GridContainer" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 783.0
+offset_right = 330.0
+offset_bottom = 829.0
 columns = 5
 
 [node name="label" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_right = 63.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Str"
 
 [node name="label2" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_left = 67.0
+offset_right = 130.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Rng str"
 
 [node name="label3" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_left = 134.0
+offset_right = 197.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Mg dmg"
 
 [node name="label4" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_left = 201.0
+offset_right = 264.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Pray"
 
 [node name="label5" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_left = 268.0
+offset_right = 330.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
 text = "Speed"
 
 [node name="str" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_top = 25.0
+offset_right = 63.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="rng_str" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_left = 67.0
+offset_top = 25.0
+offset_right = 130.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="mg_dmg" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_left = 134.0
+offset_top = 25.0
+offset_right = 197.0
+offset_bottom = 46.0
 text = "+0%"
 
 [node name="pray" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_left = 201.0
+offset_top = 25.0
+offset_right = 264.0
+offset_bottom = 46.0
 text = "+0"
 
 [node name="speed" type="Label" parent="hbox/player_panel/eq_other"]
-layout_mode = 2
+offset_left = 268.0
+offset_top = 25.0
+offset_right = 330.0
+offset_bottom = 46.0
 text = "0"
 
 [node name="HSeparator5" type="HSeparator" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 831.0
+offset_right = 330.0
+offset_bottom = 835.0
 
 [node name="charge" parent="hbox/player_panel" instance=ExtResource("13")]
-layout_mode = 2
+offset_top = 837.0
+offset_right = 330.0
+offset_bottom = 861.0
 label = "Charge spell:"
 hoover_info = "Increases god spell damage from 20 to 30"
 
 [node name="kandarin" parent="hbox/player_panel" instance=ExtResource("13")]
-layout_mode = 2
+offset_top = 863.0
+offset_right = 330.0
+offset_bottom = 887.0
 label = "Kandarin hard diary:"
 hoover_info = "10% increase in enchanted bolt proc chance"
 
 [node name="HSeparator8" type="HSeparator" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 889.0
+offset_right = 330.0
+offset_bottom = 893.0
 
 [node name="Label" type="Label" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 895.0
+offset_right = 330.0
+offset_bottom = 916.0
 text = "Prayers:"
 
 [node name="prayers" type="VBoxContainer" parent="hbox/player_panel"]
-layout_mode = 2
+offset_top = 918.0
+offset_right = 330.0
+offset_bottom = 918.0
 
 [node name="VSeparator" type="VSeparator" parent="hbox"]
-layout_mode = 2
+offset_left = 334.0
+offset_right = 338.0
+offset_bottom = 1000.0
 
 [node name="result_panel" type="VBoxContainer" parent="hbox"]
 unique_name_in_owner = true
-layout_mode = 2
+offset_left = 342.0
+offset_right = 831.0
+offset_bottom = 1000.0
 size_flags_horizontal = 3
 script = ExtResource("7")
 
 [node name="Button" type="Button" parent="hbox/result_panel"]
-layout_mode = 2
+offset_right = 489.0
+offset_bottom = 26.0
 text = "Simulate"
 
 [node name="Label" type="Label" parent="hbox/result_panel"]
-layout_mode = 2
+offset_top = 30.0
+offset_right = 489.0
+offset_bottom = 51.0
 text = "Simulation results:"
 
 [node name="HSeparator" type="HSeparator" parent="hbox/result_panel"]
-layout_mode = 2
+offset_top = 55.0
+offset_right = 489.0
+offset_bottom = 59.0
 
 [node name="Label2" type="Label" parent="hbox/result_panel"]
-layout_mode = 2
+offset_top = 63.0
+offset_right = 489.0
+offset_bottom = 84.0
 text = "Player:"
 
 [node name="p_maxhit" parent="hbox/result_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 88.0
+offset_right = 489.0
+offset_bottom = 109.0
 value = 0.0
 label = "Max hit:"
 hoover_info = ""
 
 [node name="p_hitchance" parent="hbox/result_panel" instance=ExtResource("11")]
-layout_mode = 2
+offset_top = 113.0
+offset_right = 489.0
+offset_bottom = 134.0
 label = "(approx) Hit chance:"
 
 [node name="p_dps" parent="hbox/result_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 138.0
+offset_right = 489.0
+offset_bottom = 159.0
 value = 0.0
 label = "(approx) DPS:"
 hoover_info = "Paper dps = 0.5 * hit_chance * max_hit / attack_duration
@@ -369,11 +567,15 @@ hoover_info = "Paper dps = 0.5 * hit_chance * max_hit / attack_duration
 Does not consider all special effects or overhit in the calculations."
 
 [node name="p_hitchance2" parent="hbox/result_panel" instance=ExtResource("11")]
-layout_mode = 2
+offset_top = 163.0
+offset_right = 489.0
+offset_bottom = 184.0
 label = "(sim) Hit chance:"
 
 [node name="p_dps2" parent="hbox/result_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 188.0
+offset_right = 489.0
+offset_bottom = 209.0
 value = 0.0
 label = "(sim) DPS:"
 hoover_info = "Real dps simulated from large number of kills.
@@ -383,226 +585,316 @@ Takes into account special effects (enchanged bolts, etc.)  and overhit.
 (press the \"simulate\" button above)"
 
 [node name="spk" parent="hbox/result_panel" instance=ExtResource("11")]
-layout_mode = 2
+offset_top = 213.0
+offset_right = 489.0
+offset_bottom = 234.0
 label = "Time to kill:"
 
 [node name="pray_drain" parent="hbox/result_panel" instance=ExtResource("11")]
-layout_mode = 2
+offset_top = 238.0
+offset_right = 489.0
+offset_bottom = 259.0
 label = "Prayer drain:"
 
 [node name="HSeparator2" type="HSeparator" parent="hbox/result_panel"]
-layout_mode = 2
+offset_top = 263.0
+offset_right = 489.0
+offset_bottom = 267.0
 
 [node name="Label3" type="Label" parent="hbox/result_panel"]
-layout_mode = 2
+offset_top = 271.0
+offset_right = 489.0
+offset_bottom = 292.0
 text = "Monster:"
 
 [node name="m_maxhit" parent="hbox/result_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 296.0
+offset_right = 489.0
+offset_bottom = 317.0
 value = 0.0
 label = "Max hit:"
 hoover_info = ""
 
 [node name="m_hitchance" parent="hbox/result_panel" instance=ExtResource("11")]
-layout_mode = 2
+offset_top = 321.0
+offset_right = 489.0
+offset_bottom = 342.0
 label = "Hit chance:"
 
 [node name="m_dps" parent="hbox/result_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 346.0
+offset_right = 489.0
+offset_bottom = 367.0
 value = 0.0
 label = "DPS:"
 hoover_info = ""
 
 [node name="HSeparator3" type="HSeparator" parent="hbox/result_panel"]
-layout_mode = 2
+offset_top = 371.0
+offset_right = 489.0
+offset_bottom = 375.0
 
 [node name="Label4" type="Label" parent="hbox/result_panel"]
-layout_mode = 2
+offset_top = 379.0
+offset_right = 489.0
+offset_bottom = 400.0
 text = "Special effects:"
 
 [node name="special_desc" type="RichTextLabel" parent="hbox/result_panel"]
-layout_mode = 2
+offset_top = 404.0
+offset_right = 489.0
+offset_bottom = 1000.0
 size_flags_vertical = 3
 
 [node name="VSeparator2" type="VSeparator" parent="hbox"]
-layout_mode = 2
+offset_left = 835.0
+offset_right = 839.0
+offset_bottom = 1000.0
 
 [node name="monster_panel" type="VBoxContainer" parent="hbox"]
 unique_name_in_owner = true
-layout_mode = 2
+offset_left = 843.0
+offset_right = 1333.0
+offset_bottom = 1000.0
 size_flags_horizontal = 3
 script = ExtResource("8")
 
 [node name="name" type="Label" parent="hbox/monster_panel"]
-layout_mode = 2
+offset_right = 490.0
+offset_bottom = 18.0
 
 [node name="description" type="RichTextLabel" parent="hbox/monster_panel"]
-layout_mode = 2
+offset_top = 22.0
+offset_right = 490.0
+offset_bottom = 22.0
 fit_content_height = true
 
 [node name="HSeparator3" type="HSeparator" parent="hbox/monster_panel"]
-layout_mode = 2
+offset_top = 26.0
+offset_right = 490.0
+offset_bottom = 30.0
 
 [node name="levels" type="Label" parent="hbox/monster_panel"]
-layout_mode = 2
+offset_top = 34.0
+offset_right = 490.0
+offset_bottom = 55.0
 text = "Levels:"
 
 [node name="health" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 59.0
+offset_right = 490.0
+offset_bottom = 80.0
 value = 0.0
 label = "HP:"
 hoover_info = ""
 
 [node name="attack" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 84.0
+offset_right = 490.0
+offset_bottom = 105.0
 value = 0.0
 label = "Attack:"
 hoover_info = ""
 
 [node name="strength" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 109.0
+offset_right = 490.0
+offset_bottom = 130.0
 value = 0.0
 label = "Strength:"
 hoover_info = ""
 
 [node name="defence" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 134.0
+offset_right = 490.0
+offset_bottom = 155.0
 value = 0.0
 label = "Defence"
 hoover_info = ""
 
 [node name="magic" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 159.0
+offset_right = 490.0
+offset_bottom = 180.0
 value = 0.0
 label = "Magic:"
 hoover_info = ""
 
 [node name="ranged" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 184.0
+offset_right = 490.0
+offset_bottom = 205.0
 value = 0.0
 label = "Ranged:"
 hoover_info = ""
 
 [node name="HSeparator" type="HSeparator" parent="hbox/monster_panel"]
-layout_mode = 2
+offset_top = 209.0
+offset_right = 490.0
+offset_bottom = 213.0
 
 [node name="style" parent="hbox/monster_panel" instance=ExtResource("11")]
-layout_mode = 2
+offset_top = 217.0
+offset_right = 490.0
+offset_bottom = 238.0
 label = "Attack style:"
 
 [node name="speed" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 242.0
+offset_right = 490.0
+offset_bottom = 263.0
 value = 0.0
 label = "Attack speed:"
 hoover_info = ""
 
 [node name="max_hit" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 267.0
+offset_right = 490.0
+offset_bottom = 288.0
 value = 0.0
 label = "Max hit:"
 hoover_info = ""
 
 [node name="atk_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 292.0
+offset_right = 490.0
+offset_bottom = 313.0
 value = 0.0
 label = "Atk bonus:"
 hoover_info = ""
 
 [node name="str_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 317.0
+offset_right = 490.0
+offset_bottom = 338.0
 value = 0.0
 label = "Str bonus:"
 hoover_info = ""
 
 [node name="mage_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 342.0
+offset_right = 490.0
+offset_bottom = 363.0
 value = 0.0
 label = "Magic bonus:"
 hoover_info = ""
 
 [node name="mage_str_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
 visible = false
-layout_mode = 2
 value = 0.0
 label = "mage dmg bonus:"
 hoover_info = ""
 
 [node name="rng_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 367.0
+offset_right = 490.0
+offset_bottom = 388.0
 value = 0.0
 label = "Rng bonus:"
 hoover_info = ""
 
 [node name="rng_str_bonus" parent="hbox/monster_panel" instance=ExtResource("4")]
 visible = false
-layout_mode = 2
 value = 0.0
 label = "Rng str bonus:"
 hoover_info = ""
 
 [node name="HSeparator2" type="HSeparator" parent="hbox/monster_panel"]
-layout_mode = 2
+offset_top = 392.0
+offset_right = 490.0
+offset_bottom = 396.0
 
 [node name="def_stab" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 400.0
+offset_right = 490.0
+offset_bottom = 421.0
 value = 0.0
 label = "Def stab"
 hoover_info = ""
 
 [node name="def_slash" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 425.0
+offset_right = 490.0
+offset_bottom = 446.0
 value = 0.0
 label = "Def slash"
 hoover_info = ""
 
 [node name="def_crush" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 450.0
+offset_right = 490.0
+offset_bottom = 471.0
 value = 0.0
 label = "Def crush"
 hoover_info = ""
 
 [node name="def_mage" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 475.0
+offset_right = 490.0
+offset_bottom = 496.0
 value = 0.0
 label = "Def magic"
 hoover_info = ""
 
 [node name="def_range" parent="hbox/monster_panel" instance=ExtResource("4")]
-layout_mode = 2
+offset_top = 500.0
+offset_right = 490.0
+offset_bottom = 521.0
 value = 0.0
 label = "Def ranged:"
 hoover_info = ""
 
 [node name="HSeparator4" type="HSeparator" parent="hbox/monster_panel"]
-layout_mode = 2
+offset_top = 525.0
+offset_right = 490.0
+offset_bottom = 529.0
 
 [node name="attributes" parent="hbox/monster_panel" instance=ExtResource("11")]
-layout_mode = 2
+offset_top = 533.0
+offset_right = 490.0
+offset_bottom = 554.0
 label = "Attributes:"
 
 [node name="size" parent="hbox/monster_panel" instance=ExtResource("11")]
-layout_mode = 2
+offset_top = 558.0
+offset_right = 490.0
+offset_bottom = 579.0
 label = "Size:"
 
 [node name="HSeparator5" type="HSeparator" parent="hbox/monster_panel"]
-layout_mode = 2
+offset_top = 583.0
+offset_right = 490.0
+offset_bottom = 587.0
 
 [node name="slayer" parent="hbox/monster_panel" instance=ExtResource("13")]
-layout_mode = 2
+offset_top = 591.0
+offset_right = 490.0
+offset_bottom = 615.0
 value = true
 label = "Slayer task:"
 
 [node name="wilderness" parent="hbox/monster_panel" instance=ExtResource("13")]
-layout_mode = 2
+offset_top = 619.0
+offset_right = 490.0
+offset_bottom = 643.0
 value = true
 label = "Wilderness:"
 
 [node name="darkness" parent="hbox/monster_panel" instance=ExtResource("13")]
-layout_mode = 2
+offset_top = 647.0
+offset_right = 490.0
+offset_bottom = 671.0
 label = "Mark of darkness:"
 
 [node name="d_warammer" parent="hbox/monster_panel" instance=ExtResource("3")]
-layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 675.0
+offset_right = 490.0
+offset_bottom = 701.0
+grow_horizontal = 1
+grow_vertical = 1
 label = "DWH specs"
 hoover_info = "Number of dragon warhammer specs applied. -30% defence per hit (multiplicatively stacks)"
 
