@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://come7d7bvplfs"]
 
-[ext_resource path="res://database.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://database.gd" id="1"]
 
 [node name="database" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="items" type="Node" parent="."]
 

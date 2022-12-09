@@ -18,11 +18,11 @@ func _set_label( new_label ):
 
 func _set_value( new_value : int ):
 	value = new_value
-	$LineEdit.text = String(value)
+	$LineEdit.text = str(value)
 
 
 func _on_input_focus_exited():
-	$LineEdit.text = String(value)
+	$LineEdit.text = str(value)
 
 
 func _on_LineEdit_text_changed(new_text):

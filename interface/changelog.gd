@@ -27,7 +27,7 @@ func _ready():
 	changelog += "\n- Prayer improvements and prayer drain."
 	changelog += "\n- Bugfixes."
 	
-	var _err = parse_bbcode ( changelog )
+	parse_bbcode ( changelog )
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

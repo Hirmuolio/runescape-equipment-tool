@@ -5,7 +5,7 @@ extends HBoxContainer
 @export var value : float = 0 : set = _set_value
 @export var label : String = "Label" : set = _set_label
 
-@export var hoover_info # (String, MULTILINE)
+@export var hoover_info : String # (String, MULTILINE)
 
 func _ready():
 	pass
@@ -16,7 +16,7 @@ func _set_label( new_label ):
 
 func _set_value( new_value ):
 	value = new_value
-	$display.text = String(value)
+	$display.text = str(value)
 
 
 func _on_display_mouse_entered():

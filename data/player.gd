@@ -45,10 +45,10 @@ var attack_stance : String
 # Equipment stats:
 var str_bonus : int : get = _get_str_bonus
 var atk_bonus : int : get = _get_atk_bonus
-var rng_str_bonus : int setget, _get_rng_str
-var rng_bonus : int setget, _get_rng
-var magic_bonus : int setget, _get_magic_bonus
-var mag_dmg_bonus : int setget, _get_mag_dmg_bonus
+var rng_str_bonus : int : get = _get_rng_str
+var rng_bonus : int : get = _get_rng
+var magic_bonus : int : get = _get_magic_bonus
+var mag_dmg_bonus : int : get = _get_mag_dmg_bonus
 
 # Modifiers from activ prayers
 var prayer_str : float : get = _get_pray_str
@@ -308,27 +308,27 @@ func get_equipment_bonus( attribute : String ) -> int:
 	var bonus : int = 0
 	
 	if weapon:
-		bonus += weapon.get( attribute )
+		bonus += int( weapon.get( attribute ) )
 	if shield:
-		bonus += shield.get( attribute )
+		bonus += int(shield.get( attribute ) )
 	if head:
-		bonus += head.get( attribute )
+		bonus += int( head.get( attribute ) )
 	if body:
-		bonus += body.get( attribute )
+		bonus += int( body.get( attribute ) )
 	if legs:
-		bonus += legs.get( attribute )
+		bonus += int( legs.get( attribute ) )
 	if feet:
-		bonus += feet.get( attribute )
+		bonus += int( feet.get( attribute ) )
 	if cape:
-		bonus += cape.get( attribute )
+		bonus += int( cape.get( attribute ) )
 	if ammo:
-		bonus += ammo.get( attribute )
+		bonus += int( ammo.get( attribute ) )
 	if ring:
-		bonus += ring.get( attribute )
+		bonus += int( ring.get( attribute ) )
 	if neck:
-		bonus += neck.get( attribute )
+		bonus += int( neck.get( attribute ) )
 	if hands:
-		bonus += hands.get( attribute )
+		bonus += int( hands.get( attribute ) )
 	
 	return bonus
 

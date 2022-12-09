@@ -43,7 +43,7 @@ func create_tree():
 		var tree_item : TreeItem = $Tree.create_item( tree_group )
 		tree_item.set_text(0, item.item_name )
 		tree_item.set_metadata(0, item)
-		tree_item.set_tooltip( 0, item.info() )
+		tree_item.set_tooltip_text( 0, item.info() )
 
 
 

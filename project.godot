@@ -18,10 +18,16 @@ _global_script_classes=[{
 "class": &"monster",
 "language": &"GDScript",
 "path": "res://data/monster.gd"
+}, {
+"base": "Node",
+"class": &"player",
+"language": &"GDScript",
+"path": "res://data/player.gd"
 }]
 _global_script_class_icons={
 "equipment": "",
-"monster": ""
+"monster": "",
+"player": ""
 }
 
 [application]

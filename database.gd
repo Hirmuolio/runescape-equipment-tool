@@ -26,10 +26,9 @@ func load_items_json():
 	print( "LOADING EQUIPMENT")
 	var path = "res://items-complete.json"
 	
-	var file = File.new()
-	file.open(path, File.READ)
+	var file = FileAccess.open( path, FileAccess.READ )
 	var test_json_conv = JSON.new()
-	test_json_conv.parse(file.get_as_text())
+	test_json_conv.parse( file.get_as_text() )
 	var data : Dictionary = test_json_conv.get_data()
 	
 	# Take in only useful equipment
@@ -53,7 +52,7 @@ func load_items_json():
 			# Some items don't have examine info
 			new_item.examine = item["examine"]
 		new_item.item_id = item["id"]
-		new_item.set_name( String( new_item.item_id ) )
+		new_item.set_name( str( new_item.item_id ) )
 		
 		new_item.attack_stab = item["equipment"]["attack_stab"]
 		new_item.attack_slash = item["equipment"]["attack_slash"]
@@ -106,10 +105,10 @@ func load_items_json():
 	var base_blowpipe : equipment = get_node("items/12926")
 	var gen_id : int = -100
 	var darts : Array = [ ["mithril", 9],
-						  ["adamant", 17],
-						  ["rune", 26],
-						  ["amethyst", 28],
-						  ["dragon", 35]
+						["adamant", 17],
+						["rune", 26],
+						["amethyst", 28],
+						["dragon", 35]
 						]
 	for dart in darts:
 		var loaded_pipe : equipment = class_item.instantiate()
@@ -118,7 +117,7 @@ func load_items_json():
 		loaded_pipe.ranged_strength += dart[1]
 		loaded_pipe.item_name += " (" + dart[0] + ")"
 		loaded_pipe.item_id = gen_id
-		loaded_pipe.set_name( String( loaded_pipe.item_id ) )
+		loaded_pipe.set_name( str( loaded_pipe.item_id ) )
 		gen_id -= 1
 	base_blowpipe.free()
 	
@@ -132,14 +131,12 @@ func load_items_json():
 func save_items_user():
 	# Saves the item data so they don't need to be processed again.
 	
-	var dir = Directory.new()
-	if !dir.dir_exists( "res://database/" ):
-		push_error ( "res://database/ does not exist" )
+	#var dir = Directory.new()
+	#if !dir.dir_exists( "res://database/" ):
+	#	push_error ( "res://database/ does not exist" )
 	
 	var monster_path : String = "res://database/item_data"
-	var file = File.new()
-	file.open(monster_path, File.WRITE)
-	
+	var file = FileAccess.open( monster_path, FileAccess.WRITE)
 	
 	for _item in $items.get_children():
 		var item : equipment = _item # Hack to get typing
@@ -174,8 +171,8 @@ func load_items_res():
 	var class_item = load( "res://data/equipment.tscn" )
 	var file_path = "res://database/item_data"
 	
-	var file = File.new()
-	file.open( file_path , File.READ )
+	var file = FileAccess.open( file_path, FileAccess.READ)
+	
 	while file.get_position() < file.get_length():
 		var new_item : equipment = class_item.instantiate()
 		$items.add_child( new_item )
@@ -185,7 +182,7 @@ func load_items_res():
 		new_item.item_id = file.get_32()
 		new_item.examine = file.get_pascal_string()
 		
-		new_item.set_name( String( new_item.item_id ) )
+		new_item.set_name( str( new_item.item_id ) )
 		
 		new_item.attack_stab = file.get_64()
 		new_item.attack_slash = file.get_64()
@@ -213,8 +210,7 @@ func load_monsters_json():
 	print( "LOADING MONSTERS")
 	var path = "res://monsters-complete.json"
 	
-	var file = File.new()
-	file.open(path, File.READ)
+	var file = FileAccess.open( path, FileAccess.READ)
 	var test_json_conv = JSON.new()
 	test_json_conv.parse(file.get_as_text())
 	var data : Dictionary = test_json_conv.get_data()
@@ -234,7 +230,7 @@ func load_monsters_json():
 		new_monster.monster_id = monster["id"]
 		new_monster.examine = monster["examine"]
 		
-		new_monster.set_name( String( new_monster.monster_id ) )
+		new_monster.set_name( str( new_monster.monster_id ) )
 		
 		new_monster.hitpoints = monster["hitpoints"]
 		new_monster.attack_level = monster["attack_level"]
@@ -290,13 +286,9 @@ func load_monsters_json():
 
 func save_monsters():
 	# Saves the monster data so they don't need to be processed again.
-	var dir = Directory.new()
-	if !dir.dir_exists( "res://database/" ):
-		push_error ( "res://database/ does not exist" )
 	
 	var monster_path : String = "res://database/monster_data"
-	var file = File.new()
-	file.open(monster_path, File.WRITE)
+	var file = FileAccess.open( monster_path, FileAccess.WRITE)
 	
 	for _monster in $monsters.get_children():
 		var monster : monster = _monster # Hack to get typing
@@ -340,8 +332,7 @@ func load_monsters_res():
 	var file_path = "res://database/monster_data"
 	var class_monster = load( "res://data/monster.tscn" )
 	
-	var file = File.new()
-	file.open( file_path , File.READ )
+	var file = FileAccess.open( file_path, FileAccess.READ)
 	
 	while file.get_position() < file.get_length():
 		var new_monster : monster = class_monster.instantiate()
@@ -351,7 +342,7 @@ func load_monsters_res():
 		new_monster.monster_id = file.get_32()
 		new_monster.examine = file.get_pascal_string()
 		
-		new_monster.set_name( String( new_monster.monster_id ) )
+		new_monster.set_name( str( new_monster.monster_id ) )
 		
 		new_monster.attack_level = file.get_64()
 		new_monster.strength_level = file.get_64()
@@ -382,6 +373,4 @@ func load_monsters_res():
 		
 		new_monster.attack_type = str_to_var( file.get_pascal_string() )
 		new_monster.attributes = str_to_var( file.get_pascal_string() )
-	
-	file.close()
 

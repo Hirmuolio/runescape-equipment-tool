@@ -146,5 +146,4 @@ func style_def( style : String ):
 			return defence_ranged
 	print( "Invalid style: ", style)
 	return 0
-	pass
 

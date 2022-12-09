@@ -992,7 +992,7 @@ func load_spells():
 		
 		new_item.equipment_slot = "spell"
 		new_item.item_id = id
-		new_item.set_name( String( new_item.item_id ) )
+		new_item.set_name( str( new_item.item_id ) )
 		id -= 1
 	pass
 
