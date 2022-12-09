@@ -6,28 +6,22 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
+config_version=5
 
-_global_script_classes=[ {
+_global_script_classes=[{
 "base": "Node",
-"class": "equipment",
-"language": "GDScript",
+"class": &"equipment",
+"language": &"GDScript",
 "path": "res://data/equipment.gd"
 }, {
 "base": "Node",
-"class": "monster",
-"language": "GDScript",
+"class": &"monster",
+"language": &"GDScript",
 "path": "res://data/monster.gd"
-}, {
-"base": "Node",
-"class": "player",
-"language": "GDScript",
-"path": "res://data/player.gd"
-} ]
+}]
 _global_script_class_icons={
 "equipment": "",
-"monster": "",
-"player": ""
+"monster": ""
 }
 
 [application]
@@ -35,6 +29,7 @@ _global_script_class_icons={
 config/name="Runescape Equipment Tool"
 config/description="Tool that simulates Runescape equipment"
 run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
 
 [autoload]

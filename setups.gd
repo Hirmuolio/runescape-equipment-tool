@@ -1,7 +1,7 @@
 extends TabContainer
 
 
-onready var setup_scene = preload( "res://interface/set.tscn" )
+@onready var setup_scene = preload( "res://interface/set.tscn" )
 
 var test : String = ""
 
@@ -11,7 +11,7 @@ func _ready():
 
 
 func _on_new_setup_pressed():
-	var new_setup = setup_scene.instance()
+	var new_setup = setup_scene.instantiate()
 	new_setup.name = String( get_child_count() )
 	add_child( new_setup )
 

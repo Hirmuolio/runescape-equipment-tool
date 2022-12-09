@@ -61,7 +61,7 @@ var equipment_specials : Dictionary = {
 	"dharok": {
 		"items": ["Dharok's helm", "Dharok's platebody", "Dharok's platelegs", "Dharok's greataxe"],
 		"name": "Dharok's set",
-		"description": "Damage increases based on missing health",
+		"description": "Damage increases based checked missing health",
 		"set": 4
 	},
 	"obsidian_armor": {
@@ -194,7 +194,7 @@ var equipment_specials : Dictionary = {
 	"twisted": {
 		"items": ["Twisted bow"],
 		"name": "Twisted bow",
-		"description": "Increased damage and accuracy basaed on enemy magic level/accuracy"
+		"description": "Increased damage and accuracy basaed checked enemy magic level/accuracy"
 	},
 	"slayer_staff_e": {
 		"items": ["Slayer's staff (e)"],
@@ -234,7 +234,7 @@ var equipment_specials : Dictionary = {
 	"jade_bolt_e": {
 		"items": ["Jade bolts (e)", "Jade dragon bolts (e)"],
 		"name": "Jade bolts (e)",
-		"description": "6% chance to deal bind target on place (not simulated)"
+		"description": "6% chance to deal bind target checked place (not simulated)"
 	},
 	"pearl_bolt_e": {
 		"items": ["Pearl bolts (e)", "Pearl dragon bolts (e)"],
@@ -270,7 +270,7 @@ var equipment_specials : Dictionary = {
 		"items": ["Scythe of vitur", "Holy scythe of vitur", "Sanguine scythe of vitur",
 		"Scythe of vitur (uncharged)", "Holy scythe of vitur (uncharged)", "Sanguine scythe of vitur (uncharged)"],
 		"name": "Scythe of vitur",
-		"description": "Hits large targets up to three times per attack. -50% damage on second hit and -75% damage on third hit."
+		"description": "Hits large targets up to three times per attack. -50% damage checked second hit and -75% damage checked third hit."
 	},
 	"damned_ahrim": {
 		"items": ["Amulet of the damned", "Ahrim's hood", "Ahrim's robetop", "Ahrim's robeskirt", "Ahrim's staff"],
@@ -328,7 +328,7 @@ var equipment_specials : Dictionary = {
 	"bulwark": {
 		"items": ["Dinh's bulwark"],
 		"name": "Dinh's bulwark",
-		"description": "Str bonus increases based on defence bonuses. 20% damage reduction in block mode."
+		"description": "Str bonus increases based checked defence bonuses. 20% damage reduction in block mode."
 	},
 	"colossal_blade": {
 		"items": ["Colossal blade"],
@@ -388,7 +388,7 @@ var equipment_specials : Dictionary = {
 }
 
 # Item_name : special_name
-# Generated from equipment_specials on startup
+# Generated from equipment_specials checked startup
 var items_with_specials : Dictionary
 
 
@@ -983,7 +983,7 @@ func load_spells():
 	var class_item = load( "res://data/equipment.tscn" )
 	var id : int = -1
 	for spell in spells.values():
-		var new_item : equipment = class_item.instance()
+		var new_item : equipment = class_item.instantiate()
 		Database.get_node("items").add_child( new_item )
 		
 		new_item.item_name = spell["name"]

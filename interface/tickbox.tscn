@@ -3,23 +3,23 @@
 [ext_resource path="res://interface/tickbox.gd" type="Script" id=1]
 
 [node name="HBoxContainer" type="HBoxContainer"]
-margin_top = 462.0
-margin_right = 478.0
-margin_bottom = 486.0
+offset_top = 462.0
+offset_right = 478.0
+offset_bottom = 486.0
 script = ExtResource( 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_top = 5.0
-margin_right = 130.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 130, 0 )
+offset_top = 5.0
+offset_right = 130.0
+offset_bottom = 19.0
+minimum_size = Vector2( 130, 0 )
 text = "Label"
 align = 2
 
 [node name="CheckBox" type="CheckBox" parent="."]
-margin_left = 134.0
-margin_right = 158.0
-margin_bottom = 24.0
+offset_left = 134.0
+offset_right = 158.0
+offset_bottom = 24.0
 
 [connection signal="mouse_entered" from="CheckBox" to="." method="_on_CheckBox_mouse_entered"]
 [connection signal="pressed" from="CheckBox" to="." method="_on_CheckBox_pressed"]

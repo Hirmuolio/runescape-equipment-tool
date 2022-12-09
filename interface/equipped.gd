@@ -1,9 +1,9 @@
-tool
+@tool
 
 extends HBoxContainer
 
 
-export var slot : String setget _set_slot
+@export var slot : String : set = _set_slot
 var equipped_gear : equipment
 
 signal remove_gear(slot)
@@ -35,6 +35,6 @@ func _on_Button_pressed():
 
 func _on_Button_mouse_entered():
 	if equipped_gear:
-		var hoover_node = load( "res://interface/hoover_info.tscn" ).instance()
+		var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
 		get_tree().get_root().add_child( hoover_node )
 		hoover_node.initialize( $Button, equipped_gear.examine )

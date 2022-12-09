@@ -1,11 +1,11 @@
 extends HBoxContainer
 
-tool
+@tool
 
-export var  value : float = 0 setget _set_value
-export var label : String = "Label" setget _set_label
+@export var value : float = 0 : set = _set_value
+@export var label : String = "Label" : set = _set_label
 
-export(String, MULTILINE) var hoover_info
+@export var hoover_info # (String, MULTILINE)
 
 func _ready():
 	pass
@@ -21,6 +21,6 @@ func _set_value( new_value ):
 
 func _on_display_mouse_entered():
 	if hoover_info:
-		var hoover_node = load( "res://interface/hoover_info.tscn" ).instance()
+		var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
 		get_tree().get_root().add_child( hoover_node )
 		hoover_node.initialize( $display, hoover_info )

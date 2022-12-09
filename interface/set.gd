@@ -4,7 +4,7 @@ extends ScrollContainer
 
 func _ready():
 	set_monster( Database.get_monsters()[0] )
-	var _err = $combat_sim.connect("simulation_done", get_node("%result_panel"), "refresh_results")
+	var _err = $combat_sim.connect("simulation_done",Callable(get_node("%result_panel"),"refresh_results"))
 
 
 func player_equip( item : equipment):
@@ -20,7 +20,7 @@ func refresh_results():
 	get_node("%player_panel").refresh_eq_stats()
 
 func _on_player_data_gear_change(slot : String, new_gear : equipment):
-	# Sets the gear visible on the buttons
+	# Sets the gear visible checked the buttons
 	# Happens as a result of the actual player gear change
 	get_node("%player_panel/" + slot ).add_gear( new_gear)
 

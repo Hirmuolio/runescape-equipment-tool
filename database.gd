@@ -28,7 +28,9 @@ func load_items_json():
 	
 	var file = File.new()
 	file.open(path, File.READ)
-	var data : Dictionary = parse_json(file.get_as_text())
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text())
+	var data : Dictionary = test_json_conv.get_data()
 	
 	# Take in only useful equipment
 	var class_item = load( "res://data/equipment.tscn" )
@@ -43,7 +45,7 @@ func load_items_json():
 		if item["duplicate"] && item["duplicate"] == true:
 			continue
 		
-		var new_item : equipment = class_item.instance()
+		var new_item : equipment = class_item.instantiate()
 		$items.add_child( new_item )
 		
 		new_item.item_name = item["name"]
@@ -110,7 +112,7 @@ func load_items_json():
 						  ["dragon", 35]
 						]
 	for dart in darts:
-		var loaded_pipe : equipment = class_item.instance()
+		var loaded_pipe : equipment = class_item.instantiate()
 		$items.add_child( loaded_pipe )
 		loaded_pipe.copy_from( base_blowpipe )
 		loaded_pipe.ranged_strength += dart[1]
@@ -165,7 +167,7 @@ func save_items_user():
 		file.store_64( item.prayer )
 		
 		file.store_64( item.attack_speed )
-		file.store_pascal_string( var2str(item.stances) )
+		file.store_pascal_string( var_to_str(item.stances) )
 
 
 func load_items_res():
@@ -174,8 +176,8 @@ func load_items_res():
 	
 	var file = File.new()
 	file.open( file_path , File.READ )
-	while file.get_position() < file.get_len():
-		var new_item : equipment = class_item.instance()
+	while file.get_position() < file.get_length():
+		var new_item : equipment = class_item.instantiate()
 		$items.add_child( new_item )
 		
 		new_item.item_name = file.get_pascal_string()
@@ -203,7 +205,7 @@ func load_items_res():
 		new_item.prayer = file.get_64()
 		
 		new_item.attack_speed = file.get_64()
-		new_item.stances = str2var( file.get_pascal_string() )
+		new_item.stances = str_to_var( file.get_pascal_string() )
 
 
 func load_monsters_json():
@@ -213,7 +215,9 @@ func load_monsters_json():
 	
 	var file = File.new()
 	file.open(path, File.READ)
-	var data : Dictionary = parse_json(file.get_as_text())
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text())
+	var data : Dictionary = test_json_conv.get_data()
 	
 	# Take in only useful equipment
 	var class_monster = load( "res://data/monster.tscn" )
@@ -223,7 +227,7 @@ func load_monsters_json():
 			# Some invalid monster.
 			continue
 		
-		var new_monster : monster = class_monster.instance()
+		var new_monster : monster = class_monster.instantiate()
 		$monsters.add_child( new_monster )
 		
 		new_monster.monster_name = monster["name"]
@@ -328,8 +332,8 @@ func save_monsters():
 		file.store_64( monster.attack_speed )
 		file.store_pascal_string( monster.size )
 		
-		file.store_pascal_string( var2str(monster.attack_type) )
-		file.store_pascal_string( var2str(monster.attributes) )
+		file.store_pascal_string( var_to_str(monster.attack_type) )
+		file.store_pascal_string( var_to_str(monster.attributes) )
 
 
 func load_monsters_res():
@@ -339,8 +343,8 @@ func load_monsters_res():
 	var file = File.new()
 	file.open( file_path , File.READ )
 	
-	while file.get_position() < file.get_len():
-		var new_monster : monster = class_monster.instance()
+	while file.get_position() < file.get_length():
+		var new_monster : monster = class_monster.instantiate()
 		$monsters.add_child( new_monster )
 		
 		new_monster.monster_name = file.get_pascal_string()
@@ -376,8 +380,8 @@ func load_monsters_res():
 		new_monster.attack_speed = file.get_64()
 		new_monster.size = file.get_pascal_string()
 		
-		new_monster.attack_type = str2var( file.get_pascal_string() )
-		new_monster.attributes = str2var( file.get_pascal_string() )
+		new_monster.attack_type = str_to_var( file.get_pascal_string() )
+		new_monster.attributes = str_to_var( file.get_pascal_string() )
 	
 	file.close()
 

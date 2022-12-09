@@ -43,36 +43,36 @@ var attack_stance : String
 
 
 # Equipment stats:
-var str_bonus : int setget ,_get_str_bonus
-var atk_bonus : int setget ,_get_atk_bonus
+var str_bonus : int : get = _get_str_bonus
+var atk_bonus : int : get = _get_atk_bonus
 var rng_str_bonus : int setget, _get_rng_str
 var rng_bonus : int setget, _get_rng
 var magic_bonus : int setget, _get_magic_bonus
 var mag_dmg_bonus : int setget, _get_mag_dmg_bonus
 
 # Modifiers from activ prayers
-var prayer_str : float setget ,_get_pray_str
-var prayer_atk : float setget ,_get_pray_atk
-var prayer_def : float setget ,_get_pray_def
-var prayer_rng : float setget ,_get_pray_rng
-var prayer_rng_atk : float setget ,_get_pray_rng_atk
-var prayer_rng_str : float setget ,_get_pray_rng_str
-var prayer_magic : float setget ,_get_pray_magic
-var prayer_magic_atk : float setget ,_get_pray_magic_atk
-var prayer_magic_def : float setget ,_get_pray_magic_def
+var prayer_str : float : get = _get_pray_str
+var prayer_atk : float : get = _get_pray_atk
+var prayer_def : float : get = _get_pray_def
+var prayer_rng : float : get = _get_pray_rng
+var prayer_rng_atk : float : get = _get_pray_rng_atk
+var prayer_rng_str : float : get = _get_pray_rng_str
+var prayer_magic : float : get = _get_pray_magic
+var prayer_magic_atk : float : get = _get_pray_magic_atk
+var prayer_magic_def : float : get = _get_pray_magic_def
 
 # Modifiers from attack style
-var style_str_bonus : int setget ,_get_style_str
-var style_atk_bonus : int setget ,_get_style_atk
-var style_def_bonus : int setget ,_get_style_def
-var style_rng_bonus : int setget ,_get_style_rng
-var style_mag_bonus : int setget ,_getstyle_mag
+var style_str_bonus : int : get = _get_style_str
+var style_atk_bonus : int : get = _get_style_atk
+var style_def_bonus : int : get = _get_style_def
+var style_rng_bonus : int : get = _get_style_rng
+var style_mag_bonus : int : get = _getstyle_mag
 
 var other_str_bonus : float = 1 #TODO
 var other_atk_bonus : float = 1 #TODO
 var other_def_bonus : float = 1 #TODO
 
-var attack_speed : int setget ,_get_attack_speed
+var attack_speed : int : get = _get_attack_speed
 
 var prayers : Array = []
 var special_attributes : Array = []
@@ -101,11 +101,11 @@ func save_string() -> String:
 
 func load_string( setup : String ):
 	# Should probably add some validation here...
-	var data : PoolStringArray = setup.split("\n")
+	var data : PackedStringArray = setup.split("\n")
 	setup_name = data[0]
-	data.remove(0)
+	data.remove_at(0)
 	
-	var levels : PoolStringArray = data[0].split( ",")
+	var levels : PackedStringArray = data[0].split( ",")
 	attack = int(levels[0])
 	strength = int(levels[1])
 	defence = int(levels[2])
@@ -114,9 +114,9 @@ func load_string( setup : String ):
 	hp_lvl = int(levels[5])
 	current_hp = hp_lvl
 	prayer = int(levels[6])
-	data.remove(0)
+	data.remove_at(0)
 	
-	var gear_ids : PoolStringArray = data[0].split( ",")
+	var gear_ids : PackedStringArray = data[0].split( ",")
 	for gid in gear_ids:
 		if int(gid) == -1:
 			continue
