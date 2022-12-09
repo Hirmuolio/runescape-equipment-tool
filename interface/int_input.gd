@@ -2,7 +2,7 @@ extends HBoxContainer
 
 @tool
 
-@export var value : int = 0 : set = _set_value
+@export var value : int = 0
 @export var label : String = "Label" : set = _set_label
 
 @export var hoover_info : String
@@ -16,12 +16,12 @@ func _set_label( new_label ):
 	label = new_label
 	$Label.text = new_label
 
-func _set_value( new_value : int ):
+func set_value( new_value : int ):
 	value = new_value
 	$LineEdit.text = str(value)
 
 
-func _on_input_focus_exited():
+func _on_line_edit_focus_exited():
 	$LineEdit.text = str(value)
 
 
@@ -35,3 +35,4 @@ func _on_CheckBox_mouse_entered():
 		var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
 		get_tree().get_root().add_child( hoover_node )
 		hoover_node.initialize( $CheckBox, hoover_info )
+

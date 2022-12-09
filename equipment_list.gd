@@ -76,7 +76,7 @@ func _on_search_text_changed(search_term):
 			item.is_hidden = false
 		elif Config.search_mode == 1 and item.item_name.matchn(search_term):
 			item.is_hidden = false
-		elif Config.search_mode == 2 and search_term.is_subsequence_ofi(item.item_name):
+		elif Config.search_mode == 2 and search_term.is_subsequence_ofn(item.item_name):
 			item.is_hidden = false
 		elif Config.search_mode > 2:
 			print( "Invalid search methord")
