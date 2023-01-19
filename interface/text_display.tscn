@@ -9,16 +9,12 @@ offset_bottom = 420.0
 script = ExtResource("1")
 
 [node name="Label" type="Label" parent="."]
-offset_right = 34.0
-offset_bottom = 21.0
+layout_mode = 2
 mouse_filter = 1
 text = "Label"
 
 [node name="display" type="Label" parent="."]
-offset_left = 38.0
-offset_top = 1.0
-offset_right = 39.0
-offset_bottom = 19.0
+layout_mode = 2
 mouse_filter = 1
 
 [connection signal="mouse_entered" from="display" to="." method="_on_mouse_entered"]

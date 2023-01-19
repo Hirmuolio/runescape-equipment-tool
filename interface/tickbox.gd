@@ -1,6 +1,6 @@
 extends HBoxContainer
 
-@tool
+#@tool
 
 @export var value : bool = false : set = _set_value
 @export var label : String = "Label" : set = _set_label
@@ -10,6 +10,7 @@ extends HBoxContainer
 signal value_changed(new_value)
 
 func _ready():
+	$Label.text = label
 	pass
 
 func _set_label( new_label : String ):

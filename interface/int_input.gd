@@ -1,6 +1,6 @@
 extends HBoxContainer
 
-@tool
+#@tool
 
 @export var value : int = 0
 @export var label : String = "Label" : set = _set_label
