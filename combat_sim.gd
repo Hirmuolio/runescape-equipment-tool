@@ -148,7 +148,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 	if magic_attack:
 		var spell : equipment = act_player.spell
 		
-		var salamander : bool = "salamander" in act_player.weapon.item_name or act_player.weapon.item_name == "Swamp lizard"
+		var salamander : bool = act_player.weapon and ( "salamander" in act_player.weapon.item_name or act_player.weapon.item_name == "Swamp lizard" )
 		
 		if salamander:
 			var magic_str : int = 3

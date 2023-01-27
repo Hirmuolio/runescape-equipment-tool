@@ -34,10 +34,6 @@ window/size/viewport_height=1000
 window/size/width=1333
 window/size/height=1000
 
-[editor]
-
-export/convert_text_resources_to_binary=true
-
 [global]
 
 warning=false
