@@ -7,7 +7,6 @@ offset_top = 462.0
 offset_right = 478.0
 offset_bottom = 486.0
 script = ExtResource("1")
-hoover_info = ""
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2

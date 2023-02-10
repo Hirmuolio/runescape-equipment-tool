@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://interface/set.gd" id="6"]
 [ext_resource type="Script" path="res://interface/results.gd" id="7"]
 [ext_resource type="Script" path="res://interface/monster.gd" id="8"]
-[ext_resource type="PackedScene" path="res://combat_sim.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://dvveg0n2u0jve" path="res://combat_sim.tscn" id="9"]
 [ext_resource type="Script" path="res://interface/player.gd" id="10"]
 [ext_resource type="PackedScene" uid="uid://caopfty80r4hm" path="res://interface/text_display.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://bgeb8ega1wv1b" path="res://interface/text_input.tscn" id="12"]
@@ -433,7 +433,6 @@ layout_mode = 2
 
 [node name="description" type="RichTextLabel" parent="hbox/monster_panel"]
 layout_mode = 2
-fit_content_height = true
 
 [node name="HSeparator3" type="HSeparator" parent="hbox/monster_panel"]
 layout_mode = 2

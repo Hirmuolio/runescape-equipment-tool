@@ -14,7 +14,7 @@ patch_margin_bottom = 5
 script = ExtResource("2")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 5.0
