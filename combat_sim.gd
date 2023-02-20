@@ -647,6 +647,7 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	rng.randomize()
 	
 	var crit_chance : float = 0
+	var bolt_e_chance : float = 0
 	if "keris" in act_player.special_attributes:
 		crit_chance = 1.0/51
 	elif "gaddehammer" in act_player.special_attributes:
@@ -659,21 +660,21 @@ func simulate_combat( act_player : player, target_mon : monster ):
 		crit_chance = 0.25
 	else:
 		if "onyx_bolt_e" in act_player.special_attributes and not ("undead" in target_mon.attributes):
-			crit_chance = 0.11
+			bolt_e_chance = 0.11
 		if "dragonstone_bolt_e" in act_player.special_attributes and not ("dragon" in target_mon.attributes):
-			crit_chance = 0.06
+			bolt_e_chance = 0.06
 		if "diamond_bolt_e" in act_player.special_attributes:
-			crit_chance = 0.1
+			bolt_e_chance = 0.1
 		if "ruby_bolt_e" in act_player.special_attributes:
-			crit_chance = 0.06
+			bolt_e_chance = 0.06
 		if "pearl_bolt_e" in act_player.special_attributes:
-			crit_chance = 0.06
+			bolt_e_chance = 0.06
 		if "opal_bolt_e" in act_player.special_attributes:
-			crit_chance = 0.05
+			bolt_e_chance = 0.05
 		
 		# This is a bit hacky but should not run when non-bolt crit is possible.
 		if kandarin_diary:
-			crit_chance *= 1.1
+			bolt_e_chance *= 1.1
 	
 	var powered_staff : bool = "powered_staff" in act_player.special_attributes
 	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
@@ -718,9 +719,8 @@ func simulate_combat( act_player : player, target_mon : monster ):
 					hits += 1
 			
 			attacks += 1
-			if rng.randf() <= crit_chance:
-				# it is an abnormal attack
-				
+			if bolt_e_chance and rng.randf() <= bolt_e_chance:
+				# I *think* all bolt(e) specials have 100% hit chance if occured
 				if "diamond_bolt_e" in act_player.special_attributes:
 					# Hits for +15% damage (+25% with zaryte)
 					# Quaranteed hit
@@ -729,38 +729,39 @@ func simulate_combat( act_player : player, target_mon : monster ):
 					else:
 						damage += rng.randi_range( 0, p_max_hit * 23/20)
 					hits += 1
+				elif "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
+					# Deal 20% of target's remaining HP (max 100) (22% max 110 with zaryte)
+					if zaryte:
+						damage += int( min( 110, target_mon.hitpoints *1.22 ) )
+					else:
+						damage += int( min( 100, target_mon.hitpoints /5 ) )
+					hits += 1
 				elif "verac" in act_player.special_attributes:
 					# Quaranteed hit
 					# +1 damage
 					damage += rng.randi_range( 0, p_max_hit ) +1
 					hits += 1
-				
-				if att_roll > def_roll:
-					if "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
-						# Deal 20% of target's remaining HP (max 100) (22% max 110 with zaryte)
-						if zaryte:
-							damage += int( min( 110, target_mon.hitpoints *1.22 ) )
-						else:
-							damage += int( min( 100, target_mon.hitpoints /5 ) )
-						hits += 1
-					elif "onyx_bolt_e" in act_player.special_attributes:
-						# Hits for +20% damage (+30% with zaryte)
-						# Leech life (not implemented)
-						if zaryte:
-							damage += rng.randi_range( 0, p_max_hit * 13/10)
-						else:
-							damage += rng.randi_range( 0, p_max_hit * 12/10)
-						hits += 1
-					elif "damned_karil" in act_player.special_attributes and att_roll > def_roll:
-						# Attacks twice. Second attack deals half of first attack damage
-						var hit : int = rng.randi_range( 0, p_max_hit )
-						damage += hit + hit / 2
-						hits += 1
-						pass
+				elif "onyx_bolt_e" in act_player.special_attributes:
+					# Hits for +20% damage (+30% with zaryte)
+					# Leech life (not implemented)
+					if zaryte:
+						damage += rng.randi_range( 0, p_max_hit * 13/10)
 					else:
-						# Some other generic critical hit
-						damage += rng.randi_range( 0, crit_max_hit )
-						hits += 1
+						damage += rng.randi_range( 0, p_max_hit * 12/10)
+					hits += 1
+			elif crit_chance and att_roll > def_roll and rng.randf() <= crit_chance:
+				# it is an abnormal attack
+				
+				if "damned_karil" in act_player.special_attributes and att_roll > def_roll:
+					# Attacks twice. Second attack deals half of first attack damage
+					var hit : int = rng.randi_range( 0, p_max_hit )
+					damage += hit + hit / 2
+					hits += 1
+					pass
+				else:
+					# Some other generic critical hit
+					damage += rng.randi_range( 0, crit_max_hit )
+					hits += 1
 				target_hp -= damage
 			elif att_roll > def_roll:
 				# A normal attack
