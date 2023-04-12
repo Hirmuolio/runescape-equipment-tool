@@ -204,7 +204,10 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			if "god_spell" in spell.special_effects and charge_spell and "god_cape" in act_player.special_attributes:
 				p_max_hit += 10
 		
-		# This doesn't make sense but is supposedly "correct" (at least mostly)
+		# Magic damage multiplier calculations
+		# 1. Sum additive bonuses together
+		# 2. Apply total additive bonus
+		# 3. Apply multiplicative bonuses in specific order
 		var multiplier : float = 1
 		
 		if "tumekens_shadow" in act_player.special_attributes:
@@ -217,27 +220,26 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "elite_void_magic" in act_player.special_attributes:
 			multiplier += 0.025 
 		
-		var salve : bool = false
-		if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
-			multiplier += 0.2
-			salve = true
-		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
-			multiplier += 0.15
-			salve = true
-		
-		
+		# Slayer helm overrides salve
+		if not "black_mask_i" in act_player.special_attributes:
+			if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
+				multiplier += 0.2
+			elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
+				multiplier += 0.15
 		
 		p_max_hit = int( p_max_hit * multiplier )
+		
+		# Multipliers must be applied in specific order.
+		# This order is not fully known
+		# Slayer helm before tome of fire
+		
+		if slayer_task and "black_mask_i" in act_player.special_attributes:
+			p_max_hit = p_max_hit * 23/20 # 15%
 		
 		if spell and "tome_of_fire" in act_player.special_attributes && "fire" in spell.special_effects:
 			p_max_hit = p_max_hit * 3/2
 		if spell and "tome_of_water" in act_player.special_attributes && "water" in spell.special_effects:
 			p_max_hit = p_max_hit * 6/5
-		
-		# This is weird and technically there could be a situation where taking off salve amulet
-		# would give more dps. Not sure if that ever happens in practice.
-		if slayer_task and !salve and "black_mask_i" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.15 )
 		
 		if wilderness and "thammaron" in act_player.special_attributes:
 			p_max_hit = p_max_hit * 5/4
@@ -247,7 +249,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		
 		crit_max_hit = p_max_hit
 		if "damned_ahrim" in act_player.special_attributes:
-			crit_max_hit = int( crit_max_hit * 1.3 )
+			crit_max_hit = crit_max_hit * 13/10 # 30%
 		
 		
 	elif act_player.attack_style == "ranged":
@@ -270,7 +272,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
 			p_max_hit = p_max_hit * 7/6 # *1.16
 		elif slayer_task and "black_mask_i" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.15 )
+			p_max_hit = p_max_hit * 23/20 # 15%
 		
 		if "holy_water" in act_player.special_attributes and "demon" in target_mon.attributes:
 			p_max_hit = p_max_hit * 8/5

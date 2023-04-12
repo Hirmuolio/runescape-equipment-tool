@@ -217,7 +217,7 @@ var equipment_specials : Dictionary = {
 		"description": "+20% bonus for water spell damage and accuracy"
 	},
 	"somke_bass": {
-		"items": ["Smoke battlestaff"],
+		"items": ["Smoke battlestaff", "Mystic smoke battlestaff"],
 		"name": "Smoke battlestaff",
 		"description": "+10% bonus for standard spell damage and accuracy"
 	},
