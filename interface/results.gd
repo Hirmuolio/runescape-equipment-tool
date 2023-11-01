@@ -22,7 +22,7 @@ func refresh_results():
 	$p_hitchance.value = str( snapped( combat_sim.p_hit_chance * 100, 0.01 ) ) + "%"
 	$p_hitchance2.value = str( snapped( combat_sim.p_hit_chance2 * 100, 0.01 ) ) + "%"
 	$p_hitchance.hoover_info = "Approximation from stats. Does not apply all special effects.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
-	$p_hitchance2.hoover_info = "Result from simulated combat.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
+	$p_hitchance2.hoover_info = "Result from simulated combat.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll) + "\nHitting 0 ic ounted as miss."
 	$p_dps.value = snapped( combat_sim.p_dps, 0.01 )
 	$p_dps2.value = snapped( combat_sim.p_dps2, 0.01 )
 	

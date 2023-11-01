@@ -254,7 +254,7 @@ var equipment_specials : Dictionary = {
 	"diamond_bolt_e": {
 		"items": ["Diamond bolts (e)", "Diamond dragon bolts (e)"],
 		"name": "Diamond bolts (e)",
-		"description": "10% (5% in pvp) chance to quarantee a hit with 15% extra damage. Status changes are ignored for this hit."
+		"description": "10% (5% in pvp) chance to quarantee a hit with 15% extra damage."
 	},
 	"dragonstone_bolt_e": {
 		"items": ["Dragonstone bolts (e)", "Dragonstone dragon bolts (e)"],

@@ -220,12 +220,14 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "elite_void_magic" in act_player.special_attributes:
 			multiplier += 0.025 
 		
-		# Slayer helm overrides salve
-		if not "black_mask_i" in act_player.special_attributes:
-			if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
-				multiplier += 0.2
-			elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
-				multiplier += 0.15
+		# Salve overrides slayer helm
+		var salve : bool = false
+		if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
+			multiplier += 0.2
+			salve = true
+		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
+			multiplier += 0.15
+			salve = true
 		
 		p_max_hit = int( p_max_hit * multiplier )
 		
@@ -234,7 +236,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		# Slayer helm before tome of fire
 		multiplier = 1
 		
-		if slayer_task and "black_mask_i" in act_player.special_attributes:
+		if !salve and slayer_task and "black_mask_i" in act_player.special_attributes:
 			#p_max_hit = p_max_hit * 23/20 # 15%
 			multiplier += 0.15
 		if wilderness and "thammaron" in act_player.special_attributes:
@@ -648,46 +650,60 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 	else:
 		m_hit_chance = 0.5 * atk_roll / ( def_roll + 1.0 )
 
+
 func simulate_combat( act_player : player, target_mon : monster ):
 	
 	# Full tick accurate combat simulation
 	
-	var rng = RandomNumberGenerator.new()
-	rng.randomize()
+	var state : combat_state = preload("res://combat_state.gd").new()
 	
-	var crit_chance : float = 0
-	var bolt_e_chance : float = 0
+	state.rng = RandomNumberGenerator.new()
+	state.rng.randomize()
+	state.target_max_hp = target_mon.hitpoints
+	state.m_def_roll = m_def_roll
+	state.p_hit_roll = p_hit_roll
+	state.p_max_hit = p_max_hit
+	state.p_crit_max_hit = crit_max_hit
+	state.attack_speed = act_player.attack_speed
+	state.fiery = "fiery" in target_mon.attributes
+	
+	var hit_func = Callable(self, "hit_normal")
+	
 	if "keris" in act_player.special_attributes:
-		crit_chance = 1.0/51
+		state.crit_chance = 1.0/51
+		hit_func = Callable(self, "hit_critical")
+	if "keris_sun" in act_player.special_attributes:
+		state.crit_chance = 1.0/51
+		hit_func = Callable(self, "hit_keris_sun")
 	elif "gaddehammer" in act_player.special_attributes:
-		crit_chance = 1.0/51
+		state.crit_chance = 0.05
+		hit_func = Callable(self, "hit_critical")
 	elif "damned_ahrim" in act_player.special_attributes:
-		crit_chance = 0.25
+		hit_func = Callable(self, "hit_ahrim_damned")
 	elif "damned_karil" in act_player.special_attributes:
-		crit_chance = 0.25
+		hit_func = Callable(self, "hit_karil_damned")
 	elif "verac" in act_player.special_attributes:
-		crit_chance = 0.25
-	else:
-		if "onyx_bolt_e" in act_player.special_attributes and not ("undead" in target_mon.attributes):
-			bolt_e_chance = 0.11
-		if "dragonstone_bolt_e" in act_player.special_attributes and not ("dragon" in target_mon.attributes):
-			bolt_e_chance = 0.06
-		if "diamond_bolt_e" in act_player.special_attributes:
-			bolt_e_chance = 0.1
-		if "ruby_bolt_e" in act_player.special_attributes:
-			bolt_e_chance = 0.06
-		if "pearl_bolt_e" in act_player.special_attributes:
-			bolt_e_chance = 0.06
-		if "opal_bolt_e" in act_player.special_attributes:
-			bolt_e_chance = 0.05
-		
-		# This is a bit hacky but should not run when non-bolt crit is possible.
-		if kandarin_diary:
-			bolt_e_chance *= 1.1
+		hit_func = Callable(self, "hit_verac")
+	elif "onyx_bolt_e" in act_player.special_attributes and not ("undead" in target_mon.attributes):
+			hit_func = Callable(self, "hit_onyx")
+	elif "dragonstone_bolt_e" in act_player.special_attributes and not ("dragon" in target_mon.attributes):
+			hit_func = Callable(self, "hit_dragonstone")
+	elif "diamond_bolt_e" in act_player.special_attributes:
+			hit_func = Callable(self, "hit_diamond")
+	elif "ruby_bolt_e" in act_player.special_attributes:
+			hit_func = Callable(self, "hit_ruby")
+	elif "pearl_bolt_e" in act_player.special_attributes:
+			hit_func = Callable(self, "hit_pearl")
+	elif "opal_bolt_e" in act_player.special_attributes:
+			hit_func = Callable(self, "opal")
+	
+	if kandarin_diary:
+		state.kandarin = 1.1
 	
 	var powered_staff : bool = "powered_staff" in act_player.special_attributes
 	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
-	var zaryte : bool = "zaryte_xbow" in act_player.special_attributes
+	state.zaryte = "zaryte_xbow" in act_player.special_attributes
+	state.brimstone = magic_attack and "brimstone_ring" in act_player.special_attributes
 	
 	var simulated_kills : int = 10000
 	var max_kill_duration : int = 2000 # Limit to prevent freezing
@@ -695,142 +711,169 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	
 	var attacks : int = 0
 	var hits : int = 0
-	
-	
+	var kill_duration : int = 0
 	for _kills in range(1, simulated_kills):
-		var target_hp = target_mon.hitpoints
-		while target_hp > 0:
-			# Single kill loop
-			var def_roll : int = rng.randi_range( 0, m_def_roll)
-			var att_roll : int = rng.randi_range( 0, p_hit_roll)
-			var damage : int = 0
-			
-			if magic_attack and "brimstone_ring" in act_player.special_attributes:
-				def_roll /= 10
-			
-			if "osmuten_fang" in act_player.special_attributes:
-				att_roll = int( max( att_roll, rng.randi_range( 0, p_hit_roll) ) )
-			elif "keris_sun" in act_player.special_attributes and target_hp * 4 < target_mon.hitpoints:
-				att_roll = att_roll * 5 / 4
-			
+		
+		state.target_hp = state.target_max_hp
+		kill_duration = 0
+		while !state.is_dead():
+			var damage : int = hit_func.call( state )
+			state.target_hp -= damage
 			attacks += 1
-			
-			
-			if "scythe_vitur" in act_player.special_attributes and int(target_mon.size) > 1:
-				# Scythe's triple hit is handled separately
-				attacks += 2
-				if att_roll > def_roll:
-					damage += rng.randi_range( 0, p_max_hit )
-					hits += 1
-				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, m_def_roll):
-					damage += rng.randi_range( 0, p_max_hit /2 )
-					hits += 1
-				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, m_def_roll):
-					damage += rng.randi_range( 0, p_max_hit /4 )
-					hits += 1
-			elif bolt_e_chance and rng.randf() <= bolt_e_chance:
-				# I *think* all bolt(e) specials have 100% hit chance when they occur
-				if "diamond_bolt_e" in act_player.special_attributes:
-					# Hits for +15% damage (+25% with zaryte)
-					if zaryte:
-						damage += rng.randi_range( 0, p_max_hit * 5/4)
-					else:
-						damage += rng.randi_range( 0, p_max_hit * 23/20)
-					hits += 1
-				elif "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
-					# Deal 20% of target's remaining HP (max 100) (22% max 110 with zaryte)
-					if zaryte:
-						damage += int( min( 110, target_mon.hitpoints * 1.22 ) )
-					else:
-						damage += int( min( 100, target_mon.hitpoints / 5 ) )
-					hits += 1
-				elif "onyx_bolt_e" in act_player.special_attributes:
-					# Hits for +20% damage (+30% with zaryte)
-					# Leech life (not implemented)
-					if zaryte:
-						damage += rng.randi_range( 0, p_max_hit * 13/10 )
-					else:
-						damage += rng.randi_range( 0, p_max_hit * 12/10 )
-					hits += 1
-				elif "dragonstone_bolt_e" in act_player.special_attributes:
-					# +20% of rng lvl added to damage (+22% with szaryte)
-					if zaryte:
-						damage += rng.randi_range( 0, p_max_hit + 11 * act_player.ranged / 50 )
-					else:
-						damage += rng.randi_range( 0, p_max_hit + act_player.ranged / 5 )
-					hits += 1
-				elif "opal_bolt_e" in act_player.special_attributes:
-					# +1/10 of rng lvl added to damage
-					if zaryte:
-						damage += rng.randi_range( 0, p_max_hit + act_player.ranged / 9 )
-					else:
-						damage += rng.randi_range( 0, p_max_hit + act_player.ranged / 10 )
-					hits += 1
-				elif "pearl_bolt_e" in act_player.special_attributes:
-					# adds 1/15 of the player's rng lvl to fiery units damage, and 1/20 against other targets
-					# Wiki doesn't list zaryte xbow effect on this?
-					var extra : int
-					if "fiery" in target_mon.attributes:
-						extra = act_player.ranged / 15
-					else:
-						extra = act_player.ranged / 20
-					damage += rng.randi_range( 0, p_max_hit + extra )
-					hits += 1
-			elif crit_chance and att_roll > def_roll and rng.randf() <= crit_chance:
-				# it is an abnormal attack
-				
-				if "verac" in act_player.special_attributes:
-					# Quaranteed hit
-					# +1 damage
-					damage += rng.randi_range( 0, p_max_hit ) +1
-					hits += 1
-				elif "damned_karil" in act_player.special_attributes:
-					# Attacks twice. Second attack deals half of first attack damage
-					var hit : int = rng.randi_range( 0, p_max_hit )
-					damage += hit + hit / 2
-					hits += 1
-				else:
-					# Some other generic critical hit
-					damage += rng.randi_range( 0, crit_max_hit )
-					hits += 1
-				target_hp -= damage
-			elif att_roll > def_roll:
-				# A normal attack
-				
-				if "osmuten_fang" in act_player.special_attributes:
-					damage += rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
-					hits += 1
-				else:
-					damage += rng.randi_range( 0, p_max_hit)
-					hits += 1
-			
-				target_hp -= damage
-			
-			tick += act_player.attack_speed
-		if _kills == 1 && tick >= max_kill_duration:
-			print( "Too slow kills to simulate" )
-			return
+			hits += int( damage != 0 )
+			tick += state.attack_speed
+			kill_duration += state.attack_speed
+			if kill_duration >= max_kill_duration:
+				print( "Too slow kills to simulate" )
+				return
 	
 	p_hit_chance2 = float(hits) / attacks
 	p_dps2 = ( simulated_kills * target_mon.hitpoints ) / ( tick * 0.6 )
 	time_to_kill2 =  ( tick * 0.6 ) / simulated_kills
+
+
+func hit_normal( state : combat_state ) -> int:
+	var def_roll = state.rng_roll( state.m_def_roll)
+	if state.brimstone and state.chance( 0.25 ):
+		def_roll *= 0.9
+	if def_roll < state.rng_roll( state.p_hit_roll):
+		return state.rng.randi_range( 0, state.p_max_hit)
+	return 0
+
+func hit_karil_damned( state : combat_state ) -> int:
+	var damage : int = hit_normal( state )
+	# 25% chance to hit twice. Second attack deals half of first attack damage
+	if state.chance( 0.25 ):
+		damage += damage / 2
+	return damage
+
+func hit_ahrim_damned( state : combat_state ) -> int:
+	var damage : int = hit_normal( state )
+	# 25% chance to hit twice. Second attack deals 30% of first attack damage
+	# TODO find if the second hit is calculated separately or just uses same damage
+	if state.chance( 0.25 ):
+		damage += damage * 1 / 3
+	return damage
+
+func hit_verac( state : combat_state ) -> int:
+	# 25% chance to quaranteed hit with +1 damage
+	if state.chance( 0.25 ):
+		return state.rng_roll( state.p_max_hit) + 1
+	return hit_normal( state )
+
+func hit_osmuten( state : combat_state ) -> int:
+	if state.toa:
+		# Roll for hit, then roll both again
+		if state.rng_roll( state.m_def_roll) < state.rng_roll( state.p_hit_roll):
+			return state.rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
+		if state.rng_roll( state.m_def_roll) < state.rng_roll( state.p_hit_roll):
+			return state.rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
+	# Attack is rolled again on miss, effectively same as roling twice and taking max
+	if state.rng_roll( state.m_def_roll) < max( state.rng_roll( state.p_hit_roll), state.rng_roll( state.p_hit_roll) ):
+		return state.rng.randi_range( p_max_hit * 3/20, p_max_hit * 17/20)
+	return 0
+
+func hit_vitur( state : combat_state ) -> int:
+	# 3 separate hits
+	# Full damage, 1/2 damage, 1/4 damage
+	var damage : int = hit_normal( state )
+	damage += hit_normal( state ) / 2
+	damage += hit_normal( state ) / 4
+	return damage
+
+func hit_keris_sun( state : combat_state ) -> int:
+	var hit_roll : int
+	if state.toa and state.target_hp * 4 < state.target_max_hp:
+		# 25% extra accuracy against target with 25% or less health
+		hit_roll = state.rng_roll( state.p_hit_roll * 5/4)
+	else:
+		hit_roll = state.rng_roll( state.p_hit_roll)
 	
+	if state.rng_roll( state.m_def_roll) >= hit_roll:
+		return 0
 	
+	if state.chance( state.crit_chance ):
+		return state.rng_roll( state.p_crit_max_hit)
+	return state.rng_roll( state.p_max_hit)
 
+func hit_critical( state : combat_state ) -> int:
+	# Weapon with critical chance (keris/gadderhammer)
+	var def_roll = state.rng_roll( state.m_def_roll)
+	if state.brimstone and state.chance( 0.25 ):
+		def_roll = def_roll * 9 / 10
+	if def_roll >= state.rng_roll( state.p_hit_roll):
+		return 0
+	if state.chance( state.crit_chance ):
+		return state.rng_roll( state.p_crit_max_hit)
+	return state.rng_roll( state.p_max_hit)
 
+func hit_onyx( state : combat_state ) -> int:
+	# 11% chance to proc in pve
+	# Hits for +20% damage (+30% with zaryte)
+	# Leech life (not implemented)
+	#TODO find if proc is checked before hit calc
+	if state.chance( 0.11 * state.kandarin ):
+		if state.zaryte:
+			return state.rng_roll( state.p_max_hit * 13/10)
+		else:
+			return state.rng_roll( state.p_max_hit * 12/10)
+	return hit_normal( state )
 
+func hit_diamond( state : combat_state ) -> int:
+	# Quaranteed hit for +15% damage (+25% with zaryte)
+	if state.chance( 0.1 * state.kandarin ):
+		if state.zaryte:
+			return state.rng_roll( state.p_max_hit * 5/4)
+		else:
+			return state.rng_roll( state.p_max_hit * 23/20)
+	return hit_normal( state )
 
+func hit_ruby( state : combat_state ) -> int:
+	# Deal 20% of target's remaining HP (max 100) (22% max 110 with zaryte)
+	#TODO find if proc is checked before hit calc
+	if state.chance( 0.06 * state.kandarin ):
+		if state.zaryte:
+			return int( min( 110, state.target_hp * 11/50 ) )
+		else:
+			return int( min( 100, state.target_hp / 5 ) )
+	return hit_normal( state )
 
+func hit_dragonstone( state : combat_state ) -> int:
+	# +20% of rng lvl added to damage (+22% with szaryte)
+	#TODO find if proc is checked before hit calc
+	if state.chance( 0.06 * state.kandarin ):
+		if state.zaryte:
+			return state.rng_roll( state.p_max_hit + state.p_ranged * 11 / 50 )
+		else:
+			return state.rng_roll( state.p_max_hit + state.p_ranged / 5 )
+	return hit_normal( state )
 
+func hit_opal( state : combat_state ) -> int:
+	# +1/10 of rng lvl added to damage
+	#TODO find if proc is checked before hit calc
+	if state.chance( 0.05 * state.kandarin ):
+		if state.zaryte:
+			return state.rng_roll( state.p_max_hit + state.p_ranged / 9 )
+		else:
+			return state.rng_roll( state.p_max_hit + state.p_ranged / 10 )
+	return hit_normal( state )
 
-
-
-
-
-
-
-
-
-
+func hit_pearl( state : combat_state ) -> int:
+	# adds 1/15 of the player's rng lvl to fiery units damage, and 1/20 against other targets
+	# Wiki doesn't list zaryte xbow effect on this. Numbers are guessed
+	#TODO find if proc is checked before hit calc
+	#TODO find zaryte effect
+	if state.chance( 0.06 * state.kandarin ):
+		if state.zaryte:
+			if state.fiery:
+				return state.rng_roll( state.p_max_hit + state.p_ranged * 11 / 150 )
+			else:
+				return state.rng_roll( state.p_max_hit + state.p_ranged * 11 / 200 )
+		else:
+			if state.fiery:
+				return state.rng_roll( state.p_max_hit + state.p_ranged / 15 )
+			else:
+				return state.rng_roll( state.p_max_hit + state.p_ranged / 20 )
+	return hit_normal( state )
 
 

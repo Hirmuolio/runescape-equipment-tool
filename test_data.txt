@@ -1,44 +1,6 @@
 Max hits with various gear. 
 TODO add automatic tests to check that tool gets same numbers as these.
 
-Ava's assembler, magic shortbow (i), rune arrow
-Range lvl: 91
-ranged str:51
-Max hit: 18
-
-----
-
-Slayer helm, Leaf-bladed battleaxe, dragon defender, barrows gloves, berserker ring (i), bonecrusher necklace, dragon boots
-Bonuses: Slayer helm, leaf baxe
-str: 128
-
-Burst of strength (+5%)
-STR lvl: 98
-Max hit: 45
-
-Burst of strength (+5%)
-STR lvl 110/98
-Max hit: 59
-
-STR lvl 106/98
-Max hit: 47
-
-Burst of strength (+5%)
-STR 103/98
-Max hit: 49
-
-Burst of strength (+5%)
-STR 99/98
-Max hit: 45
-
-Superhuman strength (+10%)
-STR 108/98
-Max hit: 52
-
-Superhuman strength (+10%)
-STR 107/98
-Max hit: 51
-
 ----
 
 Undead slayer dummy
@@ -104,7 +66,7 @@ Max hit: 46
 
 
 ----
-Aberrant spectre, task
+Aberrant spectre, task, rapid
 
 Slayer helm, salve amulet (ei), magic shorbow (i), rune arrow, barrows gloves, ring of shadows, boots of brimstone, bandos d'hide body, bandos chaps
 
