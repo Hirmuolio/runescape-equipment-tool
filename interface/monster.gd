@@ -40,6 +40,6 @@ func set_monster( monster_node : monster ):
 	$def_range.value = current_monster.defence_ranged
 	
 	$attributes.value = str(current_monster.attributes).trim_prefix ( "[" ).trim_suffix("]")
-	$size.value = current_monster.size + "x" + current_monster.size
+	$size.value = str( current_monster.size )
 	
 	pass

@@ -24,7 +24,7 @@ func get_monsters():
 func load_items_json():
 	# Loads all the equipment from items-complete.json
 	print( "LOADING EQUIPMENT")
-	var path = "res://items-complete.json"
+	var path = "res://database/items-complete.json"
 	
 	var file = FileAccess.open( path, FileAccess.READ )
 	var test_json_conv = JSON.new()
@@ -127,6 +127,10 @@ func load_items_json():
 	save_items_user()
 	return
 
+func unsigned16_to_signed( unsigned : int ):
+	const MAX_15B = 1 << 15
+	const MAX_16B = 1 << 16
+	return (unsigned + MAX_15B) % MAX_16B - MAX_15B
 
 func save_items_user():
 	# Saves the item data so they don't need to be processed again.
@@ -142,24 +146,24 @@ func save_items_user():
 		file.store_32( item.item_id )
 		file.store_pascal_string( item.examine )
 		
-		file.store_64( item.attack_stab )
-		file.store_64( item.attack_slash )
-		file.store_64( item.attack_crush )
-		file.store_64( item.attack_magic )
-		file.store_64( item.attack_ranged )
+		file.store_16( item.attack_stab )
+		file.store_16( item.attack_slash )
+		file.store_16( item.attack_crush )
+		file.store_16( item.attack_magic )
+		file.store_16( item.attack_ranged )
 		
-		file.store_64( item.defence_stab )
-		file.store_64( item.defence_slash )
-		file.store_64( item.defence_crush )
-		file.store_64( item.defence_magic )
-		file.store_64( item.defence_ranged )
+		file.store_16( item.defence_stab )
+		file.store_16( item.defence_slash )
+		file.store_16( item.defence_crush )
+		file.store_16( item.defence_magic )
+		file.store_16( item.defence_ranged )
 		
-		file.store_64( item.melee_strength )
-		file.store_64( item.ranged_strength )
-		file.store_64( item.magic_damage_bonus )
-		file.store_64( item.prayer )
+		file.store_16( item.melee_strength )
+		file.store_16( item.ranged_strength )
+		file.store_16( item.magic_damage_bonus )
+		file.store_16( item.prayer )
 		
-		file.store_64( item.attack_speed )
+		file.store_8( item.attack_speed )
 		file.store_pascal_string( var_to_str(item.stances) )
 
 
@@ -180,31 +184,31 @@ func load_items_res():
 		
 		new_item.set_name( str( new_item.item_id ) )
 		
-		new_item.attack_stab = file.get_64()
-		new_item.attack_slash = file.get_64()
-		new_item.attack_crush = file.get_64()
-		new_item.attack_magic = file.get_64()
-		new_item.attack_ranged = file.get_64()
+		new_item.attack_stab = unsigned16_to_signed( file.get_16() )
+		new_item.attack_slash = unsigned16_to_signed( file.get_16() )
+		new_item.attack_crush = unsigned16_to_signed( file.get_16() )
+		new_item.attack_magic = unsigned16_to_signed( file.get_16() )
+		new_item.attack_ranged = unsigned16_to_signed( file.get_16() )
 		
-		new_item.defence_stab = file.get_64()
-		new_item.defence_slash = file.get_64()
-		new_item.defence_crush = file.get_64()
-		new_item.defence_magic = file.get_64()
-		new_item.defence_ranged = file.get_64()
+		new_item.defence_stab = unsigned16_to_signed( file.get_16() )
+		new_item.defence_slash = unsigned16_to_signed( file.get_16() )
+		new_item.defence_crush = unsigned16_to_signed( file.get_16() )
+		new_item.defence_magic = unsigned16_to_signed( file.get_16() )
+		new_item.defence_ranged = unsigned16_to_signed( file.get_16() )
 		
-		new_item.melee_strength = file.get_64()
-		new_item.ranged_strength = file.get_64()
-		new_item.magic_damage_bonus = file.get_64()
-		new_item.prayer = file.get_64()
+		new_item.melee_strength = unsigned16_to_signed( file.get_16() )
+		new_item.ranged_strength = unsigned16_to_signed( file.get_16() )
+		new_item.magic_damage_bonus = unsigned16_to_signed( file.get_16() )
+		new_item.prayer = unsigned16_to_signed( file.get_16() )
 		
-		new_item.attack_speed = file.get_64()
+		new_item.attack_speed = file.get_8()
 		new_item.stances = str_to_var( file.get_pascal_string() )
 
 
 func load_monsters_json():
 	# Loads all the monsters from monsters-complete.json
 	print( "LOADING MONSTERS")
-	var path = "res://monsters-complete.json"
+	var path = "res://database/monsters-complete.json"
 	
 	var file = FileAccess.open( path, FileAccess.READ)
 	var test_json_conv = JSON.new()
@@ -293,32 +297,32 @@ func save_monsters():
 		file.store_32( monster.monster_id )
 		file.store_pascal_string( monster.examine )
 		
-		file.store_64( monster.attack_level )
-		file.store_64( monster.strength_level )
-		file.store_64( monster.magic_level )
-		file.store_64( monster.ranged_level )
-		file.store_64( monster.defence_level )
-		file.store_64( monster.hitpoints )
+		file.store_16( monster.attack_level )
+		file.store_16( monster.strength_level )
+		file.store_16( monster.magic_level )
+		file.store_16( monster.ranged_level )
+		file.store_16( monster.defence_level )
+		file.store_16( monster.hitpoints )
 		
-		file.store_64( monster.combat_level )
+		file.store_16( monster.combat_level )
 		
-		file.store_64( monster.attack_bonus )
-		file.store_64( monster.strength_bonus )
-		file.store_64( monster.attack_magic )
-		file.store_64( monster.str_magic )
-		file.store_64( monster.attack_ranged )
-		file.store_64( monster.str_ranged )
+		file.store_16( monster.attack_bonus )
+		file.store_16( monster.strength_bonus )
+		file.store_16( monster.attack_magic )
+		file.store_16( monster.str_magic )
+		file.store_16( monster.attack_ranged )
+		file.store_16( monster.str_ranged )
 		
-		file.store_64( monster.max_hit )
+		file.store_16( monster.max_hit )
 		
-		file.store_64( monster.defence_stab )
-		file.store_64( monster.defence_slash )
-		file.store_64( monster.defence_crush )
-		file.store_64( monster.defence_magic )
-		file.store_64( monster.defence_ranged )
+		file.store_16( monster.defence_stab )
+		file.store_16( monster.defence_slash )
+		file.store_16( monster.defence_crush )
+		file.store_16( monster.defence_magic )
+		file.store_16( monster.defence_ranged )
 		
-		file.store_64( monster.attack_speed )
-		file.store_pascal_string( monster.size )
+		file.store_8( monster.attack_speed )
+		file.store_8( monster.size )
 		
 		file.store_pascal_string( var_to_str(monster.attack_type) )
 		file.store_pascal_string( var_to_str(monster.attributes) )
@@ -340,32 +344,32 @@ func load_monsters_res():
 		
 		new_monster.set_name( str( new_monster.monster_id ) )
 		
-		new_monster.attack_level = file.get_64()
-		new_monster.strength_level = file.get_64()
-		new_monster.magic_level = file.get_64()
-		new_monster.ranged_level = file.get_64()
-		new_monster.defence_level = file.get_64()
-		new_monster.hitpoints = file.get_64()
+		new_monster.attack_level = unsigned16_to_signed( file.get_16() )
+		new_monster.strength_level = unsigned16_to_signed( file.get_16() )
+		new_monster.magic_level = unsigned16_to_signed( file.get_16() )
+		new_monster.ranged_level = unsigned16_to_signed( file.get_16() )
+		new_monster.defence_level = unsigned16_to_signed( file.get_16() )
+		new_monster.hitpoints = unsigned16_to_signed( file.get_16() )
 		
-		new_monster.combat_level = file.get_64()
+		new_monster.combat_level = unsigned16_to_signed( file.get_16() )
 		
-		new_monster.attack_bonus = file.get_64()
-		new_monster.strength_bonus = file.get_64()
-		new_monster.attack_magic = file.get_64()
-		new_monster.str_magic = file.get_64()
-		new_monster.attack_ranged = file.get_64()
-		new_monster.str_ranged = file.get_64()
+		new_monster.attack_bonus = unsigned16_to_signed( file.get_16() )
+		new_monster.strength_bonus = unsigned16_to_signed( file.get_16() )
+		new_monster.attack_magic = unsigned16_to_signed( file.get_16() )
+		new_monster.str_magic = unsigned16_to_signed( file.get_16() )
+		new_monster.attack_ranged = unsigned16_to_signed( file.get_16() )
+		new_monster.str_ranged = unsigned16_to_signed( file.get_16() )
 		
-		new_monster.max_hit = file.get_64()
+		new_monster.max_hit = unsigned16_to_signed( file.get_16() )
 		
-		new_monster.defence_stab = file.get_64()
-		new_monster.defence_slash = file.get_64()
-		new_monster.defence_crush = file.get_64()
-		new_monster.defence_magic = file.get_64()
-		new_monster.defence_ranged = file.get_64()
+		new_monster.defence_stab = unsigned16_to_signed( file.get_16() )
+		new_monster.defence_slash = unsigned16_to_signed( file.get_16() )
+		new_monster.defence_crush = unsigned16_to_signed( file.get_16() )
+		new_monster.defence_magic = unsigned16_to_signed( file.get_16() )
+		new_monster.defence_ranged = unsigned16_to_signed( file.get_16() )
 		
-		new_monster.attack_speed = file.get_64()
-		new_monster.size = file.get_pascal_string()
+		new_monster.attack_speed = file.get_8()
+		new_monster.size = file.get_8()
 		
 		new_monster.attack_type = str_to_var( file.get_pascal_string() )
 		new_monster.attributes = str_to_var( file.get_pascal_string() )

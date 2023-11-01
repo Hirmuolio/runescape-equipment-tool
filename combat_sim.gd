@@ -232,24 +232,31 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		# Multipliers must be applied in specific order.
 		# This order is not fully known
 		# Slayer helm before tome of fire
+		multiplier = 1
 		
 		if slayer_task and "black_mask_i" in act_player.special_attributes:
-			p_max_hit = p_max_hit * 23/20 # 15%
+			#p_max_hit = p_max_hit * 23/20 # 15%
+			multiplier += 0.15
+		if wilderness and "thammaron" in act_player.special_attributes:
+			#p_max_hit = p_max_hit * 5/4
+			multiplier += 0.25
+		if "damned_ahrim" in act_player.special_attributes:
+			#crit_max_hit = crit_max_hit * 13/10 # 30%
+			crit_max_hit = int( p_max_hit * ( multiplier + 0.3 )  )
+		else:
+			crit_max_hit = int( p_max_hit * multiplier )
 		
+		p_max_hit = int( p_max_hit * multiplier )
+		
+		# These three appear to Maybe be applied after max hit is rolled. 
 		if spell and "tome_of_fire" in act_player.special_attributes && "fire" in spell.special_effects:
 			p_max_hit = p_max_hit * 3/2
 		if spell and "tome_of_water" in act_player.special_attributes && "water" in spell.special_effects:
 			p_max_hit = p_max_hit * 6/5
-		
-		if wilderness and "thammaron" in act_player.special_attributes:
-			p_max_hit = p_max_hit * 5/4
-		
 		if spell and mark_of_darkness and "demonbane" in spell.special_effects and "demon" in target_mon.attributes:
 			p_max_hit = p_max_hit * 5/4
 		
-		crit_max_hit = p_max_hit
-		if "damned_ahrim" in act_player.special_attributes:
-			crit_max_hit = crit_max_hit * 13/10 # 30%
+
 		
 		
 	elif act_player.attack_style == "ranged":

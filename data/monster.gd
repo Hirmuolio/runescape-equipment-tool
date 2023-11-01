@@ -37,7 +37,7 @@ var attack_type : Array = []
 var attack_speed : int = 1
 
 var attributes : Array = []
-var size : String = "1x1"
+var size : int = 1
 
 # Current state in the list
 var is_hidden = false
