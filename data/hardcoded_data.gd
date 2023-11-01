@@ -194,7 +194,7 @@ var equipment_specials : Dictionary = {
 	"twisted": {
 		"items": ["Twisted bow"],
 		"name": "Twisted bow",
-		"description": "Increased damage and accuracy basaed on enemy magic level/accuracy"
+		"description": "Increased damage and accuracy based on enemy magic level/accuracy"
 	},
 	"slayer_staff_e": {
 		"items": ["Slayer's staff (e)"],
@@ -217,7 +217,7 @@ var equipment_specials : Dictionary = {
 		"description": "+20% bonus for water spell damage and accuracy"
 	},
 	"somke_bass": {
-		"items": ["Smoke battlestaff"],
+		"items": ["Smoke battlestaff", "Mystic smoke battlestaff"],
 		"name": "Smoke battlestaff",
 		"description": "+10% bonus for standard spell damage and accuracy"
 	},
@@ -983,7 +983,7 @@ func load_spells():
 	var class_item = load( "res://data/equipment.tscn" )
 	var id : int = -1
 	for spell in spells.values():
-		var new_item : equipment = class_item.instance()
+		var new_item : equipment = class_item.instantiate()
 		Database.get_node("items").add_child( new_item )
 		
 		new_item.item_name = spell["name"]
@@ -992,7 +992,7 @@ func load_spells():
 		
 		new_item.equipment_slot = "spell"
 		new_item.item_id = id
-		new_item.set_name( String( new_item.item_id ) )
+		new_item.set_name( str( new_item.item_id ) )
 		id -= 1
 	pass
 

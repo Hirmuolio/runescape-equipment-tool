@@ -38,7 +38,7 @@ func _on_slayer_value_changed(new_value):
 	slayer_task = new_value
 	do_fast_simulations()
 
-func _on_charge_value_changed(new_value):
+func _on_charge_value_changed(new_value : bool):
 	charge_spell = new_value
 	do_fast_simulations()
 
@@ -148,7 +148,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 	if magic_attack:
 		var spell : equipment = act_player.spell
 		
-		var salamander : bool = "salamander" in act_player.weapon.item_name or act_player.weapon.item_name == "Swamp lizard"
+		var salamander : bool = act_player.weapon and ( "salamander" in act_player.weapon.item_name or act_player.weapon.item_name == "Swamp lizard" )
 		
 		if salamander:
 			var magic_str : int = 3
@@ -204,7 +204,10 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			if "god_spell" in spell.special_effects and charge_spell and "god_cape" in act_player.special_attributes:
 				p_max_hit += 10
 		
-		# This doesn't make sense but is supposedly "correct" (at least mostly)
+		# Magic damage multiplier calculations
+		# 1. Sum additive bonuses together
+		# 2. Apply total additive bonus
+		# 3. Apply multiplicative bonuses in specific order
 		var multiplier : float = 1
 		
 		if "tumekens_shadow" in act_player.special_attributes:
@@ -217,37 +220,43 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		if "elite_void_magic" in act_player.special_attributes:
 			multiplier += 0.025 
 		
-		var salve : bool = false
-		if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
-			multiplier += 0.2
-			salve = true
-		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
-			multiplier += 0.15
-			salve = true
-		
-		
+		# Slayer helm overrides salve
+		if not "black_mask_i" in act_player.special_attributes:
+			if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
+				multiplier += 0.2
+			elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
+				multiplier += 0.15
 		
 		p_max_hit = int( p_max_hit * multiplier )
 		
+		# Multipliers must be applied in specific order.
+		# This order is not fully known
+		# Slayer helm before tome of fire
+		multiplier = 1
+		
+		if slayer_task and "black_mask_i" in act_player.special_attributes:
+			#p_max_hit = p_max_hit * 23/20 # 15%
+			multiplier += 0.15
+		if wilderness and "thammaron" in act_player.special_attributes:
+			#p_max_hit = p_max_hit * 5/4
+			multiplier += 0.25
+		if "damned_ahrim" in act_player.special_attributes:
+			#crit_max_hit = crit_max_hit * 13/10 # 30%
+			crit_max_hit = int( p_max_hit * ( multiplier + 0.3 )  )
+		else:
+			crit_max_hit = int( p_max_hit * multiplier )
+		
+		p_max_hit = int( p_max_hit * multiplier )
+		
+		# These three appear to Maybe be applied after max hit is rolled. 
 		if spell and "tome_of_fire" in act_player.special_attributes && "fire" in spell.special_effects:
 			p_max_hit = p_max_hit * 3/2
 		if spell and "tome_of_water" in act_player.special_attributes && "water" in spell.special_effects:
 			p_max_hit = p_max_hit * 6/5
-		
-		# This is weird and technically there could be a situation where taking off salve amulet
-		# would give more dps. Not sure if that ever happens in practice.
-		if slayer_task and !salve and "black_mask_i" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.15 )
-		
-		if wilderness and "thammaron" in act_player.special_attributes:
-			p_max_hit = p_max_hit * 5/4
-		
 		if spell and mark_of_darkness and "demonbane" in spell.special_effects and "demon" in target_mon.attributes:
 			p_max_hit = p_max_hit * 5/4
 		
-		crit_max_hit = p_max_hit
-		if "damned_ahrim" in act_player.special_attributes:
-			crit_max_hit = int( crit_max_hit * 1.3 )
+
 		
 		
 	elif act_player.attack_style == "ranged":
@@ -270,7 +279,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
 			p_max_hit = p_max_hit * 7/6 # *1.16
 		elif slayer_task and "black_mask_i" in act_player.special_attributes:
-			p_max_hit = int( p_max_hit * 1.15 )
+			p_max_hit = p_max_hit * 23/20 # 15%
 		
 		if "holy_water" in act_player.special_attributes and "demon" in target_mon.attributes:
 			p_max_hit = p_max_hit * 8/5
@@ -647,6 +656,7 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	rng.randomize()
 	
 	var crit_chance : float = 0
+	var bolt_e_chance : float = 0
 	if "keris" in act_player.special_attributes:
 		crit_chance = 1.0/51
 	elif "gaddehammer" in act_player.special_attributes:
@@ -659,21 +669,21 @@ func simulate_combat( act_player : player, target_mon : monster ):
 		crit_chance = 0.25
 	else:
 		if "onyx_bolt_e" in act_player.special_attributes and not ("undead" in target_mon.attributes):
-			crit_chance = 0.11
+			bolt_e_chance = 0.11
 		if "dragonstone_bolt_e" in act_player.special_attributes and not ("dragon" in target_mon.attributes):
-			crit_chance = 0.06
+			bolt_e_chance = 0.06
 		if "diamond_bolt_e" in act_player.special_attributes:
-			crit_chance = 0.1
+			bolt_e_chance = 0.1
 		if "ruby_bolt_e" in act_player.special_attributes:
-			crit_chance = 0.06
+			bolt_e_chance = 0.06
 		if "pearl_bolt_e" in act_player.special_attributes:
-			crit_chance = 0.06
+			bolt_e_chance = 0.06
 		if "opal_bolt_e" in act_player.special_attributes:
-			crit_chance = 0.05
+			bolt_e_chance = 0.05
 		
 		# This is a bit hacky but should not run when non-bolt crit is possible.
 		if kandarin_diary:
-			crit_chance *= 1.1
+			bolt_e_chance *= 1.1
 	
 	var powered_staff : bool = "powered_staff" in act_player.special_attributes
 	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
@@ -700,13 +710,15 @@ func simulate_combat( act_player : player, target_mon : monster ):
 			
 			if "osmuten_fang" in act_player.special_attributes:
 				att_roll = int( max( att_roll, rng.randi_range( 0, p_hit_roll) ) )
-			if "keris_sun" in act_player.special_attributes and target_hp * 4 < target_mon.hitpoints:
+			elif "keris_sun" in act_player.special_attributes and target_hp * 4 < target_mon.hitpoints:
 				att_roll = att_roll * 5 / 4
 			
+			attacks += 1
 			
-			# Scythe's triple hit is handled separately
+			
 			if "scythe_vitur" in act_player.special_attributes and int(target_mon.size) > 1:
-				attacks += 3
+				# Scythe's triple hit is handled separately
+				attacks += 2
 				if att_roll > def_roll:
 					damage += rng.randi_range( 0, p_max_hit )
 					hits += 1
@@ -716,51 +728,71 @@ func simulate_combat( act_player : player, target_mon : monster ):
 				if rng.randi_range( 0, p_hit_roll) > rng.randi_range( 0, m_def_roll):
 					damage += rng.randi_range( 0, p_max_hit /4 )
 					hits += 1
-			
-			attacks += 1
-			if rng.randf() <= crit_chance:
-				# it is an abnormal attack
-				
+			elif bolt_e_chance and rng.randf() <= bolt_e_chance:
+				# I *think* all bolt(e) specials have 100% hit chance when they occur
 				if "diamond_bolt_e" in act_player.special_attributes:
 					# Hits for +15% damage (+25% with zaryte)
-					# Quaranteed hit
 					if zaryte:
 						damage += rng.randi_range( 0, p_max_hit * 5/4)
 					else:
 						damage += rng.randi_range( 0, p_max_hit * 23/20)
 					hits += 1
-				elif "verac" in act_player.special_attributes:
+				elif "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
+					# Deal 20% of target's remaining HP (max 100) (22% max 110 with zaryte)
+					if zaryte:
+						damage += int( min( 110, target_mon.hitpoints * 1.22 ) )
+					else:
+						damage += int( min( 100, target_mon.hitpoints / 5 ) )
+					hits += 1
+				elif "onyx_bolt_e" in act_player.special_attributes:
+					# Hits for +20% damage (+30% with zaryte)
+					# Leech life (not implemented)
+					if zaryte:
+						damage += rng.randi_range( 0, p_max_hit * 13/10 )
+					else:
+						damage += rng.randi_range( 0, p_max_hit * 12/10 )
+					hits += 1
+				elif "dragonstone_bolt_e" in act_player.special_attributes:
+					# +20% of rng lvl added to damage (+22% with szaryte)
+					if zaryte:
+						damage += rng.randi_range( 0, p_max_hit + 11 * act_player.ranged / 50 )
+					else:
+						damage += rng.randi_range( 0, p_max_hit + act_player.ranged / 5 )
+					hits += 1
+				elif "opal_bolt_e" in act_player.special_attributes:
+					# +1/10 of rng lvl added to damage
+					if zaryte:
+						damage += rng.randi_range( 0, p_max_hit + act_player.ranged / 9 )
+					else:
+						damage += rng.randi_range( 0, p_max_hit + act_player.ranged / 10 )
+					hits += 1
+				elif "pearl_bolt_e" in act_player.special_attributes:
+					# adds 1/15 of the player's rng lvl to fiery units damage, and 1/20 against other targets
+					# Wiki doesn't list zaryte xbow effect on this?
+					var extra : int
+					if "fiery" in target_mon.attributes:
+						extra = act_player.ranged / 15
+					else:
+						extra = act_player.ranged / 20
+					damage += rng.randi_range( 0, p_max_hit + extra )
+					hits += 1
+			elif crit_chance and att_roll > def_roll and rng.randf() <= crit_chance:
+				# it is an abnormal attack
+				
+				if "verac" in act_player.special_attributes:
 					# Quaranteed hit
 					# +1 damage
 					damage += rng.randi_range( 0, p_max_hit ) +1
 					hits += 1
-				
-				if att_roll > def_roll:
-					if "ruby_bolt_e" in act_player.special_attributes and att_roll > def_roll:
-						# Deal 20% of target's remaining HP (max 100) (22% max 110 with zaryte)
-						if zaryte:
-							damage += int( min( 110, target_mon.hitpoints *1.22 ) )
-						else:
-							damage += int( min( 100, target_mon.hitpoints /5 ) )
-						hits += 1
-					elif "onyx_bolt_e" in act_player.special_attributes:
-						# Hits for +20% damage (+30% with zaryte)
-						# Leech life (not implemented)
-						if zaryte:
-							damage += rng.randi_range( 0, p_max_hit * 13/10)
-						else:
-							damage += rng.randi_range( 0, p_max_hit * 12/10)
-						hits += 1
-					elif "damned_karil" in act_player.special_attributes and att_roll > def_roll:
-						# Attacks twice. Second attack deals half of first attack damage
-						var hit : int = rng.randi_range( 0, p_max_hit )
-						damage += hit + hit / 2
-						hits += 1
-						pass
-					else:
-						# Some other generic critical hit
-						damage += rng.randi_range( 0, crit_max_hit )
-						hits += 1
+				elif "damned_karil" in act_player.special_attributes:
+					# Attacks twice. Second attack deals half of first attack damage
+					var hit : int = rng.randi_range( 0, p_max_hit )
+					damage += hit + hit / 2
+					hits += 1
+				else:
+					# Some other generic critical hit
+					damage += rng.randi_range( 0, crit_max_hit )
+					hits += 1
 				target_hp -= damage
 			elif att_roll > def_roll:
 				# A normal attack

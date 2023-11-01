@@ -6,35 +6,14 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "Node",
-"class": "equipment",
-"language": "GDScript",
-"path": "res://data/equipment.gd"
-}, {
-"base": "Node",
-"class": "monster",
-"language": "GDScript",
-"path": "res://data/monster.gd"
-}, {
-"base": "Node",
-"class": "player",
-"language": "GDScript",
-"path": "res://data/player.gd"
-} ]
-_global_script_class_icons={
-"equipment": "",
-"monster": "",
-"player": ""
-}
+config_version=5
 
 [application]
 
 config/name="Runescape Equipment Tool"
 config/description="Tool that simulates Runescape equipment"
 run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.1")
 config/icon="res://icon.png"
 
 [autoload]
@@ -50,6 +29,8 @@ gdscript/warnings/integer_division=false
 
 [display]
 
+window/size/viewport_width=1333
+window/size/viewport_height=1000
 window/size/width=1333
 window/size/height=1000
 
@@ -57,6 +38,12 @@ window/size/height=1000
 
 warning=false
 integer=false
+
+[gui]
+
+theme/custom="res://new_theme.tres"
+theme/default_font_antialiasing=2
+theme/lcd_subpixel_layout=2
 
 [physics]
 

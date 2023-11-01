@@ -1,0 +1,120 @@
+Max hits with various gear. 
+TODO add automatic tests to check that tool gets same numbers as these.
+
+Ava's assembler, magic shortbow (i), rune arrow
+Range lvl: 91
+ranged str:51
+Max hit: 18
+
+----
+
+Slayer helm, Leaf-bladed battleaxe, dragon defender, barrows gloves, berserker ring (i), bonecrusher necklace, dragon boots
+Bonuses: Slayer helm, leaf baxe
+str: 128
+
+Burst of strength (+5%)
+STR lvl: 98
+Max hit: 45
+
+Burst of strength (+5%)
+STR lvl 110/98
+Max hit: 59
+
+STR lvl 106/98
+Max hit: 47
+
+Burst of strength (+5%)
+STR 103/98
+Max hit: 49
+
+Burst of strength (+5%)
+STR 99/98
+Max hit: 45
+
+Superhuman strength (+10%)
+STR 108/98
+Max hit: 52
+
+Superhuman strength (+10%)
+STR 107/98
+Max hit: 51
+
+----
+
+Undead slayer dummy
+Fire surge
+
+Slayer helm, smoke battlestaff, tome of fire
+Max hit: 43
+
+Slayer helm, smoke battlestaff, tome of fire, salve (i)
+Max hit: 45
+
+Slayer helm, smoke battlestaff, tome of fire, salve (ei)
+Max hit: 46
+
+smoke battlestaff, tome of fire, salve (ei)
+Max hit: 46
+
+smoke battlestaff, tome of fire, salve (i)
+Max hit: 45
+
+----
+
+Undead slayer dummy
+Fire surge
+
+Slayer helm, smoke battlestaff, tome of fire, imbued saradomin cape
+Max hit: 43
+
+Slayer helm, smoke battlestaff, tome of fire, imbued saradomin cape, salve amulet (i)
+Max hit: 45 (slayer helm ignored)
+
+Slayer helm, smoke battlestaff, tome of fire, imbued saradomin cape, salve amulet (ei)
+Max hit: 46 (slayer helm ignored)
+
+Slayer helm, smoke battlestaff, tome of fire, imbued saradomin cape, Occult necklace
+Max hit: 49
+
+smoke battlestaff, tome of fire, imbued saradomin cape, salve amulet (ei)
+Max hit: 46
+
+smoke battlestaff, tome of fire, imbued saradomin cape, salve amulet (i)
+Max hit: 45
+
+smoke battlestaff, tome of fire, imbued saradomin cape, occult necklace
+Max hit: 43
+
+----
+
+Skeleton slayer
+Fire surge
+
+Slayer helm, smoke battlestaff, tome of fire, imbued saradomin cape, salve amulet (i)
+Max hit: 45
+
+smoke battlestaff, tome of fire, imbued saradomin cape, salve amulet (i)
+Max hit: 45
+
+smoke battlestaff, tome of fire, imbued saradomin cape, salve amulet (ei)
+Max hit: >45
+
+Slayer helm, smoke battlestaff, tome of fire, imbued saradomin cape, salve amulet (ei)
+Max hit: 46
+
+
+----
+Aberrant spectre, task
+
+Slayer helm, salve amulet (ei), magic shorbow (i), rune arrow, barrows gloves, ring of shadows, boots of brimstone, bandos d'hide body, bandos chaps
+
+range lvl: 102/91
+Max hit: 24
+
+range lvl: 103/91
+Max hit: 24
+
+Slayer helm, bonecrusher necklacke, magic shorbow (i), rune arrow, barrows gloves, ring of shadows, boots of brimstone, bandos d'hide body, bandos chaps
+
+range lvl: 95
+max hit: 21

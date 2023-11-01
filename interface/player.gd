@@ -1,7 +1,7 @@
 extends VBoxContainer
 
 
-onready var player_stats = get_parent().get_parent().get_node( "player_data" )
+@onready var player_stats = get_parent().get_parent().get_node( "player_data" )
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,10 +48,10 @@ func _on_player_data_prayers_changed():
 	var prayer_button_scene := preload( "res://interface/pray_button.tscn")
 	
 	for prayer in player_stats.prayers:
-		var button := prayer_button_scene.instance()
+		var button := prayer_button_scene.instantiate()
 		button.pray_id = prayer
-		var _err1 = button.connect( "button_down", player_stats, "prayer_remove", [prayer] )
-		var _err2 = button.connect( "button_down", button, "remove_button" )
+		var _err1 = button.connect("button_down",Callable(player_stats,"prayer_remove").bind(prayer))
+		var _err2 = button.connect("button_down",Callable(button,"remove_button"))
 		$prayers.add_child( button )
 	
 	

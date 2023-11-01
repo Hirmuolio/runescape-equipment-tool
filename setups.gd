@@ -1,7 +1,7 @@
 extends TabContainer
 
 
-onready var setup_scene = preload( "res://interface/set.tscn" )
+@onready var setup_scene = preload( "res://interface/set.tscn" )
 
 var test : String = ""
 
@@ -11,8 +11,8 @@ func _ready():
 
 
 func _on_new_setup_pressed():
-	var new_setup = setup_scene.instance()
-	new_setup.name = String( get_child_count() )
+	var new_setup = setup_scene.instantiate()
+	new_setup.name = str( get_child_count() )
 	add_child( new_setup )
 
 
@@ -29,14 +29,11 @@ func _on_prayer_list_prayer_selected(prayer_id):
 
 
 func _on_save_set_pressed():
-	OS.set_clipboard( get_current_tab_control().save_data() )
-	#print( test )
-	pass # Replace with function body.
+	DisplayServer.clipboard_set( get_current_tab_control().save_data() )
 
 
 func _on_load_set_pressed():
-	get_current_tab_control().load_data( OS.get_clipboard() )
-	pass # Replace with function body.
+	get_current_tab_control().load_data( DisplayServer.clipboard_get() )
 
 
 func _on_Button_pressed():

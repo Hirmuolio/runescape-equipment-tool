@@ -1,24 +1,28 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://beuyi58n3m0g7"]
 
-[ext_resource path="res://graphics/hoover_info_box.png" type="Texture" id=1]
-[ext_resource path="res://interface/hoover_info.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://dxj1sdhep8bjy" path="res://graphics/hoover_info_box.png" id="1"]
+[ext_resource type="Script" path="res://interface/hoover_info.gd" id="2"]
 
 [node name="hoover_info" type="NinePatchRect"]
-margin_right = 300.0
-margin_bottom = 100.0
-texture = ExtResource( 1 )
+offset_right = 300.0
+offset_bottom = 100.0
+texture = ExtResource("1")
 patch_margin_left = 5
 patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-self_modulate = Color( 0, 0, 0, 1 )
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 5.0
-margin_right = -5.0
-margin_bottom = -5.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "a"
 scroll_active = false

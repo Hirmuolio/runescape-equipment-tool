@@ -1,8 +1,8 @@
 extends VBoxContainer
 
 
-onready var player_data = get_parent().get_parent().get_node("player_data") # TODO make nicer
-onready var combat_sim = get_parent().get_parent().get_node("combat_sim")
+@onready var player_data = get_parent().get_parent().get_node("player_data") # TODO make nicer
+@onready var combat_sim = get_parent().get_parent().get_node("combat_sim")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,22 +19,22 @@ func refresh_results():
 	if combat_sim.p_max_hit != combat_sim.crit_max_hit:
 		max_hoover_info += "\nCritical hit: " + str( combat_sim.crit_max_hit )
 	$p_maxhit.hoover_info = max_hoover_info
-	$p_hitchance.value = str( stepify( combat_sim.p_hit_chance * 100, 0.01 ) ) + "%"
-	$p_hitchance2.value = str( stepify( combat_sim.p_hit_chance2 * 100, 0.01 ) ) + "%"
+	$p_hitchance.value = str( snapped( combat_sim.p_hit_chance * 100, 0.01 ) ) + "%"
+	$p_hitchance2.value = str( snapped( combat_sim.p_hit_chance2 * 100, 0.01 ) ) + "%"
 	$p_hitchance.hoover_info = "Approximation from stats. Does not apply all special effects.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
 	$p_hitchance2.hoover_info = "Result from simulated combat.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
-	$p_dps.value = stepify( combat_sim.p_dps, 0.01 )
-	$p_dps2.value = stepify( combat_sim.p_dps2, 0.01 )
+	$p_dps.value = snapped( combat_sim.p_dps, 0.01 )
+	$p_dps2.value = snapped( combat_sim.p_dps2, 0.01 )
 	
 	if combat_sim.time_to_kill2:
-		$spk.value = str( stepify( combat_sim.time_to_kill2, 0.01 ) ) + " s"
+		$spk.value = str( snapped( combat_sim.time_to_kill2, 0.01 ) ) + " s"
 	else:
 		$spk.value = ""
 	
 	$m_maxhit.value = combat_sim.m_max_hit
-	$m_hitchance.value = str( stepify( combat_sim.m_hit_chance  * 100, 0.01 ) ) + "%"
+	$m_hitchance.value = str( snapped( combat_sim.m_hit_chance  * 100, 0.01 ) ) + "%"
 	$m_hitchance.hoover_info = "Monster attack roll: " + str(combat_sim.m_hit_roll)+ "\nPlayer def roll: " + str(combat_sim.p_def_roll)
-	$m_dps.value = stepify( combat_sim.m_dps, 0.1 )
+	$m_dps.value = snapped( combat_sim.m_dps, 0.1 )
 	
 	var drain_res : float = 2 * player_data.get_equipment_bonus( "prayer" ) + 60
 	var drain : float = 0
@@ -55,7 +55,7 @@ func print_specials():
 	for special in player_data.special_attributes:
 		$special_desc.add_text ( "  " + HardcodedData.equipment_specials[ special ][ "name" ] )
 		$special_desc.newline()
-		$special_desc.append_bbcode ( HardcodedData.equipment_specials[ special ][ "description" ] )
+		$special_desc.append_text( HardcodedData.equipment_specials[ special ][ "description" ] )
 		$special_desc.newline()
 		$special_desc.newline()
 		#$special_desc.pop()

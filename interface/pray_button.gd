@@ -1,7 +1,7 @@
 extends Button
 
 
-var pray_id : String setget _set_pray_id
+var pray_id : String = "" : set = _set_pray_id
 #var hoover_info : String
 
 
@@ -17,7 +17,7 @@ func _set_pray_id( new_pray_id ):
 
 
 func _on_pray_button_mouse_entered():
-	var hoover_node = load( "res://interface/hoover_info.tscn" ).instance()
+	var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
 	
 	var hoover_info : String = HardcodedData.prayers[pray_id]["description"]
 	hoover_info += "\ndrain: " + str( HardcodedData.prayers[pray_id]["drain"] )
