@@ -1,6 +1,8 @@
 extends Node
 
 
+var state : combat_state = preload("res://resources/combat_state.gd").new()
+
 var p_max_hit : int	# Max hit with equipment specials
 var base_max_hit : int	# Max hit without extra bonuses
 var crit_max_hit : int	# Max hit with occasionally triggering specials
@@ -27,6 +29,9 @@ var wilderness : bool = true
 var slayer_task : bool = true
 var mark_of_darkness : bool = false
 var dwh_specs : int = 0
+var toa : bool = false
+var toa_multiplier : float = 1
+var toa_damage_multiplier : float = 1
 
 signal simulation_done()
 
@@ -56,6 +61,16 @@ func _on_darkness_value_changed(new_value):
 
 func _on_d_warammer_value_changed(new_value):
 	dwh_specs = new_value
+	do_fast_simulations()
+
+func _on_toa_value_changed(new_value):
+	toa = new_value
+	do_fast_simulations()
+
+func _on_toa_level_value_changed(new_value):
+	toa_damage_multiplier = min( 1.5, 1 + new_value * 0.02 )
+	toa_multiplier = 1 + new_value * 0.02
+	# TODO update npc stats
 	do_fast_simulations()
 
 func clear_results():
@@ -101,7 +116,7 @@ func do_fast_simulations():
 		return
 	
 	calc_m_hit_chance( act_player, target_mon )
-	m_max_hit = target_mon.max_hit
+	m_max_hit = target_mon.max_hit * toa_damage_multiplier
 	if "bulwark" in act_player.special_attributes and act_player.attack_stance == "block":
 		m_max_hit = m_max_hit * 4 / 5
 	
@@ -132,7 +147,7 @@ func do_simulations():
 		return
 	
 	calc_m_hit_chance( act_player, target_mon )
-	m_max_hit = target_mon.max_hit
+	m_max_hit = target_mon.max_hit * toa_damage_multiplier
 	
 	m_dps = m_hit_chance * m_max_hit / 2 / target_mon.attack_speed / 0.6
 	
@@ -208,6 +223,8 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		# 1. Sum additive bonuses together
 		# 2. Apply total additive bonus
 		# 3. Apply multiplicative bonuses in specific order
+		# 4. Calculate damage (roll random number)
+		# 5. Apply post-roll modifiers
 		var multiplier : float = 1
 		
 		if "tumekens_shadow" in act_player.special_attributes:
@@ -250,13 +267,21 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 		
 		p_max_hit = int( p_max_hit * multiplier )
 		
+		state.p_max_hit = p_max_hit
+		state.p_crit_max_hit = crit_max_hit
+		
 		# These three appear to Maybe be applied after max hit is rolled. 
 		if spell and "tome_of_fire" in act_player.special_attributes && "fire" in spell.special_effects:
 			p_max_hit = p_max_hit * 3/2
+			state.post_roll_mult = Vector2i(3,2)
 		if spell and "tome_of_water" in act_player.special_attributes && "water" in spell.special_effects:
 			p_max_hit = p_max_hit * 6/5
+			state.post_roll_mult = Vector2i(6,5)
 		if spell and mark_of_darkness and "demonbane" in spell.special_effects and "demon" in target_mon.attributes:
 			p_max_hit = p_max_hit * 5/4
+			state.post_roll_mult = Vector2i(5,4)
+		state.p_post_roll_max = p_max_hit
+		state.p_post_rollcrit = state.p_crit_max_hit * state.post_roll_mult[0] / state.post_roll_mult[1]
 		
 
 		
@@ -347,7 +372,7 @@ func calc_p_max_hit( act_player : player, target_mon : monster ):
 			if "crystal_helm" in act_player.special_attributes:
 				damage_mult += 0.025
 			p_max_hit = int( damage_mult * p_max_hit)
-			
+		state.p_pre_roll_max = p_max_hit
 		
 	else:
 		# Melee
@@ -616,7 +641,7 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 	
 	if target_mon.attack_type[0] == "magic":
 		var eff_atk : int = target_mon.magic_level + 9
-		atk_roll = eff_atk * ( target_mon.attack_magic  + 64 )
+		atk_roll = eff_atk * ( target_mon.attack_magic  + 64 ) * toa_multiplier
 		
 		# This may be wrong but nobody knows better
 		var eff_def : int = int( ( int( player.defence * player.prayer_def ) + player.style_def_bonus ) * 0.3 )
@@ -624,22 +649,22 @@ func calc_m_hit_chance( player : player, target_mon : monster ):
 		# Uhh... maybe
 		eff_def = int( eff_def * player.prayer_magic_def )
 		
-		def_roll = eff_def * ( player.style_def( "magic" ) + 64 )
+		def_roll = eff_def * ( player.style_def( "magic" ) + 64 ) * toa_multiplier
 
 	elif target_mon.attack_type[0] == "ranged":
 		var eff_atk : int = target_mon.ranged_level + 8
-		atk_roll = eff_atk * ( target_mon.attack_ranged  + 64 )
+		atk_roll = eff_atk * ( target_mon.attack_ranged  + 64 ) * toa_multiplier
 		
 		var eff_def : int = int( player.defence * player.prayer_def ) + player.style_def_bonus + 8
-		def_roll = eff_def * ( player.style_def( "ranged" ) + 64 )
+		def_roll = eff_def * ( player.style_def( "ranged" ) + 64 ) * toa_multiplier
 		
 	else:
 		# Melee
 		var eff_atk : int = target_mon.attack_level + 8
-		atk_roll = eff_atk * ( target_mon.attack_bonus  + 64 )
+		atk_roll = eff_atk * ( target_mon.attack_bonus  + 64 ) * toa_multiplier
 		
 		var eff_def : int = int( player.defence * player.prayer_def ) + player.style_def_bonus + 8
-		def_roll = eff_def * ( player.style_def( target_mon.attack_type[0] ) + 64 )
+		def_roll = eff_def * ( player.style_def( target_mon.attack_type[0] ) + 64 ) * toa_multiplier
 	
 	
 	p_def_roll = def_roll
@@ -655,8 +680,6 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	
 	# Full tick accurate combat simulation
 	
-	var state : combat_state = preload("res://combat_state.gd").new()
-	
 	state.rng = RandomNumberGenerator.new()
 	state.rng.randomize()
 	state.target_max_hp = target_mon.hitpoints
@@ -666,6 +689,7 @@ func simulate_combat( act_player : player, target_mon : monster ):
 	state.p_crit_max_hit = crit_max_hit
 	state.attack_speed = act_player.attack_speed
 	state.fiery = "fiery" in target_mon.attributes
+	state.toa = toa
 	
 	var hit_func = Callable(self, "hit_normal")
 	
@@ -737,7 +761,7 @@ func hit_normal( state : combat_state ) -> int:
 	if state.brimstone and state.chance( 0.25 ):
 		def_roll *= 0.9
 	if def_roll < state.rng_roll( state.p_hit_roll):
-		return state.rng.randi_range( 0, state.p_max_hit)
+		return state.rng.randi_range( 0, state.p_max_hit) * state.post_roll_mult[0] / state.post_roll_mult[1]
 	return 0
 
 func hit_karil_damned( state : combat_state ) -> int:
@@ -804,8 +828,8 @@ func hit_critical( state : combat_state ) -> int:
 	if def_roll >= state.rng_roll( state.p_hit_roll):
 		return 0
 	if state.chance( state.crit_chance ):
-		return state.rng_roll( state.p_crit_max_hit)
-	return state.rng_roll( state.p_max_hit)
+		return state.rng_roll( state.p_crit_max_hit) * state.post_roll_mult[0] / state.post_roll_mult[1]
+	return state.rng_roll( state.p_max_hit) * state.post_roll_mult[0] / state.post_roll_mult[1]
 
 func hit_onyx( state : combat_state ) -> int:
 	# 11% chance to proc in pve
@@ -875,5 +899,11 @@ func hit_pearl( state : combat_state ) -> int:
 			else:
 				return state.rng_roll( state.p_max_hit + state.p_ranged / 20 )
 	return hit_normal( state )
+
+
+
+
+
+
 
 

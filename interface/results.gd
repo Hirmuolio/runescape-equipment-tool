@@ -12,17 +12,17 @@ func _ready():
 func refresh_results():
 	#print_specials( player_data )
 	
-	$p_maxhit.value = combat_sim.p_max_hit
+	$p_maxhit.value = combat_sim.state.p_post_roll_max
 	
 	var max_hoover_info : String = ""
-	max_hoover_info += "Base max hit: " + str( combat_sim.base_max_hit )
-	if combat_sim.p_max_hit != combat_sim.crit_max_hit:
+	max_hoover_info += "Base max hit: " + str( combat_sim.state.p_post_roll_max )
+	if combat_sim.p_max_hit != combat_sim.state.p_post_rollcrit:
 		max_hoover_info += "\nCritical hit: " + str( combat_sim.crit_max_hit )
 	$p_maxhit.hoover_info = max_hoover_info
 	$p_hitchance.value = str( snapped( combat_sim.p_hit_chance * 100, 0.01 ) ) + "%"
 	$p_hitchance2.value = str( snapped( combat_sim.p_hit_chance2 * 100, 0.01 ) ) + "%"
 	$p_hitchance.hoover_info = "Approximation from stats. Does not apply all special effects.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll)
-	$p_hitchance2.hoover_info = "Result from simulated combat.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll) + "\nHitting 0 ic ounted as miss."
+	$p_hitchance2.hoover_info = "Result from simulated combat.\nPlayer attack roll: " + str(combat_sim.p_hit_roll) + "\nMonster def roll: " + str(combat_sim.m_def_roll) + "\nHitting 0 is ounted as miss."
 	$p_dps.value = snapped( combat_sim.p_dps, 0.01 )
 	$p_dps2.value = snapped( combat_sim.p_dps2, 0.01 )
 	
