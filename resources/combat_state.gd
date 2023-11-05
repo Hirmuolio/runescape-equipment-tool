@@ -33,23 +33,14 @@ var fiery : bool = false # Is target fiery
 
 var p_ranged : int = 0 #player ranged lvl
 
-func reset():
-	m_def_roll = 0
-	p_hit_roll = 0
-	attack_speed = 0
-	p_max_hit = 0
-	crit_chance = 0
-	p_crit_max_hit = 0
-	zaryte = false
-	kandarin = 1
-	toa = false
-	brimstone = false
-	target_hp = 0
-	target_max_hp = 0
-	fiery = false
-	p_ranged = 0
-	post_roll_mult = Vector2i(0,0)
-	p_post_rollcrit = 0
+func initialize( act_player : player, target_mon : monster, stats : dps_stats ):
+	rng = RandomNumberGenerator.new()
+	rng.randomize()
+	target_max_hp = target_mon.hitpoints
+	m_def_roll = stats.monster_def_roll
+	p_hit_roll = stats.atk_roll
+	attack_speed = act_player.attack_speed
+	fiery = "fiery" in target_mon.attributes
 
 func is_dead():
 	return target_hp <= 0

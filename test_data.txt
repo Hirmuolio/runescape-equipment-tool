@@ -80,3 +80,30 @@ Slayer helm, bonecrusher necklacke, magic shorbow (i), rune arrow, barrows glove
 
 range lvl: 95
 max hit: 21
+
+-----
+Kalphite task, accurate
+Slayer helm, fire cape, fury, keris partisan, dragon defender, dragon boots, berserker ring i
+
+Burst of strength
+Str lvl: 108
+Max hit: 48
+
+Burst of strength
+Str lvl: 106
+max hit: 42
+
+Burst of strength
+str 118
+Max hit 47
+
+Burst of strength
+str 117
+Max hit 47
+
+str lvl: 107
+max hit: 41
+
+Burst of strength
+str: 116
+max: 46
