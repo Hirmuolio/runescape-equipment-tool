@@ -4,7 +4,6 @@ extends ScrollContainer
 
 func _ready():
 	set_monster( Database.get_monsters()[0] )
-	var _err = $combat_sim.connect("simulation_done",Callable(get_node("%result_panel"),"refresh_results"))
 
 
 func player_equip( item : equipment):
@@ -30,7 +29,7 @@ func set_monster( monster_node : monster ):
 
 
 func _on_Button_pressed():
-	$combat_sim.do_simulations()
+	$combat_sim.do_simulations( true )
 
 func prayer_add( prayer_id : String ):
 	$player_data.prayer_add( prayer_id )

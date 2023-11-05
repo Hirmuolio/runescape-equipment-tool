@@ -20,8 +20,8 @@ func _on_combat_sim_simulation_done( stats : dps_stats ):
 	$p_maxhit.hoover_info = max_hoover_info
 	$p_hitchance.value = str( snapped( stats.hit_chance * 100, 0.01 ) ) + "%"
 	$p_hitchance2.value = str( snapped( stats.hit_chance_simulated * 100, 0.01 ) ) + "%"
-	$p_hitchance.hoover_info = "Approximation from stats. Does not apply all special effects.\nPlayer attack roll: " + str(stats.atk_roll) + "\nMonster def roll: " + str(stats.monster_def_roll)
-	$p_hitchance2.hoover_info = "Result from simulated combat.\nPlayer attack roll: " + str(stats.atk_roll) + "\nMonster def roll: " + str(stats.monster_def_roll) + "\nHitting 0 is counted as miss."
+	$p_hitchance.hoover_info = "Approximation from stats. Does not apply all special effects.\nPlayer attack roll: " + str(stats.player_atk_roll) + "\nMonster def roll: " + str(stats.monster_def_roll)
+	$p_hitchance2.hoover_info = "Result from simulated combat.\nPlayer attack roll: " + str(stats.player_atk_roll) + "\nMonster def roll: " + str(stats.monster_def_roll) + "\nHitting 0 is counted as miss."
 	$p_dps.value = snapped( stats.dps, 0.01 )
 	$p_dps2.value = snapped( stats.dps_simulated, 0.01 )
 	
@@ -32,7 +32,7 @@ func _on_combat_sim_simulation_done( stats : dps_stats ):
 	
 	$m_maxhit.value = stats.monster_max_hit
 	$m_hitchance.value = str( snapped( stats.monster_hit_chance  * 100, 0.01 ) ) + "%"
-	$m_hitchance.hoover_info = "Monster attack roll: " + str(stats.monster_atk_roll)+ "\nPlayer def roll: " + str(stats.def_roll)
+	$m_hitchance.hoover_info = "Monster attack roll: " + str(stats.monster_atk_roll)+ "\nPlayer def roll: " + str(stats.player_def_roll)
 	$m_dps.value = snapped( stats.monster_dps, 0.1 )
 	
 	var drain_res : float = 2 * player_data.get_equipment_bonus( "prayer" ) + 60

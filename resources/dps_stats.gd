@@ -1,8 +1,8 @@
 extends Resource
 class_name dps_stats
 
-var atk_roll : int = 0
-var def_roll : int = 0
+var player_atk_roll : int = 0
+var player_def_roll : int = 0
 
 var max_hit : int = 0
 var max_critical : int = 0
