@@ -607,3 +607,4 @@ hoover_info = "Tombs of Amascut raid level"
 [connection signal="value_changed" from="hbox/monster_panel/toa_level" to="combat_sim" method="_on_toa_level_value_changed"]
 [connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]
 [connection signal="prayers_changed" from="player_data" to="hbox/player_panel" method="_on_player_data_prayers_changed"]
+[connection signal="simulation_done" from="combat_sim" to="hbox/result_panel" method="_on_combat_sim_simulation_done"]

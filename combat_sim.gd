@@ -402,11 +402,11 @@ func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats
 			var monsize : int = int( target_mon.size )
 			max_hit = max_hit + ( 2 * int( min( monsize, 5 ) ) )
 	
-	stats.max_hit = max_hit
-	stats.max_critical = crit_max_hit
+	stats.pre_roll_max = max_hit
+	stats.pre_roll_crit = crit_max_hit
 	
-	stats.post_roll_max = max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
-	stats.post_roll_crit = crit_max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
+	stats.max_hit = max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
+	stats.max_critical = crit_max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
 
 
 func calc_monster_def_roll( act_player : player, target_mon : monster )->int:
