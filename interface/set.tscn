@@ -362,9 +362,9 @@ label = "(approx) Hit chance:"
 [node name="p_dps" parent="hbox/result_panel" instance=ExtResource("4")]
 layout_mode = 2
 label = "(approx) DPS:"
-hoover_info = "Paper dps = 0.5 * hit_chance * max_hit / attack_duration
+hoover_info = "Does not consider all special effects or overhit in the calculations.
 
-Does not consider all special effects or overhit in the calculations."
+0.5 * hit_chance * max_hit / attack_duration"
 
 [node name="p_hitchance2" parent="hbox/result_panel" instance=ExtResource("11")]
 layout_mode = 2
@@ -375,9 +375,7 @@ layout_mode = 2
 label = "(sim) DPS:"
 hoover_info = "Real dps simulated from large number of kills.
 
-Takes into account special effects (enchanged bolts, etc.)  and overhit.
-
-(press the \"simulate\" button above)"
+Takes into account special effects (enchanged bolts, etc.)  and overhit."
 
 [node name="spk" parent="hbox/result_panel" instance=ExtResource("11")]
 layout_mode = 2
@@ -562,6 +560,16 @@ layout_mode = 2
 label = "DWH specs"
 hoover_info = "Number of dragon warhammer specs applied. -30% defence per hit (multiplicatively stacks)"
 
+[node name="toa" parent="hbox/monster_panel" instance=ExtResource("13")]
+layout_mode = 2
+label = "ToA:"
+hoover_info = "Tombs of Amascut"
+
+[node name="toa_level" parent="hbox/monster_panel" instance=ExtResource("3")]
+layout_mode = 2
+label = "ToA level"
+hoover_info = "Tombs of Amascut raid level"
+
 [node name="player_data" parent="." instance=ExtResource("2")]
 
 [node name="combat_sim" parent="." instance=ExtResource("9")]
@@ -595,5 +603,8 @@ hoover_info = "Number of dragon warhammer specs applied. -30% defence per hit (m
 [connection signal="value_changed" from="hbox/monster_panel/wilderness" to="combat_sim" method="_on_wilderness_value_changed"]
 [connection signal="value_changed" from="hbox/monster_panel/darkness" to="combat_sim" method="_on_darkness_value_changed"]
 [connection signal="value_changed" from="hbox/monster_panel/d_warammer" to="combat_sim" method="_on_d_warammer_value_changed"]
+[connection signal="value_changed" from="hbox/monster_panel/toa" to="combat_sim" method="_on_toa_value_changed"]
+[connection signal="value_changed" from="hbox/monster_panel/toa_level" to="combat_sim" method="_on_toa_level_value_changed"]
 [connection signal="gear_change" from="player_data" to="." method="_on_player_data_gear_change"]
 [connection signal="prayers_changed" from="player_data" to="hbox/player_panel" method="_on_player_data_prayers_changed"]
+[connection signal="simulation_done" from="combat_sim" to="hbox/result_panel" method="_on_combat_sim_simulation_done"]
