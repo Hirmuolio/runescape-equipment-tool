@@ -4,6 +4,7 @@ class_name player
 #func get_class(): return "player"
 
 signal gear_change( slot, new_gear )
+signal changed()
 
 var setup_name : String = "untitled"
 
@@ -127,7 +128,7 @@ func load_string( setup : String ):
 		if int(gid) == -1:
 			continue
 		equip( Database.get_item( int(gid) ) )
-	recalculate_stats()
+	changed.emit()
 
 func set_specials():
 	# Determines what special attributes the equipment has
@@ -162,9 +163,6 @@ func set_specials():
 	for rem in to_remove:
 		special_attributes.erase( rem )
 
-func recalculate_stats():
-	get_parent().refresh_results()
-	pass
 
 func all_equipped() -> Array:
 	# returns list of requipment
@@ -204,7 +202,7 @@ func equip( new_item : equipment  ):
 		set( new_item.equipment_slot, new_item)
 		emit_signal("gear_change", new_item.equipment_slot, new_item)
 	set_specials()
-	recalculate_stats()
+	changed.emit()
 
 func prayer_add( prayer_id : String ):
 	if prayer_id in prayers:
@@ -222,12 +220,12 @@ func prayer_add( prayer_id : String ):
 	
 	prayers.append( prayer_id )
 	
-	recalculate_stats()
 	emit_signal("prayers_changed")
+	changed.emit()
 
 func prayer_remove( prayer_id : String ):
 	prayers.erase( prayer_id )
-	recalculate_stats()
+	changed.emit()
 
 func _on_removed_gear(slot : String):
 	if slot == "2h":
@@ -235,47 +233,47 @@ func _on_removed_gear(slot : String):
 	else:
 		set( slot, null)
 	set_specials()
-	recalculate_stats()
+	changed.emit()
 	
 
 
 func _on_attack_value_changed( new_lvl ):
 	attack = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
 func _on_strength_value_changed( new_lvl ):
 	strength = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
 func _on_defence_value_changed( new_lvl ):
 	defence =  new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
 func _on_magic_value_changed( new_lvl ):
 	magic = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
 func _on_ranged_value_changed( new_lvl ):
 	ranged = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 func _on_hp_lvl_value_changed(new_lvl):
 	hp_lvl = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
 func _on_hp_value_changed(new_lvl):
 	current_hp = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 func _on_attack_style_attack_style(new_stance):
 	attack_stance = new_stance[0]
 	attack_style = new_stance[1]
-	recalculate_stats()
+	changed.emit()
 
 func _get_style_str() -> int:
 	if attack_stance == "aggressive" or attack_stance == "scorch":

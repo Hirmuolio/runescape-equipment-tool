@@ -1,7 +1,9 @@
 extends Node
 
-# Special states set by the UI:
+var act_player : player # Generally speaking this does not change
+var target_mon : monster
 
+# Special states set by the UI:
 var charge_spell : bool = false
 var kandarin_diary : bool = false
 var wilderness : bool = true
@@ -56,8 +58,7 @@ func do_fast_simulations():
 	do_simulations( false )
 
 func do_simulations( full_sim : bool = false ):
-	var act_player = get_parent().get_node("player_data")
-	var target_mon = get_parent().get_node("%monster_panel").current_monster
+	#var target_mon = get_parent().get_node("%monster_panel").current_monster
 	
 	var stats : dps_stats = preload("res://resources/dps_stats.gd").new()
 	
@@ -95,6 +96,7 @@ func do_simulations( full_sim : bool = false ):
 	if full_sim:
 		simulate_combat( act_player, target_mon, stats )
 	simulation_done.emit(stats)
+	return stats
 
 func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats ):
 	
