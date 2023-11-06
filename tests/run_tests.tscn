@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://doqx2ngos50gl"]
+
+[ext_resource type="Script" path="res://tests/run_tests.gd" id="1_etncr"]
+[ext_resource type="PackedScene" uid="uid://s4nve6dl47mn" path="res://tests/max_hit_test.tscn" id="2_n6678"]
+
+[node name="run_tests" type="Node"]
+script = ExtResource("1_etncr")
+
+[node name="max_hit_test" parent="." instance=ExtResource("2_n6678")]
