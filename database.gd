@@ -21,6 +21,9 @@ func  get_item( item_id : int ) -> Node:
 func get_monsters():
 	return $monsters.get_children()
 
+func get_monster( monster_id : int ) -> monster:
+	return $monsters.get_node( str(monster_id) )
+
 func load_items_json():
 	# Loads all the equipment from items-complete.json
 	print( "LOADING EQUIPMENT")
