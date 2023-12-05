@@ -4,11 +4,11 @@ extends VBoxContainer
 var current_monster : monster
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	pass # Replace with function body.
 
 
-func set_monster( monster_node : monster ):
+func set_monster( monster_node : monster ) -> void:
 	if !monster_node:
 		# Tried to set monster to null
 		return

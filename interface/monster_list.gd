@@ -7,11 +7,11 @@ var group_collapsed : Dictionary
 
 signal item_selected( monster_node )
 
-func _ready():
+func _ready() -> void:
 	create_tree()
 	pass
 
-func create_tree():
+func create_tree() -> void:
 	# Creates full tree
 	
 	
@@ -39,7 +39,7 @@ func filter( search_term : String ):
 		child.hide_if_empty()
 
 
-func _on_search_text_changed(search_term):
+func _on_search_text_changed(search_term) -> void:
 	
 	var do_search : bool = search_term.length() > Config.min_search_length
 	
@@ -50,26 +50,25 @@ func _on_search_text_changed(search_term):
 	
 	print( search_term )
 	
-	for _monster in Database.get_monsters(): 
-		var mon : monster = _monster # Dirty hack to get typing
+	for _monster : monster in Database.get_monsters(): 
 		if !search_active:
-			mon.is_hidden = false
-		elif Config.search_mode == 0 and mon.monster_name.findn(search_term) > -1:
-			mon.is_hidden = false
-		elif Config.search_mode == 1 and mon.monster_name.matchn(search_term):
-			mon.is_hidden = false
-		elif Config.search_mode == 2 and search_term.is_subsequence_ofn(mon.monster_name):
-			mon.is_hidden = false
+			_monster.is_hidden = false
+		elif Config.search_mode == 0 and _monster.monster_name.findn(search_term) > -1:
+			_monster.is_hidden = false
+		elif Config.search_mode == 1 and _monster.monster_name.matchn(search_term):
+			_monster.is_hidden = false
+		elif Config.search_mode == 2 and search_term.is_subsequence_ofn(_monster.monster_name):
+			_monster.is_hidden = false
 		elif Config.search_mode > 2:
 			print( "Invalid search methord")
-			mon.is_hidden = false
+			_monster.is_hidden = false
 		else:
-			mon.is_hidden = true
+			_monster.is_hidden = true
 	
 	create_tree()
 
 
-func _on_Tree_cell_selected():
+func _on_Tree_cell_selected() -> void:
 	var selected : TreeItem = $Tree.get_selected()
 	selected.deselect(0)
 	if typeof( selected.get_metadata(0) ) == TYPE_STRING:

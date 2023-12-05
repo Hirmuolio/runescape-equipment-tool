@@ -3,7 +3,7 @@ extends Node
 var items_path : String = "user://items/"
 var monsters_path : String = "user://monsters/"
 
-func _ready():
+func _ready() -> void:
 	#load_items_json()
 	load_items_res()
 	
@@ -12,32 +12,32 @@ func _ready():
 	
 	HardcodedData.load_spells()
 
-func get_items():
+func get_items() -> Array:
 	return $items.get_children()
 
 func  get_item( item_id : int ) -> Node:
 	return $items.get_node( str(item_id) )
 
-func get_monsters():
+func get_monsters() -> Array:
 	return $monsters.get_children()
 
 func get_monster( monster_id : int ) -> monster:
 	return $monsters.get_node( str(monster_id) )
 
-func load_items_json():
+func load_items_json() -> void:
 	# Loads all the equipment from items-complete.json
 	print( "LOADING EQUIPMENT")
-	var path = "res://database/items-complete.json"
+	var path : String = "res://database/items-complete.json"
 	
-	var file = FileAccess.open( path, FileAccess.READ )
-	var test_json_conv = JSON.new()
+	var file : FileAccess = FileAccess.open( path, FileAccess.READ )
+	var test_json_conv : JSON = JSON.new()
 	test_json_conv.parse( file.get_as_text() )
 	var data : Dictionary = test_json_conv.get_data()
 	
 	# Take in only useful equipment
-	var class_item = load( "res://data/equipment.tscn" )
+	var class_item : Resource = load( "res://data/equipment.tscn" )
 	
-	for item in data.values():
+	for item : Dictionary in data.values():
 		if( !item["equipable_by_player"]):
 			continue
 		
@@ -97,7 +97,7 @@ func load_items_json():
 			if first.is_identical(second):
 				duplpicates.push_back(second)
 		
-		for dupl in duplpicates:
+		for dupl : equipment in duplpicates:
 			print( "Duplicate: " + dupl.item_name)
 			dupl.free()
 		item_count = $items.get_child_count()
@@ -113,7 +113,7 @@ func load_items_json():
 						["amethyst", 28],
 						["dragon", 35]
 						]
-	for dart in darts:
+	for dart : Array in darts:
 		var loaded_pipe : equipment = class_item.instantiate()
 		$items.add_child( loaded_pipe )
 		loaded_pipe.copy_from( base_blowpipe )
@@ -130,16 +130,16 @@ func load_items_json():
 	save_items_user()
 	return
 
-func unsigned16_to_signed( unsigned : int ):
+func unsigned16_to_signed( unsigned : int ) -> int:
 	const MAX_15B = 1 << 15
 	const MAX_16B = 1 << 16
 	return (unsigned + MAX_15B) % MAX_16B - MAX_15B
 
-func save_items_user():
+func save_items_user() -> void:
 	# Saves the item data so they don't need to be processed again.
 	
 	var monster_path : String = "res://database/item_data"
-	var file = FileAccess.open( monster_path, FileAccess.WRITE)
+	var file : FileAccess = FileAccess.open( monster_path, FileAccess.WRITE)
 	
 	for _item in $items.get_children():
 		var item : equipment = _item # Hack to get typing
@@ -170,11 +170,11 @@ func save_items_user():
 		file.store_pascal_string( var_to_str(item.stances) )
 
 
-func load_items_res():
-	var class_item = load( "res://data/equipment.tscn" )
-	var file_path = "res://database/item_data"
+func load_items_res() -> void:
+	var class_item : Resource = load( "res://data/equipment.tscn" )
+	var file_path : String = "res://database/item_data"
 	
-	var file = FileAccess.open( file_path, FileAccess.READ)
+	var file : FileAccess = FileAccess.open( file_path, FileAccess.READ)
 	
 	while file.get_position() < file.get_length():
 		var new_item : equipment = class_item.instantiate()
@@ -208,18 +208,18 @@ func load_items_res():
 		new_item.stances = str_to_var( file.get_pascal_string() )
 
 
-func load_monsters_json():
+func load_monsters_json() -> void:
 	# Loads all the monsters from monsters-complete.json
 	print( "LOADING MONSTERS")
-	var path = "res://database/monsters-complete.json"
+	var path : String = "res://database/monsters-complete.json"
 	
-	var file = FileAccess.open( path, FileAccess.READ)
-	var test_json_conv = JSON.new()
+	var file : FileAccess = FileAccess.open( path, FileAccess.READ)
+	var test_json_conv : JSON = JSON.new()
 	test_json_conv.parse(file.get_as_text())
 	var data : Dictionary = test_json_conv.get_data()
 	
 	# Take in only useful equipment
-	var class_monster = load( "res://data/monster.tscn" )
+	var class_monster : Resource = load( "res://data/monster.tscn" )
 	
 	for _monster : Dictionary in data.values():
 		if !_monster["hitpoints"] or !_monster["attack_speed"] or !_monster["max_hit"]:
@@ -278,7 +278,7 @@ func load_monsters_json():
 			if first.is_identical(second):
 				duplpicates.push_back(second)
 		
-		for dupl in duplpicates:
+		for dupl : monster in duplpicates:
 			print( "Duplicate: " + dupl.monster_name)
 			dupl.free()
 		monster_count = $monsters.get_child_count()
@@ -287,54 +287,54 @@ func load_monsters_json():
 	
 	save_monsters()
 
-func save_monsters():
+func save_monsters() -> void:
 	# Saves the monster data so they don't need to be processed again.
 	
 	var monster_path : String = "res://database/monster_data"
-	var file = FileAccess.open( monster_path, FileAccess.WRITE)
+	var file : FileAccess = FileAccess.open( monster_path, FileAccess.WRITE)
 	
-	for monster : monster in $monsters.get_children():
+	for _monster : monster in $monsters.get_children():
 		
-		file.store_pascal_string( monster.monster_name )
-		file.store_32( monster.monster_id )
-		file.store_pascal_string( monster.examine )
+		file.store_pascal_string( _monster.monster_name )
+		file.store_32( _monster.monster_id )
+		file.store_pascal_string( _monster.examine )
 		
-		file.store_16( monster.attack_level )
-		file.store_16( monster.strength_level )
-		file.store_16( monster.magic_level )
-		file.store_16( monster.ranged_level )
-		file.store_16( monster.defence_level )
-		file.store_16( monster.hitpoints )
+		file.store_16( _monster.attack_level )
+		file.store_16( _monster.strength_level )
+		file.store_16( _monster.magic_level )
+		file.store_16( _monster.ranged_level )
+		file.store_16( _monster.defence_level )
+		file.store_16( _monster.hitpoints )
 		
-		file.store_16( monster.combat_level )
+		file.store_16( _monster.combat_level )
 		
-		file.store_16( monster.attack_bonus )
-		file.store_16( monster.strength_bonus )
-		file.store_16( monster.attack_magic )
-		file.store_16( monster.str_magic )
-		file.store_16( monster.attack_ranged )
-		file.store_16( monster.str_ranged )
+		file.store_16( _monster.attack_bonus )
+		file.store_16( _monster.strength_bonus )
+		file.store_16( _monster.attack_magic )
+		file.store_16( _monster.str_magic )
+		file.store_16( _monster.attack_ranged )
+		file.store_16( _monster.str_ranged )
 		
-		file.store_16( monster.max_hit )
+		file.store_16( _monster.max_hit )
 		
-		file.store_16( monster.defence_stab )
-		file.store_16( monster.defence_slash )
-		file.store_16( monster.defence_crush )
-		file.store_16( monster.defence_magic )
-		file.store_16( monster.defence_ranged )
+		file.store_16( _monster.defence_stab )
+		file.store_16( _monster.defence_slash )
+		file.store_16( _monster.defence_crush )
+		file.store_16( _monster.defence_magic )
+		file.store_16( _monster.defence_ranged )
 		
-		file.store_8( monster.attack_speed )
-		file.store_8( monster.size )
+		file.store_8( _monster.attack_speed )
+		file.store_8( _monster.size )
 		
-		file.store_pascal_string( var_to_str(monster.attack_type) )
-		file.store_pascal_string( var_to_str(monster.attributes) )
+		file.store_pascal_string( var_to_str(_monster.attack_type) )
+		file.store_pascal_string( var_to_str(_monster.attributes) )
 
 
-func load_monsters_res():
-	var file_path = "res://database/monster_data"
-	var class_monster = load( "res://data/monster.tscn" )
+func load_monsters_res() -> void:
+	var file_path : String = "res://database/monster_data"
+	var class_monster : Resource = load( "res://data/monster.tscn" )
 	
-	var file = FileAccess.open( file_path, FileAccess.READ)
+	var file : FileAccess = FileAccess.open( file_path, FileAccess.READ)
 	
 	while file.get_position() < file.get_length():
 		var new_monster : monster = class_monster.instantiate()

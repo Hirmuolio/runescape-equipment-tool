@@ -106,7 +106,7 @@ func save_string() -> String:
 	
 	return ret
 
-func load_string( setup : String ):
+func load_string( setup : String ) -> void:
 	# Should probably add some validation here...
 	var data : PackedStringArray = setup.split("\n")
 	setup_name = data[0]
@@ -130,7 +130,7 @@ func load_string( setup : String ):
 		equip( Database.get_item( int(gid) ) )
 	changed.emit()
 
-func set_specials():
+func set_specials() -> void:
 	# Determines what special attributes the equipment has
 	# Takes into account conflicts and set requirements
 	
@@ -192,7 +192,7 @@ func all_equipped() -> Array:
 	
 	return ret
 
-func equip( new_item : equipment  ):
+func equip( new_item : equipment  ) -> void:
 	if new_item.equipment_slot == "2h":
 		weapon = new_item
 		shield = null
@@ -204,7 +204,7 @@ func equip( new_item : equipment  ):
 	set_specials()
 	changed.emit()
 
-func prayer_add( prayer_id : String ):
+func prayer_add( prayer_id : String ) -> void:
 	if prayer_id in prayers:
 		return
 	
@@ -223,11 +223,11 @@ func prayer_add( prayer_id : String ):
 	emit_signal("prayers_changed")
 	changed.emit()
 
-func prayer_remove( prayer_id : String ):
+func prayer_remove( prayer_id : String ) -> void:
 	prayers.erase( prayer_id )
 	changed.emit()
 
-func _on_removed_gear(slot : String):
+func _on_removed_gear(slot : String) -> void:
 	if slot == "2h":
 		weapon = null
 	else:
@@ -237,40 +237,40 @@ func _on_removed_gear(slot : String):
 	
 
 
-func _on_attack_value_changed( new_lvl ):
+func _on_attack_value_changed( new_lvl ) -> void:
 	attack = new_lvl
 	changed.emit()
 
 
-func _on_strength_value_changed( new_lvl ):
+func _on_strength_value_changed( new_lvl ) -> void:
 	strength = new_lvl
 	changed.emit()
 
 
-func _on_defence_value_changed( new_lvl ):
+func _on_defence_value_changed( new_lvl ) -> void:
 	defence =  new_lvl
 	changed.emit()
 
 
-func _on_magic_value_changed( new_lvl ):
+func _on_magic_value_changed( new_lvl ) -> void:
 	magic = new_lvl
 	changed.emit()
 
 
-func _on_ranged_value_changed( new_lvl ):
+func _on_ranged_value_changed( new_lvl ) -> void:
 	ranged = new_lvl
 	changed.emit()
 
-func _on_hp_lvl_value_changed(new_lvl):
+func _on_hp_lvl_value_changed(new_lvl) -> void:
 	hp_lvl = new_lvl
 	changed.emit()
 
 
-func _on_hp_value_changed(new_lvl):
+func _on_hp_value_changed(new_lvl) -> void:
 	current_hp = new_lvl
 	changed.emit()
 
-func _on_attack_style_attack_style(new_stance):
+func _on_attack_style_attack_style(new_stance) -> void:
 	attack_stance = new_stance[0]
 	attack_style = new_stance[1]
 	changed.emit()

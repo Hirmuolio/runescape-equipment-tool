@@ -40,7 +40,7 @@ func stat_string( value : int ) -> String:
 	
 
 
-func _on_player_data_prayers_changed():
+func _on_player_data_prayers_changed() -> void:
 	
 	for child in $prayers.get_children():
 		child.queue_free()
@@ -57,7 +57,7 @@ func _on_player_data_prayers_changed():
 	
 
 
-func _on_attack_style_attack_style(_new_stance):
+func _on_attack_style_attack_style(_new_stance) -> void:
 	# Attack speed needs refreshing
 	# Just refresh all
 	refresh_eq_stats()

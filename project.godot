@@ -25,6 +25,7 @@ Utl="*res://utilities.tscn"
 
 [debug]
 
+gdscript/warnings/untyped_declaration=1
 gdscript/warnings/integer_division=false
 
 [display]

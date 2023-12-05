@@ -9,28 +9,28 @@ extends HBoxContainer
 
 signal value_changed(new_value)
 
-func _ready():
+func _ready() -> void:
 	pass
 
-func _set_label( new_label ):
+func _set_label( new_label ) -> void:
 	label = new_label
 	$Label.text = new_label
 
-func set_value( new_value : int ):
+func set_value( new_value : int ) -> void:
 	value = new_value
 	$LineEdit.text = str(value)
 
 
-func _on_line_edit_focus_exited():
+func _on_line_edit_focus_exited() -> void:
 	$LineEdit.text = str(value)
 
 
-func _on_LineEdit_text_changed(new_text):
+func _on_LineEdit_text_changed(new_text) -> void:
 	if( new_text.is_valid_int() ):
 		value = int(new_text)
 		emit_signal("value_changed", value )
 
-func _on_CheckBox_mouse_entered():
+func _on_CheckBox_mouse_entered() -> void:
 	if hoover_info:
 		var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
 		get_tree().get_root().add_child( hoover_node )

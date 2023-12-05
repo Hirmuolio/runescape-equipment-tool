@@ -7,7 +7,7 @@ extends Control
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	OS.set_low_processor_usage_mode(true)
 	pass # Replace with function body.
 

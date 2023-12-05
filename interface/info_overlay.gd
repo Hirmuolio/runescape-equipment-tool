@@ -2,7 +2,7 @@ extends Control
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	var info_text : String = ""
 	
 	info_text += "Runescape Equipment Tool"
@@ -22,15 +22,15 @@ func _ready():
 #	pass
 
 
-func _on_info_pressed():
+func _on_info_pressed() -> void:
 	visible = !visible 
 
 
-func _on_info_meta_clicked(meta):
+func _on_info_meta_clicked(meta) -> void:
 	var _err = OS.shell_open(meta)
 
 
 
 
-func _on_Button_pressed():
+func _on_Button_pressed() -> void:
 	visible = !visible

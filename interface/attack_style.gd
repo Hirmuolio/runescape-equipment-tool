@@ -5,11 +5,11 @@ var options : Array
 signal attack_style( new_stance )
 
 
-func _ready():
+func _ready() -> void:
 	pass # Replace with function body.
 
 
-func set_slection( item : equipment):
+func set_slection( item : equipment) -> void:
 	clear()
 	options = []
 	if item.stances.size() != 0:
@@ -49,6 +49,6 @@ func set_slection( item : equipment):
 	emit_signal( "attack_style", options[0] )
 
 
-func _on_attack_style_item_selected(index):
+func _on_attack_style_item_selected(index) -> void:
 	print( options[index] )
 	emit_signal( "attack_style", options[index] )

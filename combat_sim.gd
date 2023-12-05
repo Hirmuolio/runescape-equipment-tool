@@ -17,38 +17,38 @@ var toa_damage_multiplier : float = 1
 signal simulation_done( dps )
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	pass # Replace with function body.
 
-func _on_slayer_value_changed(new_value):
+func _on_slayer_value_changed(new_value) -> void:
 	slayer_task = new_value
 	do_fast_simulations()
 
-func _on_charge_value_changed(new_value : bool):
+func _on_charge_value_changed(new_value : bool) -> void:
 	charge_spell = new_value
 	do_fast_simulations()
 
-func _on_kandarin_value_changed(new_value):
+func _on_kandarin_value_changed(new_value) -> void:
 	kandarin_diary = new_value
 	do_fast_simulations()
 
-func _on_wilderness_value_changed(new_value):
+func _on_wilderness_value_changed(new_value) -> void:
 	wilderness = new_value
 	do_fast_simulations()
 
-func _on_darkness_value_changed(new_value):
+func _on_darkness_value_changed(new_value) -> void:
 	mark_of_darkness = new_value
 	do_fast_simulations()
 
-func _on_d_warammer_value_changed(new_value):
+func _on_d_warammer_value_changed(new_value) -> void:
 	dwh_specs = new_value
 	do_fast_simulations()
 
-func _on_toa_value_changed(new_value):
+func _on_toa_value_changed(new_value) -> void:
 	toa = new_value
 	do_fast_simulations()
 
-func _on_toa_level_value_changed(new_value):
+func _on_toa_level_value_changed(new_value) -> void:
 	toa_damage_multiplier = min( 1.5, 1 + new_value * 0.02 )
 	toa_multiplier = 1 + new_value * 0.02
 	# TODO update npc stats
@@ -57,7 +57,7 @@ func _on_toa_level_value_changed(new_value):
 func do_fast_simulations():
 	do_simulations( false )
 
-func do_simulations( full_sim : bool = false ):
+func do_simulations( full_sim : bool = false ) -> dps_stats:
 	#var target_mon = get_parent().get_node("%monster_panel").current_monster
 	
 	var stats : dps_stats = preload("res://resources/dps_stats.gd").new()
@@ -98,7 +98,7 @@ func do_simulations( full_sim : bool = false ):
 	simulation_done.emit(stats)
 	return stats
 
-func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats ):
+func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats ) -> void:
 	
 	var powered_staff : bool = "powered_staff" in act_player.special_attributes
 	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
@@ -146,7 +146,7 @@ func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats
 				max_hit = 39
 		else:
 			if !spell:
-				return 0
+				return
 			
 			if spell.item_name == "Magic dart":
 				if slayer_task and "slayer_staff_e" in act_player.special_attributes:
@@ -624,7 +624,7 @@ func calc_player_def_roll( act_player : player, target_mon : monster )->int:
 		return eff_def * ( act_player.style_def( target_mon.attack_type[0] ) + 64 )
 
 
-func simulate_combat( act_player : player, target_mon : monster, stats : dps_stats ):
+func simulate_combat( act_player : player, target_mon : monster, stats : dps_stats ) -> void:
 	
 	# Full tick accurate combat simulation
 	

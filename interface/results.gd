@@ -8,7 +8,7 @@ func _ready():
 	pass
 
 
-func _on_combat_sim_simulation_done( stats : dps_stats ):
+func _on_combat_sim_simulation_done( stats : dps_stats ) -> void:
 	#print_specials( player_data )
 	
 	$p_maxhit.value = stats.max_hit
@@ -47,7 +47,7 @@ func _on_combat_sim_simulation_done( stats : dps_stats ):
 		$pray_drain.value = ""
 	$pray_drain.hoover_info = "Total drain: " + str(drain) + "\nDrain resistance: " + str( drain_res )
 
-func print_specials():
+func print_specials() -> void:
 	
 	$special_desc.clear()
 	

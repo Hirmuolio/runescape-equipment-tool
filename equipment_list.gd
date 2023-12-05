@@ -1,17 +1,17 @@
 extends VBoxContainer
 
 
-var root
+var root : TreeItem
 var search_active : bool = false
 var group_collapsed : Dictionary
 
 signal item_selected( item_node )
 
-func _ready():
+func _ready() -> void:
 	create_tree()
 	pass
 
-func create_tree():
+func create_tree() -> void:
 	# Creates full tree
 	
 	
@@ -48,7 +48,7 @@ func create_tree():
 
 
 
-func filter( search_term : String ):
+func filter( search_term : String ) -> void:
 	
 	for child in get_children():
 		child.filter( search_term )
@@ -57,7 +57,7 @@ func filter( search_term : String ):
 		child.hide_if_empty()
 
 
-func _on_search_text_changed(search_term):
+func _on_search_text_changed(search_term) -> void:
 	
 	var do_search : bool = search_term.length() >= Config.min_search_length
 	
@@ -87,7 +87,7 @@ func _on_search_text_changed(search_term):
 	create_tree()
 
 
-func _on_Tree_cell_selected():
+func _on_Tree_cell_selected() -> void:
 	var selected : TreeItem = $Tree.get_selected()
 	selected.deselect(0)
 	if typeof( selected.get_metadata(0) ) == TYPE_STRING:

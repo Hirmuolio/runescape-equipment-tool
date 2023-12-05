@@ -40,7 +40,7 @@ var magic_max_hit : int
 var special_effects : Array
 
 # Current state in the list
-var is_hidden = false
+var is_hidden : bool = false
 
 func copy_from( other_item : equipment ) -> void:
 	item_name = other_item.item_name

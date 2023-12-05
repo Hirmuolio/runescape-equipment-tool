@@ -635,16 +635,16 @@ var prayers : Dictionary = {
 }
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	generate_items_with_specials()
 	pass
 
 
-func generate_items_with_specials():
+func generate_items_with_specials() -> void:
 	print( "Pregenrating specials")
-	for effect in equipment_specials.keys():
+	for effect : String in equipment_specials.keys():
 		print( effect )
-		for item_name in equipment_specials[effect]["items"]:
+		for item_name : String in equipment_specials[effect]["items"]:
 			if !item_name in items_with_specials:
 				items_with_specials[item_name] = [effect]
 			else:
@@ -724,9 +724,9 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"digsite",
 		"combat"
 	]
-	for elem in charges:
+	for elem : String in charges:
 		if elem in item_name:
-			for elem2 in jewelry:
+			for elem2 : String in jewelry:
 				if elem2 in item_name:
 					return true
 	
@@ -735,16 +735,16 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		return true
 	
 	# Damaged barrows gear
-	var barrow_names = ["Verac", "Ahrim", "Torag", "Guthan", "Karil", "Dharok"]
-	var barrow_charges = ["25", "50", "75", "100"]
-	for barrow in barrow_names:
-		for charge in barrow_charges:
+	var barrow_names : Array = ["Verac", "Ahrim", "Torag", "Guthan", "Karil", "Dharok"]
+	var barrow_charges : Array = ["25", "50", "75", "100"]
+	for barrow : String in barrow_names:
+		for charge : String in barrow_charges:
 			if barrow in item_name and charge in item_name:
 				return true
 			
 	return false
 
-func load_spells():
+func load_spells() -> void:
 	
 	var spells : Dictionary = {
 		"wind_strike":{
@@ -980,7 +980,7 @@ func load_spells():
 	#	"attributes": ["standard", "air", "strike"]
 	#}
 	
-	var class_item = load( "res://data/equipment.tscn" )
+	var class_item : Resource = load( "res://data/equipment.tscn" )
 	var id : int = -1
 	for spell in spells.values():
 		var new_item : equipment = class_item.instantiate()

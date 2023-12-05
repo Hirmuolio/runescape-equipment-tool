@@ -34,7 +34,7 @@ var fiery : bool = false # Is target fiery
 
 var p_ranged : int = 0 #player ranged lvl
 
-func initialize( act_player : player, target_mon : monster, stats : dps_stats ):
+func initialize( act_player : player, target_mon : monster, stats : dps_stats ) -> void:
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 	target_max_hp = target_mon.hitpoints
@@ -48,10 +48,10 @@ func initialize( act_player : player, target_mon : monster, stats : dps_stats ):
 	attack_speed = act_player.attack_speed
 	fiery = "fiery" in target_mon.attributes
 
-func is_dead():
+func is_dead() -> bool:
 	return target_hp <= 0
 
-func revive():
+func revive() -> void:
 	target_hp = target_max_hp
 
 func chance( probability : float ) -> bool:
