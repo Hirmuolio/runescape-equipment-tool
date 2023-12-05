@@ -40,7 +40,7 @@ func prayer_add( prayer_id : String ) -> void:
 	$player_data.prayer_add( prayer_id )
 
 
-func _on_name_text_changed(new_text) -> void:
+func _on_name_text_changed(new_text : String) -> void:
 	if new_text != "":
 		name = new_text
 		$player_data.setup_name = new_text
@@ -48,7 +48,7 @@ func _on_name_text_changed(new_text) -> void:
 func save_data() -> String:
 	return $player_data.save_string()
 
-func load_data( new_data : String ):
+func load_data( new_data : String ) -> void:
 	$player_data.load_string( new_data )
 	get_node("%player_panel/attack").value = $player_data.attack
 	get_node("%player_panel/strength").value = $player_data.strength

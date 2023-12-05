@@ -7,7 +7,7 @@ extends HBoxContainer
 
 @export var hoover_info : String
 
-signal value_changed(new_value)
+signal value_changed(new_value : bool )
 
 func _ready() -> void:
 	$Label.text = label
@@ -27,7 +27,7 @@ func _on_CheckBox_pressed() -> void:
 
 func _on_CheckBox_mouse_entered() -> void:
 	if hoover_info:
-		var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
+		var hoover_node : Node = load( "res://interface/hoover_info.tscn" ).instantiate()
 		get_tree().get_root().add_child( hoover_node )
 		hoover_node.initialize( $CheckBox, hoover_info )
 

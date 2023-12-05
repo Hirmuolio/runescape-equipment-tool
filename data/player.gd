@@ -3,7 +3,7 @@ extends Node
 class_name player
 #func get_class(): return "player"
 
-signal gear_change( slot, new_gear )
+signal gear_change( slot : String, new_gear : equipment )
 signal changed()
 
 var setup_name : String = "untitled"
@@ -83,14 +83,14 @@ var special_attributes : Array = []
 signal prayers_changed()
 
 func save_string() -> String:
-	var ret = ""
+	var ret : String = ""
 	ret += setup_name + "\n"
 	
 	# attack, str, def, mage, range, hp, pray
 	ret += str(attack) + "," + str(strength) + "," + str(defence) + "," + str(ranged) + "," + str(magic) + "," + str(hp_lvl) + "," + str( prayer ) + "\n"
 	
 	var first : bool = true
-	for item in all_equipped():
+	for item : equipment in all_equipped():
 		if first:
 			first = false
 		else:
@@ -140,7 +140,7 @@ func set_specials() -> void:
 	# { "special_id": 2 }
 	var all_specials : Dictionary = {}
 	
-	for item in all_equipped():
+	for item : equipment in all_equipped():
 		for special in HardcodedData.specials_of_item( item ):
 			if special in all_specials:
 				all_specials[special] = all_specials[special] + 1
@@ -166,7 +166,7 @@ func set_specials() -> void:
 
 func all_equipped() -> Array:
 	# returns list of requipment
-	var ret = []
+	var ret : Array = []
 	if weapon:
 		ret.append(weapon)
 	if shield:
@@ -237,40 +237,40 @@ func _on_removed_gear(slot : String) -> void:
 	
 
 
-func _on_attack_value_changed( new_lvl ) -> void:
+func _on_attack_value_changed( new_lvl : int ) -> void:
 	attack = new_lvl
 	changed.emit()
 
 
-func _on_strength_value_changed( new_lvl ) -> void:
+func _on_strength_value_changed( new_lvl : int ) -> void:
 	strength = new_lvl
 	changed.emit()
 
 
-func _on_defence_value_changed( new_lvl ) -> void:
+func _on_defence_value_changed( new_lvl : int ) -> void:
 	defence =  new_lvl
 	changed.emit()
 
 
-func _on_magic_value_changed( new_lvl ) -> void:
+func _on_magic_value_changed( new_lvl : int ) -> void:
 	magic = new_lvl
 	changed.emit()
 
 
-func _on_ranged_value_changed( new_lvl ) -> void:
+func _on_ranged_value_changed( new_lvl : int ) -> void:
 	ranged = new_lvl
 	changed.emit()
 
-func _on_hp_lvl_value_changed(new_lvl) -> void:
+func _on_hp_lvl_value_changed(new_lvl : int ) -> void:
 	hp_lvl = new_lvl
 	changed.emit()
 
 
-func _on_hp_value_changed(new_lvl) -> void:
+func _on_hp_value_changed(new_lvl : int ) -> void:
 	current_hp = new_lvl
 	changed.emit()
 
-func _on_attack_style_attack_style(new_stance) -> void:
+func _on_attack_style_attack_style(new_stance : Array) -> void:
 	attack_stance = new_stance[0]
 	attack_style = new_stance[1]
 	changed.emit()
@@ -397,7 +397,7 @@ func _get_attack_speed() -> int:
 	
 
 func _get_pray_str() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "strength" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -406,7 +406,7 @@ func _get_pray_str() -> float:
 
 func _get_pray_atk() -> float:
 	
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "attack" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -414,7 +414,7 @@ func _get_pray_atk() -> float:
 	return 1.0
 
 func _get_pray_def() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "defence" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -422,7 +422,7 @@ func _get_pray_def() -> float:
 	return 1.0
 
 func _get_pray_magic() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "magic" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -430,7 +430,7 @@ func _get_pray_magic() -> float:
 	return 1.0
 
 func _get_pray_magic_atk() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "magic" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -438,7 +438,7 @@ func _get_pray_magic_atk() -> float:
 	return 1.0
 
 func _get_pray_magic_def()-> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "magic_attack" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -446,7 +446,7 @@ func _get_pray_magic_def()-> float:
 	return 1.0
 
 func _get_pray_rng() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "ranged" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -454,7 +454,7 @@ func _get_pray_rng() -> float:
 	return 1.0
 
 func _get_pray_rng_str() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "ranged_str" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -462,7 +462,7 @@ func _get_pray_rng_str() -> float:
 	return 1.0
 
 func _get_pray_rng_atk() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "ranged_attack" in HardcodedData.prayers[pray_id]["modifiers"]:

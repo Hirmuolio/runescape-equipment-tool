@@ -10,12 +10,12 @@ extends HBoxContainer
 func _ready() -> void:
 	pass
 
-func _set_label( new_label ) -> void:
+func _set_label( new_label : String ) -> void:
 	# This is bad and should not work. But it does work
 	label = new_label
 	$Label.text = new_label
 
-func _set_value( new_value ) -> void:
+func _set_value( new_value : int ) -> void:
 	# This is bad and should not work. But it does work
 	value = new_value
 	$display.text = str(value)
@@ -23,6 +23,6 @@ func _set_value( new_value ) -> void:
 
 func _on_display_mouse_entered() -> void:
 	if hoover_info:
-		var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
+		var hoover_node : Node = load( "res://interface/hoover_info.tscn" ).instantiate()
 		get_tree().get_root().add_child( hoover_node )
 		hoover_node.initialize( $display, hoover_info )

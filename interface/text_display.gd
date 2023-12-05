@@ -20,7 +20,7 @@ func _set_value( new_value : String ) -> void:
 
 func _on_mouse_entered() -> void:
 	if hoover_info:
-		var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
+		var hoover_node : Node = load( "res://interface/hoover_info.tscn" ).instantiate()
 		get_tree().get_root().add_child( hoover_node )
 		hoover_node.initialize( self, hoover_info )
 

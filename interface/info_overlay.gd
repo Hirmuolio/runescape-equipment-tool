@@ -26,8 +26,8 @@ func _on_info_pressed() -> void:
 	visible = !visible 
 
 
-func _on_info_meta_clicked(meta) -> void:
-	var _err = OS.shell_open(meta)
+func _on_info_meta_clicked(meta : String ) -> void:
+	var _err : int = OS.shell_open(meta)
 
 
 

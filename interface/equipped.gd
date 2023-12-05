@@ -6,13 +6,13 @@ extends HBoxContainer
 @export var slot : String = "" : set = _set_slot
 var equipped_gear : equipment
 
-signal removed_gear(slot)
+signal removed_gear(slot : String)
 
 
 func _ready() -> void:
 	pass
 
-func _set_slot( new_slot ) -> void:
+func _set_slot( new_slot : String ) -> void:
 	slot = new_slot
 	$Label.text = slot.capitalize() + ":"
 
@@ -35,6 +35,6 @@ func _on_Button_pressed() -> void:
 
 func _on_Button_mouse_entered() -> void:
 	if equipped_gear:
-		var hoover_node = load( "res://interface/hoover_info.tscn" ).instantiate()
+		var hoover_node : Node = load( "res://interface/hoover_info.tscn" ).instantiate()
 		get_tree().get_root().add_child( hoover_node )
 		hoover_node.initialize( $Button, equipped_gear.examine )

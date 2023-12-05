@@ -9,7 +9,7 @@ func _ready() -> void:
 func create_list() -> void:
 	var pray_button_scene : Resource = preload( "res://interface/pray_button.tscn" )
 	for prayer_id : String in HardcodedData.prayers.keys(): 
-		var button = pray_button_scene.instantiate()
+		var button : Button = pray_button_scene.instantiate()
 		add_child( button )
 		
 		button.pray_id = prayer_id

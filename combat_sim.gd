@@ -14,13 +14,13 @@ var toa : bool = false
 var toa_multiplier : float = 1
 var toa_damage_multiplier : float = 1
 
-signal simulation_done( dps )
+signal simulation_done( dps : dps_stats )
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
-func _on_slayer_value_changed(new_value) -> void:
+func _on_slayer_value_changed(new_value : bool) -> void:
 	slayer_task = new_value
 	do_fast_simulations()
 
@@ -28,33 +28,33 @@ func _on_charge_value_changed(new_value : bool) -> void:
 	charge_spell = new_value
 	do_fast_simulations()
 
-func _on_kandarin_value_changed(new_value) -> void:
+func _on_kandarin_value_changed(new_value : bool) -> void:
 	kandarin_diary = new_value
 	do_fast_simulations()
 
-func _on_wilderness_value_changed(new_value) -> void:
+func _on_wilderness_value_changed(new_value : bool) -> void:
 	wilderness = new_value
 	do_fast_simulations()
 
-func _on_darkness_value_changed(new_value) -> void:
+func _on_darkness_value_changed(new_value : bool) -> void:
 	mark_of_darkness = new_value
 	do_fast_simulations()
 
-func _on_d_warammer_value_changed(new_value) -> void:
+func _on_d_warammer_value_changed(new_value : bool) -> void:
 	dwh_specs = new_value
 	do_fast_simulations()
 
-func _on_toa_value_changed(new_value) -> void:
+func _on_toa_value_changed(new_value : bool) -> void:
 	toa = new_value
 	do_fast_simulations()
 
-func _on_toa_level_value_changed(new_value) -> void:
+func _on_toa_level_value_changed(new_value : int) -> void:
 	toa_damage_multiplier = min( 1.5, 1 + new_value * 0.02 )
 	toa_multiplier = 1 + new_value * 0.02
 	# TODO update npc stats
 	do_fast_simulations()
 
-func do_fast_simulations():
+func do_fast_simulations() -> void:
 	do_simulations( false )
 
 func do_simulations( full_sim : bool = false ) -> dps_stats:
@@ -87,7 +87,7 @@ func do_simulations( full_sim : bool = false ) -> dps_stats:
 	stats.monster_atk_roll = calc_monster_atk_roll( target_mon )
 	stats.monster_hit_chance = calc_hit_chance( stats.monster_atk_roll, stats.player_def_roll, false )
 	
-	stats.monster_max_hit = target_mon.max_hit * toa_damage_multiplier
+	stats.monster_max_hit = int( target_mon.max_hit * toa_damage_multiplier )
 	if "bulwark" in act_player.special_attributes and act_player.attack_stance == "block":
 		stats.monster_max_hit = stats.monster_max_hit * 4 / 5
 	
@@ -632,7 +632,7 @@ func simulate_combat( act_player : player, target_mon : monster, stats : dps_sta
 	state.initialize( act_player, target_mon, stats )
 	state.toa = toa
 	
-	var hit_func = Callable(self, "hit_normal")
+	var hit_func : Callable = Callable(self, "hit_normal")
 	
 	if "keris" in act_player.special_attributes:
 		state.crit_chance = 1.0/51
@@ -700,10 +700,10 @@ func simulate_combat( act_player : player, target_mon : monster, stats : dps_sta
 
 
 func hit_normal( state : combat_state ) -> int:
-	var def_roll = state.rng_roll( state.monster_def_roll)
-	var atk_roll = state.rng_roll( state.player_atk_roll)
+	var def_roll : int = state.rng_roll( state.monster_def_roll)
+	var atk_roll : int = state.rng_roll( state.player_atk_roll)
 	if state.brimstone and state.chance( 0.25 ):
-		def_roll *= 0.9
+		def_roll = def_roll * 9 / 10
 	if def_roll < atk_roll:
 		return state.rng.randi_range( 0, state.pre_roll_max) * state.post_roll_mult[0] / state.post_roll_mult[1]
 	return 0
@@ -766,7 +766,7 @@ func hit_keris_sun( state : combat_state ) -> int:
 
 func hit_critical( state : combat_state ) -> int:
 	# Weapon with critical chance (keris/gadderhammer)
-	var def_roll = state.rng_roll( state.monster_def_roll)
+	var def_roll : int = state.rng_roll( state.monster_def_roll)
 	if state.brimstone and state.chance( 0.25 ):
 		def_roll = def_roll * 9 / 10
 	if def_roll >= state.rng_roll( state.player_atk_roll):

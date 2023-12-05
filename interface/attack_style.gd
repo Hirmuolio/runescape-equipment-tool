@@ -2,7 +2,7 @@ extends OptionButton
 
 
 var options : Array
-signal attack_style( new_stance )
+signal attack_style( new_stance : Array )
 
 
 func _ready() -> void:
@@ -13,12 +13,12 @@ func set_slection( item : equipment) -> void:
 	clear()
 	options = []
 	if item.stances.size() != 0:
-		for stance in item.stances:
+		for stance : Dictionary in item.stances:
 			if stance["attack_style"]:
 				options.append( [ stance["attack_style"], stance["attack_type"] ] )
 			elif stance["combat_style"]:
 				var wp_stance = stance["combat_style"]
-				var style = "ranged"
+				var style : String = "ranged"
 				
 				if "powered_staff" in HardcodedData.specials_of_item( item ):
 					style = "magic"
@@ -43,12 +43,12 @@ func set_slection( item : equipment) -> void:
 			["accurate", "crush"],
 		]
 		
-	for option in options:
+	for option : Array in options:
 		add_item( option[0] + " (" + option[1] + ")")
 	
 	emit_signal( "attack_style", options[0] )
 
 
-func _on_attack_style_item_selected(index) -> void:
+func _on_attack_style_item_selected(index : int) -> void:
 	print( options[index] )
 	emit_signal( "attack_style", options[index] )
