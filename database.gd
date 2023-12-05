@@ -221,51 +221,51 @@ func load_monsters_json():
 	# Take in only useful equipment
 	var class_monster = load( "res://data/monster.tscn" )
 	
-	for monster in data.values():
-		if !monster["hitpoints"] or !monster["attack_speed"] or !monster["max_hit"]:
+	for _monster : Dictionary in data.values():
+		if !_monster["hitpoints"] or !_monster["attack_speed"] or !_monster["max_hit"]:
 			# Some invalid monster.
 			continue
 		
 		var new_monster : monster = class_monster.instantiate()
 		$monsters.add_child( new_monster )
 		
-		new_monster.monster_name = monster["name"]
-		new_monster.monster_id = monster["id"]
-		new_monster.examine = monster["examine"]
+		new_monster.monster_name = _monster["name"]
+		new_monster.monster_id = _monster["id"]
+		new_monster.examine = _monster["examine"]
 		
 		new_monster.set_name( str( new_monster.monster_id ) )
 		
-		new_monster.hitpoints = monster["hitpoints"]
-		new_monster.attack_level = monster["attack_level"]
-		new_monster.strength_level = monster["strength_level"]
-		new_monster.defence_level = monster["defence_level"]
-		new_monster.magic_level = monster["magic_level"]
-		new_monster.ranged_level = monster["ranged_level"]
+		new_monster.hitpoints = _monster["hitpoints"]
+		new_monster.attack_level = _monster["attack_level"]
+		new_monster.strength_level = _monster["strength_level"]
+		new_monster.defence_level = _monster["defence_level"]
+		new_monster.magic_level = _monster["magic_level"]
+		new_monster.ranged_level = _monster["ranged_level"]
 		
-		new_monster.combat_level = monster["combat_level"]
+		new_monster.combat_level = _monster["combat_level"]
 		
-		new_monster.attack_bonus = monster["attack_bonus"]
-		new_monster.strength_bonus = monster["strength_bonus"]
-		new_monster.attack_magic = monster["attack_magic"]
-		new_monster.str_magic = monster["magic_bonus"]
-		new_monster.attack_ranged = monster["attack_ranged"]
-		new_monster.str_ranged = monster["ranged_bonus"]
+		new_monster.attack_bonus = _monster["attack_bonus"]
+		new_monster.strength_bonus = _monster["strength_bonus"]
+		new_monster.attack_magic = _monster["attack_magic"]
+		new_monster.str_magic = _monster["magic_bonus"]
+		new_monster.attack_ranged = _monster["attack_ranged"]
+		new_monster.str_ranged = _monster["ranged_bonus"]
 		
-		new_monster.defence_stab = monster["defence_stab"]
-		new_monster.defence_slash = monster["defence_slash"]
-		new_monster.defence_crush = monster["defence_crush"]
-		new_monster.defence_magic = monster["defence_magic"]
-		new_monster.defence_ranged = monster["defence_ranged"]
+		new_monster.defence_stab = _monster["defence_stab"]
+		new_monster.defence_slash = _monster["defence_slash"]
+		new_monster.defence_crush = _monster["defence_crush"]
+		new_monster.defence_magic = _monster["defence_magic"]
+		new_monster.defence_ranged = _monster["defence_ranged"]
 		
-		new_monster.attributes = monster["attributes"]
+		new_monster.attributes = _monster["attributes"]
 		# Workaround for the data
-		if monster["category"] && monster["category"][0] == "scabarites":
+		if _monster["category"] && _monster["category"][0] == "scabarites":
 			new_monster.attributes.append( "scabarite" )
 		
-		new_monster.attack_speed = monster["attack_speed"]
-		new_monster.attack_type = monster["attack_type"]
-		new_monster.max_hit = monster["max_hit"]
-		new_monster.size = monster["size"]
+		new_monster.attack_speed = _monster["attack_speed"]
+		new_monster.attack_type = _monster["attack_type"]
+		new_monster.max_hit = _monster["max_hit"]
+		new_monster.size = _monster["size"]
 	
 	# Filter out duplicates.
 	var monster_count : int = $monsters.get_child_count()
@@ -293,8 +293,7 @@ func save_monsters():
 	var monster_path : String = "res://database/monster_data"
 	var file = FileAccess.open( monster_path, FileAccess.WRITE)
 	
-	for _monster in $monsters.get_children():
-		var monster : monster = _monster # Hack to get typing
+	for monster : monster in $monsters.get_children():
 		
 		file.store_pascal_string( monster.monster_name )
 		file.store_32( monster.monster_id )

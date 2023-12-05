@@ -60,6 +60,7 @@ func simple_magic_test():
 	attacker.equip( Database.get_item( -26 ) ) # fire surge -26
 	
 	attacker.attack_stance = "spellcasting"
+	attacker.attack_style = "magic"
 	
 	var max_hit : int
 	
