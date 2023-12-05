@@ -141,14 +141,14 @@ func set_specials() -> void:
 	var all_specials : Dictionary = {}
 	
 	for item : equipment in all_equipped():
-		for special in HardcodedData.specials_of_item( item ):
+		for special : String in HardcodedData.specials_of_item( item ):
 			if special in all_specials:
 				all_specials[special] = all_specials[special] + 1
 			else:
 				all_specials[special] = 1
 	
 	# Apply full armor sets
-	for special in all_specials.keys():
+	for special : String in all_specials.keys():
 		if "set" in HardcodedData.equipment_specials[special]:
 			if all_specials[special] < HardcodedData.equipment_specials[special]["set"]:
 				continue
@@ -157,10 +157,10 @@ func set_specials() -> void:
 	
 	# Filter out exclusive specials
 	var to_remove : Array = []
-	for special in special_attributes:
+	for special : String in special_attributes:
 		if "removes" in HardcodedData.equipment_specials[special]:
 			to_remove.append_array( HardcodedData.equipment_specials[special]["removes"] )
-	for rem in to_remove:
+	for rem : String in to_remove:
 		special_attributes.erase( rem )
 
 
@@ -211,11 +211,11 @@ func prayer_add( prayer_id : String ) -> void:
 	# Can't have multiple prayers of same "type"
 	# Remove old conflicting prayers
 	var to_remove : Array = []
-	for mod in HardcodedData.prayers[prayer_id]["type"]:
-		for pra in prayers:
+	for mod : String in HardcodedData.prayers[prayer_id]["type"]:
+		for pra : String in prayers:
 			if mod in HardcodedData.prayers[pra]["type"]:
 				to_remove.append( pra )
-	for pra in to_remove:
+	for pra : String in to_remove:
 		prayers.erase( pra )
 	
 	prayers.append( prayer_id )

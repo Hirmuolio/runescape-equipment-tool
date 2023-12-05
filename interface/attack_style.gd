@@ -17,7 +17,7 @@ func set_slection( item : equipment) -> void:
 			if stance["attack_style"]:
 				options.append( [ stance["attack_style"], stance["attack_type"] ] )
 			elif stance["combat_style"]:
-				var wp_stance = stance["combat_style"]
+				var wp_stance : String = stance["combat_style"]
 				var style : String = "ranged"
 				
 				if "powered_staff" in HardcodedData.specials_of_item( item ):

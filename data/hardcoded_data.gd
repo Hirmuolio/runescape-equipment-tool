@@ -982,7 +982,7 @@ func load_spells() -> void:
 	
 	var class_item : Resource = load( "res://data/equipment.tscn" )
 	var id : int = -1
-	for spell in spells.values():
+	for spell : Dictionary in spells.values():
 		var new_item : equipment = class_item.instantiate()
 		Database.get_node("items").add_child( new_item )
 		

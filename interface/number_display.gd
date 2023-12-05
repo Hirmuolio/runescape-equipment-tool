@@ -15,7 +15,7 @@ func _set_label( new_label : String ) -> void:
 	label = new_label
 	$Label.text = new_label
 
-func _set_value( new_value : int ) -> void:
+func _set_value( new_value : float ) -> void:
 	# This is bad and should not work. But it does work
 	value = new_value
 	$display.text = str(value)
