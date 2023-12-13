@@ -19,11 +19,12 @@ func undead_slayer():
 	attacker.equip( Database.get_item( 11998 ) ) # smokoe battlestaff 11998
 	attacker.equip( Database.get_item( 20714 ) ) # tome of fire 20714
 	
-	attacker.attack_stance = "spellcasting"
+	# A bit dirty way to set spellcasting as style
+	attacker.attack_stance = attacker.weapon.stances[3]
 	
 	var max_hit : int
 	
-	# Slayer helm, smoke battlestaff, tome of fire
+	# Slayer helm i, smoke battlestaff, tome of fire, fire surge
 	max_hit = combat_sim.do_simulations( false ).max_hit
 	assert( max_hit == 43 )
 	

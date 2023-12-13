@@ -34,13 +34,7 @@ var hands : equipment
 var spell : equipment
 
 
-# slash, crush, stab, magic, ranged
-var attack_style : String = "crush"
-
-# aggressive, defensive, accurate, controlled
-# rapid, long range, accurate
-# spellcasting, defensive casting
-var attack_stance : String
+var attack_stance : attack_style
 
 
 # Equipment stats:
@@ -202,6 +196,10 @@ func equip( new_item : equipment  ) -> void:
 		set( new_item.equipment_slot, new_item)
 		emit_signal("gear_change", new_item.equipment_slot, new_item)
 	set_specials()
+	
+	if new_item.equipment_slot in [ "2h", "weapon"]:
+		# Set default attack style from weapon
+		attack_stance = new_item.stances[0]
 	changed.emit()
 
 func prayer_add( prayer_id : String ) -> void:
@@ -270,43 +268,21 @@ func _on_hp_value_changed(new_lvl : int ) -> void:
 	current_hp = new_lvl
 	changed.emit()
 
-func _on_attack_style_attack_style(new_stance : Array) -> void:
-	attack_stance = new_stance[0]
-	attack_style = new_stance[1]
-	changed.emit()
 
 func _get_style_str() -> int:
-	if attack_stance == "aggressive" or attack_stance == "scorch":
-		return 3
-	elif attack_stance == "controlled":
-		return 1
-	return 0
+	return attack_stance.get_style_str()
 
 func _get_style_atk() -> int:
-	if attack_stance == "accurate":
-		return 3
-	elif attack_stance == "controlled":
-		return 1
-	return 0
+	return attack_stance.get_style_atk()
 
 func _get_style_def() -> int:
-	if attack_stance == "defensive":
-		return 3
-	elif attack_stance == "controlled":
-		return 1
-	return 0
+	return attack_stance.get_style_def()
 
 func _get_style_rng() -> int:
-	if attack_stance == "accurate" or attack_stance == "flare":
-		return 3
-	elif attack_stance == "longrange":
-		return 1
-	return 0
+	return attack_stance.get_style_rng()
 
 func _getstyle_mag() -> int:
-	if attack_stance == "accurate" or attack_stance == "blaze":
-		return 3
-	return 0
+	return attack_stance.get_style_mag()
 
 func get_equipment_bonus( attribute : String ) -> int:
 	var bonus : int = 0
@@ -340,14 +316,14 @@ func _get_str_bonus() -> int:
 	return get_equipment_bonus( "melee_strength" )
 
 func _get_atk_bonus() -> int:
-	if attack_style == "stab":
+	if attack_stance.attack_type == attack_stance.enum_types.STAB:
 		return get_equipment_bonus( "attack_stab" )
-	elif attack_style == "slash":
+	elif attack_stance.attack_type == attack_stance.enum_types.SLASH:
 		return get_equipment_bonus( "attack_slash" )
-	elif attack_style == "crush":
+	elif attack_stance.attack_type == attack_stance.enum_types.CRUSH:
 		return get_equipment_bonus( "attack_crush" )
 	
-	#push_warning ( "Invalid weapon melee attack style " + '"' + attack_style + '"' )
+	assert(false, "Invalid weapon melee attack style " )
 	return get_equipment_bonus( "attack_stab" )
 
 func _get_rng_str() -> int:
@@ -385,13 +361,14 @@ func style_def( ag_attack_style : String ) -> int:
 func _get_attack_speed() -> int:
 	# Ticks per attack
 	if !weapon:
+		# Unarmed
 		return 5
 	var spd : int = weapon.attack_speed
-	if "powered_staff" in special_attributes:
+	if "harmonised_nightmare_staff" in special_attributes:
 		spd = 4
-	if attack_stance == "magic":
+	elif attack_stance.attack_stance == attack_stance.enum_stances.SPELLCASTING:
 		spd = 5
-	elif attack_stance == "rapid":
+	elif attack_stance.attack_stance == attack_stance.enum_stances.RAPID:
 		spd -= 1
 	return spd
 	
@@ -468,3 +445,8 @@ func _get_pray_rng_atk() -> float:
 		if "ranged_attack" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged_attack"] ) / 100
 	return 1.0
+
+
+func _on_attack_style_changed( new_stance : attack_style ) -> void:
+	attack_stance = new_stance
+	changed.emit()

@@ -79,7 +79,10 @@ func load_items_json() -> void:
 		
 		if new_item.equipment_slot == "weapon" or new_item.equipment_slot == "2h":
 			new_item.attack_speed = item["weapon"]["attack_speed"]
-			new_item.stances = item["weapon"]["stances"]
+			for stance : Dictionary in item["weapon"]["stances"]:
+				var style : attack_style = preload( "res://resources/style.gd" ).new()
+				style.load_dictionary( stance )
+				new_item.stances.append( style )
 		
 		#all_equipment.push_back ( new_item )
 		print( "Loaded: " + new_item.item_name)

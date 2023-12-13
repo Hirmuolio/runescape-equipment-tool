@@ -2,7 +2,7 @@ extends OptionButton
 
 
 var options : Array
-signal attack_style( new_stance : Array )
+signal style_changed( new_stance : attack_style )
 
 
 func _ready() -> void:
@@ -11,44 +11,12 @@ func _ready() -> void:
 
 func set_slection( item : equipment) -> void:
 	clear()
-	options = []
-	if item.stances.size() != 0:
-		for stance : Dictionary in item.stances:
-			if stance["attack_style"]:
-				options.append( [ stance["attack_style"], stance["attack_type"] ] )
-			elif stance["combat_style"]:
-				var wp_stance : String = stance["combat_style"]
-				var style : String = "ranged"
-				
-				if "powered_staff" in HardcodedData.specials_of_item( item ):
-					style = "magic"
-				
-				# Salamander stuff
-				if stance["combat_style"] == "scorch":
-					style = "slash"
-					wp_stance = "aggressive"
-				elif stance["combat_style"] == "flare":
-					style = "ranged"
-					wp_stance = "accurate"
-				elif stance["combat_style"] == "blaze":
-					style = "defensive"
-					wp_stance = "magic"
-				
-				options.append( [ wp_stance, style ] )
-	else:
-		# Defaults for item with no valid attack stances
-		options = [ 
-			["accurate", "stab"],
-			["accurate", "slash"],
-			["accurate", "crush"],
-		]
-		
-	for option : Array in options:
-		add_item( option[0] + " (" + option[1] + ")")
+	options = item.stances
+	for stance : attack_style in item.stances:
+		add_item( stance.get_style_string() )
 	
-	emit_signal( "attack_style", options[0] )
+	style_changed.emit( item.stances[0] )
 
 
 func _on_attack_style_item_selected(index : int) -> void:
-	print( options[index] )
-	emit_signal( "attack_style", options[index] )
+	style_changed.emit( options[index] )

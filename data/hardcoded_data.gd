@@ -384,6 +384,11 @@ var equipment_specials : Dictionary = {
 		"items": ["Crystal helm"],
 		"name": "Crystal helm",
 		"description": "2.5% damage bonus, 5% accuracy bonus for crystal bow and Bow of Faerdhinen",
+	},
+	"harmonised_nightmare_staff": {
+		"items": ["Harmonised nightmare staff"],
+		"name": "Harmonised nightmare staff",
+		"description": "Spellcast speed 4",
 	}
 }
 
@@ -689,7 +694,8 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"Uncharged toxic trident (e)",
 		"Sanguinesti staff (uncharged)",
 		"Holy sanguinesti staff (uncharged)",
-		"Bryophyta's staff (uncharged)"
+		"Bryophyta's staff (uncharged)",
+		"Fixed device"
 	]
 	
 	
