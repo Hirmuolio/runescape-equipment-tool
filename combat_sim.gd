@@ -439,6 +439,7 @@ func calc_hit_chance( atk_roll : int, def_roll : int, osmumten : bool )-> float:
 	if osmumten:
 		# These are very ugly but seem to work.
 		if atk_roll > def_roll:
+			# p_hit_chance = 1 - 1/def_roll * ( 2 * def_roll^3 + 3 * def_roll^2 ) + def_roll ) / 6 / atk_roll^2
 			p_hit_chance = 1 - 1.0/def_roll * ( 2*pow(def_roll,3) + 3*pow(def_roll, 2) + def_roll ) / 6.0 / pow(atk_roll, 2)
 		elif atk_roll == def_roll:
 			p_hit_chance = 2.0/3 - pow(def_roll,-2)/6 - pow(def_roll,-1)/2.0
@@ -642,6 +643,8 @@ func simulate_combat( stats : dps_stats ) -> void:
 		hit_func = Callable(self, "hit_keris_sun")
 	elif "osmumtem" in act_player.special_attributes:
 		hit_func = Callable(self, "hit_osmumten")
+	elif "macuahuitl" in act_player.special_attributes:
+		hit_func = Callable(self, "hit_macuahuitl")
 	elif "gaddehammer" in act_player.special_attributes:
 		state.crit_chance = 0.05
 		hit_func = Callable(self, "hit_critical")
@@ -762,6 +765,17 @@ func hit_keris_sun( state : combat_state ) -> int:
 	if state.chance( state.crit_chance ):
 		return state.rng_roll( state.p_crit_max_hit)
 	return state.rng_roll( state.pre_roll_max)
+
+func hit_macuahuitl( state : combat_state ) -> int:
+	# Two hits
+	# If first misses the second also misses
+	# Not sure how damage is calculated
+	var damage : int = 0
+	if state.rng_roll( state.monster_def_roll) < state.rng_roll( state.player_atk_roll):
+		damage += state.rng_roll( state.pre_roll_max) / 2
+		if state.rng_roll( state.monster_def_roll) < state.rng_roll( state.player_atk_roll):
+			damage += state.rng_roll( state.pre_roll_max) / 2
+	return damage
 
 func hit_critical( state : combat_state ) -> int:
 	# Weapon with critical chance (keris/gadderhammer)

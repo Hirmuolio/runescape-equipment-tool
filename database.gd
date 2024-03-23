@@ -26,6 +26,7 @@ func get_monster( monster_id : int ) -> monster:
 
 func load_items_json() -> void:
 	# Loads all the equipment from items-complete.json
+	# https://github.com/0xNeffarion/osrsreboxed-db/blob/master/docs/items-complete.json
 	print( "LOADING EQUIPMENT")
 	var path : String = "res://database/items-complete.json"
 	
@@ -213,6 +214,7 @@ func load_items_res() -> void:
 
 func load_monsters_json() -> void:
 	# Loads all the monsters from monsters-complete.json
+	# https://github.com/0xNeffarion/osrsreboxed-db/blob/master/docs/monsters-complete.json
 	print( "LOADING MONSTERS")
 	var path : String = "res://database/monsters-complete.json"
 	
