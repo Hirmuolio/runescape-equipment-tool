@@ -384,7 +384,30 @@ var equipment_specials : Dictionary = {
 		"items": ["Crystal helm"],
 		"name": "Crystal helm",
 		"description": "2.5% damage bonus, 5% accuracy bonus for crystal bow and Bow of Faerdhinen",
-	}
+	},
+	"harmonised_nightmare_staff": {
+		"items": ["Harmonised nightmare staff"],
+		"name": "Harmonised nightmare staff",
+		"description": "Spellcast speed 4",
+	},
+	"bloodrager": {
+		"items": ["Blood moon helm", "Blood moon chestplate", "Blood moon tassets", "Dual macuahuitl"],
+		"name": "Bloodrager",
+		"description": "1/3 chance to hit one tick sooner after succesful hit",
+		"set": 4
+	},
+	"eclipse": {
+		"items": ["Eclipse moon helm", "Eclipse moon chestplate", "Eclipse moon tassets", "Eclipse atlatl"],
+		"name": "Eclipse",
+		"description": "20% chance to inflict burn and deal 10 damage over 24 seconds",
+		"set": 4
+	},
+	"atlatl": {
+		"items": ["Eclipse atlatl", "Atlatl dart"],
+		"name": "atlatl",
+		"description": "Ranged damage based on melee strength",
+		"set": 2
+	},
 }
 
 # Item_name : special_name
@@ -635,16 +658,16 @@ var prayers : Dictionary = {
 }
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	generate_items_with_specials()
 	pass
 
 
-func generate_items_with_specials():
+func generate_items_with_specials() -> void:
 	print( "Pregenrating specials")
-	for effect in equipment_specials.keys():
+	for effect : String in equipment_specials.keys():
 		print( effect )
-		for item_name in equipment_specials[effect]["items"]:
+		for item_name : String in equipment_specials[effect]["items"]:
 			if !item_name in items_with_specials:
 				items_with_specials[item_name] = [effect]
 			else:
@@ -689,7 +712,8 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"Uncharged toxic trident (e)",
 		"Sanguinesti staff (uncharged)",
 		"Holy sanguinesti staff (uncharged)",
-		"Bryophyta's staff (uncharged)"
+		"Bryophyta's staff (uncharged)",
+		"Fixed device"
 	]
 	
 	
@@ -724,9 +748,9 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		"digsite",
 		"combat"
 	]
-	for elem in charges:
+	for elem : String in charges:
 		if elem in item_name:
-			for elem2 in jewelry:
+			for elem2 : String in jewelry:
 				if elem2 in item_name:
 					return true
 	
@@ -735,16 +759,16 @@ func item_is_blacklisted( item_name : String ) -> bool:
 		return true
 	
 	# Damaged barrows gear
-	var barrow_names = ["Verac", "Ahrim", "Torag", "Guthan", "Karil", "Dharok"]
-	var barrow_charges = ["25", "50", "75", "100"]
-	for barrow in barrow_names:
-		for charge in barrow_charges:
+	var barrow_names : Array = ["Verac", "Ahrim", "Torag", "Guthan", "Karil", "Dharok"]
+	var barrow_charges : Array = ["25", "50", "75", "100"]
+	for barrow : String in barrow_names:
+		for charge : String in barrow_charges:
 			if barrow in item_name and charge in item_name:
 				return true
 			
 	return false
 
-func load_spells():
+func load_spells() -> void:
 	
 	var spells : Dictionary = {
 		"wind_strike":{
@@ -980,9 +1004,9 @@ func load_spells():
 	#	"attributes": ["standard", "air", "strike"]
 	#}
 	
-	var class_item = load( "res://data/equipment.tscn" )
+	var class_item : Resource = load( "res://data/equipment.tscn" )
 	var id : int = -1
-	for spell in spells.values():
+	for spell : Dictionary in spells.values():
 		var new_item : equipment = class_item.instantiate()
 		Database.get_node("items").add_child( new_item )
 		
@@ -996,3 +1020,16 @@ func load_spells():
 		id -= 1
 	pass
 
+func monster_armour( target_mon : monster ) -> int:
+	# These are not in the json data so hardcode here
+	if target_mon.monster_name == "Eclipse Moon":
+		return 4
+	elif target_mon.monster_name == "Blood Moon":
+		return -2
+	elif target_mon.monster_name == "Blue Moon":
+		return -5
+	elif target_mon.monster_name == "Sulphur Nagua":
+		return -4
+	elif target_mon.monster_name == "Grimy Lizard":
+		return -2
+	return 0

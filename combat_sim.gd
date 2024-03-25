@@ -1,7 +1,9 @@
 extends Node
 
-# Special states set by the UI:
+var act_player : player # Generally speaking this does not change
+var target_mon : monster
 
+# Special states set by the UI:
 var charge_spell : bool = false
 var kandarin_diary : bool = false
 var wilderness : bool = true
@@ -12,54 +14,58 @@ var toa : bool = false
 var toa_multiplier : float = 1
 var toa_damage_multiplier : float = 1
 
-signal simulation_done( dps )
+signal simulation_done( dps : dps_stats )
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	pass # Replace with function body.
 
-func _on_slayer_value_changed(new_value):
+func _on_slayer_value_changed(new_value : bool) -> void:
 	slayer_task = new_value
 	do_fast_simulations()
 
-func _on_charge_value_changed(new_value : bool):
+func _on_charge_value_changed(new_value : bool) -> void:
 	charge_spell = new_value
 	do_fast_simulations()
 
-func _on_kandarin_value_changed(new_value):
+func _on_kandarin_value_changed(new_value : bool) -> void:
 	kandarin_diary = new_value
 	do_fast_simulations()
 
-func _on_wilderness_value_changed(new_value):
+func _on_wilderness_value_changed(new_value : bool) -> void:
 	wilderness = new_value
 	do_fast_simulations()
 
-func _on_darkness_value_changed(new_value):
+func _on_darkness_value_changed(new_value : bool) -> void:
 	mark_of_darkness = new_value
 	do_fast_simulations()
 
-func _on_d_warammer_value_changed(new_value):
+func _on_d_warammer_value_changed(new_value : bool) -> void:
 	dwh_specs = new_value
 	do_fast_simulations()
 
-func _on_toa_value_changed(new_value):
+func _on_toa_value_changed(new_value : bool) -> void:
 	toa = new_value
 	do_fast_simulations()
 
-func _on_toa_level_value_changed(new_value):
+func _on_toa_level_value_changed(new_value : int) -> void:
 	toa_damage_multiplier = min( 1.5, 1 + new_value * 0.02 )
 	toa_multiplier = 1 + new_value * 0.02
 	# TODO update npc stats
 	do_fast_simulations()
 
-func do_fast_simulations():
+func do_fast_simulations() -> void:
 	do_simulations( false )
 
-func do_simulations( full_sim : bool = false ):
-	var act_player = get_parent().get_node("player_data")
-	var target_mon = get_parent().get_node("%monster_panel").current_monster
-	
+func do_simulations( full_sim : bool = false ) -> dps_stats:
 	var stats : dps_stats = preload("res://resources/dps_stats.gd").new()
+	
+	# Ignore if things are not set
+	if act_player == null:
+		return stats
+	if act_player.attack_stance == null:
+		return stats
+	
 	
 	if !act_player:
 		print( "NO PLAYER EXISTS")
@@ -70,10 +76,10 @@ func do_simulations( full_sim : bool = false ):
 		simulation_done.emit(stats)
 		return
 	
-	set_p_max_hit( act_player, target_mon, stats )
+	set_p_max_hit( stats )
 	
-	stats.monster_def_roll = calc_monster_def_roll( act_player, target_mon )
-	stats.player_atk_roll = calc_player_atk_roll( act_player, target_mon )
+	stats.monster_def_roll = calc_monster_def_roll()
+	stats.player_atk_roll = calc_player_atk_roll()
 	var osmumten : bool = "osmumten" in act_player.special_attributes
 	stats.hit_chance = calc_hit_chance( stats.player_atk_roll, stats.monster_def_roll, osmumten )
 	
@@ -82,29 +88,29 @@ func do_simulations( full_sim : bool = false ):
 		simulation_done.emit(stats)
 		return
 	
-	stats.player_def_roll = calc_player_def_roll( act_player, target_mon )
-	stats.monster_atk_roll = calc_monster_atk_roll( target_mon )
+	stats.player_def_roll = calc_player_def_roll()
+	stats.monster_atk_roll = calc_monster_atk_roll()
 	stats.monster_hit_chance = calc_hit_chance( stats.monster_atk_roll, stats.player_def_roll, false )
 	
-	stats.monster_max_hit = target_mon.max_hit * toa_damage_multiplier
-	if "bulwark" in act_player.special_attributes and act_player.attack_stance == "block":
+	stats.monster_max_hit = int( target_mon.max_hit * toa_damage_multiplier )
+	if "bulwark" in act_player.special_attributes and act_player.attack_stance.is_block():
 		stats.monster_max_hit = stats.monster_max_hit * 4 / 5
 	
 	stats.monster_dps = stats.monster_hit_chance * stats.monster_max_hit / 2.0 / target_mon.attack_speed / 0.6
 	
 	if full_sim:
-		simulate_combat( act_player, target_mon, stats )
+		simulate_combat( stats )
 	simulation_done.emit(stats)
+	return stats
 
-func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats ):
+func set_p_max_hit(  stats : dps_stats ) -> void:
 	
 	var powered_staff : bool = "powered_staff" in act_player.special_attributes
-	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
 	
 	var max_hit : int = 0
 	var crit_max_hit : int = 0
 	
-	if magic_attack:
+	if act_player.attack_stance.is_magic():
 		var spell : equipment = act_player.spell
 		
 		var salamander : bool = act_player.weapon and ( "salamander" in act_player.weapon.item_name or act_player.weapon.item_name == "Swamp lizard" )
@@ -119,6 +125,8 @@ func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats
 				magic_str = 77
 			if act_player.weapon.item_name == "Black salamander":
 				magic_str = 92
+			if act_player.weapon.item_name == "Tecu salamander":
+				magic_str = 104
 			
 			max_hit = (320 + act_player.magic * ( 64 + magic_str ) ) / 640
 		elif powered_staff:
@@ -144,7 +152,7 @@ func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats
 				max_hit = 39
 		else:
 			if !spell:
-				return 0
+				return
 			
 			if spell.item_name == "Magic dart":
 				if slayer_task and "slayer_staff_e" in act_player.special_attributes:
@@ -219,7 +227,7 @@ func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats
 		if spell and mark_of_darkness and "demonbane" in spell.special_effects and "demon" in target_mon.attributes:
 			stats.post_roll_mult = Vector2i(5,4)
 	
-	elif act_player.attack_style == "ranged":
+	elif act_player.attack_stance.is_ranged():
 		var eff_str : int = int( act_player.ranged * act_player.prayer_rng ) + act_player.style_rng_bonus + 8
 		
 		if "void_ranged" in act_player.special_attributes:
@@ -316,7 +324,7 @@ func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats
 		
 		var eq_str : int = act_player.str_bonus
 		
-		if "bulwark" in act_player.special_attributes and act_player.attack_stance == "accurate":
+		if "bulwark" in act_player.special_attributes and !act_player.attack_stance.is_block():
 			#get_equipment_bonus( "defence_stab" )
 			var total_def : int = act_player.get_equipment_bonus( "defence_stab" ) + act_player.get_equipment_bonus( "defence_slash" ) + act_player.get_equipment_bonus( "defence_crush" ) + act_player.get_equipment_bonus( "defence_ranged" )
 			eq_str += ( total_def / 4 - 200 ) / 3 - 38
@@ -376,7 +384,7 @@ func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats
 				max_hit = max_hit * 33/20
 			elif "arclight" in act_player.special_attributes:
 				max_hit = max_hit * 17/10
-		if act_player.attack_style == "crush":
+		if act_player.attack_stance.is_crush():
 			if "inquisitor_1" in act_player.special_attributes:
 				max_hit = int( max_hit * 1.005 )
 			elif "inquisitor_2" in act_player.special_attributes:
@@ -406,12 +414,16 @@ func set_p_max_hit( act_player : player, target_mon : monster, stats : dps_stats
 	
 	stats.max_hit = max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
 	stats.max_critical = crit_max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
+	
+	# Not sure at what point the armour stat is applied. Lets apply it here at the end
+	var armour : int = HardcodedData.monster_armour( target_mon )
+	stats.max_hit -= armour
+	stats.max_critical -= armour
 
 
-func calc_monster_def_roll( act_player : player, target_mon : monster )->int:
+func calc_monster_def_roll( )->int:
 	var def_roll : int = 0
-	var powered_staff : bool = "powered_staff" in act_player.special_attributes
-	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
+	var magic_attack : bool = act_player.attack_stance.is_magic()
 	
 	if magic_attack:
 		def_roll = ( target_mon.magic_level + 9 ) * ( target_mon.style_def( "magic" ) + 64 )
@@ -421,11 +433,11 @@ func calc_monster_def_roll( act_player : player, target_mon : monster )->int:
 			for _i in range(dwh_specs):
 				monster_def_lvl = monster_def_lvl * 7 / 10
 	
-	if act_player.attack_style == "ranged":
+	if act_player.attack_stance.is_ranged():
 		def_roll = ( monster_def_lvl + 9 ) * ( target_mon.style_def( "ranged" ) + 64 )
 	else:
 		
-		def_roll = ( monster_def_lvl + 9 ) * ( target_mon.style_def( act_player.attack_style ) + 64 )
+		def_roll = ( monster_def_lvl + 9 ) * ( target_mon.style_def( act_player.attack_stance.type2st() ) + 64 )
 
 	return def_roll
 
@@ -434,6 +446,7 @@ func calc_hit_chance( atk_roll : int, def_roll : int, osmumten : bool )-> float:
 	if osmumten:
 		# These are very ugly but seem to work.
 		if atk_roll > def_roll:
+			# p_hit_chance = 1 - 1/def_roll * ( 2 * def_roll^3 + 3 * def_roll^2 ) + def_roll ) / 6 / atk_roll^2
 			p_hit_chance = 1 - 1.0/def_roll * ( 2*pow(def_roll,3) + 3*pow(def_roll, 2) + def_roll ) / 6.0 / pow(atk_roll, 2)
 		elif atk_roll == def_roll:
 			p_hit_chance = 2.0/3 - pow(def_roll,-2)/6 - pow(def_roll,-1)/2.0
@@ -447,17 +460,14 @@ func calc_hit_chance( atk_roll : int, def_roll : int, osmumten : bool )-> float:
 	
 	return p_hit_chance
 
-func calc_player_atk_roll( act_player : player, target_mon : monster )->int:
+func calc_player_atk_roll()->int:
 	
 	# Math mostly based on wiki
 	# I do not trust this math at all
 	
 	var atk_roll : int
 	
-	var powered_staff : bool = "powered_staff" in act_player.special_attributes
-	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
-	
-	if magic_attack:
+	if act_player.attack_stance.is_magic():
 		var eff_atk : int = act_player.magic
 		# Weird handling for different prayer bonuses. Npt sure about these. But
 		eff_atk = int( eff_atk * act_player.prayer_magic )
@@ -492,7 +502,7 @@ func calc_player_atk_roll( act_player : player, target_mon : monster )->int:
 		if "tumekens_shadow" in act_player.special_attributes:
 			atk_roll *= 3
 		
-	elif act_player.attack_style == "ranged":
+	elif act_player.attack_stance.is_ranged():
 		var eff_atk : int = int( act_player.ranged * act_player.prayer_rng * act_player.prayer_rng_atk ) + act_player.style_rng_bonus + 8
 		
 		if "void_ranged" in act_player.special_attributes:
@@ -558,7 +568,7 @@ func calc_player_atk_roll( act_player : player, target_mon : monster )->int:
 			atk_roll = atk_roll * 3/2
 		if "arclight" in act_player.special_attributes && "demon" in target_mon.attributes:
 			atk_roll = atk_roll * 17/10
-		if act_player.attack_style == "crush":
+		if act_player.attack_stance.is_crush():
 			if "inquisitor_1" in act_player.special_attributes:
 				atk_roll = int( atk_roll * 1.005 )
 			elif "inquisitor_2" in act_player.special_attributes:
@@ -575,7 +585,7 @@ func calc_player_atk_roll( act_player : player, target_mon : monster )->int:
 	return atk_roll
 
 
-func calc_monster_atk_roll( target_mon : monster ) -> int:
+func calc_monster_atk_roll() -> int:
 	
 	if target_mon.attack_type.size() == 0:
 		# Incomplete attack info
@@ -598,7 +608,7 @@ func calc_monster_atk_roll( target_mon : monster ) -> int:
 	
 	return atk_roll
 
-func calc_player_def_roll( act_player : player, target_mon : monster )->int:
+func calc_player_def_roll()->int:
 	
 	if target_mon.attack_type.size() == 0:
 		# Incomplete attack info
@@ -622,7 +632,7 @@ func calc_player_def_roll( act_player : player, target_mon : monster )->int:
 		return eff_def * ( act_player.style_def( target_mon.attack_type[0] ) + 64 )
 
 
-func simulate_combat( act_player : player, target_mon : monster, stats : dps_stats ):
+func simulate_combat( stats : dps_stats ) -> void:
 	
 	# Full tick accurate combat simulation
 	
@@ -630,7 +640,7 @@ func simulate_combat( act_player : player, target_mon : monster, stats : dps_sta
 	state.initialize( act_player, target_mon, stats )
 	state.toa = toa
 	
-	var hit_func = Callable(self, "hit_normal")
+	var hit_func : Callable = Callable(self, "hit_normal")
 	
 	if "keris" in act_player.special_attributes:
 		state.crit_chance = 1.0/51
@@ -640,6 +650,8 @@ func simulate_combat( act_player : player, target_mon : monster, stats : dps_sta
 		hit_func = Callable(self, "hit_keris_sun")
 	elif "osmumtem" in act_player.special_attributes:
 		hit_func = Callable(self, "hit_osmumten")
+	elif "macuahuitl" in act_player.special_attributes:
+		hit_func = Callable(self, "hit_macuahuitl")
 	elif "gaddehammer" in act_player.special_attributes:
 		state.crit_chance = 0.05
 		hit_func = Callable(self, "hit_critical")
@@ -665,8 +677,7 @@ func simulate_combat( act_player : player, target_mon : monster, stats : dps_sta
 	if kandarin_diary:
 		state.kandarin = 1.1
 	
-	var powered_staff : bool = "powered_staff" in act_player.special_attributes
-	var magic_attack : bool = act_player.attack_stance == "magic" or powered_staff
+	var magic_attack : bool = act_player.attack_stance.is_magic()
 	state.zaryte = "zaryte_xbow" in act_player.special_attributes
 	state.brimstone = magic_attack and "brimstone_ring" in act_player.special_attributes
 	
@@ -698,10 +709,10 @@ func simulate_combat( act_player : player, target_mon : monster, stats : dps_sta
 
 
 func hit_normal( state : combat_state ) -> int:
-	var def_roll = state.rng_roll( state.monster_def_roll)
-	var atk_roll = state.rng_roll( state.player_atk_roll)
+	var def_roll : int = state.rng_roll( state.monster_def_roll)
+	var atk_roll : int = state.rng_roll( state.player_atk_roll)
 	if state.brimstone and state.chance( 0.25 ):
-		def_roll *= 0.9
+		def_roll = def_roll * 9 / 10
 	if def_roll < atk_roll:
 		return state.rng.randi_range( 0, state.pre_roll_max) * state.post_roll_mult[0] / state.post_roll_mult[1]
 	return 0
@@ -762,9 +773,20 @@ func hit_keris_sun( state : combat_state ) -> int:
 		return state.rng_roll( state.p_crit_max_hit)
 	return state.rng_roll( state.pre_roll_max)
 
+func hit_macuahuitl( state : combat_state ) -> int:
+	# Two hits
+	# If first misses the second also misses
+	# Not sure how damage is calculated
+	var damage : int = 0
+	if state.rng_roll( state.monster_def_roll) < state.rng_roll( state.player_atk_roll):
+		damage += state.rng_roll( state.pre_roll_max) / 2
+		if state.rng_roll( state.monster_def_roll) < state.rng_roll( state.player_atk_roll):
+			damage += state.rng_roll( state.pre_roll_max) / 2
+	return damage
+
 func hit_critical( state : combat_state ) -> int:
 	# Weapon with critical chance (keris/gadderhammer)
-	var def_roll = state.rng_roll( state.monster_def_roll)
+	var def_roll : int = state.rng_roll( state.monster_def_roll)
 	if state.brimstone and state.chance( 0.25 ):
 		def_roll = def_roll * 9 / 10
 	if def_roll >= state.rng_roll( state.player_atk_roll):

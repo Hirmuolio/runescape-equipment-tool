@@ -1,14 +1,14 @@
 extends VBoxContainer
 
 
-@onready var player_stats = get_parent().get_parent().get_node( "player_data" )
+@onready var player_stats : player = get_parent().get_parent().get_node( "player_data" )
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	pass # Replace with function body.
 
 
-func refresh_eq_stats():
+func refresh_eq_stats() -> void:
 	#var player_stats = get_parent().get_parent().get_node( "player_data" )
 	
 	get_node( "eq_attack/stab" ).text = stat_string( player_stats.get_equipment_bonus( "attack_stab" ) )
@@ -40,24 +40,24 @@ func stat_string( value : int ) -> String:
 	
 
 
-func _on_player_data_prayers_changed():
+func _on_player_data_prayers_changed() -> void:
 	
 	for child in $prayers.get_children():
 		child.queue_free()
 	
 	var prayer_button_scene := preload( "res://interface/pray_button.tscn")
 	
-	for prayer in player_stats.prayers:
+	for prayer : String in player_stats.prayers:
 		var button := prayer_button_scene.instantiate()
 		button.pray_id = prayer
-		var _err1 = button.connect("button_down",Callable(player_stats,"prayer_remove").bind(prayer))
-		var _err2 = button.connect("button_down",Callable(button,"remove_button"))
+		var _err1 : int = button.connect("button_down",Callable(player_stats,"prayer_remove").bind(prayer))
+		var _err2 : int = button.connect("button_down",Callable(button,"remove_button"))
 		$prayers.add_child( button )
 	
 	
 
 
-func _on_attack_style_attack_style(_new_stance):
+func _on_attack_style_attack_style( _new_stance : Array ) -> void:
 	# Attack speed needs refreshing
 	# Just refresh all
 	refresh_eq_stats()

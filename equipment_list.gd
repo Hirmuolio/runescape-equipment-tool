@@ -1,17 +1,17 @@
 extends VBoxContainer
 
 
-var root
+var root : TreeItem
 var search_active : bool = false
 var group_collapsed : Dictionary
 
-signal item_selected( item_node )
+signal item_selected( item_node : equipment )
 
-func _ready():
+func _ready() -> void:
 	create_tree()
 	pass
 
-func create_tree():
+func create_tree() -> void:
 	# Creates full tree
 	
 	
@@ -22,8 +22,7 @@ func create_tree():
 	# And add all their items
 	#var groups : Array = [ "weapon", "2h", "ammo", "cape", "legs", "body", "head", "shield", "neck", "head", "feet", "hands", "ring", "shield" ]
 	var tree_groups : Dictionary = {}
-	for _item in Database.get_items(): 
-		var item : equipment = _item # Dirty hack to get typing
+	for item : equipment in Database.get_items(): 
 		if item.is_hidden:
 			continue
 		var tree_group : TreeItem
@@ -48,7 +47,7 @@ func create_tree():
 
 
 
-func filter( search_term : String ):
+func filter( search_term : String ) -> void:
 	
 	for child in get_children():
 		child.filter( search_term )
@@ -57,7 +56,7 @@ func filter( search_term : String ):
 		child.hide_if_empty()
 
 
-func _on_search_text_changed(search_term):
+func _on_search_text_changed( search_term : String ) -> void:
 	
 	var do_search : bool = search_term.length() >= Config.min_search_length
 	
@@ -68,8 +67,7 @@ func _on_search_text_changed(search_term):
 	
 	print( search_term )
 	
-	for _item in Database.get_items(): 
-		var item : equipment = _item # Dirty hack to get typing
+	for item : equipment in Database.get_items(): 
 		if !search_active:
 			item.is_hidden = false
 		elif Config.search_mode == 0 and item.item_name.findn(search_term) > -1:
@@ -87,7 +85,7 @@ func _on_search_text_changed(search_term):
 	create_tree()
 
 
-func _on_Tree_cell_selected():
+func _on_Tree_cell_selected() -> void:
 	var selected : TreeItem = $Tree.get_selected()
 	selected.deselect(0)
 	if typeof( selected.get_metadata(0) ) == TYPE_STRING:

@@ -40,37 +40,37 @@ var attributes : Array = []
 var size : int = 1
 
 # Current state in the list
-var is_hidden = false
+var is_hidden : bool = false
 
 
-func recalculate_stats():
+func recalculate_stats() -> void:
 	pass
 
-func _on_attack_value_changed( new_lvl ):
+func _on_attack_value_changed( new_lvl : int ) -> void:
 	attack_level = new_lvl
 	recalculate_stats()
 
 
-func _on_strength_value_changed( new_lvl ):
+func _on_strength_value_changed( new_lvl : int ) -> void:
 	strength_level = new_lvl
 	recalculate_stats()
 
 
-func _on_defence_value_changed( new_lvl ):
+func _on_defence_value_changed( new_lvl : int ) -> void:
 	defence_level =  new_lvl
 	recalculate_stats()
 
 
-func _on_magic_value_changed( new_lvl ):
+func _on_magic_value_changed( new_lvl : int ) -> void:
 	magic_level = new_lvl
 	recalculate_stats()
 
 
-func _on_ranged_value_changed( new_lvl ):
+func _on_ranged_value_changed( new_lvl : int ) -> void:
 	ranged_level = new_lvl
 	recalculate_stats()
 
-func _on_hitpoints_value_changed( new_lvl ):
+func _on_hitpoints_value_changed( new_lvl : int ) -> void:
 	hitpoints = new_lvl
 	recalculate_stats()
 
@@ -132,7 +132,7 @@ func is_identical( oth_monster : monster ) -> bool:
 	
 	return true
 
-func style_def( style : String ):
+func style_def( style : String ) -> int:
 	match style:
 		"stab":
 			return defence_stab

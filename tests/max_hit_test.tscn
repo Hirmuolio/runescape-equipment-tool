@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://s4nve6dl47mn"]
+
+[ext_resource type="Script" path="res://tests/max_hit_test.gd" id="1_aupnk"]
+
+[node name="max_hit_test" type="Node"]
+script = ExtResource("1_aupnk")

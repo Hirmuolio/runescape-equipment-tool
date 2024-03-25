@@ -1,14 +1,14 @@
 extends VBoxContainer
 
 
-@onready var player_data = get_parent().get_parent().get_node("player_data") # TODO make nicer
+@onready var player_data : player = get_parent().get_parent().get_node("player_data") # TODO make nicer
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	pass
 
 
-func _on_combat_sim_simulation_done( stats : dps_stats ):
+func _on_combat_sim_simulation_done( stats : dps_stats ) -> void:
 	#print_specials( player_data )
 	
 	$p_maxhit.value = stats.max_hit
@@ -37,7 +37,7 @@ func _on_combat_sim_simulation_done( stats : dps_stats ):
 	
 	var drain_res : float = 2 * player_data.get_equipment_bonus( "prayer" ) + 60
 	var drain : float = 0
-	for prayer in player_data.prayers:
+	for prayer : String in player_data.prayers:
 		drain += HardcodedData.prayers[prayer].drain
 	if drain > 0:
 		var seconds_per_drain : float = 0.6 * ( drain_res / drain )
@@ -47,11 +47,11 @@ func _on_combat_sim_simulation_done( stats : dps_stats ):
 		$pray_drain.value = ""
 	$pray_drain.hoover_info = "Total drain: " + str(drain) + "\nDrain resistance: " + str( drain_res )
 
-func print_specials():
+func print_specials() -> void:
 	
 	$special_desc.clear()
 	
-	for special in player_data.special_attributes:
+	for special : String in player_data.special_attributes:
 		$special_desc.add_text ( "  " + HardcodedData.equipment_specials[ special ][ "name" ] )
 		$special_desc.newline()
 		$special_desc.append_text( HardcodedData.equipment_specials[ special ][ "description" ] )

@@ -3,7 +3,8 @@ extends Node
 class_name player
 #func get_class(): return "player"
 
-signal gear_change( slot, new_gear )
+signal gear_change( slot : String, new_gear : equipment )
+signal changed()
 
 var setup_name : String = "untitled"
 
@@ -33,13 +34,7 @@ var hands : equipment
 var spell : equipment
 
 
-# slash, crush, stab, magic, ranged
-var attack_style : String = "crush"
-
-# aggressive, defensive, accurate, controlled
-# rapid, long range, accurate
-# spellcasting, defensive casting
-var attack_stance : String
+var attack_stance : attack_style
 
 
 # Equipment stats:
@@ -82,14 +77,14 @@ var special_attributes : Array = []
 signal prayers_changed()
 
 func save_string() -> String:
-	var ret = ""
+	var ret : String = ""
 	ret += setup_name + "\n"
 	
 	# attack, str, def, mage, range, hp, pray
 	ret += str(attack) + "," + str(strength) + "," + str(defence) + "," + str(ranged) + "," + str(magic) + "," + str(hp_lvl) + "," + str( prayer ) + "\n"
 	
 	var first : bool = true
-	for item in all_equipped():
+	for item : equipment in all_equipped():
 		if first:
 			first = false
 		else:
@@ -105,7 +100,7 @@ func save_string() -> String:
 	
 	return ret
 
-func load_string( setup : String ):
+func load_string( setup : String ) -> void:
 	# Should probably add some validation here...
 	var data : PackedStringArray = setup.split("\n")
 	setup_name = data[0]
@@ -127,9 +122,9 @@ func load_string( setup : String ):
 		if int(gid) == -1:
 			continue
 		equip( Database.get_item( int(gid) ) )
-	recalculate_stats()
+	changed.emit()
 
-func set_specials():
+func set_specials() -> void:
 	# Determines what special attributes the equipment has
 	# Takes into account conflicts and set requirements
 	
@@ -139,15 +134,15 @@ func set_specials():
 	# { "special_id": 2 }
 	var all_specials : Dictionary = {}
 	
-	for item in all_equipped():
-		for special in HardcodedData.specials_of_item( item ):
+	for item : equipment in all_equipped():
+		for special : String in HardcodedData.specials_of_item( item ):
 			if special in all_specials:
 				all_specials[special] = all_specials[special] + 1
 			else:
 				all_specials[special] = 1
 	
 	# Apply full armor sets
-	for special in all_specials.keys():
+	for special : String in all_specials.keys():
 		if "set" in HardcodedData.equipment_specials[special]:
 			if all_specials[special] < HardcodedData.equipment_specials[special]["set"]:
 				continue
@@ -156,19 +151,16 @@ func set_specials():
 	
 	# Filter out exclusive specials
 	var to_remove : Array = []
-	for special in special_attributes:
+	for special : String in special_attributes:
 		if "removes" in HardcodedData.equipment_specials[special]:
 			to_remove.append_array( HardcodedData.equipment_specials[special]["removes"] )
-	for rem in to_remove:
+	for rem : String in to_remove:
 		special_attributes.erase( rem )
 
-func recalculate_stats():
-	get_parent().refresh_results()
-	pass
 
 func all_equipped() -> Array:
 	# returns list of requipment
-	var ret = []
+	var ret : Array = []
 	if weapon:
 		ret.append(weapon)
 	if shield:
@@ -194,7 +186,7 @@ func all_equipped() -> Array:
 	
 	return ret
 
-func equip( new_item : equipment  ):
+func equip( new_item : equipment  ) -> void:
 	if new_item.equipment_slot == "2h":
 		weapon = new_item
 		shield = null
@@ -204,111 +196,93 @@ func equip( new_item : equipment  ):
 		set( new_item.equipment_slot, new_item)
 		emit_signal("gear_change", new_item.equipment_slot, new_item)
 	set_specials()
-	recalculate_stats()
+	
+	if new_item.equipment_slot in [ "2h", "weapon"]:
+		# Set default attack style from weapon
+		attack_stance = new_item.stances[0]
+	changed.emit()
 
-func prayer_add( prayer_id : String ):
+func prayer_add( prayer_id : String ) -> void:
 	if prayer_id in prayers:
 		return
 	
 	# Can't have multiple prayers of same "type"
 	# Remove old conflicting prayers
 	var to_remove : Array = []
-	for mod in HardcodedData.prayers[prayer_id]["type"]:
-		for pra in prayers:
+	for mod : String in HardcodedData.prayers[prayer_id]["type"]:
+		for pra : String in prayers:
 			if mod in HardcodedData.prayers[pra]["type"]:
 				to_remove.append( pra )
-	for pra in to_remove:
+	for pra : String in to_remove:
 		prayers.erase( pra )
 	
 	prayers.append( prayer_id )
 	
-	recalculate_stats()
 	emit_signal("prayers_changed")
+	changed.emit()
 
-func prayer_remove( prayer_id : String ):
+func prayer_remove( prayer_id : String ) -> void:
 	prayers.erase( prayer_id )
-	recalculate_stats()
+	changed.emit()
 
-func _on_removed_gear(slot : String):
+func _on_removed_gear(slot : String) -> void:
 	if slot == "2h":
 		weapon = null
 	else:
 		set( slot, null)
 	set_specials()
-	recalculate_stats()
+	changed.emit()
 	
 
 
-func _on_attack_value_changed( new_lvl ):
+func _on_attack_value_changed( new_lvl : int ) -> void:
 	attack = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
-func _on_strength_value_changed( new_lvl ):
+func _on_strength_value_changed( new_lvl : int ) -> void:
 	strength = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
-func _on_defence_value_changed( new_lvl ):
+func _on_defence_value_changed( new_lvl : int ) -> void:
 	defence =  new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
-func _on_magic_value_changed( new_lvl ):
+func _on_magic_value_changed( new_lvl : int ) -> void:
 	magic = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
-func _on_ranged_value_changed( new_lvl ):
+func _on_ranged_value_changed( new_lvl : int ) -> void:
 	ranged = new_lvl
-	recalculate_stats()
+	changed.emit()
 
-func _on_hp_lvl_value_changed(new_lvl):
+func _on_hp_lvl_value_changed(new_lvl : int ) -> void:
 	hp_lvl = new_lvl
-	recalculate_stats()
+	changed.emit()
 
 
-func _on_hp_value_changed(new_lvl):
+func _on_hp_value_changed(new_lvl : int ) -> void:
 	current_hp = new_lvl
-	recalculate_stats()
+	changed.emit()
 
-func _on_attack_style_attack_style(new_stance):
-	attack_stance = new_stance[0]
-	attack_style = new_stance[1]
-	recalculate_stats()
 
 func _get_style_str() -> int:
-	if attack_stance == "aggressive" or attack_stance == "scorch":
-		return 3
-	elif attack_stance == "controlled":
-		return 1
-	return 0
+	return attack_stance.get_style_str()
 
 func _get_style_atk() -> int:
-	if attack_stance == "accurate":
-		return 3
-	elif attack_stance == "controlled":
-		return 1
-	return 0
+	return attack_stance.get_style_atk()
 
 func _get_style_def() -> int:
-	if attack_stance == "defensive":
-		return 3
-	elif attack_stance == "controlled":
-		return 1
-	return 0
+	return attack_stance.get_style_def()
 
 func _get_style_rng() -> int:
-	if attack_stance == "accurate" or attack_stance == "flare":
-		return 3
-	elif attack_stance == "longrange":
-		return 1
-	return 0
+	return attack_stance.get_style_rng()
 
 func _getstyle_mag() -> int:
-	if attack_stance == "accurate" or attack_stance == "blaze":
-		return 3
-	return 0
+	return attack_stance.get_style_mag()
 
 func get_equipment_bonus( attribute : String ) -> int:
 	var bonus : int = 0
@@ -342,14 +316,14 @@ func _get_str_bonus() -> int:
 	return get_equipment_bonus( "melee_strength" )
 
 func _get_atk_bonus() -> int:
-	if attack_style == "stab":
+	if attack_stance.attack_type == attack_stance.enum_types.STAB:
 		return get_equipment_bonus( "attack_stab" )
-	elif attack_style == "slash":
+	elif attack_stance.attack_type == attack_stance.enum_types.SLASH:
 		return get_equipment_bonus( "attack_slash" )
-	elif attack_style == "crush":
+	elif attack_stance.attack_type == attack_stance.enum_types.CRUSH:
 		return get_equipment_bonus( "attack_crush" )
 	
-	#push_warning ( "Invalid weapon melee attack style " + '"' + attack_style + '"' )
+	assert(false, "Invalid weapon melee attack style " )
 	return get_equipment_bonus( "attack_stab" )
 
 func _get_rng_str() -> int:
@@ -387,19 +361,20 @@ func style_def( ag_attack_style : String ) -> int:
 func _get_attack_speed() -> int:
 	# Ticks per attack
 	if !weapon:
+		# Unarmed
 		return 5
 	var spd : int = weapon.attack_speed
-	if "powered_staff" in special_attributes:
+	if "harmonised_nightmare_staff" in special_attributes:
 		spd = 4
-	if attack_stance == "magic":
+	elif attack_stance.attack_stance == attack_stance.enum_stances.SPELLCASTING:
 		spd = 5
-	elif attack_stance == "rapid":
+	elif attack_stance.attack_stance == attack_stance.enum_stances.RAPID:
 		spd -= 1
 	return spd
 	
 
 func _get_pray_str() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "strength" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -408,7 +383,7 @@ func _get_pray_str() -> float:
 
 func _get_pray_atk() -> float:
 	
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "attack" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -416,7 +391,7 @@ func _get_pray_atk() -> float:
 	return 1.0
 
 func _get_pray_def() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "defence" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -424,7 +399,7 @@ func _get_pray_def() -> float:
 	return 1.0
 
 func _get_pray_magic() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "magic" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -432,7 +407,7 @@ func _get_pray_magic() -> float:
 	return 1.0
 
 func _get_pray_magic_atk() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "magic" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -440,7 +415,7 @@ func _get_pray_magic_atk() -> float:
 	return 1.0
 
 func _get_pray_magic_def()-> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "magic_attack" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -448,7 +423,7 @@ func _get_pray_magic_def()-> float:
 	return 1.0
 
 func _get_pray_rng() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "ranged" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -456,7 +431,7 @@ func _get_pray_rng() -> float:
 	return 1.0
 
 func _get_pray_rng_str() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "ranged_str" in HardcodedData.prayers[pray_id]["modifiers"]:
@@ -464,9 +439,14 @@ func _get_pray_rng_str() -> float:
 	return 1.0
 
 func _get_pray_rng_atk() -> float:
-	for pray_id in prayers:
+	for pray_id : String in prayers:
 		if not "modifiers" in HardcodedData.prayers[pray_id]:
 			continue
 		if "ranged_attack" in HardcodedData.prayers[pray_id]["modifiers"]:
 			return ( 100.0 + HardcodedData.prayers[pray_id]["modifiers"]["ranged_attack"] ) / 100
 	return 1.0
+
+
+func _on_attack_style_changed( new_stance : attack_style ) -> void:
+	attack_stance = new_stance
+	changed.emit()
