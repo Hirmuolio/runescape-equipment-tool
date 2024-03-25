@@ -389,7 +389,25 @@ var equipment_specials : Dictionary = {
 		"items": ["Harmonised nightmare staff"],
 		"name": "Harmonised nightmare staff",
 		"description": "Spellcast speed 4",
-	}
+	},
+	"bloodrager": {
+		"items": ["Blood moon helm", "Blood moon chestplate", "Blood moon tassets", "Dual macuahuitl"],
+		"name": "Bloodrager",
+		"description": "1/3 chance to hit one tick sooner after succesful hit",
+		"set": 4
+	},
+	"eclipse": {
+		"items": ["Eclipse moon helm", "Eclipse moon chestplate", "Eclipse moon tassets", "Eclipse atlatl"],
+		"name": "Eclipse",
+		"description": "20% chance to inflict burn and deal 10 damage over 24 seconds",
+		"set": 4
+	},
+	"atlatl": {
+		"items": ["Eclipse atlatl", "Atlatl dart"],
+		"name": "atlatl",
+		"description": "Ranged damage based on melee strength",
+		"set": 2
+	},
 }
 
 # Item_name : special_name
@@ -1002,3 +1020,16 @@ func load_spells() -> void:
 		id -= 1
 	pass
 
+func monster_armour( target_mon : monster ) -> int:
+	# These are not in the json data so hardcode here
+	if target_mon.monster_name == "Eclipse Moon":
+		return 4
+	elif target_mon.monster_name == "Blood Moon":
+		return -2
+	elif target_mon.monster_name == "Blue Moon":
+		return -5
+	elif target_mon.monster_name == "Sulphur Nagua":
+		return -4
+	elif target_mon.monster_name == "Grimy Lizard":
+		return -2
+	return 0

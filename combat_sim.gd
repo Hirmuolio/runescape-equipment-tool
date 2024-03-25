@@ -125,6 +125,8 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 				magic_str = 77
 			if act_player.weapon.item_name == "Black salamander":
 				magic_str = 92
+			if act_player.weapon.item_name == "Tecu salamander":
+				magic_str = 104
 			
 			max_hit = (320 + act_player.magic * ( 64 + magic_str ) ) / 640
 		elif powered_staff:
@@ -412,6 +414,11 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 	
 	stats.max_hit = max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
 	stats.max_critical = crit_max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
+	
+	# Not sure at what point the armour stat is applied. Lets apply it here at the end
+	var armour : int = HardcodedData.monster_armour( target_mon )
+	stats.max_hit -= armour
+	stats.max_critical -= armour
 
 
 func calc_monster_def_roll( )->int:
