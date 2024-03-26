@@ -675,6 +675,7 @@ func simulate_combat( stats : dps_stats ) -> void:
 		state.kandarin = 1.1
 	
 	var bloodrager : bool = "bloodrager" in act_player.special_attributes
+	var eclipse : bool = "eclipse" in act_player.special_attributes
 	
 	var magic_attack : bool = act_player.attack_stance.is_magic()
 	state.zaryte = "zaryte_xbow" in act_player.special_attributes
@@ -686,6 +687,7 @@ func simulate_combat( stats : dps_stats ) -> void:
 	var attacks : int = 0
 	var hits : int = 0
 	var kill_duration : int = 0
+	var burn_last_applied : int = 0 # Tick on which burn was applied
 	for _kills in range(1, simulated_kills):
 		
 		state.target_hp = state.target_max_hp
@@ -697,11 +699,23 @@ func simulate_combat( stats : dps_stats ) -> void:
 			attacks += 1
 			hits += int( damage != 0 )
 			
-			if bloodrager and state.chance( 1.0/3 ):
+			if bloodrager and damage > 0 and state.chance( 1.0/3 ):
 				state.duration -= 1
 				kill_duration -= 1
 			state.duration += state.attack_speed
 			kill_duration += state.attack_speed
+			
+			if state.burn_stack > 0:
+				var dur = state.duration - burn_last_applied
+				var burn_dmg = min( dur / 4, state.burn_stack )
+				if burn_dmg > 0:
+					burn_last_applied = state.duration
+					state.burn_stack -= burn_dmg
+					state.target_hp -= burn_dmg
+			
+			if eclipse and damage > 0 and state.chance( 0.2 ):
+				# I assume this can apply only when you actually hit
+				state.burn_stack += 10
 			
 			if kill_duration >= max_kill_duration:
 				print( "Too slow kills to simulate" )
@@ -813,16 +827,16 @@ func hit_macuahuitl( state : combat_state ) -> int:
 	return damage
 
 func hit_dual( state : combat_state ) -> int:
-	# One normal hit split into two visually
+	# Two independent hits for half damage
 	# Per-hit modifiers apply separately to both attacks
 	# If max hit is odd +1 to second hit
+	# Not too sure about this
+	var max_hit : int = state.pre_roll_max * state.post_roll_mult[0] / state.post_roll_mult[1]
 	var damage : int = 0
 	if attack_hits( state ):
-		var damage_base : int = hit_base( state )
-		if( damage_base == 1):
-			return apply_armour( 1, state ) * 2
-		damage += apply_armour( damage_base / 2, state )
-		damage += apply_armour( damage_base / 2 + damage % 2, state )
+		damage += apply_armour( hit_base( state ) / 2, state )
+	if attack_hits( state ):
+		damage += apply_armour( hit_base( state ) / 2 + max_hit % 2, state )
 	return damage
 
 func hit_critical( state : combat_state ) -> int:

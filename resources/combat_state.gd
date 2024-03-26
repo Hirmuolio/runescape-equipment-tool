@@ -33,6 +33,7 @@ var armour : int = 0 # flat damage bonus applied per hit
 
 var target_hp : int = 0
 var target_max_hp : int = 0
+var burn_stack : int = 0 # Burn effect from eclipse set
 var fiery : bool = false # Is target fiery
 
 var p_ranged : int = 0 #player ranged lvl
