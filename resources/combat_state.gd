@@ -27,6 +27,7 @@ var zaryte : bool = false # Is using zaryte crossbow
 var kandarin : float = 1 # Multiplier to bolt (e) proc chance. x1.1 when diary completed
 var toa : bool = false # Are we in tombs of amascut?
 var brimstone : bool = false # Brimstone ring
+var armour : int = 0 # flat damage bonus applied per hit
 
 var target_hp : int = 0
 var target_max_hp : int = 0

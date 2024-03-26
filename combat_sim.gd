@@ -414,11 +414,6 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 	
 	stats.max_hit = max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
 	stats.max_critical = crit_max_hit * stats.post_roll_mult[0] / stats.post_roll_mult[1]
-	
-	# Not sure at what point the armour stat is applied. Lets apply it here at the end
-	var armour : int = HardcodedData.monster_armour( target_mon )
-	stats.max_hit -= armour
-	stats.max_critical -= armour
 
 
 func calc_monster_def_roll( )->int:
@@ -640,6 +635,8 @@ func simulate_combat( stats : dps_stats ) -> void:
 	state.initialize( act_player, target_mon, stats )
 	state.toa = toa
 	
+	state.armour = HardcodedData.monster_armour( target_mon )
+	
 	var hit_func : Callable = Callable(self, "hit_normal")
 	
 	if "keris" in act_player.special_attributes:
@@ -694,6 +691,7 @@ func simulate_combat( stats : dps_stats ) -> void:
 		kill_duration = 0
 		while !state.is_dead():
 			var damage : int = hit_func.call( state )
+			assert( damage >= 0 ) # Must never be negative (would heal)
 			state.target_hp -= damage
 			attacks += 1
 			hits += int( damage != 0 )
@@ -707,55 +705,77 @@ func simulate_combat( stats : dps_stats ) -> void:
 	stats.dps_simulated = ( simulated_kills * target_mon.hitpoints ) / ( tick * 0.6 )
 	stats.ttk =  ( tick * 0.6 ) / simulated_kills
 
-
-func hit_normal( state : combat_state ) -> int:
+func attack_hits( state : combat_state ) -> bool:
 	var def_roll : int = state.rng_roll( state.monster_def_roll)
 	var atk_roll : int = state.rng_roll( state.player_atk_roll)
 	if state.brimstone and state.chance( 0.25 ):
 		def_roll = def_roll * 9 / 10
 	if def_roll < atk_roll:
-		return state.rng.randi_range( 0, state.pre_roll_max) * state.post_roll_mult[0] / state.post_roll_mult[1]
+		return true
+	return false
+
+func base_damage( state : combat_state ) -> int:
+	return state.rng_roll( state.pre_roll_max) * state.post_roll_mult[0] / state.post_roll_mult[1]
+
+func hit_base( state : combat_state ) -> int:
+	if attack_hits( state ):
+		return base_damage( state )
 	return 0
 
+func apply_armour( damage : int, state : combat_state ) -> int:
+	if state.armour == 0 or damage == 0:
+		return damage
+	if state.armour > 0:
+		return max( damage - state.armour, 0 )
+	return damage - state.armour
+
+func hit_normal( state : combat_state ) -> int:
+	var damage : int = hit_base( state )
+	damage = apply_armour( damage, state )
+	return damage
+
 func hit_karil_damned( state : combat_state ) -> int:
-	var damage : int = hit_normal( state )
-	# 25% chance to hit twice. Second attack deals half of first attack damage
-	if state.chance( 0.25 ):
-		damage += damage / 2
+	# 25% chance to do second hit for 1/2 of first hit
+	if state.chance( 0.75 ):
+		return hit_normal( state )
+	var damage_1 : int = hit_base( state )
+	var damage_2 : int = damage_1 / 2
+	var damage : int = apply_armour( damage_1, state ) + apply_armour( damage_2, state )
 	return damage
 
 func hit_ahrim_damned( state : combat_state ) -> int:
-	var damage : int = hit_normal( state )
-	# 25% chance to hit twice. Second attack deals 30% of first attack damage
-	# TODO find if the second hit is calculated separately or just uses same damage
-	if state.chance( 0.25 ):
-		damage += damage * 1 / 3
-	return damage
+	# 25% chance to do extra 30% damage
+	if state.chance( 0.75 ):
+		return hit_normal( state )
+	var damage : int = hit_base( state )
+	damage += damage * 1 / 3
+	return apply_armour( damage, state )
 
 func hit_verac( state : combat_state ) -> int:
 	# 25% chance to quaranteed hit with +1 damage
 	if state.chance( 0.25 ):
-		return state.rng_roll( state.pre_roll_max) + 1
+		return apply_armour( state.rng_roll( state.pre_roll_max) + 1, state )
 	return hit_normal( state )
 
 func hit_osmumten( state : combat_state ) -> int:
+	var damage : int = 0
 	if state.toa:
-		# Roll for hit, then roll both again
-		if state.rng_roll( state.monster_def_roll) < state.rng_roll( state.player_atk_roll):
-			return state.rng.randi_range( state.pre_roll_max * 3/20, state.pre_roll_max * 17/20)
-		if state.rng_roll( state.monster_def_roll) < state.rng_roll( state.player_atk_roll):
-			return state.rng.randi_range( state.pre_roll_max * 3/20, state.pre_roll_max * 17/20)
-	# Attack is rolled again on miss, effectively same as roling twice and taking max
-	if state.rng_roll( state.monster_def_roll) < max( state.rng_roll( state.player_atk_roll), state.rng_roll( state.player_atk_roll) ):
-		return state.rng.randi_range( state.pre_roll_max * 3/20, state.pre_roll_max * 17/20)
-	return 0
+		# Roll for hit, then roll both again if first misses
+		if attack_hits( state ):
+			damage = state.rng.randi_range( state.pre_roll_max * 3/20, state.pre_roll_max * 17/20)
+		elif attack_hits( state ):
+			damage = state.rng.randi_range( state.pre_roll_max * 3/20, state.pre_roll_max * 17/20)
+	# Attack is rolled again on miss (defence is kept same), effectively same as roling attack twice and taking max
+	elif state.rng_roll( state.monster_def_roll) < max( state.rng_roll( state.player_atk_roll), state.rng_roll( state.player_atk_roll) ):
+		damage = state.rng.randi_range( state.pre_roll_max * 3/20, state.pre_roll_max * 17/20)
+	return apply_armour( damage, state )
 
 func hit_vitur( state : combat_state ) -> int:
 	# 3 separate hits
 	# Full damage, 1/2 damage, 1/4 damage
-	var damage : int = hit_normal( state )
-	damage += hit_normal( state ) / 2
-	damage += hit_normal( state ) / 4
+	var damage : int = apply_armour( hit_base( state ), state )
+	damage += apply_armour( hit_base( state ) / 2, state )
+	damage += apply_armour( hit_base( state ) / 4, state )
 	return damage
 
 func hit_keris_sun( state : combat_state ) -> int:
@@ -770,18 +790,33 @@ func hit_keris_sun( state : combat_state ) -> int:
 		return 0
 	
 	if state.chance( state.crit_chance ):
-		return state.rng_roll( state.p_crit_max_hit)
-	return state.rng_roll( state.pre_roll_max)
+		return apply_armour( state.rng_roll( state.p_crit_max_hit), state )
+	return apply_armour( state.rng_roll( state.pre_roll_max), state )
 
 func hit_macuahuitl( state : combat_state ) -> int:
-	# Two hits
-	# If first misses the second also misses
-	# Not sure how damage is calculated
+	# Two hits for half damage
+	# If first hit misses second hit also misses
+	# Second hit has its own accuracy check
+	# If max hit is odd the second hit gets +1 damage
 	var damage : int = 0
-	if state.rng_roll( state.monster_def_roll) < state.rng_roll( state.player_atk_roll):
-		damage += state.rng_roll( state.pre_roll_max) / 2
-		if state.rng_roll( state.monster_def_roll) < state.rng_roll( state.player_atk_roll):
-			damage += state.rng_roll( state.pre_roll_max) / 2
+	if attack_hits( state ):
+		damage += state.rng_roll( state.pre_roll_max) / 2 - state.armour
+		if attack_hits( state ):
+			damage += state.rng_roll( state.pre_roll_max) / 2 - state.armour
+			damage += state.pre_roll_max % 2
+	return damage
+
+func hit_dual( state : combat_state ) -> int:
+	# One normal hit split into two visually
+	# Per-hit modifiers apply separately to both attacks
+	# If max hit is odd +1 to second hit
+	var damage : int = 0
+	if attack_hits( state ):
+		var base_damage : int = hit_base( state )
+		if( base_damage == 1):
+			return apply_armour( 1, state ) * 2
+		damage += apply_armour( base_damage / 2, state )
+		damage += apply_armour( base_damage / 2 + damage % 2, state )
 	return damage
 
 func hit_critical( state : combat_state ) -> int:
@@ -792,8 +827,8 @@ func hit_critical( state : combat_state ) -> int:
 	if def_roll >= state.rng_roll( state.player_atk_roll):
 		return 0
 	if state.chance( state.crit_chance ):
-		return state.rng_roll( state.p_crit_max_hit) * state.post_roll_mult[0] / state.post_roll_mult[1]
-	return state.rng_roll( state.pre_roll_max) * state.post_roll_mult[0] / state.post_roll_mult[1]
+		return apply_armour( state.rng_roll( state.p_crit_max_hit) * state.post_roll_mult[0] / state.post_roll_mult[1], state )
+	return base_damage( state )
 
 func hit_onyx( state : combat_state ) -> int:
 	# 11% chance to proc in pve
@@ -802,18 +837,18 @@ func hit_onyx( state : combat_state ) -> int:
 	#TODO find if proc is checked before hit calc
 	if state.chance( 0.11 * state.kandarin ):
 		if state.zaryte:
-			return state.rng_roll( state.pre_roll_max * 13/10)
+			return apply_armour( state.rng_roll( state.pre_roll_max * 13/10), state )
 		else:
-			return state.rng_roll( state.pre_roll_max * 12/10)
+			return apply_armour( state.rng_roll( state.pre_roll_max * 12/10), state )
 	return hit_normal( state )
 
 func hit_diamond( state : combat_state ) -> int:
 	# Quaranteed hit for +15% damage (+25% with zaryte)
 	if state.chance( 0.1 * state.kandarin ):
 		if state.zaryte:
-			return state.rng_roll( state.pre_roll_max * 5/4)
+			return apply_armour( state.rng_roll( state.pre_roll_max * 5/4), state )
 		else:
-			return state.rng_roll( state.pre_roll_max * 23/20)
+			return apply_armour( state.rng_roll( state.pre_roll_max * 23/20), state )
 	return hit_normal( state )
 
 func hit_ruby( state : combat_state ) -> int:
@@ -821,9 +856,9 @@ func hit_ruby( state : combat_state ) -> int:
 	#TODO find if proc is checked before hit calc
 	if state.chance( 0.06 * state.kandarin ):
 		if state.zaryte:
-			return int( min( 110, state.target_hp * 11/50 ) )
+			return apply_armour( int( min( 110, state.target_hp * 11/50 ) ), state )
 		else:
-			return int( min( 100, state.target_hp / 5 ) )
+			return apply_armour( int( min( 100, state.target_hp / 5 ) ), state )
 	return hit_normal( state )
 
 func hit_dragonstone( state : combat_state ) -> int:
@@ -831,9 +866,9 @@ func hit_dragonstone( state : combat_state ) -> int:
 	#TODO find if proc is checked before hit calc
 	if state.chance( 0.06 * state.kandarin ):
 		if state.zaryte:
-			return state.rng_roll( state.pre_roll_max + state.p_ranged * 11 / 50 )
+			return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged * 11 / 50 ) - state.armour, state )
 		else:
-			return state.rng_roll( state.pre_roll_max + state.p_ranged / 5 )
+			return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged / 5 ) - state.armour, state )
 	return hit_normal( state )
 
 func hit_opal( state : combat_state ) -> int:
@@ -841,9 +876,9 @@ func hit_opal( state : combat_state ) -> int:
 	#TODO find if proc is checked before hit calc
 	if state.chance( 0.05 * state.kandarin ):
 		if state.zaryte:
-			return state.rng_roll( state.pre_roll_max + state.p_ranged / 9 )
+			return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged / 9 ), state )
 		else:
-			return state.rng_roll( state.pre_roll_max + state.p_ranged / 10 )
+			return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged / 10 ), state )
 	return hit_normal( state )
 
 func hit_pearl( state : combat_state ) -> int:
@@ -854,14 +889,14 @@ func hit_pearl( state : combat_state ) -> int:
 	if state.chance( 0.06 * state.kandarin ):
 		if state.zaryte:
 			if state.fiery:
-				return state.rng_roll( state.pre_roll_max + state.p_ranged * 11 / 150 )
+				return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged * 11 / 150 ), state )
 			else:
-				return state.rng_roll( state.pre_roll_max + state.p_ranged * 11 / 200 )
+				return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged * 11 / 200 ), state )
 		else:
 			if state.fiery:
-				return state.rng_roll( state.pre_roll_max + state.p_ranged / 15 )
+				return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged / 15 ), state )
 			else:
-				return state.rng_roll( state.pre_roll_max + state.p_ranged / 20 )
+				return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged / 20 ), state )
 	return hit_normal( state )
 
 
