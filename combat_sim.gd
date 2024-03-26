@@ -674,13 +674,14 @@ func simulate_combat( stats : dps_stats ) -> void:
 	if kandarin_diary:
 		state.kandarin = 1.1
 	
+	var bloodrager : bool = "bloodrager" in act_player.special_attributes
+	
 	var magic_attack : bool = act_player.attack_stance.is_magic()
 	state.zaryte = "zaryte_xbow" in act_player.special_attributes
 	state.brimstone = magic_attack and "brimstone_ring" in act_player.special_attributes
 	
 	var simulated_kills : int = 10000
 	var max_kill_duration : int = 2000 # Limit to prevent freezing
-	var tick : int = 0
 	
 	var attacks : int = 0
 	var hits : int = 0
@@ -695,15 +696,20 @@ func simulate_combat( stats : dps_stats ) -> void:
 			state.target_hp -= damage
 			attacks += 1
 			hits += int( damage != 0 )
-			tick += state.attack_speed
+			
+			if bloodrager and state.chance( 1.0/3 ):
+				state.duration -= 1
+				kill_duration -= 1
+			state.duration += state.attack_speed
 			kill_duration += state.attack_speed
+			
 			if kill_duration >= max_kill_duration:
 				print( "Too slow kills to simulate" )
 				return
 	
 	stats.hit_chance_simulated = float(hits) / attacks
-	stats.dps_simulated = ( simulated_kills * target_mon.hitpoints ) / ( tick * 0.6 )
-	stats.ttk =  ( tick * 0.6 ) / simulated_kills
+	stats.dps_simulated = ( simulated_kills * target_mon.hitpoints ) / ( state.duration * 0.6 )
+	stats.ttk =  ( state.duration * 0.6 ) / simulated_kills
 
 func attack_hits( state : combat_state ) -> bool:
 	var def_roll : int = state.rng_roll( state.monster_def_roll)
@@ -812,11 +818,11 @@ func hit_dual( state : combat_state ) -> int:
 	# If max hit is odd +1 to second hit
 	var damage : int = 0
 	if attack_hits( state ):
-		var base_damage : int = hit_base( state )
-		if( base_damage == 1):
+		var damage_base : int = hit_base( state )
+		if( damage_base == 1):
 			return apply_armour( 1, state ) * 2
-		damage += apply_armour( base_damage / 2, state )
-		damage += apply_armour( base_damage / 2 + damage % 2, state )
+		damage += apply_armour( damage_base / 2, state )
+		damage += apply_armour( damage_base / 2 + damage % 2, state )
 	return damage
 
 func hit_critical( state : combat_state ) -> int:
@@ -898,9 +904,6 @@ func hit_pearl( state : combat_state ) -> int:
 			else:
 				return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged / 20 ), state )
 	return hit_normal( state )
-
-
-
 
 
 

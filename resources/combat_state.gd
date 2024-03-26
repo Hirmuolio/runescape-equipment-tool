@@ -6,6 +6,8 @@ class_name combat_state
 
 var rng : RandomNumberGenerator
 
+# Simulation duration in ticks
+var duration : int = 0
 
 var monster_def_roll : int = 0
 var player_atk_roll : int = 0
