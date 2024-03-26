@@ -706,8 +706,8 @@ func simulate_combat( stats : dps_stats ) -> void:
 			kill_duration += state.attack_speed
 			
 			if state.burn_stack > 0:
-				var dur = state.duration - burn_last_applied
-				var burn_dmg = min( dur / 4, state.burn_stack )
+				var dur : int = state.duration - burn_last_applied
+				var burn_dmg : int = min( dur / 4, state.burn_stack )
 				if burn_dmg > 0:
 					burn_last_applied = state.duration
 					state.burn_stack -= burn_dmg
