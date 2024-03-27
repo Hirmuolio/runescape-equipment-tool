@@ -649,6 +649,8 @@ func simulate_combat( stats : dps_stats ) -> void:
 		hit_func = Callable(self, "hit_osmumten")
 	elif "macuahuitl" in act_player.special_attributes:
 		hit_func = Callable(self, "hit_macuahuitl")
+	elif "dual_hit" in act_player.special_attributes:
+		hit_func = Callable(self, "hit_dual")
 	elif "gaddehammer" in act_player.special_attributes:
 		state.crit_chance = 0.05
 		hit_func = Callable(self, "hit_critical")
@@ -659,21 +661,18 @@ func simulate_combat( stats : dps_stats ) -> void:
 	elif "verac" in act_player.special_attributes:
 		hit_func = Callable(self, "hit_verac")
 	elif "onyx_bolt_e" in act_player.special_attributes and not ("undead" in target_mon.attributes):
-			hit_func = Callable(self, "hit_onyx")
+		hit_func = Callable(self, "hit_onyx")
 	elif "dragonstone_bolt_e" in act_player.special_attributes and not ("dragon" in target_mon.attributes):
-			hit_func = Callable(self, "hit_dragonstone")
+		hit_func = Callable(self, "hit_dragonstone")
 	elif "diamond_bolt_e" in act_player.special_attributes:
-			hit_func = Callable(self, "hit_diamond")
+		hit_func = Callable(self, "hit_diamond")
 	elif "ruby_bolt_e" in act_player.special_attributes:
-			hit_func = Callable(self, "hit_ruby")
+		hit_func = Callable(self, "hit_ruby")
 	elif "pearl_bolt_e" in act_player.special_attributes:
-			hit_func = Callable(self, "hit_pearl")
+		hit_func = Callable(self, "hit_pearl")
 	elif "opal_bolt_e" in act_player.special_attributes:
-			hit_func = Callable(self, "opal")
-	elif "macuahuitl" in act_player.special_attributes:
-			hit_func = Callable(self, "hit_macuahuitl")
-	elif "dual_hit" in act_player.special_attributes:
-			hit_func = Callable(self, "hit_dual")
+		hit_func = Callable(self, "opal")
+
 	
 	if kandarin_diary:
 		state.kandarin = 1.1
