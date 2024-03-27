@@ -687,7 +687,6 @@ func simulate_combat( stats : dps_stats ) -> void:
 	var attacks : int = 0
 	var hits : int = 0
 	var kill_duration : int = 0
-	var burn_last_applied : int = 0 # Tick on which burn was applied
 	for _kills in range(1, simulated_kills):
 		
 		state.target_hp = state.target_max_hp
@@ -705,17 +704,21 @@ func simulate_combat( stats : dps_stats ) -> void:
 			state.duration += state.attack_speed
 			kill_duration += state.attack_speed
 			
-			if state.burn_stack > 0:
-				var dur : int = state.duration - burn_last_applied
-				var burn_dmg : int = min( dur / 4, state.burn_stack )
+			if !state.burn_stack.is_empty():
+				var dur : int = state.duration - state.burn_last_applied
+				var dmage_count : int = dur / 4
+				var burn_dmg : int = dmage_count * state.burn_stack.size()
 				if burn_dmg > 0:
-					burn_last_applied = state.duration
-					state.burn_stack -= burn_dmg
+					state.burn_last_applied = state.duration
+					state.burn_stack.assign( state.burn_stack.map( func(number:int)->int: return number-dmage_count) ) # Reduce burn stacks by dmage_count
+					state.burn_stack = state.burn_stack.filter( func(number:int)->bool: return number>0) # Remove zeros
 					state.target_hp -= burn_dmg
 			
-			if eclipse and damage > 0 and state.chance( 0.2 ):
+			if eclipse and damage > 0 and state.chance( 0.2 ) and state.burn_stack.size() < 6:
 				# I assume this can apply only when you actually hit
-				state.burn_stack += 10
+				if( state.burn_stack.is_empty() ):
+					state.burn_last_applied = state.duration
+				state.burn_stack.append( 10 )
 			
 			if kill_duration >= max_kill_duration:
 				print( "Too slow kills to simulate" )
