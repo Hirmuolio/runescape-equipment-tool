@@ -24,4 +24,4 @@ These simulated results take into account that monster may have less hp than you
 * Loading bad setups will give bad results.
 * You can do nonsense setups.
 
-Monster/item data was sourced from https://www.osrsbox.com/projects/osrsbox-db/ (seems to be dead now).
+Monster/item data was sourced from https://github.com/0xNeffarion/osrsreboxed-db/tree/master
