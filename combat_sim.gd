@@ -645,7 +645,7 @@ func simulate_combat( stats : dps_stats ) -> void:
 	elif "keris_sun" in act_player.special_attributes:
 		state.crit_chance = 1.0/51
 		hit_func = Callable(self, "hit_keris_sun")
-	elif "osmumtem" in act_player.special_attributes:
+	elif "osmuten_fang" in act_player.special_attributes:
 		hit_func = Callable(self, "hit_osmumten")
 	elif "macuahuitl" in act_player.special_attributes:
 		hit_func = Callable(self, "hit_macuahuitl")

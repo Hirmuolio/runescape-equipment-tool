@@ -227,8 +227,8 @@ func load_monsters_json() -> void:
 	var class_monster : Resource = load( "res://data/monster.tscn" )
 	
 	for _monster : Dictionary in data.values():
-		if !_monster["hitpoints"] or !_monster["attack_speed"] or !_monster["max_hit"]:
-			# Some invalid monster.
+		if !_monster["hitpoints"]:
+			# Some invalid monster.  or !_monster["attack_speed"] or !_monster["max_hit"]:
 			continue
 		
 		var new_monster : monster = class_monster.instantiate()
@@ -267,9 +267,15 @@ func load_monsters_json() -> void:
 		if _monster["category"] && _monster["category"][0] == "scabarites":
 			new_monster.attributes.append( "scabarite" )
 		
-		new_monster.attack_speed = _monster["attack_speed"]
+		if !_monster["attack_speed"]:
+			new_monster.attack_speed = 99
+		else:
+			new_monster.attack_speed = _monster["attack_speed"]
 		new_monster.attack_type = _monster["attack_type"]
-		new_monster.max_hit = _monster["max_hit"]
+		if !_monster["max_hit"]:
+			new_monster.max_hit = 99
+		else:
+			new_monster.max_hit = _monster["max_hit"]
 		new_monster.size = _monster["size"]
 	
 	# Filter out duplicates.

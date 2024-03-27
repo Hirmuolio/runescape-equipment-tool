@@ -336,8 +336,8 @@ var equipment_specials : Dictionary = {
 		"description": "2*monster_size added to max hit (max +10)."
 	},
 	"osmuten_fang": {
-		"items": ["Osmuten's fang"],
-		"name": "Osmuten's fang",
+		"items": ["Osmumten's fang"],
+		"name": "Osmumten's fang",
 		"description": "Missed attacks are rerolled\nHits between 15%-85% max hit."
 	},
 	"brimstone_ring": {
