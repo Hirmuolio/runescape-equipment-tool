@@ -792,9 +792,7 @@ func hit_osmumten( state : combat_state ) -> int:
 	var damage : int = 0
 	if state.toa:
 		# Roll for hit, then roll both again if first misses
-		if attack_hits( state ):
-			damage = state.rng.randi_range( state.pre_roll_max * 3/20, state.pre_roll_max * 17/20)
-		elif attack_hits( state ):
+		if attack_hits( state ) or attack_hits( state ):
 			damage = state.rng.randi_range( state.pre_roll_max * 3/20, state.pre_roll_max * 17/20)
 	# Attack is rolled again on miss (defence is kept same), effectively same as roling attack twice and taking max
 	elif state.rng_roll( state.monster_def_roll) < max( state.rng_roll( state.player_atk_roll), state.rng_roll( state.player_atk_roll) ):
@@ -826,15 +824,17 @@ func hit_keris_sun( state : combat_state ) -> int:
 
 func hit_macuahuitl( state : combat_state ) -> int:
 	# Two hits for half damage
+	# First max hit is at least 1
 	# If first hit misses second hit also misses
 	# Second hit has its own accuracy check
 	# If max hit is odd the second hit gets +1 damage
-	# If set effect may ahttack 1 tick faster
+	# If set effect may attack 1 tick faster
 	var damage : int = 0
 	if attack_hits( state ):
-		damage += apply_armour( state.rng_roll( state.pre_roll_max) / 2, state )
+		var max_1 : int = max(1, state.pre_roll_max / 2)
+		damage += apply_armour( state.rng_roll( max_1 ), state )
 		if attack_hits( state ):
-			damage += apply_armour( state.rng_roll( state.pre_roll_max) / 2 + state.pre_roll_max % 2, state )
+			damage += apply_armour( state.rng_roll( state.pre_roll_max / 2 + state.pre_roll_max % 2), state )
 		if state.bloodrager and state.chance( 1.0/3 ):
 			state.duration -= 1
 	return damage
@@ -847,9 +847,10 @@ func hit_dual( state : combat_state ) -> int:
 	var max_hit : int = state.pre_roll_max * state.post_roll_mult[0] / state.post_roll_mult[1]
 	var damage : int = 0
 	if attack_hits( state ):
-		damage += apply_armour( hit_base( state ) / 2, state )
+		var max_1 : int = max(1, state.pre_roll_max / 2)
+		damage += apply_armour( state.rng_roll( max_1), state )
 	if attack_hits( state ):
-		damage += apply_armour( hit_base( state ) / 2 + max_hit % 2, state )
+		damage += apply_armour( state.rng_roll( state.pre_roll_max / 2 + state.pre_roll_max % 2), state )
 	return damage
 
 func hit_critical( state : combat_state ) -> int:
