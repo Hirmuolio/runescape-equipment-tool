@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bent1173pphl7"]
+[gd_scene load_steps=4 format=3 uid="uid://bent1173pphl7"]
 
 [ext_resource type="Script" path="res://interface/info_overlay.gd" id="1"]
 [ext_resource type="Script" path="res://interface/changelog.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://bios6hijxdcj7" path="res://graphics/ball.png" id="2_dub2i"]
 
 [node name="info_overlay" type="Control"]
 layout_mode = 3
@@ -19,6 +20,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+self_modulate = Color(0.0862745, 0.0862745, 0.0862745, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_dub2i")
+patch_margin_left = 20
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0

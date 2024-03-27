@@ -1,0 +1,29 @@
+CHANGELOG
+
+--0.9--
+Godot 4.2.1
+Crystal armor
+Bloodmoon armor including set effect
+Eclipse armor including set effect
+various refactoring and bugfixes
+	
+--0.8--
+Godot 3.5
+Bugfixes
+Salamanders
+Colossal blade
+Holy water
+Brinstone ring
+Fixed Osmuten's fang calculations
+Tumeken's shadow
+Keris variants
+Blowpipes
+	
+--0.7--
+Started tracking changelog
+Added this info window that tells you about this info window
+Upgraded from Godot 3.4.4 to Godot 3.5 RC-8
+Added scroolbars. The UI is now usable on smaller window sizes.
+Added Dragon warhammer spec.
+Prayer improvements and prayer drain.
+Bugfixes.
