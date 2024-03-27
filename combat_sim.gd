@@ -844,7 +844,6 @@ func hit_dual( state : combat_state ) -> int:
 	# Per-hit modifiers apply separately to both attacks
 	# If max hit is odd +1 to second hit
 	# Not too sure about this
-	var max_hit : int = state.pre_roll_max * state.post_roll_mult[0] / state.post_roll_mult[1]
 	var damage : int = 0
 	if attack_hits( state ):
 		var max_1 : int = max(1, state.pre_roll_max / 2)
