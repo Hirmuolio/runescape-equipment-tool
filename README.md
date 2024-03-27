@@ -2,8 +2,7 @@
 
 Tool for simulating armor and weapon effectiveness against monsters.
 
-Web version available at https://hirmuolio.github.io/ret/ret.html
-(copy-pasting setups does not properly work in web version)
+Web version is currently not available since I don't know hot to configure it for godot4.
 
 # What it does
 
@@ -24,4 +23,4 @@ These simulated results take into account that monster may have less hp than you
 * Loading bad setups will give bad results.
 * You can do nonsense setups.
 
-Monster/item data was sourced from https://www.osrsbox.com/projects/osrsbox-db/ (seems to be dead now).
+Monster/item data was sourced from https://github.com/0xNeffarion/osrsreboxed-db/tree/master
