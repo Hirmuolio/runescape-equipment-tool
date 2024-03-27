@@ -19,6 +19,7 @@ func _set_label( new_label : String ) -> void:
 func set_value( new_value : int ) -> void:
 	value = new_value
 	$LineEdit.text = str(value)
+	print( $LineEdit.text )
 
 
 func _on_line_edit_focus_exited() -> void:

@@ -690,6 +690,8 @@ func simulate_combat( stats : dps_stats ) -> void:
 	var attacks : int = 0
 	var hits : int = 0
 	var kill_duration : int = 0
+	
+	var start : int = Time.get_ticks_usec()
 	for _kills in range(1, simulated_kills):
 		
 		state.target_hp = state.target_max_hp
@@ -723,6 +725,10 @@ func simulate_combat( stats : dps_stats ) -> void:
 			if kill_duration >= max_kill_duration:
 				print( "Too slow kills to simulate" )
 				return
+	
+	var end : int = Time.get_ticks_usec()
+	var worker_time : float = (end-start)/1000000.0
+	print("Worker time: %s" % worker_time)
 	
 	stats.hit_chance_simulated = float(hits) / attacks
 	stats.dps_simulated = ( simulated_kills * target_mon.hitpoints ) / ( state.duration * 0.6 )

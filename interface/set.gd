@@ -14,7 +14,6 @@ func player_equip( item : equipment) -> void:
 		%player_panel/attack_style.set_slection( item )
 
 func refresh_results() -> void:
-	print("REFRES")
 	$combat_sim.do_fast_simulations()
 	%result_panel.print_specials()
 	%player_panel.refresh_eq_stats()
@@ -50,13 +49,13 @@ func save_data() -> String:
 
 func load_data( new_data : String ) -> void:
 	$player_data.load_string( new_data )
-	get_node("%player_panel/attack").value = $player_data.attack
-	get_node("%player_panel/strength").value = $player_data.strength
-	get_node("%player_panel/defence").value = $player_data.defence
-	get_node("%player_panel/magic").value = $player_data.magic
-	get_node("%player_panel/ranged").value = $player_data.ranged
-	get_node("%player_panel/hp_lvl").value = $player_data.hp_lvl
-	get_node("%player_panel/hp").value = $player_data.current_hp
+	get_node("%player_panel/attack").set_value( $player_data.attack )
+	get_node("%player_panel/strength").set_value( $player_data.strength )
+	get_node("%player_panel/defence").set_value( $player_data.defence )
+	get_node("%player_panel/magic").set_value( $player_data.magic )
+	get_node("%player_panel/ranged").set_value( $player_data.ranged )
+	get_node("%player_panel/hp_lvl").set_value( $player_data.hp_lvl )
+	get_node("%player_panel/hp").set_value( $player_data.current_hp )
 	#$player/prayer.value = $player_data.prayer
 	if $player_data.weapon:
 		get_node("%player_panel/attack_style").set_slection( $player_data.weapon )

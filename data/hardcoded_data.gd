@@ -674,9 +674,7 @@ func _ready() -> void:
 
 
 func generate_items_with_specials() -> void:
-	print( "Pregenrating specials")
 	for effect : String in equipment_specials.keys():
-		print( effect )
 		for item_name : String in equipment_specials[effect]["items"]:
 			if !item_name in items_with_specials:
 				items_with_specials[item_name] = [effect]
