@@ -2,7 +2,7 @@
 
 Tool for simulating armor and weapon effectiveness against monsters.
 
-Web version is currently not availablbe since I don't know hot to configure it for godot4.
+Web version is currently not available since I don't know hot to configure it for godot4.
 
 # What it does
 
