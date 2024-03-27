@@ -670,11 +670,15 @@ func simulate_combat( stats : dps_stats ) -> void:
 			hit_func = Callable(self, "hit_pearl")
 	elif "opal_bolt_e" in act_player.special_attributes:
 			hit_func = Callable(self, "opal")
+	elif "macuahuitl" in act_player.special_attributes:
+			hit_func = Callable(self, "hit_macuahuitl")
+	elif "dual_hit" in act_player.special_attributes:
+			hit_func = Callable(self, "hit_dual")
 	
 	if kandarin_diary:
 		state.kandarin = 1.1
 	
-	var bloodrager : bool = "bloodrager" in act_player.special_attributes
+	state.bloodrager = "bloodrager" in act_player.special_attributes
 	var eclipse : bool = "eclipse" in act_player.special_attributes
 	
 	var magic_attack : bool = act_player.attack_stance.is_magic()
@@ -698,9 +702,6 @@ func simulate_combat( stats : dps_stats ) -> void:
 			attacks += 1
 			hits += int( damage != 0 )
 			
-			if bloodrager and damage > 0 and state.chance( 1.0/3 ):
-				state.duration -= 1
-				kill_duration -= 1
 			state.duration += state.attack_speed
 			kill_duration += state.attack_speed
 			
@@ -827,6 +828,8 @@ func hit_macuahuitl( state : combat_state ) -> int:
 		if attack_hits( state ):
 			damage += state.rng_roll( state.pre_roll_max) / 2 - state.armour
 			damage += state.pre_roll_max % 2
+		if state.bloodrager and state.chance( 1.0/3 ):
+			state.duration -= 1
 	return damage
 
 func hit_dual( state : combat_state ) -> int:

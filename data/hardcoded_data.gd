@@ -390,6 +390,16 @@ var equipment_specials : Dictionary = {
 		"name": "Harmonised nightmare staff",
 		"description": "Spellcast speed 4",
 	},
+	"macuahuitl": {
+		"items": ["Dual macuahuitl"],
+		"name": "Dual macuahuitl",
+		"description": "Two hits for half damage.",
+	},
+	"dual_hit": {
+		"items": ["Sulphur blades", "Torag's hammers"],
+		"name": "Dual hit",
+		"description": "Two independent hits for half damage.",
+	},
 	"bloodrager": {
 		"items": ["Blood moon helm", "Blood moon chestplate", "Blood moon tassets", "Dual macuahuitl"],
 		"name": "Bloodrager",

@@ -39,6 +39,7 @@ var burn_stack : Array[int] # Burn effect from eclipse set
 
 var fiery : bool = false # Is target fiery
 
+var bloodrager : bool = false # Bloodrager set effect
 var p_ranged : int = 0 #player ranged lvl
 
 func initialize( act_player : player, target_mon : monster, stats : dps_stats ) -> void:
