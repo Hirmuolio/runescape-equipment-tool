@@ -749,7 +749,9 @@ func apply_armour( damage : int, state : combat_state ) -> int:
 	if state.armour == 0 or damage == 0:
 		return damage
 	if state.armour > 0:
+		# Damage reduced but not below 0
 		return max( damage - state.armour, 0 )
+	# Extra damage
 	return damage - state.armour
 
 func hit_normal( state : combat_state ) -> int:
@@ -821,12 +823,12 @@ func hit_macuahuitl( state : combat_state ) -> int:
 	# If first hit misses second hit also misses
 	# Second hit has its own accuracy check
 	# If max hit is odd the second hit gets +1 damage
+	# If set effect may ahttack 1 tick faster
 	var damage : int = 0
 	if attack_hits( state ):
-		damage += state.rng_roll( state.pre_roll_max) / 2 - state.armour
+		damage += apply_armour( state.rng_roll( state.pre_roll_max) / 2, state )
 		if attack_hits( state ):
-			damage += state.rng_roll( state.pre_roll_max) / 2 - state.armour
-			damage += state.pre_roll_max % 2
+			damage += apply_armour( state.rng_roll( state.pre_roll_max) / 2 + state.pre_roll_max % 2, state )
 		if state.bloodrager and state.chance( 1.0/3 ):
 			state.duration -= 1
 	return damage
@@ -891,9 +893,9 @@ func hit_dragonstone( state : combat_state ) -> int:
 	#TODO find if proc is checked before hit calc
 	if state.chance( 0.06 * state.kandarin ):
 		if state.zaryte:
-			return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged * 11 / 50 ) - state.armour, state )
+			return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged * 11 / 50 ), state )
 		else:
-			return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged / 5 ) - state.armour, state )
+			return apply_armour( state.rng_roll( state.pre_roll_max + state.p_ranged / 5 ), state )
 	return hit_normal( state )
 
 func hit_opal( state : combat_state ) -> int:
