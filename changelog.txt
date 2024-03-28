@@ -1,5 +1,10 @@
 CHANGELOG
 
+--DEV--
+Fixed rounding errors
+Fixed twisted bow
+Bloodrager can trigger on either attack
+
 --0.9--
 Godot 4.2.1
 Crystal armor

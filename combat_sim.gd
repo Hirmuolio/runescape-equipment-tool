@@ -233,8 +233,6 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 		if "void_ranged" in act_player.special_attributes:
 			eff_str = eff_str * 11/10
 		
-		# Feels wrong to have floats here
-		# TODO rewrite to integer math
 		max_hit = ( eff_str * ( act_player.rng_str_bonus + 64 ) + 320 ) / 640
 		max_hit = int( max_hit * act_player.prayer_rng_str )
 		
@@ -303,7 +301,7 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 			mag = min( mag, 250 ) # Outside of CoX
 			var mult_1 : int = ( 3*mag - 14 ) / 100
 			var mult_2 : int = ( 3*mag/10 - 140 )*( 3*mag/10 - 140 )/100
-			var percent : int = min( 250 + mult_1 - mult_2, 250 )
+			var percent : int = 250 + mult_1 - mult_2
 			max_hit = max_hit * percent / 100
 		
 		if "crystal_bow" in act_player.special_attributes:
@@ -330,7 +328,6 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 			var total_def : int = act_player.get_equipment_bonus( "defence_stab" ) + act_player.get_equipment_bonus( "defence_slash" ) + act_player.get_equipment_bonus( "defence_crush" ) + act_player.get_equipment_bonus( "defence_ranged" )
 			eq_str += ( total_def / 4 - 200 ) / 3 - 38
 		
-		# Having floats here feels wrong
 		max_hit = ( eff_str * ( eq_str + 64 ) + 320 ) / 640
 		
 		
@@ -520,10 +517,10 @@ func calc_player_atk_roll()->int:
 		
 		if "twisted" in act_player.special_attributes:
 			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
-			mag = min( 250, mag ) # outside of CoX
+			mag = min( 240, mag ) # outside of CoX
 			var mult_1 : int = ( 3*mag - 10 ) / 100
 			var mult_2 : int = ( 3*mag/10 - 100 )*( 3*mag/10 - 100 )/100
-			var percent : int = min( 140 + mult_1 - mult_2, 140 )
+			var percent : int = 140 + mult_1 - mult_2
 			atk_roll = atk_roll * percent / 100
 		
 		if "crystal_bow" in act_player.special_attributes:
