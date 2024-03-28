@@ -235,7 +235,7 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 		
 		# Feels wrong to have floats here
 		# TODO rewrite to integer math
-		max_hit = int(  0.5 + eff_str * ( act_player.rng_str_bonus + 64 ) / 640.0 )
+		max_hit = ( eff_str * ( act_player.rng_str_bonus + 64 ) + 320 ) / 640
 		max_hit = int( max_hit * act_player.prayer_rng_str )
 		
 		if "elite_void_ranged" in act_player.special_attributes:
@@ -300,9 +300,10 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 		
 		if "twisted" in act_player.special_attributes:
 			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
-			var mult_1 : int = ( 10*3*mag / 10 - 14 ) / 100
-			var mult_2 : int = ( 3*mag/10 - 100 )*( 3*mag/10 - 140 )/100
-			var percent : int = int( clamp( 250 + mult_1 - mult_2, 0, 250 ) )
+			mag = min( mag, 250 ) # Outside of CoX
+			var mult_1 : int = ( 3*mag - 14 ) / 100
+			var mult_2 : int = ( 3*mag/10 - 140 )*( 3*mag/10 - 140 )/100
+			var percent : int = min( 250 + mult_1 - mult_2, 250 )
 			max_hit = max_hit * percent / 100
 		
 		if "crystal_bow" in act_player.special_attributes:
@@ -330,7 +331,7 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 			eq_str += ( total_def / 4 - 200 ) / 3 - 38
 		
 		# Having floats here feels wrong
-		max_hit = int( 0.5 + eff_str * ( eq_str + 64 ) / 640.0 )
+		max_hit = ( eff_str * ( eq_str + 64 ) + 320 ) / 640
 		
 		
 		# Special bonuses need to be applied in specific order
@@ -519,9 +520,10 @@ func calc_player_atk_roll()->int:
 		
 		if "twisted" in act_player.special_attributes:
 			var mag : int = int( max( target_mon.magic_level, target_mon.attack_magic ) )
-			var mult_1 : int = ( 10*3*mag / 10 - 10 ) / 100
+			mag = min( 250, mag ) # outside of CoX
+			var mult_1 : int = ( 3*mag - 10 ) / 100
 			var mult_2 : int = ( 3*mag/10 - 100 )*( 3*mag/10 - 100 )/100
-			var percent : int = int( clamp( 140 + mult_1 - mult_2, 0, 140 ) )
+			var percent : int = min( 140 + mult_1 - mult_2, 140 )
 			atk_roll = atk_roll * percent / 100
 		
 		if "crystal_bow" in act_player.special_attributes:
@@ -830,13 +832,16 @@ func hit_macuahuitl( state : combat_state ) -> int:
 	# If max hit is odd the second hit gets +1 damage
 	# If set effect may attack 1 tick faster
 	var damage : int = 0
+	var hit : bool = false
 	if attack_hits( state ):
 		var max_1 : int = max(1, state.pre_roll_max / 2)
 		damage += apply_armour( state.rng_roll( max_1 ), state )
+		hit = true
 		if attack_hits( state ):
 			damage += apply_armour( state.rng_roll( state.pre_roll_max / 2 + state.pre_roll_max % 2), state )
-		if state.bloodrager and state.chance( 1.0/3 ):
-			state.duration -= 1
+			hit = true
+	if hit and state.bloodrager and state.chance( 1.0/3 ):
+		state.duration -= 1
 	return damage
 
 func hit_dual( state : combat_state ) -> int:
