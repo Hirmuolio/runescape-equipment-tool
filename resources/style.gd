@@ -92,7 +92,7 @@ func get_style_rng() -> int:
 
 func get_style_mag() -> int:
 	if attack_stance == enum_stances.ACCURATE_MAGIC:
-		return 3
+		return 2
 	return 0
 
 func is_block() -> bool:

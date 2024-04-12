@@ -107,3 +107,13 @@ max hit: 41
 Burst of strength
 str: 116
 max: 46
+
+-----
+aberrant spectre, task
+Skayer helm (i), salve (i), tormented bracelet, staff of light, fire surge, imbued zam cape 
+max hit: 32
+
+-----
+aberrant spectre, task
+Skayer helm (i), tormented bracelet, staff of light, fire surge, imbued zam cape 
+max hit: 33

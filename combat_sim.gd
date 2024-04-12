@@ -399,7 +399,9 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 			max_hit = max_hit * 3/2
 		
 		if "dharok" in act_player.special_attributes:
-			max_hit = max_hit * ( 1 + (act_player.hp_lvl - act_player.current_hp)/100 * act_player.hp_lvl / 100 )
+			# This is applied post roll?
+			var mod : int = 10000 + ( act_player.hp_lvl - act_player.current_hp ) * act_player.hp_lvl
+			stats.post_roll_mult = Vector2i(mod,10000)
 		if "verac" in act_player.special_attributes:
 			crit_max_hit += 1
 		
@@ -419,7 +421,7 @@ func calc_monster_def_roll( )->int:
 	var magic_attack : bool = act_player.attack_stance.is_magic()
 	
 	if magic_attack:
-		def_roll = ( target_mon.magic_level + 9 ) * ( target_mon.style_def( "magic" ) + 64 )
+		return ( target_mon.magic_level + 9 ) * ( target_mon.style_def( "magic" ) + 64 )
 	
 	var monster_def_lvl : int = target_mon.defence_level
 	if dwh_specs > 0:
@@ -467,9 +469,9 @@ func calc_player_atk_roll()->int:
 		eff_atk = int( eff_atk * act_player.prayer_magic_atk )
 		
 		if "void_magic" in act_player.special_attributes:
-			eff_atk = int( eff_atk * 1.45 )
+			eff_atk =  eff_atk * 29/20 # +45%
 		
-		eff_atk += act_player.style_mag_bonus + 8
+		eff_atk += act_player.style_mag_bonus + 9
 		atk_roll = eff_atk * ( act_player.magic_bonus + 64 )
 		
 		if "salve_ei" in act_player.special_attributes and "undead" in target_mon.attributes:
@@ -754,8 +756,8 @@ func apply_armour( damage : int, state : combat_state ) -> int:
 	if state.armour == 0 or damage == 0:
 		return damage
 	if state.armour > 0:
-		# Damage reduced but not below 0
-		return max( damage - state.armour, 0 )
+		# Damage reduced but not below 1
+		return max( damage - state.armour, 1 )
 	# Extra damage
 	return damage - state.armour
 

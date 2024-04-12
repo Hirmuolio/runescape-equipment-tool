@@ -1,9 +1,11 @@
 CHANGELOG
 
 --DEV--
-Fixed rounding errors
-Fixed twisted bow
+Fix rounding errors
+Fix twisted bow
 Bloodrager can trigger on either attack
+Fix dharok set effect
+Fix magic accuracy
 
 --0.9--
 Godot 4.2.1
