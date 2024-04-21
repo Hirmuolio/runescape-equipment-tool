@@ -91,7 +91,7 @@ func get_style_rng() -> int:
 	return 0
 
 func get_style_mag() -> int:
-	if attack_stance == enum_stances.ACCURATE_MAGIC:
+	if attack_stance in [enum_stances.ACCURATE_MAGIC, enum_stances.ACCURATE_RANGED]:
 		return 2
 	return 0
 

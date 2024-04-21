@@ -135,11 +135,11 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 				spell = Database.get_node( "items/-4" )
 				max_hit = 8
 			elif act_player.weapon.item_name in ["Trident of the seas", "Trident of the seas (full)", "Trident of the seas (e)"]:
-				max_hit = 20 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
+				max_hit = act_player.magic / 3 -5
 			elif act_player.weapon.item_name in ["Trident of the swamp", "Trident of the swamp (e)"]:
-				max_hit = 23 + int( max( ( act_player.magic - 75 ) / 3, -19 ) )
+				max_hit = act_player.magic / 3 -2
 			elif act_player.weapon.item_name in ["Sanguinesti staff", "Holy sanguinesti staff"]:
-				max_hit = 26 + int( max( ( act_player.magic - 82 ) / 3, -19 ) )
+				max_hit = act_player.magic / 3 -1
 			elif "tumekens_shadow" in act_player.special_attributes:
 				max_hit = act_player.magic / 3 + 1
 			elif act_player.weapon.item_name == "Dawnbringer":
@@ -195,6 +195,10 @@ func set_p_max_hit(  stats : dps_stats ) -> void:
 		elif "salve_i" in act_player.special_attributes and "undead" in target_mon.attributes:
 			multiplier += 0.15
 			salve = true
+		
+		# Element weakness testing
+		if false:
+			multiplier += 0.4
 		
 		max_hit = int( max_hit * multiplier )
 		
