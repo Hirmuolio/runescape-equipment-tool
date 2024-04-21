@@ -341,7 +341,7 @@ var equipment_specials : Dictionary = {
 		"description": "Missed attacks are rerolled\nHits between 15%-85% max hit."
 	},
 	"brimstone_ring": {
-		"items": ["Brinstone ring"],
+		"items": ["Brimstone ring"],
 		"name": "Brimstone ring",
 		"description": "On magic attacks 25% chance to ignore 10% of target magic defence."
 	},
